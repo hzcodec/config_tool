@@ -39,6 +39,9 @@ class MyForm(wx.Frame):
         self.param_throttle_down = wx.StaticText(self.panel, wx.ID_ANY, 'param.throttle_down')
         self.param_throttle_up = wx.StaticText(self.panel, wx.ID_ANY, 'param.throttle_up')
         self.param_throttle_deadband_on = wx.StaticText(self.panel, wx.ID_ANY, 'param.throttle_deadband_on')
+        self.param_dominant_throttle_on = wx.StaticText(self.panel, wx.ID_ANY, 'param.dominant_throttle_on')
+        self.param_rope_stuck_on = wx.StaticText(self.panel, wx.ID_ANY, 'param.rope_stuck_on')
+        self.param_iq_alpha = wx.StaticText(self.panel, wx.ID_ANY, 'param.iq_alpha')
 
         self.txtCtrl_cl_kp = wx.TextCtrl(self.panel, wx.ID_ANY,'0.23')
         self.txtCtrl_cl_ki = wx.TextCtrl(self.panel, wx.ID_ANY,'13')
@@ -48,6 +51,9 @@ class MyForm(wx.Frame):
         self.txtCtrl_throttle_down = wx.TextCtrl(self.panel, wx.ID_ANY,'0.5')
         self.txtCtrl_throttle_up = wx.TextCtrl(self.panel, wx.ID_ANY,'4')
         self.txtCtrl_throttle_deadband_on = wx.TextCtrl(self.panel, wx.ID_ANY,'0.25')
+        self.txtCtrl_dominant_throttle_on = wx.TextCtrl(self.panel, wx.ID_ANY,'1')
+        self.txtCtrl_rope_stuck_on = wx.TextCtrl(self.panel, wx.ID_ANY,'1')
+        self.txtCtrl_iq_alpha = wx.TextCtrl(self.panel, wx.ID_ANY,'0.005')
 
 	self.paramSizer1 = wx.BoxSizer(wx.VERTICAL)
 	self.paramSizer1.Add(self.param_cl_kp, 0, wx.ALL, BORDER1)
@@ -69,6 +75,14 @@ class MyForm(wx.Frame):
 	self.paramSizer2.Add(self.param_throttle_deadband_on, 0, wx.ALL, BORDER1)
 	self.paramSizer2.Add(self.txtCtrl_throttle_deadband_on, 0, wx.ALL, BORDER1)
 
+	self.paramSizer3 = wx.BoxSizer(wx.VERTICAL)
+	self.paramSizer3.Add(self.param_dominant_throttle_on, 0, wx.ALL, BORDER1)
+	self.paramSizer3.Add(self.txtCtrl_dominant_throttle_on, 0, wx.ALL, BORDER1)
+	self.paramSizer3.Add(self.param_rope_stuck_on, 0, wx.ALL, BORDER1)
+	self.paramSizer3.Add(self.txtCtrl_rope_stuck_on, 0, wx.ALL, BORDER1)
+	self.paramSizer3.Add(self.param_iq_alpha, 0, wx.ALL, BORDER1)
+	self.paramSizer3.Add(self.txtCtrl_iq_alpha, 0, wx.ALL, BORDER1)
+
         self.Bind(wx.EVT_BUTTON, self.onConnect, self.connectBtn)
         self.Bind(wx.EVT_BUTTON, self.onTestInject, self.testInjectBtn)
         self.Bind(wx.EVT_BUTTON, self.onGetIq, self.getIqBtn)
@@ -89,6 +103,7 @@ class MyForm(wx.Frame):
         self.staticBoxSizer2 = wx.StaticBoxSizer(self.statBoxParams, wx.HORIZONTAL)
 	self.staticBoxSizer2.Add(self.paramSizer1, 0, wx.ALL, BORDER1)
 	self.staticBoxSizer2.Add(self.paramSizer2, 0, wx.ALL, BORDER1)
+	self.staticBoxSizer2.Add(self.paramSizer3, 0, wx.ALL, BORDER1)
 
 	self.statBoxMisc = wx.StaticBox(self.panel, wx.ID_ANY, '  Debugging   ')
 	self.statBoxMisc.SetBackgroundColour((180,180,180))
@@ -110,7 +125,7 @@ class MyForm(wx.Frame):
         font = wx.Font(10, wx.DEFAULT, wx.NORMAL, wx.BOLD)
 	self.lblConnected.SetFont(font)
         self.lblConnected.SetForegroundColour(wx.Colour(11, 102 , 66))
-        self.lblConnected.SetLabel("Connected to ttyACM0")
+        self.lblConnected.SetLabel('Connected to tty' + self.combo.GetValue())
 
     def defineCombo(self):
         portNames = ['ACM0', 'ACM1', 'USB0']
