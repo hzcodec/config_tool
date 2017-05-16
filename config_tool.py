@@ -1,15 +1,18 @@
 #!/usr/bin/python
-# https://www.blog.pythonlibrary.org/2010/05/22/wxpython-and-threads/
-# https://www.blog.pythonlibrary.org/2008/06/11/wxpython-creating-an-about-box/
 
-# Print a list of available ports
-#   > python -m serial.tools.list_ports
-
-# Console based terminal
-#   > python -m serial.tools.miniterm /dev/ttyACM0
-
-# Create one binary file
-#   > pyinstaller --onefile config.py 
+# Author      : Heinz Samuelsson
+# Date        : ons 10 maj 2017 10:00:55 CEST
+# File        : config_tool.py
+# Reference   : -
+# Description : Application is used to config Ascender ACX and TCX.
+#                 https://www.blog.pythonlibrary.org/2010/05/22/wxpython-and-threads/
+#                 https://www.blog.pythonlibrary.org/2008/06/11/wxpython-creating-an-about-box/
+#
+#                 Console based terminal
+#                    > python -m serial.tools.miniterm /dev/ttyACM0
+#
+#                 Create one binary file
+#                    > pyinstaller --onefile config.py 
 
 import wx
 import serial
