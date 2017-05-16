@@ -42,6 +42,7 @@ class MyForm(wx.Frame):
         self.param_dominant_throttle_on = wx.StaticText(self.panel, wx.ID_ANY, 'param.dominant_throttle_on')
         self.param_rope_stuck_on = wx.StaticText(self.panel, wx.ID_ANY, 'param.rope_stuck_on')
         self.param_iq_alpha = wx.StaticText(self.panel, wx.ID_ANY, 'param.iq_alpha')
+        self.param_speed_alpha = wx.StaticText(self.panel, wx.ID_ANY, 'param.speed_alpha')
 
         self.txtCtrl_cl_kp = wx.TextCtrl(self.panel, wx.ID_ANY,'0.23')
         self.txtCtrl_cl_ki = wx.TextCtrl(self.panel, wx.ID_ANY,'13')
@@ -54,6 +55,7 @@ class MyForm(wx.Frame):
         self.txtCtrl_dominant_throttle_on = wx.TextCtrl(self.panel, wx.ID_ANY,'1')
         self.txtCtrl_rope_stuck_on = wx.TextCtrl(self.panel, wx.ID_ANY,'1')
         self.txtCtrl_iq_alpha = wx.TextCtrl(self.panel, wx.ID_ANY,'0.005')
+        self.txtCtrl_speed_alpha = wx.TextCtrl(self.panel, wx.ID_ANY,'0.05')
 
 	self.paramSizer1 = wx.BoxSizer(wx.VERTICAL)
 	self.paramSizer1.Add(self.param_cl_kp, 0, wx.ALL, BORDER1)
@@ -82,6 +84,8 @@ class MyForm(wx.Frame):
 	self.paramSizer3.Add(self.txtCtrl_rope_stuck_on, 0, wx.ALL, BORDER1)
 	self.paramSizer3.Add(self.param_iq_alpha, 0, wx.ALL, BORDER1)
 	self.paramSizer3.Add(self.txtCtrl_iq_alpha, 0, wx.ALL, BORDER1)
+	self.paramSizer3.Add(self.param_speed_alpha, 0, wx.ALL, BORDER1)
+	self.paramSizer3.Add(self.txtCtrl_speed_alpha, 0, wx.ALL, BORDER1)
 
         self.Bind(wx.EVT_BUTTON, self.onConnect, self.connectBtn)
         self.Bind(wx.EVT_BUTTON, self.onTestInject, self.testInjectBtn)
