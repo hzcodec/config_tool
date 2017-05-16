@@ -29,6 +29,8 @@ class MyForm(wx.Frame):
         self.getIqBtn = wx.Button(self.panel, wx.ID_ANY, 'get_iq')
         self.quitBtn = wx.Button(self.panel, wx.ID_ANY, 'Quit')
 
+	self.defineCombo()
+
         self.param_cl_kp = wx.StaticText(self.panel, wx.ID_ANY, 'param.cl.kp')
         self.param_cl_ki = wx.StaticText(self.panel, wx.ID_ANY, 'param.cl.ki')
         self.param_sl_kp = wx.StaticText(self.panel, wx.ID_ANY, 'param.sl.kp')
@@ -75,6 +77,7 @@ class MyForm(wx.Frame):
         #box[i] = wx.StaticBox(panel, wx.ID_ANY, "testBox", size=(0,100))
 	self.statBoxSerial = wx.StaticBox(self.panel, wx.ID_ANY, '    Serial connection    ', size=(0,20))
         self.staticBoxSizer1 = wx.StaticBoxSizer(self.statBoxSerial, wx.HORIZONTAL)
+        self.staticBoxSizer1.Add(self.combo, 0, wx.ALL, BORDER1)
 	self.staticBoxSizer1.Add(self.connectBtn, 0, wx.ALL, BORDER1)
 	self.staticBoxSizer1.Add(self.lblConnected, 0, wx.ALL, BORDER1)
 
@@ -103,6 +106,12 @@ class MyForm(wx.Frame):
         self.lblConnected.SetForegroundColour(wx.Colour(11, 102 , 66))
         self.lblConnected.SetLabel("Connected to ttyACM0")
 
+    def defineCombo(self):
+        portNames = ['ACM0', 'ACM1', 'USB0']
+        self.combo = wx.ComboBox(self.panel, choices=portNames, pos=(140, 27))
+        self.combo.SetSelection(0) # preselect ACM0
+        self.combo.Bind(wx.EVT_COMBOBOX, self.onCombo)
+
     def onConfig(self, event):
         print 'Config'
 
@@ -111,6 +120,9 @@ class MyForm(wx.Frame):
 
     def onGetIq(self, event):
         print 'get_iq'
+
+    def onCombo(self, event):
+        print 'Selected port: ' + self.combo.GetValue()
 
     def onQuit(self, event):
         self.Close()
