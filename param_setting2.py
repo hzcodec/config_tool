@@ -26,13 +26,13 @@ def serial_cmd(cmd, serial):
 class MyForm(wx.Frame):
 
     def __init__(self):
-        wx.Frame.__init__(self, None, wx.ID_ANY, title='Parameter Setting', size=(900,600))
+        wx.Frame.__init__(self, None, wx.ID_ANY, title='Parameter Setting', size=(900,630))
         self.panel = wx.Panel(self, wx.ID_ANY, style=wx.RAISED_BORDER)
 
 	self.toggle  = False
 
-	#self.Centre()
-	self.SetPosition((2500, 480))
+	self.Centre()
+	#self.SetPosition((2500, 480))
 
         self.connectBtn = wx.Button(self.panel, wx.ID_ANY, 'Connect')
 	self.lblConnected = wx.StaticText(self.panel, label= 'Not connected')
@@ -132,10 +132,10 @@ class MyForm(wx.Frame):
 	self.statBoxSerial.SetBackgroundColour((180,180,180))
 	self.statBoxSerial.SetForegroundColour((0,0,0))
         self.staticBoxSizer1 = wx.StaticBoxSizer(self.statBoxSerial, wx.HORIZONTAL)
-        self.staticBoxSizer1.Add(self.txtSerialPort, 0, wx.ALL, BORDER1)
-        self.staticBoxSizer1.Add(self.combo, 0, wx.ALL, BORDER1)
-	self.staticBoxSizer1.Add(self.connectBtn, 0, wx.ALL, BORDER1)
-	self.staticBoxSizer1.Add(self.lblConnected, 0, wx.ALL, BORDER1)
+        self.staticBoxSizer1.Add(self.txtSerialPort, 0, wx.BOTTOM|wx.TOP|wx.LEFT, BORDER2)
+        self.staticBoxSizer1.Add(self.combo, 0, wx.BOTTOM|wx.TOP|wx.LEFT, BORDER2)
+	self.staticBoxSizer1.Add(self.connectBtn, 0, wx.BOTTOM|wx.TOP|wx.LEFT, BORDER2)
+	self.staticBoxSizer1.Add(self.lblConnected, 0, wx.BOTTOM|wx.TOP|wx.LEFT, BORDER2)
 
 	self.statBoxParams = wx.StaticBox(self.panel, wx.ID_ANY, '  Parameters   ')
 	self.statBoxParams.SetBackgroundColour((180,180,180))
