@@ -43,7 +43,8 @@ class MyForm(wx.Frame):
 	self.testInjectBtn.SetBackgroundColour(INJECT_COLOR)
         self.getIqBtn = wx.Button(self.panel, wx.ID_ANY, 'get_iq')
         self.quitBtn = wx.Button(self.panel, wx.ID_ANY, 'Quit')
-        self.testRunBtn = wx.Button(self.panel, wx.ID_ANY, 'Run1')
+        self.testRunBtn = wx.Button(self.panel, wx.ID_ANY, 'Run')
+        self.testStopBtn = wx.Button(self.panel, wx.ID_ANY, 'Stop')
 
 	self.defineCombo()
 
@@ -132,6 +133,7 @@ class MyForm(wx.Frame):
         self.Bind(wx.EVT_BUTTON, self.onQuit, self.quitBtn)
         self.Bind(wx.EVT_BUTTON, self.onConfig, self.configBtn)
         self.Bind(wx.EVT_BUTTON, self.onTestRun, self.testRunBtn)
+        self.Bind(wx.EVT_BUTTON, self.onTestStop, self.testStopBtn)
 
 	self.statBoxSerial = wx.StaticBox(self.panel, wx.ID_ANY, '  Serial connection    ', size=(0,20))
 	self.statBoxSerial.SetBackgroundColour(GREY)
@@ -163,6 +165,7 @@ class MyForm(wx.Frame):
 	self.statBoxTestRun.SetForegroundColour(BLACK)
         self.staticBoxSizer4 = wx.StaticBoxSizer(self.statBoxTestRun, wx.HORIZONTAL)
 	self.staticBoxSizer4.Add(self.testRunBtn, 0, wx.ALL, BORDER1)
+	self.staticBoxSizer4.Add(self.testStopBtn, 0, wx.ALL, BORDER1)
 	self.staticBoxSizer4.Add(self.quitBtn, 0, wx.ALL, BORDER1)
 
         self.topSizer = wx.BoxSizer(wx.VERTICAL)
@@ -206,11 +209,15 @@ class MyForm(wx.Frame):
         print 'Config'
 
     def onTestRun(self, event):
-	serial_cmd('e', self.ser)
-        time.sleep(1)
-	serial_cmd('brake 0', self.ser)
-        time.sleep(1)
-	serial_cmd('speed 10', self.ser)
+        print 'Run'
+	#serial_cmd('e', self.ser)
+        #time.sleep(1)
+	#serial_cmd('brake 0', self.ser)
+        #time.sleep(1)
+	#serial_cmd('speed 10', self.ser)
+
+    def onTestStop(self, event):
+        print 'Stop'
 
     def onTestInject(self, event):
 	if (self.toggle == False):
