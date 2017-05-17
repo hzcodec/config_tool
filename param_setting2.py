@@ -206,7 +206,11 @@ class MyForm(wx.Frame):
         print 'Config'
 
     def onTestRun(self, event):
-        print 'Test run'
+	serial_cmd('e', self.ser)
+        time.sleep(1)
+	serial_cmd('brake 0', self.ser)
+        time.sleep(1)
+	serial_cmd('speed 10', self.ser)
 
     def onTestInject(self, event):
 	if (self.toggle == False):
