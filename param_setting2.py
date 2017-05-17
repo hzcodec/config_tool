@@ -12,6 +12,8 @@ import time
 BORDER1 = 5
 BORDER2 = 15
 GREEN = (0, 255, 0)
+GREY = (180, 180, 180)
+BLACK = (0, 0, 0)
 INJECT_COLOR = (200, 160, 100)
 
 
@@ -131,8 +133,8 @@ class MyForm(wx.Frame):
         self.Bind(wx.EVT_BUTTON, self.onConfig, self.configBtn)
 
 	self.statBoxSerial = wx.StaticBox(self.panel, wx.ID_ANY, '  Serial connection    ', size=(0,20))
-	self.statBoxSerial.SetBackgroundColour((180,180,180))
-	self.statBoxSerial.SetForegroundColour((0,0,0))
+	self.statBoxSerial.SetBackgroundColour(GREY)
+	self.statBoxSerial.SetForegroundColour(BLACK)
         self.staticBoxSizer1 = wx.StaticBoxSizer(self.statBoxSerial, wx.HORIZONTAL)
         self.staticBoxSizer1.Add(self.txtSerialPort, 0, wx.BOTTOM|wx.TOP|wx.LEFT, BORDER2)
         self.staticBoxSizer1.Add(self.combo, 0, wx.BOTTOM|wx.TOP|wx.LEFT, BORDER2)
@@ -140,8 +142,8 @@ class MyForm(wx.Frame):
 	self.staticBoxSizer1.Add(self.lblConnected, 0, wx.BOTTOM|wx.TOP|wx.LEFT, BORDER2)
 
 	self.statBoxParams = wx.StaticBox(self.panel, wx.ID_ANY, '  Parameters   ')
-	self.statBoxParams.SetBackgroundColour((180,180,180))
-	self.statBoxParams.SetForegroundColour((0,0,0))
+	self.statBoxParams.SetBackgroundColour(GREY)
+	self.statBoxParams.SetForegroundColour(BLACK)
         self.staticBoxSizer2 = wx.StaticBoxSizer(self.statBoxParams, wx.HORIZONTAL)
 	self.staticBoxSizer2.Add(self.paramSizer1, 0, wx.ALL, BORDER1)
 	self.staticBoxSizer2.Add(self.paramSizer2, 0, wx.ALL, BORDER1)
@@ -149,15 +151,15 @@ class MyForm(wx.Frame):
 	self.staticBoxSizer2.Add(self.paramSizer4, 0, wx.ALL, BORDER1)
 
 	self.statBoxMisc = wx.StaticBox(self.panel, wx.ID_ANY, '  Debugging   ')
-	self.statBoxMisc.SetBackgroundColour((180,180,180))
-	self.statBoxMisc.SetForegroundColour((0,0,0))
+	self.statBoxMisc.SetBackgroundColour(GREY)
+	self.statBoxMisc.SetForegroundColour(BLACK)
         self.staticBoxSizer3 = wx.StaticBoxSizer(self.statBoxMisc, wx.HORIZONTAL)
 	self.staticBoxSizer3.Add(self.testInjectBtn, 0, wx.ALL, BORDER1)
 	self.staticBoxSizer3.Add(self.getIqBtn, 0, wx.ALL, BORDER1)
 
 	self.statBoxTestRun = wx.StaticBox(self.panel, wx.ID_ANY, '  Test Run   ')
-	self.statBoxTestRun.SetBackgroundColour((180,180,180))
-	self.statBoxTestRun.SetForegroundColour((0,0,0))
+	self.statBoxTestRun.SetBackgroundColour(GREY)
+	self.statBoxTestRun.SetForegroundColour(BLACK)
         self.staticBoxSizer4 = wx.StaticBoxSizer(self.statBoxTestRun, wx.HORIZONTAL)
 	self.staticBoxSizer4.Add(self.testRunBtn, 0, wx.ALL, BORDER1)
 	self.staticBoxSizer4.Add(self.quitBtn, 0, wx.ALL, BORDER1)
