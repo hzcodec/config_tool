@@ -27,7 +27,7 @@ class MyForm(wx.Frame):
 
     def __init__(self):
         wx.Frame.__init__(self, None, wx.ID_ANY, title='Parameter Setting', size=(900,630))
-        self.panel = wx.Panel(self, wx.ID_ANY, style=wx.RAISED_BORDER)
+        self.panel = wx.Panel(self, wx.ID_ANY, style=wx.BORDER_RAISED)
 
 	self.toggle  = False
 
@@ -38,6 +38,7 @@ class MyForm(wx.Frame):
 	self.lblConnected = wx.StaticText(self.panel, label= 'Not connected')
         self.configBtn = wx.Button(self.panel, wx.ID_ANY, 'Configure parameter')
         self.testInjectBtn = wx.Button(self.panel, wx.ID_ANY, 'Test Inject')
+	self.testInjectBtn.SetBackgroundColour(INJECT_COLOR)
         self.getIqBtn = wx.Button(self.panel, wx.ID_ANY, 'get_iq')
         self.quitBtn = wx.Button(self.panel, wx.ID_ANY, 'Quit')
         self.testRunBtn = wx.Button(self.panel, wx.ID_ANY, 'Run1')
@@ -204,21 +205,21 @@ class MyForm(wx.Frame):
 	if (self.toggle == False):
 	    try:
                 serial_cmd('param set ti 1', self.ser)
+	        self.testInjectBtn.SetBackgroundColour(GREEN)
+	        self.toggle = True
 	    except:
                 self.lblConnected.SetForegroundColour(wx.Colour(255,0,0))
 	        self.lblConnected.SetLabel('You must connect first!')
 
-	    self.testInjectBtn.SetBackgroundColour(GREEN)
-	    self.toggle = True
 	else:
 	    try:
                 serial_cmd('param set ti 0', self.ser)
+	        self.testInjectBtn.SetBackgroundColour(INJECT_COLOR)
+	        self.toggle = False
 	    except:
                 self.lblConnected.SetForegroundColour(wx.Colour(255,0,0))
 	        self.lblConnected.SetLabel('You must connect first!')
 
-	    self.testInjectBtn.SetBackgroundColour(INJECT_COLOR)
-	    self.toggle = False
 
     def onGetIq(self, event):
 	try:
