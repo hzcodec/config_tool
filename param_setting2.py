@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 # Author      : Heinz Samuelsson
 # Date        : ons 10 maj 2017 10:00:55 CEST
 # File        : param_setting2.py
@@ -8,7 +10,7 @@ import wx
 import time
 
 BORDER1 = 5
-BORDER2 = 3
+BORDER2 = 15
 GREEN = (0, 255, 0)
 INJECT_COLOR = (200, 160, 100)
 
@@ -24,7 +26,7 @@ class MyForm(wx.Frame):
         self.connectBtn = wx.Button(self.panel, wx.ID_ANY, 'Connect')
 	self.lblConnected = wx.StaticText(self.panel, label= 'Not connected')
 
-        #self.configBtn = wx.Button(self.panel, wx.ID_ANY, 'Config')
+        self.configBtn = wx.Button(self.panel, wx.ID_ANY, 'Configure parameter')
         self.testInjectBtn = wx.Button(self.panel, wx.ID_ANY, 'Test Inject')
         self.getIqBtn = wx.Button(self.panel, wx.ID_ANY, 'get_iq')
         self.quitBtn = wx.Button(self.panel, wx.ID_ANY, 'Quit')
@@ -66,6 +68,7 @@ class MyForm(wx.Frame):
 	self.paramSizer1.Add(self.txtCtrl_sl_kp, 0, wx.ALL, BORDER1)
 	self.paramSizer1.Add(self.param_sl_ki, 0, wx.ALL, BORDER1)
 	self.paramSizer1.Add(self.txtCtrl_sl_ki, 0, wx.ALL, BORDER1)
+	self.paramSizer1.Add(self.configBtn, 0, wx.TOP|wx.BOTTOM, BORDER2)
 
 	self.paramSizer2 = wx.BoxSizer(wx.VERTICAL)
 	self.paramSizer2.Add(self.param_throttle_zero, 0, wx.ALL, BORDER1)
