@@ -4,8 +4,8 @@
 # Date        : ons 10 maj 2017 10:00:55 CEST
 # File        : param_setting2.py
 # Reference   : -
-# Description : Application is used to set parameters for ActSafe's
-#               Ascender ACX and TCX.
+# Description : Application is used to set parameters for ActSafe's Ascender ACX and TCX.
+
 import wx
 import time
 
@@ -14,11 +14,22 @@ BORDER2 = 15
 GREEN = (0, 255, 0)
 INJECT_COLOR = (200, 160, 100)
 
+
+def serial_cmd(cmd, serial):
+    # send command to serial port
+    try:
+        serial.write(cmd + '\r');
+    except:
+        print 'Not Connected!'
+
+
 class MyForm(wx.Frame):
 
     def __init__(self):
         wx.Frame.__init__(self, None, wx.ID_ANY, title='Parameter Setting', size=(900,560))
         self.panel = wx.Panel(self, wx.ID_ANY, style=wx.RAISED_BORDER)
+
+	self.toggle  = False
 
 	#self.Centre()
 	self.SetPosition((2500, 480))
@@ -155,8 +166,21 @@ class MyForm(wx.Frame):
         self.panel.SetSizer(self.topSizer)
 
     def onConnect(self, event):
-        self.lblConnected.SetForegroundColour(wx.Colour(50, 90 , 150))
-        self.lblConnected.SetLabel('Connected to tty' + self.combo.GetValue())
+	try:
+	    self.connected = True
+            self.ser = serial.Serial(port = '/dev/tty'+self.combo.GetValue(),
+                                     baudrate = 9600,
+                                     parity = serial.PARITY_NONE,
+                                     stopbits = serial.STOPBITS_ONE,
+                                     bytesize = serial.EIGHTBITS,
+                                     timeout = 1)
+
+            self.lblConnected.SetForegroundColour(wx.Colour(50, 90 , 150))
+            self.lblConnected.SetLabel('Connected to tty' + self.combo.GetValue())
+
+	except:
+            self.lblConnected.SetForegroundColour(wx.Colour(255,0,0))
+	    self.lblConnected.SetLabel('Cannot connect')
 
     def defineCombo(self):
         portNames = ['ACM0', 'ACM1', 'USB0']
@@ -174,10 +198,31 @@ class MyForm(wx.Frame):
         print 'Config'
 
     def onTestInject(self, event):
-        print 'Test inject'
+	if (self.toggle == False):
+	    try:
+                serial_cmd('param set ti 1', self.ser)
+	    except:
+                self.lblConnected.SetForegroundColour(wx.Colour(255,0,0))
+	        self.lblConnected.SetLabel('You must connect first!')
+
+	    self.testInjectBtn.SetBackgroundColour(GREEN)
+	    self.toggle = True
+	else:
+	    try:
+                serial_cmd('param set ti 0', self.ser)
+	    except:
+                self.lblConnected.SetForegroundColour(wx.Colour(255,0,0))
+	        self.lblConnected.SetLabel('You must connect first!')
+
+	    self.testInjectBtn.SetBackgroundColour(INJECT_COLOR)
+	    self.toggle = False
 
     def onGetIq(self, event):
-        print 'get_iq'
+	try:
+	    serial_cmd('get_iq', self.ser)
+	except:
+            self.lblConnected.SetForegroundColour(wx.Colour(255,0,0))
+	    self.lblConnected.SetLabel('You must connect first!')
 
     def onCombo(self, event):
         print 'Selected port: ' + self.combo.GetValue()
