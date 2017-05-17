@@ -1,3 +1,4 @@
+#!/usr/bin/python
 # Author      : Heinz Samuelsson
 # Date        : ons 10 maj 2017 10:00:55 CEST
 # File        : param_setting.py
@@ -37,7 +38,6 @@
 #   +-------------------------------------------------------------------------------------+
 #
 
-#!/usr/bin/python
 import serial
 import wx
 import time
