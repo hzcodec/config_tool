@@ -17,7 +17,7 @@ INJECT_COLOR = (200, 160, 100)
 class MyForm(wx.Frame):
 
     def __init__(self):
-        wx.Frame.__init__(self, None, wx.ID_ANY, title='Parameter Setting', size=(1000,500))
+        wx.Frame.__init__(self, None, wx.ID_ANY, title='Parameter Setting', size=(900,560))
         self.panel = wx.Panel(self, wx.ID_ANY, style=wx.RAISED_BORDER)
 
 	#self.Centre()
@@ -30,6 +30,7 @@ class MyForm(wx.Frame):
         self.testInjectBtn = wx.Button(self.panel, wx.ID_ANY, 'Test Inject')
         self.getIqBtn = wx.Button(self.panel, wx.ID_ANY, 'get_iq')
         self.quitBtn = wx.Button(self.panel, wx.ID_ANY, 'Quit')
+        self.testRunBtn = wx.Button(self.panel, wx.ID_ANY, 'Run1')
 
 	self.defineCombo()
 
@@ -95,7 +96,6 @@ class MyForm(wx.Frame):
         self.Bind(wx.EVT_BUTTON, self.onGetIq, self.getIqBtn)
         self.Bind(wx.EVT_BUTTON, self.onQuit, self.quitBtn)
 
-        #box[i] = wx.StaticBox(panel, wx.ID_ANY, "testBox", size=(0,100))
 	self.statBoxSerial = wx.StaticBox(self.panel, wx.ID_ANY, '  Serial connection    ', size=(0,20))
 	self.statBoxSerial.SetBackgroundColour((180,180,180))
 	self.statBoxSerial.SetForegroundColour((0,0,0))
@@ -120,10 +120,17 @@ class MyForm(wx.Frame):
 	self.staticBoxSizer3.Add(self.getIqBtn, 0, wx.ALL, BORDER1)
 	self.staticBoxSizer3.Add(self.quitBtn, 0, wx.ALL, BORDER1)
 
+	self.statBoxTestRun = wx.StaticBox(self.panel, wx.ID_ANY, '  Test Run   ')
+	self.statBoxTestRun.SetBackgroundColour((180,180,180))
+	self.statBoxTestRun.SetForegroundColour((0,0,0))
+        self.staticBoxSizer4 = wx.StaticBoxSizer(self.statBoxTestRun, wx.HORIZONTAL)
+	self.staticBoxSizer4.Add(self.testRunBtn, 0, wx.ALL, BORDER1)
+
         self.topSizer = wx.BoxSizer(wx.VERTICAL)
         self.topSizer.Add(self.staticBoxSizer1, 1, wx.ALL|wx.EXPAND, BORDER1)
         self.topSizer.Add(self.staticBoxSizer2, 1, wx.ALL|wx.EXPAND, BORDER1)
         self.topSizer.Add(self.staticBoxSizer3, 1, wx.ALL|wx.EXPAND, BORDER1)
+        self.topSizer.Add(self.staticBoxSizer4, 1, wx.ALL|wx.EXPAND, BORDER1)
 
         self.panel.SetSizer(self.topSizer)
         #self.topSizer.Fit(self)
