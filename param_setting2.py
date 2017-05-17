@@ -128,6 +128,7 @@ class MyForm(wx.Frame):
         self.Bind(wx.EVT_BUTTON, self.onTestInject, self.testInjectBtn)
         self.Bind(wx.EVT_BUTTON, self.onGetIq, self.getIqBtn)
         self.Bind(wx.EVT_BUTTON, self.onQuit, self.quitBtn)
+        self.Bind(wx.EVT_BUTTON, self.onConfig, self.configBtn)
 
 	self.statBoxSerial = wx.StaticBox(self.panel, wx.ID_ANY, '  Serial connection    ', size=(0,20))
 	self.statBoxSerial.SetBackgroundColour((180,180,180))
@@ -230,6 +231,9 @@ class MyForm(wx.Frame):
 
     def onCombo(self, event):
         print 'Selected port: ' + self.combo.GetValue()
+
+    def onConfig(self, event):
+        print 'Config'
 
     def onQuit(self, event):
         self.Close()
