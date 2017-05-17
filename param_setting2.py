@@ -25,7 +25,6 @@ class MyForm(wx.Frame):
 
         self.connectBtn = wx.Button(self.panel, wx.ID_ANY, 'Connect')
 	self.lblConnected = wx.StaticText(self.panel, label= 'Not connected')
-
         self.configBtn = wx.Button(self.panel, wx.ID_ANY, 'Configure parameter')
         self.testInjectBtn = wx.Button(self.panel, wx.ID_ANY, 'Test Inject')
         self.getIqBtn = wx.Button(self.panel, wx.ID_ANY, 'get_iq')
@@ -46,6 +45,10 @@ class MyForm(wx.Frame):
         self.param_rope_stuck_on = wx.StaticText(self.panel, wx.ID_ANY, 'rope_stuck_on')
         self.param_iq_alpha = wx.StaticText(self.panel, wx.ID_ANY, 'iq_alpha')
         self.param_speed_alpha = wx.StaticText(self.panel, wx.ID_ANY, 'speed_alpha')
+        self.param_par1 = wx.StaticText(self.panel, wx.ID_ANY, 'par1')
+        self.param_par2 = wx.StaticText(self.panel, wx.ID_ANY, 'par2')
+        self.param_par3 = wx.StaticText(self.panel, wx.ID_ANY, 'par3')
+        self.param_par4 = wx.StaticText(self.panel, wx.ID_ANY, 'par4')
 
         self.txtCtrl_cl_kp = wx.TextCtrl(self.panel, wx.ID_ANY,'0.23')
         self.txtCtrl_cl_ki = wx.TextCtrl(self.panel, wx.ID_ANY,'13')
@@ -59,6 +62,12 @@ class MyForm(wx.Frame):
         self.txtCtrl_rope_stuck_on = wx.TextCtrl(self.panel, wx.ID_ANY,'1')
         self.txtCtrl_iq_alpha = wx.TextCtrl(self.panel, wx.ID_ANY,'0.005')
         self.txtCtrl_speed_alpha = wx.TextCtrl(self.panel, wx.ID_ANY,'0.05')
+        self.txtCtrl_par1 = wx.TextCtrl(self.panel, wx.ID_ANY,'1.05')
+        self.txtCtrl_par2 = wx.TextCtrl(self.panel, wx.ID_ANY,'0.6')
+        self.txtCtrl_par3 = wx.TextCtrl(self.panel, wx.ID_ANY,'0.05')
+        self.txtCtrl_par4 = wx.TextCtrl(self.panel, wx.ID_ANY,'0.3')
+
+	self.disable_txt_controls()
 
 	self.paramSizer1 = wx.BoxSizer(wx.VERTICAL)
 	self.paramSizer1.Add(self.param_cl_kp, 0, wx.ALL, BORDER1)
@@ -91,6 +100,16 @@ class MyForm(wx.Frame):
 	self.paramSizer3.Add(self.param_speed_alpha, 0, wx.ALL, BORDER1)
 	self.paramSizer3.Add(self.txtCtrl_speed_alpha, 0, wx.ALL, BORDER1)
 
+	self.paramSizer4 = wx.BoxSizer(wx.VERTICAL)
+	self.paramSizer4.Add(self.param_par1, 0, wx.ALL, BORDER1)
+	self.paramSizer4.Add(self.txtCtrl_par1, 0, wx.ALL, BORDER1)
+	self.paramSizer4.Add(self.param_par2, 0, wx.ALL, BORDER1)
+	self.paramSizer4.Add(self.txtCtrl_par2, 0, wx.ALL, BORDER1)
+	self.paramSizer4.Add(self.param_par3, 0, wx.ALL, BORDER1)
+	self.paramSizer4.Add(self.txtCtrl_par3, 0, wx.ALL, BORDER1)
+	self.paramSizer4.Add(self.param_par4, 0, wx.ALL, BORDER1)
+	self.paramSizer4.Add(self.txtCtrl_par4, 0, wx.ALL, BORDER1)
+
         self.Bind(wx.EVT_BUTTON, self.onConnect, self.connectBtn)
         self.Bind(wx.EVT_BUTTON, self.onTestInject, self.testInjectBtn)
         self.Bind(wx.EVT_BUTTON, self.onGetIq, self.getIqBtn)
@@ -111,6 +130,7 @@ class MyForm(wx.Frame):
 	self.staticBoxSizer2.Add(self.paramSizer1, 0, wx.ALL, BORDER1)
 	self.staticBoxSizer2.Add(self.paramSizer2, 0, wx.ALL, BORDER1)
 	self.staticBoxSizer2.Add(self.paramSizer3, 0, wx.ALL, BORDER1)
+	self.staticBoxSizer2.Add(self.paramSizer4, 0, wx.ALL, BORDER1)
 
 	self.statBoxMisc = wx.StaticBox(self.panel, wx.ID_ANY, '  Debugging   ')
 	self.statBoxMisc.SetBackgroundColour((180,180,180))
@@ -118,13 +138,13 @@ class MyForm(wx.Frame):
         self.staticBoxSizer3 = wx.StaticBoxSizer(self.statBoxMisc, wx.HORIZONTAL)
 	self.staticBoxSizer3.Add(self.testInjectBtn, 0, wx.ALL, BORDER1)
 	self.staticBoxSizer3.Add(self.getIqBtn, 0, wx.ALL, BORDER1)
-	self.staticBoxSizer3.Add(self.quitBtn, 0, wx.ALL, BORDER1)
 
 	self.statBoxTestRun = wx.StaticBox(self.panel, wx.ID_ANY, '  Test Run   ')
 	self.statBoxTestRun.SetBackgroundColour((180,180,180))
 	self.statBoxTestRun.SetForegroundColour((0,0,0))
         self.staticBoxSizer4 = wx.StaticBoxSizer(self.statBoxTestRun, wx.HORIZONTAL)
 	self.staticBoxSizer4.Add(self.testRunBtn, 0, wx.ALL, BORDER1)
+	self.staticBoxSizer4.Add(self.quitBtn, 0, wx.ALL, BORDER1)
 
         self.topSizer = wx.BoxSizer(wx.VERTICAL)
         self.topSizer.Add(self.staticBoxSizer1, 1, wx.ALL|wx.EXPAND, BORDER1)
@@ -133,19 +153,22 @@ class MyForm(wx.Frame):
         self.topSizer.Add(self.staticBoxSizer4, 1, wx.ALL|wx.EXPAND, BORDER1)
 
         self.panel.SetSizer(self.topSizer)
-        #self.topSizer.Fit(self)
 
     def onConnect(self, event):
-        font = wx.Font(10, wx.DEFAULT, wx.NORMAL, wx.BOLD)
-	self.lblConnected.SetFont(font)
-        self.lblConnected.SetForegroundColour(wx.Colour(11, 102 , 66))
+        self.lblConnected.SetForegroundColour(wx.Colour(50, 90 , 150))
         self.lblConnected.SetLabel('Connected to tty' + self.combo.GetValue())
 
     def defineCombo(self):
         portNames = ['ACM0', 'ACM1', 'USB0']
-        self.combo = wx.ComboBox(self.panel, choices=portNames, pos=(140, 27))
+        self.combo = wx.ComboBox(self.panel, choices=portNames)
         self.combo.SetSelection(0) # preselect ACM0
         self.combo.Bind(wx.EVT_COMBOBOX, self.onCombo)
+
+    def disable_txt_controls(self):
+	self.txtCtrl_cl_kp.Disable()
+	self.txtCtrl_cl_ki.Disable()
+	self.txtCtrl_sl_kp.Disable()
+	self.txtCtrl_throttle_deadband_on.Disable()
 
     def onConfig(self, event):
         print 'Config'
