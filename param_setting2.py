@@ -131,6 +131,7 @@ class MyForm(wx.Frame):
         self.Bind(wx.EVT_BUTTON, self.onGetIq, self.getIqBtn)
         self.Bind(wx.EVT_BUTTON, self.onQuit, self.quitBtn)
         self.Bind(wx.EVT_BUTTON, self.onConfig, self.configBtn)
+        self.Bind(wx.EVT_BUTTON, self.onTestRun, self.testRunBtn)
 
 	self.statBoxSerial = wx.StaticBox(self.panel, wx.ID_ANY, '  Serial connection    ', size=(0,20))
 	self.statBoxSerial.SetBackgroundColour(GREY)
@@ -204,6 +205,9 @@ class MyForm(wx.Frame):
     def onConfig(self, event):
         print 'Config'
 
+    def onTestRun(self, event):
+        print 'Test run'
+
     def onTestInject(self, event):
 	if (self.toggle == False):
 	    try:
@@ -239,7 +243,6 @@ class MyForm(wx.Frame):
 
     def onQuit(self, event):
         self.Close()
-
 
 
 if __name__ == '__main__':
