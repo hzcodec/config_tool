@@ -62,6 +62,7 @@ class MyForm(wx.Frame):
 
 	self.scSpeed = wx.SpinCtrl(self.panel, value='0')
 	self.scSpeed.SetRange(-5, 5)
+        self.lblSpinCtrl = wx.StaticText(self.panel, wx.ID_ANY, 'Speed')
 
 	self.defineCombo()
 
@@ -183,13 +184,17 @@ class MyForm(wx.Frame):
         self.debuggingSizer.Add(self.testRunUpBtn, 0, wx.ALL|wx.EXPAND, BORDER1)
         self.debuggingSizer.Add(self.testRunDownBtn, 0, wx.ALL|wx.EXPAND, BORDER1)
 
+        self.spinnerSizer = wx.BoxSizer(wx.VERTICAL)
+	self.spinnerSizer.Add(self.lblSpinCtrl, 0, wx.TOP, 5)
+	self.spinnerSizer.Add(self.scSpeed, 0, wx.TOP, 5)
+
 	self.statBoxTestRun = wx.StaticBox(self.panel, wx.ID_ANY, '  Test Run   ')
 	self.statBoxTestRun.SetBackgroundColour(GREY)
 	self.statBoxTestRun.SetForegroundColour(BLACK)
         self.staticBoxSizer4 = wx.StaticBoxSizer(self.statBoxTestRun, wx.HORIZONTAL)
+	self.staticBoxSizer4.Add(self.spinnerSizer, 0, wx.TOP|wx.BOTTOM|wx.LEFT, 15)
 	self.staticBoxSizer4.Add(self.debuggingSizer, 0, wx.ALL, BORDER1)
 	self.staticBoxSizer4.Add(self.testStopBtn, 0, wx.TOP|wx.BOTTOM, 35)
-	self.staticBoxSizer4.Add(self.scSpeed, 0, wx.TOP|wx.BOTTOM, 35)
 
         self.topSizer = wx.BoxSizer(wx.VERTICAL)
         self.topSizer.Add(self.staticBoxSizer1, 1, wx.ALL|wx.EXPAND, BORDER1)
