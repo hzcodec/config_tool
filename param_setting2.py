@@ -8,7 +8,7 @@
 
 import wx
 import time
-import serial
+import serial  
 
 BORDER1 = 5
 BORDER2 = 15
@@ -33,6 +33,8 @@ class MyForm(wx.Frame):
         self.panel = wx.Panel(self, wx.ID_ANY, style=wx.BORDER_RAISED)
 
 	self.toggle  = False
+	self.connected = False
+	self.oldSlKi = 0.25
 
 	self.Centre()
 	#self.SetPosition((2500, 480))
@@ -207,18 +209,38 @@ class MyForm(wx.Frame):
 	self.txtCtrl_throttle_deadband_on.Disable()
 
     def onConfig(self, event):
-        print 'Config'
+	if (self.connected == True):
+	    # ----------------------------------------------------------------------------------------------------
+            # speed loop ki
+	    # ----------------------------------------------------------------------------------------------------
+            newSlKi = float(self.txtCtrl_sl_ki.GetValue())
+	    if (newSlKi == self.oldSlKi):
+		pass
+	    else:
+                time.sleep(1)
+	        # unicode mess ;-)
+	        local_cmd = 'param set motor.sl.ki ' + self.txtCtrl_sl_ki.GetValue().encode('ascii', 'ignore')
+                serial_cmd(local_cmd, self.ser)
+	        print 'Updated - sl.ki = %f' % newSlKi
+	    self.oldSlKi = newSlKi
+            print 'Config'
+	else:
+            self.lblConnected.SetForegroundColour(wx.Colour(255,0,0))
+	    self.lblConnected.SetLabel('You must connect first!')
 
     def onTestRun(self, event):
-        print 'Run'
-	#serial_cmd('e', self.ser)
-        #time.sleep(1)
-	#serial_cmd('brake 0', self.ser)
-        #time.sleep(1)
-	#serial_cmd('speed 10', self.ser)
+	serial_cmd('e', self.ser)
+        time.sleep(1)
+	serial_cmd('brake 0', self.ser)
+        time.sleep(1)
+	serial_cmd('speed 5', self.ser)
 
     def onTestStop(self, event):
-        print 'Stop'
+	serial_cmd('speed 0', self.ser)
+        time.sleep(1)
+	serial_cmd('d', self.ser)
+        time.sleep(1)
+	serial_cmd('brake 1', self.ser)
 
     def onTestInject(self, event):
 	if (self.toggle == False):
@@ -249,9 +271,6 @@ class MyForm(wx.Frame):
 
     def onCombo(self, event):
         print 'Selected port: ' + self.combo.GetValue()
-
-    def onConfig(self, event):
-        print 'Config'
 
     def onQuit(self, event):
         self.Close()
