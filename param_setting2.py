@@ -7,6 +7,7 @@
 # Description : Application is used to set parameters for ActSafe's Ascender ACX and TCX.
 #               Icons:
 #                  http://www.iconarchive.com/show/soft-scraps-icons-by-hopstarter/Button-Play-icon.html
+#                  http://www.iconarchive.com/show/colorful-long-shadow-icons-by-graphicloads/Button-eject-icon.html
 import wx
 import time
 import serial  
@@ -34,11 +35,13 @@ class MyForm(wx.Frame):
         wx.Frame.__init__(self, None, wx.ID_ANY, title='Parameter Setting', size=(900,630))
         self.panel = wx.Panel(self, wx.ID_ANY, style=wx.BORDER_RAISED)
 
-	self.toggle  = False
-	self.connected = False
+	self.toggle      = False
+	self.connected   = False
 	self.downRunning = False
-	self.upRunning = False
+	self.upRunning   = False
+	self.testPort    = False
 	self.oldSlKi = 0.25
+	self.oldDominantThrottle = 1
 
 	self.Centre()
 	#self.SetPosition((2500, 480))
@@ -156,6 +159,7 @@ class MyForm(wx.Frame):
         self.staticBoxSizer1.Add(self.combo, 0, wx.BOTTOM|wx.TOP|wx.LEFT, BORDER2)
 	self.staticBoxSizer1.Add(self.connectBtn, 0, wx.BOTTOM|wx.TOP|wx.LEFT, BORDER2)
 	self.staticBoxSizer1.Add(self.lblConnected, 0, wx.BOTTOM|wx.TOP|wx.LEFT, BORDER2)
+	self.staticBoxSizer1.Add(self.quitBtn, 0, wx.BOTTOM|wx.TOP|wx.LEFT, BORDER2)
 
 	self.statBoxParams = wx.StaticBox(self.panel, wx.ID_ANY, '  Parameters   ')
 	self.statBoxParams.SetBackgroundColour(GREY)
@@ -180,7 +184,6 @@ class MyForm(wx.Frame):
 	self.staticBoxSizer4.Add(self.testRunUpBtn, 0, wx.ALL, BORDER1)
 	self.staticBoxSizer4.Add(self.testRunDownBtn, 0, wx.ALL, BORDER1)
 	self.staticBoxSizer4.Add(self.testStopBtn, 0, wx.ALL, BORDER1)
-	self.staticBoxSizer4.Add(self.quitBtn, 0, wx.ALL, BORDER1)
 
         self.topSizer = wx.BoxSizer(wx.VERTICAL)
         self.topSizer.Add(self.staticBoxSizer1, 1, wx.ALL|wx.EXPAND, BORDER1)
@@ -191,24 +194,31 @@ class MyForm(wx.Frame):
         self.panel.SetSizer(self.topSizer)
 
     def onConnect(self, event):
-	try:
-	    self.connected = True
-            self.ser = serial.Serial(port = '/dev/tty'+self.combo.GetValue(),
-                                     baudrate = 9600,
-                                     parity = serial.PARITY_NONE,
-                                     stopbits = serial.STOPBITS_ONE,
-                                     bytesize = serial.EIGHTBITS,
-                                     timeout = 1)
-
+	if (self.combo.GetValue()):
+	    print 'Test port'
+	    self.testPort = True
             self.lblConnected.SetForegroundColour(wx.Colour(50, 90 , 150))
-            self.lblConnected.SetLabel('Connected to tty' + self.combo.GetValue())
+            self.lblConnected.SetLabel('Connected to ' + self.combo.GetValue())
 
-	except:
-            self.lblConnected.SetForegroundColour(wx.Colour(255,0,0))
-	    self.lblConnected.SetLabel('Cannot connect')
+	else:
+	    try:
+	        self.connected = True
+                self.ser = serial.Serial(port = '/dev/tty'+self.combo.GetValue(),
+                                         baudrate = 9600,
+                                         parity = serial.PARITY_NONE,
+                                         stopbits = serial.STOPBITS_ONE,
+                                         bytesize = serial.EIGHTBITS,
+                                         timeout = 1)
+
+                self.lblConnected.SetForegroundColour(wx.Colour(50, 90 , 150))
+                self.lblConnected.SetLabel('Connected to tty' + self.combo.GetValue())
+
+	    except:
+                self.lblConnected.SetForegroundColour(wx.Colour(255,0,0))
+	        self.lblConnected.SetLabel('Cannot connect')
 
     def defineCombo(self):
-        portNames = ['ACM0', 'ACM1', 'USB0']
+        portNames = ['ACM0', 'ACM1', 'USB0', 'TestPort']
         self.combo = wx.ComboBox(self.panel, choices=portNames)
         self.combo.SetSelection(0) # preselect ACM0
         self.combo.Bind(wx.EVT_COMBOBOX, self.onCombo)
@@ -217,7 +227,14 @@ class MyForm(wx.Frame):
 	self.txtCtrl_cl_kp.Disable()
 	self.txtCtrl_cl_ki.Disable()
 	self.txtCtrl_sl_kp.Disable()
+	self.txtCtrl_throttle_zero.Disable()
+	self.txtCtrl_throttle_down.Disable()
+	self.txtCtrl_throttle_up.Disable()
 	self.txtCtrl_throttle_deadband_on.Disable()
+	self.txtCtrl_rope_stuck_on.Disable()
+	self.txtCtrl_iq_alpha.Disable()
+	self.txtCtrl_speed_alpha.Disable()
+	self.txtCtrl_undershoot.Disable()
 
     def onConfig(self, event):
 	if (self.connected == True):
@@ -234,25 +251,45 @@ class MyForm(wx.Frame):
                 serial_cmd(local_cmd, self.ser)
 	        print 'Updated - sl.ki = %f' % newSlKi
 	    self.oldSlKi = newSlKi
+
+	    # ----------------------------------------------------------------------------------------------------
+	    # Dominant throttle
+	    # ----------------------------------------------------------------------------------------------------
+            newDominantThrottle = int(self.txtCtrl_dominant_throttle_on.GetValue())
+	    if (newDominantThrottle == self.oldDominantThrottle):
+		pass
+	    else:
+                time.sleep(1)
+	        # unicode mess ;-)
+	        local_cmd = 'param set dominant_throttle_on ' + self.txtCtrl_dominant_throttle_on.GetValue().encode('ascii', 'ignore')
+                serial_cmd(local_cmd, self.ser)
+	        print 'Updated - dominant_trottle_on = %d' % newDominantThrottle
+	    self.oldDominantThrottle = newDominantThrottle
+
             print 'Config'
 	else:
             self.lblConnected.SetForegroundColour(wx.Colour(255,0,0))
 	    self.lblConnected.SetLabel('You must connect first!')
 
     def onTestRunUp(self, event):
-	if (self.downRunning == True):
-	    print 'Already running down. Need to stop'
+	if (self.testPort == True):
+	    self.upRunning = True
+	    print 'Up'
+
 	else:
-	    try:
-	        serial_cmd('e', self.ser)
-                time.sleep(1)
-	        serial_cmd('brake 0', self.ser)
-                time.sleep(1)
-	        serial_cmd('speed -5', self.ser)
-	        self.upRunning = True
-	    except:
-                self.lblConnected.SetForegroundColour(wx.Colour(255,0,0))
-	        self.lblConnected.SetLabel('You must connect first!')
+	    if (self.downRunning == True):
+	        print 'Already running down. Need to stop'
+	    else:
+	        try:
+	            serial_cmd('e', self.ser)
+                    time.sleep(1)
+	            serial_cmd('brake 0', self.ser)
+                    time.sleep(1)
+	            serial_cmd('speed -5', self.ser)
+	            self.upRunning = True
+	        except:
+                    self.lblConnected.SetForegroundColour(wx.Colour(255,0,0))
+	            self.lblConnected.SetLabel('You must connect first!')
 
     def onTestRunDown(self, event):
 	if (self.upRunning == True):
