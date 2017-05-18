@@ -8,6 +8,7 @@
 
 import wx
 import time
+import serial
 
 BORDER1 = 5
 BORDER2 = 15
