@@ -64,6 +64,8 @@ class MyForm(wx.Frame):
 	self.scSpeed.SetRange(-5, 5)
         self.lblSpinCtrl = wx.StaticText(self.panel, wx.ID_ANY, 'Speed')
 
+        self.lblRunning = wx.StaticText(self.panel, wx.ID_ANY, '------------')
+
 	self.defineCombo()
 
         self.txtSerialPort = wx.StaticText(self.panel, wx.ID_ANY, 'Select serial port')
@@ -195,6 +197,7 @@ class MyForm(wx.Frame):
 	self.staticBoxSizer4.Add(self.spinnerSizer, 0, wx.TOP|wx.BOTTOM|wx.LEFT, 15)
 	self.staticBoxSizer4.Add(self.debuggingSizer, 0, wx.ALL, BORDER1)
 	self.staticBoxSizer4.Add(self.testStopBtn, 0, wx.TOP|wx.BOTTOM, 35)
+	self.staticBoxSizer4.Add(self.lblRunning, 0, wx.TOP|wx.BOTTOM|wx.LEFT, 25)
 
         self.topSizer = wx.BoxSizer(wx.VERTICAL)
         self.topSizer.Add(self.staticBoxSizer1, 1, wx.ALL|wx.EXPAND, BORDER1)
@@ -278,15 +281,17 @@ class MyForm(wx.Frame):
     def onTestRunUp(self, event):
         if (self.downRunning == True):
             print 'Already running down. Need to stop'
+	    self.lblRunning.SetLabel('DOWN is already running. Need to stop!')
         else:
-	    speedValue = self.scSpeed.GetValue()
             try:
+	        speedValue = self.scSpeed.GetValue()
+                self.upRunning = True
+	        self.lblRunning.SetLabel('Up')
                 serial_cmd('e', self.ser)
                 time.sleep(1)
                 serial_cmd('brake 0', self.ser)
                 time.sleep(1)
                 serial_cmd('speed -5', self.ser)
-                self.upRunning = True
             except:
                 self.lblConnected.SetForegroundColour(wx.Colour(255,0,0))
                 self.lblConnected.SetLabel('You must connect first!')
@@ -294,21 +299,23 @@ class MyForm(wx.Frame):
     def onTestRunDown(self, event):
 	if (self.upRunning == True):
 	    print 'Already running Up. Need to stop'
+	    self.lblRunning.SetLabel('UP is already running. Need to stop!')
 	else:
 	    try:
 	        speedValue = self.scSpeed.GetValue()
-		print type(speedValue)
+	        self.downRunning = True
+	        self.lblRunning.SetLabel('Down')
 	        serial_cmd('e', self.ser)
                 time.sleep(1)
 	        serial_cmd('brake 0', self.ser)
                 time.sleep(1)
 	        serial_cmd('speed '+speedValue, self.ser)
-	        self.downRunning = True
 	    except:
                 self.lblConnected.SetForegroundColour(wx.Colour(255,0,0))
 	        self.lblConnected.SetLabel('You must connect first!')
 
     def onTestStop(self, event):
+        print 'Stop'
 	serial_cmd('speed 0', self.ser)
         time.sleep(1)
 	serial_cmd('d', self.ser)
@@ -316,6 +323,7 @@ class MyForm(wx.Frame):
 	serial_cmd('brake 1', self.ser)
 	self.downRunning = False
 	self.upRunning = False
+	self.lblRunning.SetLabel('------------')
 
     def onTestInject(self, event):
 	if (self.toggle == False):
