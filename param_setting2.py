@@ -36,6 +36,7 @@ class MyForm(wx.Frame):
 	self.toggle  = False
 	self.connected = False
 	self.downRunning = False
+	self.upRunning = False
 	self.oldSlKi = 0.25
 
 	self.Centre()
@@ -240,22 +241,31 @@ class MyForm(wx.Frame):
 	if (self.downRunning == True):
 	    print 'Already running down. Need to stop'
 	else:
-            print 'up'
+	    try:
+	        serial_cmd('e', self.ser)
+                time.sleep(1)
+	        serial_cmd('brake 0', self.ser)
+                time.sleep(1)
+	        serial_cmd('speed -5', self.ser)
+	        self.upRunning = True
+	    except:
+                self.lblConnected.SetForegroundColour(wx.Colour(255,0,0))
+	        self.lblConnected.SetLabel('You must connect first!')
 
     def onTestRunDown(self, event):
-        """
-	    Positive value on speed => down
-	"""
-	try:
-	    serial_cmd('e', self.ser)
-            time.sleep(1)
-	    serial_cmd('brake 0', self.ser)
-            time.sleep(1)
-	    serial_cmd('speed 5', self.ser)
-	    self.downRunning = True
-	except:
-            self.lblConnected.SetForegroundColour(wx.Colour(255,0,0))
-	    self.lblConnected.SetLabel('You must connect first!')
+	if (self.upRunning == True):
+	    print 'Already running Up. Need to stop'
+	else:
+	    try:
+	        serial_cmd('e', self.ser)
+                time.sleep(1)
+	        serial_cmd('brake 0', self.ser)
+                time.sleep(1)
+	        serial_cmd('speed 5', self.ser)
+	        self.downRunning = True
+	    except:
+                self.lblConnected.SetForegroundColour(wx.Colour(255,0,0))
+	        self.lblConnected.SetLabel('You must connect first!')
 
     def onTestStop(self, event):
 	serial_cmd('speed 0', self.ser)
@@ -264,6 +274,7 @@ class MyForm(wx.Frame):
         time.sleep(1)
 	serial_cmd('brake 1', self.ser)
 	self.downRunning = False
+	self.upRunning = False
 
     def onTestInject(self, event):
 	if (self.toggle == False):
