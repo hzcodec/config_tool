@@ -39,7 +39,6 @@ class MyForm(wx.Frame):
 	self.connected   = False
 	self.downRunning = False
 	self.upRunning   = False
-	self.testPort    = False
 	self.oldSlKi = 0.25
 	self.oldDominantThrottle = 1
 
@@ -159,7 +158,6 @@ class MyForm(wx.Frame):
         self.staticBoxSizer1.Add(self.combo, 0, wx.BOTTOM|wx.TOP|wx.LEFT, BORDER2)
 	self.staticBoxSizer1.Add(self.connectBtn, 0, wx.BOTTOM|wx.TOP|wx.LEFT, BORDER2)
 	self.staticBoxSizer1.Add(self.lblConnected, 0, wx.BOTTOM|wx.TOP|wx.LEFT, BORDER2)
-	#self.staticBoxSizer1.Add(self.quitBtn, 0, wx.BOTTOM|wx.TOP|wx.LEFT, BORDER2)
 	self.staticBoxSizer1.Add(self.quitBtn, 0, wx.BOTTOM|wx.TOP, BORDER2)
 
 	self.statBoxParams = wx.StaticBox(self.panel, wx.ID_ANY, '  Parameters   ')
@@ -198,28 +196,21 @@ class MyForm(wx.Frame):
         self.panel.SetSizer(self.topSizer)
 
     def onConnect(self, event):
-	if (self.combo.GetValue()):
-	    print 'Test port'
-	    self.testPort = True
+        try:
+            self.connected = True
+            self.ser = serial.Serial(port = '/dev/tty'+self.combo.GetValue(),
+                                     baudrate = 9600,
+                                     parity = serial.PARITY_NONE,
+                                     stopbits = serial.STOPBITS_ONE,
+                                     bytesize = serial.EIGHTBITS,
+                                     timeout = 1)
+
             self.lblConnected.SetForegroundColour(wx.Colour(50, 90 , 150))
-            self.lblConnected.SetLabel('Connected to ' + self.combo.GetValue())
+            self.lblConnected.SetLabel('Connected to tty' + self.combo.GetValue())
 
-	else:
-	    try:
-	        self.connected = True
-                self.ser = serial.Serial(port = '/dev/tty'+self.combo.GetValue(),
-                                         baudrate = 9600,
-                                         parity = serial.PARITY_NONE,
-                                         stopbits = serial.STOPBITS_ONE,
-                                         bytesize = serial.EIGHTBITS,
-                                         timeout = 1)
-
-                self.lblConnected.SetForegroundColour(wx.Colour(50, 90 , 150))
-                self.lblConnected.SetLabel('Connected to tty' + self.combo.GetValue())
-
-	    except:
-                self.lblConnected.SetForegroundColour(wx.Colour(255,0,0))
-	        self.lblConnected.SetLabel('Cannot connect')
+        except:
+            self.lblConnected.SetForegroundColour(wx.Colour(255,0,0))
+            self.lblConnected.SetLabel('Cannot connect')
 
     def defineCombo(self):
         portNames = ['ACM0', 'ACM1', 'USB0', 'TestPort']
@@ -276,24 +267,19 @@ class MyForm(wx.Frame):
 	    self.lblConnected.SetLabel('You must connect first!')
 
     def onTestRunUp(self, event):
-	if (self.testPort == True):
-	    self.upRunning = True
-	    print 'Up'
-
-	else:
-	    if (self.downRunning == True):
-	        print 'Already running down. Need to stop'
-	    else:
-	        try:
-	            serial_cmd('e', self.ser)
-                    time.sleep(1)
-	            serial_cmd('brake 0', self.ser)
-                    time.sleep(1)
-	            serial_cmd('speed -5', self.ser)
-	            self.upRunning = True
-	        except:
-                    self.lblConnected.SetForegroundColour(wx.Colour(255,0,0))
-	            self.lblConnected.SetLabel('You must connect first!')
+        if (self.downRunning == True):
+            print 'Already running down. Need to stop'
+        else:
+            try:
+                serial_cmd('e', self.ser)
+                time.sleep(1)
+                serial_cmd('brake 0', self.ser)
+                time.sleep(1)
+                serial_cmd('speed -5', self.ser)
+                self.upRunning = True
+            except:
+                self.lblConnected.SetForegroundColour(wx.Colour(255,0,0))
+                self.lblConnected.SetLabel('You must connect first!')
 
     def onTestRunDown(self, event):
 	if (self.upRunning == True):
