@@ -12,6 +12,7 @@ import serial
 
 BORDER1 = 5
 BORDER2 = 15
+RED = (255, 0, 0)
 GREEN = (0, 255, 0)
 GREY = (180, 180, 180)
 BLACK = (0, 0, 0)
@@ -39,6 +40,9 @@ class MyForm(wx.Frame):
 	self.Centre()
 	#self.SetPosition((2500, 480))
 
+	bmpUp = wx.Bitmap("up.png", wx.BITMAP_TYPE_ANY)
+	bmpDown = wx.Bitmap("up2.png", wx.BITMAP_TYPE_ANY)
+
         self.connectBtn = wx.Button(self.panel, wx.ID_ANY, 'Connect')
 	self.lblConnected = wx.StaticText(self.panel, label= 'Not connected')
         self.configBtn = wx.Button(self.panel, wx.ID_ANY, 'Configure parameter')
@@ -46,7 +50,8 @@ class MyForm(wx.Frame):
 	self.testInjectBtn.SetBackgroundColour(INJECT_COLOR)
         self.getIqBtn = wx.Button(self.panel, wx.ID_ANY, 'get_iq')
         self.quitBtn = wx.Button(self.panel, wx.ID_ANY, 'Quit')
-        self.testRunBtn = wx.Button(self.panel, wx.ID_ANY, 'Run')
+        self.testRunUpBtn = wx.BitmapButton(self.panel, wx.ID_ANY, bitmap=bmpUp)
+        self.testRunDownBtn = wx.BitmapButton(self.panel, wx.ID_ANY, bitmap=bmpDown)
         self.testStopBtn = wx.Button(self.panel, wx.ID_ANY, 'Stop')
 
 	self.defineCombo()
@@ -135,7 +140,8 @@ class MyForm(wx.Frame):
         self.Bind(wx.EVT_BUTTON, self.onGetIq, self.getIqBtn)
         self.Bind(wx.EVT_BUTTON, self.onQuit, self.quitBtn)
         self.Bind(wx.EVT_BUTTON, self.onConfig, self.configBtn)
-        self.Bind(wx.EVT_BUTTON, self.onTestRun, self.testRunBtn)
+        self.Bind(wx.EVT_BUTTON, self.onTestRunUp, self.testRunUpBtn)
+        self.Bind(wx.EVT_BUTTON, self.onTestRunDown, self.testRunDownBtn)
         self.Bind(wx.EVT_BUTTON, self.onTestStop, self.testStopBtn)
 
 	self.statBoxSerial = wx.StaticBox(self.panel, wx.ID_ANY, '  Serial connection    ', size=(0,20))
@@ -167,7 +173,8 @@ class MyForm(wx.Frame):
 	self.statBoxTestRun.SetBackgroundColour(GREY)
 	self.statBoxTestRun.SetForegroundColour(BLACK)
         self.staticBoxSizer4 = wx.StaticBoxSizer(self.statBoxTestRun, wx.HORIZONTAL)
-	self.staticBoxSizer4.Add(self.testRunBtn, 0, wx.ALL, BORDER1)
+	self.staticBoxSizer4.Add(self.testRunUpBtn, 0, wx.ALL, BORDER1)
+	self.staticBoxSizer4.Add(self.testRunDownBtn, 0, wx.ALL, BORDER1)
 	self.staticBoxSizer4.Add(self.testStopBtn, 0, wx.ALL, BORDER1)
 	self.staticBoxSizer4.Add(self.quitBtn, 0, wx.ALL, BORDER1)
 
@@ -228,12 +235,22 @@ class MyForm(wx.Frame):
             self.lblConnected.SetForegroundColour(wx.Colour(255,0,0))
 	    self.lblConnected.SetLabel('You must connect first!')
 
-    def onTestRun(self, event):
-	serial_cmd('e', self.ser)
-        time.sleep(1)
-	serial_cmd('brake 0', self.ser)
-        time.sleep(1)
-	serial_cmd('speed 5', self.ser)
+    def onTestRunUp(self, event):
+        print 'up'
+
+    def onTestRunDown(self, event):
+        """
+	    Positive value on speed => down
+	"""
+	try:
+	    serial_cmd('e', self.ser)
+            time.sleep(1)
+	    serial_cmd('brake 0', self.ser)
+            time.sleep(1)
+	    serial_cmd('speed 5', self.ser)
+	except:
+            self.lblConnected.SetForegroundColour(wx.Colour(255,0,0))
+	    self.lblConnected.SetLabel('You must connect first!')
 
     def onTestStop(self, event):
 	serial_cmd('speed 0', self.ser)
@@ -246,7 +263,7 @@ class MyForm(wx.Frame):
 	if (self.toggle == False):
 	    try:
                 serial_cmd('param set ti 1', self.ser)
-	        self.testInjectBtn.SetBackgroundColour(GREEN)
+	        self.testInjectBtn.SetBackgroundColour(RED)
 	        self.toggle = True
 	    except:
                 self.lblConnected.SetForegroundColour(wx.Colour(255,0,0))
