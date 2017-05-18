@@ -5,7 +5,8 @@
 # File        : param_setting2.py
 # Reference   : -
 # Description : Application is used to set parameters for ActSafe's Ascender ACX and TCX.
-
+#               Icons:
+#                  http://www.iconarchive.com/show/soft-scraps-icons-by-hopstarter/Button-Play-icon.html
 import wx
 import time
 import serial  
@@ -44,6 +45,7 @@ class MyForm(wx.Frame):
 
 	bmpUp = wx.Bitmap("up.png", wx.BITMAP_TYPE_ANY)
 	bmpDown = wx.Bitmap("up2.png", wx.BITMAP_TYPE_ANY)
+	bmpStop = wx.Bitmap("stop.png", wx.BITMAP_TYPE_ANY)
 
         self.connectBtn = wx.Button(self.panel, wx.ID_ANY, 'Connect')
 	self.lblConnected = wx.StaticText(self.panel, label= 'Not connected')
@@ -54,7 +56,7 @@ class MyForm(wx.Frame):
         self.quitBtn = wx.Button(self.panel, wx.ID_ANY, 'Quit')
         self.testRunUpBtn = wx.BitmapButton(self.panel, wx.ID_ANY, bitmap=bmpUp)
         self.testRunDownBtn = wx.BitmapButton(self.panel, wx.ID_ANY, bitmap=bmpDown)
-        self.testStopBtn = wx.Button(self.panel, wx.ID_ANY, 'Stop')
+        self.testStopBtn = wx.BitmapButton(self.panel, wx.ID_ANY, bitmap=bmpStop)
 
 	self.defineCombo()
 
