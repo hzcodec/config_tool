@@ -32,7 +32,7 @@ def serial_cmd(cmd, serial):
 class MyForm(wx.Frame):
 
     def __init__(self):
-        wx.Frame.__init__(self, None, wx.ID_ANY, title='Parameter Setting', size=(900,630))
+        wx.Frame.__init__(self, None, wx.ID_ANY, title='Parameter Setting', size=(900,685))
         self.panel = wx.Panel(self, wx.ID_ANY, style=wx.BORDER_RAISED)
 
 	self.toggle      = False
@@ -51,7 +51,7 @@ class MyForm(wx.Frame):
 	bmpStop = wx.Bitmap("stop.png", wx.BITMAP_TYPE_ANY)
 
         self.connectBtn = wx.Button(self.panel, wx.ID_ANY, 'Connect')
-	self.lblConnected = wx.StaticText(self.panel, label= 'Not connected')
+	self.lblConnected = wx.StaticText(self.panel, label= 'Not connected                                 ')
         self.configBtn = wx.Button(self.panel, wx.ID_ANY, 'Configure parameter')
         self.testInjectBtn = wx.Button(self.panel, wx.ID_ANY, 'Test Inject')
 	self.testInjectBtn.SetBackgroundColour(INJECT_COLOR)
@@ -159,7 +159,8 @@ class MyForm(wx.Frame):
         self.staticBoxSizer1.Add(self.combo, 0, wx.BOTTOM|wx.TOP|wx.LEFT, BORDER2)
 	self.staticBoxSizer1.Add(self.connectBtn, 0, wx.BOTTOM|wx.TOP|wx.LEFT, BORDER2)
 	self.staticBoxSizer1.Add(self.lblConnected, 0, wx.BOTTOM|wx.TOP|wx.LEFT, BORDER2)
-	self.staticBoxSizer1.Add(self.quitBtn, 0, wx.BOTTOM|wx.TOP|wx.LEFT, BORDER2)
+	#self.staticBoxSizer1.Add(self.quitBtn, 0, wx.BOTTOM|wx.TOP|wx.LEFT, BORDER2)
+	self.staticBoxSizer1.Add(self.quitBtn, 0, wx.BOTTOM|wx.TOP, BORDER2)
 
 	self.statBoxParams = wx.StaticBox(self.panel, wx.ID_ANY, '  Parameters   ')
 	self.statBoxParams.SetBackgroundColour(GREY)
@@ -177,13 +178,16 @@ class MyForm(wx.Frame):
 	self.staticBoxSizer3.Add(self.testInjectBtn, 0, wx.ALL, BORDER1)
 	self.staticBoxSizer3.Add(self.getIqBtn, 0, wx.ALL, BORDER1)
 
+	self.debuggingSizer = wx.BoxSizer(wx.VERTICAL)
+        self.debuggingSizer.Add(self.testRunUpBtn, 0, wx.ALL|wx.EXPAND, BORDER1)
+        self.debuggingSizer.Add(self.testRunDownBtn, 0, wx.ALL|wx.EXPAND, BORDER1)
+
 	self.statBoxTestRun = wx.StaticBox(self.panel, wx.ID_ANY, '  Test Run   ')
 	self.statBoxTestRun.SetBackgroundColour(GREY)
 	self.statBoxTestRun.SetForegroundColour(BLACK)
         self.staticBoxSizer4 = wx.StaticBoxSizer(self.statBoxTestRun, wx.HORIZONTAL)
-	self.staticBoxSizer4.Add(self.testRunUpBtn, 0, wx.ALL, BORDER1)
-	self.staticBoxSizer4.Add(self.testRunDownBtn, 0, wx.ALL, BORDER1)
-	self.staticBoxSizer4.Add(self.testStopBtn, 0, wx.ALL, BORDER1)
+	self.staticBoxSizer4.Add(self.debuggingSizer, 0, wx.ALL, BORDER1)
+	self.staticBoxSizer4.Add(self.testStopBtn, 0, wx.TOP|wx.BOTTOM, 35)
 
         self.topSizer = wx.BoxSizer(wx.VERTICAL)
         self.topSizer.Add(self.staticBoxSizer1, 1, wx.ALL|wx.EXPAND, BORDER1)
