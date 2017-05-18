@@ -60,6 +60,9 @@ class MyForm(wx.Frame):
         self.testRunDownBtn = wx.BitmapButton(self.panel, wx.ID_ANY, bitmap=bmpDown)
         self.testStopBtn = wx.BitmapButton(self.panel, wx.ID_ANY, bitmap=bmpStop)
 
+	self.scSpeed = wx.SpinCtrl(self.panel, value='0')
+	self.scSpeed.SetRange(-5, 5)
+
 	self.defineCombo()
 
         self.txtSerialPort = wx.StaticText(self.panel, wx.ID_ANY, 'Select serial port')
@@ -186,6 +189,7 @@ class MyForm(wx.Frame):
         self.staticBoxSizer4 = wx.StaticBoxSizer(self.statBoxTestRun, wx.HORIZONTAL)
 	self.staticBoxSizer4.Add(self.debuggingSizer, 0, wx.ALL, BORDER1)
 	self.staticBoxSizer4.Add(self.testStopBtn, 0, wx.TOP|wx.BOTTOM, 35)
+	self.staticBoxSizer4.Add(self.scSpeed, 0, wx.TOP|wx.BOTTOM, 35)
 
         self.topSizer = wx.BoxSizer(wx.VERTICAL)
         self.topSizer.Add(self.staticBoxSizer1, 1, wx.ALL|wx.EXPAND, BORDER1)
@@ -270,6 +274,7 @@ class MyForm(wx.Frame):
         if (self.downRunning == True):
             print 'Already running down. Need to stop'
         else:
+	    speedValue = self.scSpeed.GetValue()
             try:
                 serial_cmd('e', self.ser)
                 time.sleep(1)
@@ -286,11 +291,13 @@ class MyForm(wx.Frame):
 	    print 'Already running Up. Need to stop'
 	else:
 	    try:
+	        speedValue = self.scSpeed.GetValue()
+		print type(speedValue)
 	        serial_cmd('e', self.ser)
                 time.sleep(1)
 	        serial_cmd('brake 0', self.ser)
                 time.sleep(1)
-	        serial_cmd('speed 5', self.ser)
+	        serial_cmd('speed '+speedValue, self.ser)
 	        self.downRunning = True
 	    except:
                 self.lblConnected.SetForegroundColour(wx.Colour(255,0,0))
