@@ -32,7 +32,7 @@ def serial_cmd(cmd, serial):
 class MyForm(wx.Frame):
 
     def __init__(self):
-        wx.Frame.__init__(self, None, wx.ID_ANY, title='Parameter Setting', size=(900,685))
+        wx.Frame.__init__(self, None, wx.ID_ANY, title='Parameter Setting', size=(900,760))
         self.panel = wx.Panel(self, wx.ID_ANY, style=wx.BORDER_RAISED)
 
 	self.toggle      = False
@@ -125,25 +125,26 @@ class MyForm(wx.Frame):
 	self.paramSizer2.Add(self.param_throttle_deadband_on, 0, wx.ALL, BORDER1)
 	self.paramSizer2.Add(self.txtCtrl_throttle_deadband_on, 0, wx.ALL, BORDER1)
 
-	self.paramSizer3 = wx.BoxSizer(wx.VERTICAL)
-	self.paramSizer3.Add(self.param_dominant_throttle_on, 0, wx.ALL, BORDER1)
-	self.paramSizer3.Add(self.txtCtrl_dominant_throttle_on, 0, wx.ALL, BORDER1)
+	self.paramSizer3 = wx.BoxSizer(wx.HORIZONTAL)
 	self.paramSizer3.Add(self.param_rope_stuck_on, 0, wx.ALL, BORDER1)
 	self.paramSizer3.Add(self.txtCtrl_rope_stuck_on, 0, wx.ALL, BORDER1)
 	self.paramSizer3.Add(self.param_iq_alpha, 0, wx.ALL, BORDER1)
 	self.paramSizer3.Add(self.txtCtrl_iq_alpha, 0, wx.ALL, BORDER1)
 	self.paramSizer3.Add(self.param_speed_alpha, 0, wx.ALL, BORDER1)
 	self.paramSizer3.Add(self.txtCtrl_speed_alpha, 0, wx.ALL, BORDER1)
+	self.paramSizer3.Add(self.param_undershoot, 0, wx.ALL, BORDER1)
+	self.paramSizer3.Add(self.txtCtrl_undershoot, 0, wx.ALL, BORDER1)
 
 	self.paramSizer4 = wx.BoxSizer(wx.VERTICAL)
-	self.paramSizer4.Add(self.param_undershoot, 0, wx.ALL, BORDER1)
-	self.paramSizer4.Add(self.txtCtrl_undershoot, 0, wx.ALL, BORDER1)
 	self.paramSizer4.Add(self.param_par2, 0, wx.ALL, BORDER1)
 	self.paramSizer4.Add(self.txtCtrl_par2, 0, wx.ALL, BORDER1)
 	self.paramSizer4.Add(self.param_par3, 0, wx.ALL, BORDER1)
 	self.paramSizer4.Add(self.txtCtrl_par3, 0, wx.ALL, BORDER1)
 	self.paramSizer4.Add(self.param_par4, 0, wx.ALL, BORDER1)
 	self.paramSizer4.Add(self.txtCtrl_par4, 0, wx.ALL, BORDER1)
+	self.paramSizer4.Add(self.param_dominant_throttle_on, 0, wx.ALL, BORDER1)
+	self.paramSizer4.Add(self.txtCtrl_dominant_throttle_on, 0, wx.ALL, BORDER1)
+
 
         self.Bind(wx.EVT_BUTTON, self.onConnect, self.connectBtn)
         self.Bind(wx.EVT_BUTTON, self.onTestInject, self.testInjectBtn)
@@ -170,13 +171,13 @@ class MyForm(wx.Frame):
         self.staticBoxSizer2 = wx.StaticBoxSizer(self.statBoxParams, wx.HORIZONTAL)
 	self.staticBoxSizer2.Add(self.paramSizer1, 0, wx.ALL, BORDER1)
 	self.staticBoxSizer2.Add(self.paramSizer2, 0, wx.ALL, BORDER1)
-	self.staticBoxSizer2.Add(self.paramSizer3, 0, wx.ALL, BORDER1)
 	self.staticBoxSizer2.Add(self.paramSizer4, 0, wx.ALL, BORDER1)
 
-	self.statBoxMisc = wx.StaticBox(self.panel, wx.ID_ANY, '  Debugging   ')
+	self.statBoxMisc = wx.StaticBox(self.panel, wx.ID_ANY, '  Test Enhanced Measuring   ')
 	self.statBoxMisc.SetBackgroundColour(GREY)
 	self.statBoxMisc.SetForegroundColour(BLACK)
-        self.staticBoxSizer3 = wx.StaticBoxSizer(self.statBoxMisc, wx.HORIZONTAL)
+        self.staticBoxSizer3 = wx.StaticBoxSizer(self.statBoxMisc, wx.VERTICAL)
+	self.staticBoxSizer3.Add(self.paramSizer3, 0, wx.ALL, BORDER1)
 	self.staticBoxSizer3.Add(self.testInjectBtn, 0, wx.ALL, BORDER1)
 	self.staticBoxSizer3.Add(self.getIqBtn, 0, wx.ALL, BORDER1)
 
