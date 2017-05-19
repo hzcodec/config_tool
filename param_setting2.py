@@ -14,6 +14,7 @@ import serial
 
 BORDER1 = 5
 BORDER2 = 15
+BORDER3 = 10
 RED = (255, 0, 0)
 GREEN = (0, 255, 0)
 GREY = (180, 180, 180)
@@ -178,8 +179,8 @@ class MyForm(wx.Frame):
 	self.statBoxMisc.SetForegroundColour(BLACK)
         self.staticBoxSizer3 = wx.StaticBoxSizer(self.statBoxMisc, wx.VERTICAL)
 	self.staticBoxSizer3.Add(self.paramSizer3, 0, wx.ALL, BORDER1)
-	self.staticBoxSizer3.Add(self.testInjectBtn, 0, wx.ALL, BORDER1)
-	self.staticBoxSizer3.Add(self.getIqBtn, 0, wx.ALL, BORDER1)
+	self.staticBoxSizer3.Add(self.testInjectBtn, 0, wx.LEFT|wx.BOTTOM, BORDER3)
+	self.staticBoxSizer3.Add(self.getIqBtn, 0, wx.LEFT|wx.BOTTOM, BORDER3)
 
 	self.debuggingSizer = wx.BoxSizer(wx.VERTICAL)
         self.debuggingSizer.Add(self.testRunUpBtn, 0, wx.ALL|wx.EXPAND, BORDER1)
