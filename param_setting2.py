@@ -281,9 +281,9 @@ class MyForm(wx.Frame):
 	    self.lblConnected.SetLabel('You must connect first!')
 
     def onTestRunUp(self, event):
-        self.testRunDownBtn.Enable(False)
 
-        try:
+        if (self.connected == True):
+            self.testRunDownBtn.Enable(False)
             speedValue = self.scSpeed.GetValue()
 
 	    if (self.runningUp == False):
@@ -295,14 +295,14 @@ class MyForm(wx.Frame):
             time.sleep(1)
             serial_cmd('speed -' + str(speedValue), self.ser)
 
-        except:
+        else:
             self.lblConnected.SetForegroundColour(wx.Colour(255,0,0))
-            self.lblConnected.SetLabel('You must connect first!')
+            self.lblConnected.SetLabel('UP not possible, you must connect first!')
 
     def onTestRunDown(self, event):
-        self.testRunUpBtn.Enable(False)
 
-        try:
+        if (self.connected == True):
+            self.testRunUpBtn.Enable(False)
             speedValue = self.scSpeed.GetValue()
 
 	    if (self.runningDown == False):
@@ -313,9 +313,10 @@ class MyForm(wx.Frame):
 
             time.sleep(1)
             serial_cmd('speed '+ str(speedValue), self.ser)
-        except:
+
+        else:
             self.lblConnected.SetForegroundColour(wx.Colour(255,0,0))
-            self.lblConnected.SetLabel('You must connect first!')
+            self.lblConnected.SetLabel('DOWN not possible, you must connect first!')
 
     def onTestStop(self, event):
         print 'Stop'
