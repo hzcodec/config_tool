@@ -39,9 +39,11 @@ class MyForm(wx.Frame):
 	self.connected   = False
 	self.oldSlKi = 0.25
 	self.oldDominantThrottle = 1
+	self.runningUp = False
+	self.runningDown = False
 
-	self.Centre()
-	#self.SetPosition((2500, 480))
+	#self.Centre()
+	self.SetPosition((2500, 480))
 
 	bmpUp = wx.Bitmap("up.png", wx.BITMAP_TYPE_ANY)
 	bmpDown = wx.Bitmap("up2.png", wx.BITMAP_TYPE_ANY)
@@ -59,7 +61,7 @@ class MyForm(wx.Frame):
         self.testStopBtn = wx.BitmapButton(self.panel, wx.ID_ANY, bitmap=bmpStop)
 
 	self.scSpeed = wx.SpinCtrl(self.panel, value='0')
-	self.scSpeed.SetRange(0, 15)
+	self.scSpeed.SetRange(0, 25)
         self.lblSpinCtrl = wx.StaticText(self.panel, wx.ID_ANY, 'Speed')
 
 	self.defineCombo()
@@ -278,11 +280,16 @@ class MyForm(wx.Frame):
 
         try:
             speedValue = self.scSpeed.GetValue()
-            serial_cmd('e', self.ser)
-            time.sleep(1)
-            serial_cmd('brake 0', self.ser)
+
+	    if (self.runningUp == False):
+                serial_cmd('e', self.ser)
+                time.sleep(1)
+                serial_cmd('brake 0', self.ser)
+		self.runningUp = True
+
             time.sleep(1)
             serial_cmd('speed -' + str(speedValue), self.ser)
+
         except:
             self.lblConnected.SetForegroundColour(wx.Colour(255,0,0))
             self.lblConnected.SetLabel('You must connect first!')
@@ -292,9 +299,13 @@ class MyForm(wx.Frame):
 
         try:
             speedValue = self.scSpeed.GetValue()
-            serial_cmd('e', self.ser)
-            time.sleep(1)
-            serial_cmd('brake 0', self.ser)
+
+	    if (self.runningDown == False):
+                serial_cmd('e', self.ser)
+                time.sleep(1)
+                serial_cmd('brake 0', self.ser)
+		self.runningDown = True
+
             time.sleep(1)
             serial_cmd('speed '+ str(speedValue), self.ser)
         except:
@@ -310,6 +321,8 @@ class MyForm(wx.Frame):
 	serial_cmd('brake 1', self.ser)
 	self.testRunUpBtn.Enable(True)
 	self.testRunDownBtn.Enable(True)
+	self.runningUp = False
+        self.runningDown = False
 
     def onTestInject(self, event):
 	if (self.toggle == False):
