@@ -59,7 +59,7 @@ class MyForm(wx.Frame):
         self.testStopBtn = wx.BitmapButton(self.panel, wx.ID_ANY, bitmap=bmpStop)
 
 	self.scSpeed = wx.SpinCtrl(self.panel, value='0')
-	self.scSpeed.SetRange(-5, 5)
+	self.scSpeed.SetRange(0, 15)
         self.lblSpinCtrl = wx.StaticText(self.panel, wx.ID_ANY, 'Speed')
 
 	self.defineCombo()
@@ -282,7 +282,7 @@ class MyForm(wx.Frame):
             time.sleep(1)
             serial_cmd('brake 0', self.ser)
             time.sleep(1)
-            serial_cmd('speed -5', self.ser)
+            serial_cmd('speed -' + str(speedValue), self.ser)
         except:
             self.lblConnected.SetForegroundColour(wx.Colour(255,0,0))
             self.lblConnected.SetLabel('You must connect first!')
@@ -296,7 +296,7 @@ class MyForm(wx.Frame):
             time.sleep(1)
             serial_cmd('brake 0', self.ser)
             time.sleep(1)
-            serial_cmd('speed 5', self.ser)
+            serial_cmd('speed '+ str(speedValue), self.ser)
         except:
             self.lblConnected.SetForegroundColour(wx.Colour(255,0,0))
             self.lblConnected.SetLabel('You must connect first!')
