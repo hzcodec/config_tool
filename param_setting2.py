@@ -8,6 +8,9 @@
 #               Icons:
 #                  http://www.iconarchive.com/show/soft-scraps-icons-by-hopstarter/Button-Play-icon.html
 #                  http://www.iconarchive.com/show/colorful-long-shadow-icons-by-graphicloads/Button-eject-icon.html
+#
+#               Add:
+#                     Dialog when exit. Check that motor not is running.
 import wx
 import time
 import serial  
@@ -164,7 +167,7 @@ class MyForm(wx.Frame):
         self.staticBoxSizer1.Add(self.combo, 0, wx.BOTTOM|wx.TOP|wx.LEFT, BORDER2)
 	self.staticBoxSizer1.Add(self.connectBtn, 0, wx.BOTTOM|wx.TOP|wx.LEFT, BORDER2)
 	self.staticBoxSizer1.Add(self.lblConnected, 0, wx.BOTTOM|wx.TOP|wx.LEFT, BORDER2)
-	self.staticBoxSizer1.Add(self.quitBtn, 0, wx.BOTTOM|wx.TOP, BORDER2)
+	self.staticBoxSizer1.Add(self.quitBtn, 0, wx.LEFT, 190)
 
 	self.statBoxParams = wx.StaticBox(self.panel, wx.ID_ANY, '  Parameters   ')
 	self.statBoxParams.SetBackgroundColour(GREY)
@@ -237,10 +240,6 @@ class MyForm(wx.Frame):
 	self.txtCtrl_throttle_down.Disable()
 	self.txtCtrl_throttle_up.Disable()
 	self.txtCtrl_throttle_deadband_on.Disable()
-	self.txtCtrl_rope_stuck_on.Disable()
-	self.txtCtrl_iq_alpha.Disable()
-	self.txtCtrl_speed_alpha.Disable()
-	self.txtCtrl_undershoot.Disable()
 
     def onConfig(self, event):
 	if (self.connected == True):
