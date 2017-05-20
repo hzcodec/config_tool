@@ -147,7 +147,7 @@ class MyForm(wx.Frame):
     def define_buttons(self):
         self.btnConnected = wx.Button(self.panel, wx.ID_ANY, 'Connect')
 	self.lblConnected = wx.StaticText(self.panel, label= 'Not connected                                 ')
-        self.btnConfig = wx.Button(self.panel, wx.ID_ANY, 'Configure parameter')
+        self.btnConfig = wx.Button(self.panel, wx.ID_ANY, 'Configure     ')
         self.btnTestInject = wx.Button(self.panel, wx.ID_ANY, 'Test Inject')
 	self.btnTestInject.SetBackgroundColour(BROWN)
         self.btnGetIq = wx.Button(self.panel, wx.ID_ANY, 'get_iq')
@@ -155,7 +155,7 @@ class MyForm(wx.Frame):
         self.btnTestRunUp = wx.BitmapButton(self.panel, wx.ID_ANY, bitmap=self.bmpUp)
         self.btnTestRunDown = wx.BitmapButton(self.panel, wx.ID_ANY, bitmap=self.bmpDown)
         self.btnTestStop = wx.BitmapButton(self.panel, wx.ID_ANY, bitmap=self.bmpStop)
-        self.btnConfig2 = wx.Button(self.panel, wx.ID_ANY, 'Configure parameter')
+        self.btnConfig2 = wx.Button(self.panel, wx.ID_ANY, 'Configure     ')
 
     def define_spin_control(self):
 	self.scSpeed = wx.SpinCtrl(self.panel, value='0')
