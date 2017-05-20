@@ -58,7 +58,8 @@ class MyForm(wx.Frame):
 	self.oldDominantThrottle = 1
 	self.oldIqAlpha = 0.005
 	self.oldSpeedAlpha = 0.05
-	self.undershoot = -1.0
+	self.oldUndershoot = -1.0
+	self.oldRopeStuckOn = 1
 
 	self.Centre()
 	#self.SetPosition((2500, 480))
@@ -312,7 +313,7 @@ class MyForm(wx.Frame):
 	    # ----------------------------------------------------------------------------------------------------
 	    # iq alpha
 	    # ----------------------------------------------------------------------------------------------------
-            newIqAlpha = int(self.txtCtrl_iq_alpha.GetValue())
+            newIqAlpha = float(self.txtCtrl_iq_alpha.GetValue())
 	    if (newIqAlpha == self.oldIqAlpha):
 		pass
 	    else:
@@ -320,13 +321,13 @@ class MyForm(wx.Frame):
 	        # unicode mess ;-)
 	        local_cmd = 'param set iq_alpha ' + self.txtCtrl_iq_alpha.GetValue().encode('ascii', 'ignore')
                 serial_cmd(local_cmd, self.ser)
-	        print 'Updated - iq_alpha = %d' % newIqAlpha
+	        print 'Updated - iq_alpha = %f' % newIqAlpha
 	    self.oldIqAlpha = newIqAlpha
 
 	    # ----------------------------------------------------------------------------------------------------
 	    # speed alpha
 	    # ----------------------------------------------------------------------------------------------------
-            newSpeedAlpha = int(self.txtCtrl_speed_alpha.GetValue())
+            newSpeedAlpha = float(self.txtCtrl_speed_alpha.GetValue())
 	    if (newSpeedAlpha == self.oldSpeedAlpha):
 		pass
 	    else:
@@ -334,13 +335,13 @@ class MyForm(wx.Frame):
 	        # unicode mess ;-)
 	        local_cmd = 'param set speed_alpha ' + self.txtCtrl_speed_alpha.GetValue().encode('ascii', 'ignore')
                 serial_cmd(local_cmd, self.ser)
-	        print 'Updated - speed_alpha = %d' % newSpeedAlpha
+	        print 'Updated - speed_alpha = %f' % newSpeedAlpha
 	    self.oldSpeedAlpha = newSpeedAlpha
 
 	    # ----------------------------------------------------------------------------------------------------
 	    # undershoot
 	    # ----------------------------------------------------------------------------------------------------
-            newUndershoot = int(self.txtCtrl_undershoot.GetValue())
+            newUndershoot = float(self.txtCtrl_undershoot.GetValue())
 	    if (newUndershoot == self.oldUndershoot):
 		pass
 	    else:
@@ -348,8 +349,22 @@ class MyForm(wx.Frame):
 	        # unicode mess ;-)
 	        local_cmd = 'param set undershoot ' + self.txtCtrl_undershoot.GetValue().encode('ascii', 'ignore')
                 serial_cmd(local_cmd, self.ser)
-	        print 'Updated - undershoot = %d' % newUndershoot
+	        print 'Updated - undershoot = %f' % newUndershoot
 	    self.oldUndershoot = newUndershoot
+
+	    # ----------------------------------------------------------------------------------------------------
+	    # rope_stuck_no
+	    # ----------------------------------------------------------------------------------------------------
+            newRopeStuckOn = int(self.txtCtrl_rope_stuck_on.GetValue())
+	    if (newRopeStuckOn == self.oldRopeStuckOn):
+		pass
+	    else:
+                time.sleep(1)
+	        # unicode mess ;-)
+	        local_cmd = 'param set rope_stuck_on ' + self.txtCtrl_rope_stuck_on.GetValue().encode('ascii', 'ignore')
+                serial_cmd(local_cmd, self.ser)
+	        print 'Updated - rope_stuck_on = %d' % newRopeStuckOn
+	    self.oldRopeStuckOn = newRopeStuckOn
 
             print 'Config'
 	else:
