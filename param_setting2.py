@@ -66,10 +66,10 @@ class MyForm(wx.Frame):
 	self.define_textctrl_parameters()
 	self.disable_txt_controls()
 
-        self.create_sizer1()
-        self.create_sizer2()
+        self.create_sizer1()  # param sizer 1st column
+        self.create_sizer2()  # param sizer 2nd column
         self.create_sizer3()  # sizer for Test Enhanced Measuring
-        self.create_sizer4()
+        self.create_sizer4()  # param sizer 3rd column
 
         self.bind_buttons()
 
@@ -84,8 +84,6 @@ class MyForm(wx.Frame):
 	self.leftSizer.Add(self.btnConnected, 0, wx.LEFT, STATBOXSERIAL_BORDER)
 	self.leftSizer.Add(self.lblConnected, 0, wx.LEFT, STATBOXSERIAL_BORDER)
 	self.rightSizer.Add(self.btnQuit, 0, wx.LEFT, 210)
-        #self.staticBoxSizer1.Add(self.leftSizer, 1, wx.BOTTOM|wx.TOP|wx.LEFT, STATBOXSERIAL_BORDER)
-        #self.staticBoxSizer1.Add(self.rightSizer, 1, wx.BOTTOM|wx.TOP|wx.LEFT, STATBOXSERIAL_BORDER)
         self.staticBoxSizer1.Add(self.leftSizer, 0, wx.ALL, STATBOXSERIAL_BORDER)
         self.staticBoxSizer1.Add(self.rightSizer, 0, wx.ALL, STATBOXSERIAL_BORDER)
 
