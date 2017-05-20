@@ -54,6 +54,7 @@ class MyForm(wx.Frame):
 	self.oldSlKi = 0.25
 	self.oldDominantThrottle = 1
 	self.oldIqAlpha = 0.005
+	self.oldSpeedAlpha = 0.05
 
 	self.Centre()
 	#self.SetPosition((2500, 480))
@@ -327,6 +328,20 @@ class MyForm(wx.Frame):
                 serial_cmd(local_cmd, self.ser)
 	        print 'Updated - iq_alpha = %d' % newIqAlpha
 	    self.oldIqAlpha = newIqAlpha
+
+	    # ----------------------------------------------------------------------------------------------------
+	    # speed alpha
+	    # ----------------------------------------------------------------------------------------------------
+            newSpeedAlpha = int(self.txtCtrl_speed_alpha.GetValue())
+	    if (newSpeedAlpha == self.oldSpeedAlpha):
+		pass
+	    else:
+                time.sleep(1)
+	        # unicode mess ;-)
+	        local_cmd = 'param set speed_alpha ' + self.txtCtrl_speed_alpha.GetValue().encode('ascii', 'ignore')
+                serial_cmd(local_cmd, self.ser)
+	        print 'Updated - speed_alpha = %d' % newSpeedAlpha
+	    self.oldSpeedAlpha = newSpeedAlpha
 
             print 'Config'
 	else:
