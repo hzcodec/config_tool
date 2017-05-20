@@ -125,7 +125,7 @@ class MyForm(wx.Frame):
 	self.staticBoxSizer4.Add(self.btnTestStop, 0, wx.TOP|wx.BOTTOM, 35)
 
         self.topSizer = wx.BoxSizer(wx.VERTICAL)
-        self.topSizer.Add(self.staticBoxSizer1, 1, wx.ALL|wx.EXPAND, BORDER1)
+        self.topSizer.Add(self.staticBoxSizer1, 0, wx.ALL|wx.EXPAND, BORDER1)
         self.topSizer.Add(self.staticBoxSizer2, 1, wx.ALL|wx.EXPAND, BORDER1)
         self.topSizer.Add(self.staticBoxSizer3, 1, wx.ALL|wx.EXPAND, BORDER1)
         self.topSizer.Add(self.staticBoxSizer4, 1, wx.ALL|wx.EXPAND, BORDER1)
