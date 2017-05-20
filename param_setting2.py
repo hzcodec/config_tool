@@ -51,16 +51,16 @@ class MyForm(wx.Frame):
 
 	self.load_bitmaps()
 
-        self.connectBtn = wx.Button(self.panel, wx.ID_ANY, 'Connect')
+        self.btnConnected = wx.Button(self.panel, wx.ID_ANY, 'Connect')
 	self.lblConnected = wx.StaticText(self.panel, label= 'Not connected                                 ')
-        self.configBtn = wx.Button(self.panel, wx.ID_ANY, 'Configure parameter')
-        self.testInjectBtn = wx.Button(self.panel, wx.ID_ANY, 'Test Inject')
-	self.testInjectBtn.SetBackgroundColour(INJECT_COLOR)
-        self.getIqBtn = wx.Button(self.panel, wx.ID_ANY, 'get_iq')
-        self.quitBtn = wx.Button(self.panel, wx.ID_ANY, 'Quit')
-        self.testRunUpBtn = wx.BitmapButton(self.panel, wx.ID_ANY, bitmap=self.bmpUp)
-        self.testRunDownBtn = wx.BitmapButton(self.panel, wx.ID_ANY, bitmap=self.bmpDown)
-        self.testStopBtn = wx.BitmapButton(self.panel, wx.ID_ANY, bitmap=self.bmpStop)
+        self.btnConfig = wx.Button(self.panel, wx.ID_ANY, 'Configure parameter')
+        self.btnTestinject = wx.Button(self.panel, wx.ID_ANY, 'Test Inject')
+	self.btnTestinject.SetBackgroundColour(INJECT_COLOR)
+        self.btnGetIq = wx.Button(self.panel, wx.ID_ANY, 'get_iq')
+        self.btnQuit = wx.Button(self.panel, wx.ID_ANY, 'Quit')
+        self.btnTestRunUp = wx.BitmapButton(self.panel, wx.ID_ANY, bitmap=self.bmpUp)
+        self.btnTestRunDown = wx.BitmapButton(self.panel, wx.ID_ANY, bitmap=self.bmpDown)
+        self.btnTestStop = wx.BitmapButton(self.panel, wx.ID_ANY, bitmap=self.bmpStop)
 
 	self.scSpeed = wx.SpinCtrl(self.panel, value='0')
 	self.scSpeed.SetRange(0, 25)
@@ -115,7 +115,7 @@ class MyForm(wx.Frame):
 	self.paramSizer1.Add(self.txtCtrl_sl_kp, 0, wx.ALL, BORDER1)
 	self.paramSizer1.Add(self.param_sl_ki, 0, wx.ALL, BORDER1)
 	self.paramSizer1.Add(self.txtCtrl_sl_ki, 0, wx.ALL, BORDER1)
-	self.paramSizer1.Add(self.configBtn, 0, wx.TOP|wx.BOTTOM, BORDER2)
+	self.paramSizer1.Add(self.btnConfig, 0, wx.TOP|wx.BOTTOM, BORDER2)
 
 	self.paramSizer2 = wx.BoxSizer(wx.VERTICAL)
 	self.paramSizer2.Add(self.param_throttle_zero, 0, wx.ALL, BORDER1)
@@ -148,14 +148,14 @@ class MyForm(wx.Frame):
 	self.paramSizer4.Add(self.txtCtrl_dominant_throttle_on, 0, wx.ALL, BORDER1)
 
 
-        self.Bind(wx.EVT_BUTTON, self.onConnect, self.connectBtn)
-        self.Bind(wx.EVT_BUTTON, self.onTestInject, self.testInjectBtn)
-        self.Bind(wx.EVT_BUTTON, self.onGetIq, self.getIqBtn)
-        self.Bind(wx.EVT_BUTTON, self.onQuit, self.quitBtn)
-        self.Bind(wx.EVT_BUTTON, self.onConfig, self.configBtn)
-        self.Bind(wx.EVT_BUTTON, self.onTestRunUp, self.testRunUpBtn)
-        self.Bind(wx.EVT_BUTTON, self.onTestRunDown, self.testRunDownBtn)
-        self.Bind(wx.EVT_BUTTON, self.onTestStop, self.testStopBtn)
+        self.Bind(wx.EVT_BUTTON, self.onConnect, self.btnConnected)
+        self.Bind(wx.EVT_BUTTON, self.onTestInject, self.btnTestinject)
+        self.Bind(wx.EVT_BUTTON, self.onGetIq, self.btnGetIq)
+        self.Bind(wx.EVT_BUTTON, self.onQuit, self.btnQuit)
+        self.Bind(wx.EVT_BUTTON, self.onConfig, self.btnConfig)
+        self.Bind(wx.EVT_BUTTON, self.onTestRunUp, self.btnTestRunUp)
+        self.Bind(wx.EVT_BUTTON, self.onTestRunDown, self.btnTestRunDown)
+        self.Bind(wx.EVT_BUTTON, self.onTestStop, self.btnTestStop)
 
 	self.statBoxSerial = wx.StaticBox(self.panel, wx.ID_ANY, '  Serial connection    ', size=(0,20))
 	self.statBoxSerial.SetBackgroundColour(GREY)
@@ -165,9 +165,9 @@ class MyForm(wx.Frame):
 	self.rightSizer = wx.BoxSizer(wx.HORIZONTAL)
 	self.leftSizer.Add(self.txtSerialPort, 0, wx.LEFT, BORDER3)
 	self.leftSizer.Add(self.combo, 0, wx.LEFT, BORDER3)
-	self.leftSizer.Add(self.connectBtn, 0, wx.LEFT, BORDER3)
+	self.leftSizer.Add(self.btnConnected, 0, wx.LEFT, BORDER3)
 	self.leftSizer.Add(self.lblConnected, 0, wx.LEFT, BORDER3)
-	self.rightSizer.Add(self.quitBtn, 0, wx.LEFT, 210)
+	self.rightSizer.Add(self.btnQuit, 0, wx.LEFT, 210)
         self.staticBoxSizer1.Add(self.leftSizer, 1, wx.BOTTOM|wx.TOP|wx.LEFT, BORDER3)
         self.staticBoxSizer1.Add(self.rightSizer, 1, wx.BOTTOM|wx.TOP|wx.LEFT, BORDER3)
 
@@ -184,12 +184,12 @@ class MyForm(wx.Frame):
 	self.statBoxMisc.SetForegroundColour(BLACK)
         self.staticBoxSizer3 = wx.StaticBoxSizer(self.statBoxMisc, wx.VERTICAL)
 	self.staticBoxSizer3.Add(self.paramSizer3, 0, wx.ALL, BORDER1)
-	self.staticBoxSizer3.Add(self.testInjectBtn, 0, wx.LEFT|wx.BOTTOM, BORDER3)
-	self.staticBoxSizer3.Add(self.getIqBtn, 0, wx.LEFT|wx.BOTTOM, BORDER3)
+	self.staticBoxSizer3.Add(self.btnTestinject, 0, wx.LEFT|wx.BOTTOM, BORDER3)
+	self.staticBoxSizer3.Add(self.btnGetIq, 0, wx.LEFT|wx.BOTTOM, BORDER3)
 
 	self.debuggingSizer = wx.BoxSizer(wx.VERTICAL)
-        self.debuggingSizer.Add(self.testRunUpBtn, 0, wx.ALL|wx.EXPAND, BORDER1)
-        self.debuggingSizer.Add(self.testRunDownBtn, 0, wx.ALL|wx.EXPAND, BORDER1)
+        self.debuggingSizer.Add(self.btnTestRunUp, 0, wx.ALL|wx.EXPAND, BORDER1)
+        self.debuggingSizer.Add(self.btnTestRunDown, 0, wx.ALL|wx.EXPAND, BORDER1)
 
         self.spinnerSizer = wx.BoxSizer(wx.VERTICAL)
 	self.spinnerSizer.Add(self.lblSpinCtrl, 0, wx.TOP, 5)
@@ -201,7 +201,7 @@ class MyForm(wx.Frame):
         self.staticBoxSizer4 = wx.StaticBoxSizer(self.statBoxTestRun, wx.HORIZONTAL)
 	self.staticBoxSizer4.Add(self.spinnerSizer, 0, wx.TOP|wx.BOTTOM|wx.LEFT, 15)
 	self.staticBoxSizer4.Add(self.debuggingSizer, 0, wx.ALL, BORDER1)
-	self.staticBoxSizer4.Add(self.testStopBtn, 0, wx.TOP|wx.BOTTOM, 35)
+	self.staticBoxSizer4.Add(self.btnTestStop, 0, wx.TOP|wx.BOTTOM, 35)
 
         self.topSizer = wx.BoxSizer(wx.VERTICAL)
         self.topSizer.Add(self.staticBoxSizer1, 1, wx.ALL|wx.EXPAND, BORDER1)
@@ -286,7 +286,7 @@ class MyForm(wx.Frame):
     def onTestRunUp(self, event):
 
         if (self.connected == True):
-            self.testRunDownBtn.Enable(False)
+            self.btnTestRunDown.Enable(False)
             speedValue = self.scSpeed.GetValue()
 
 	    if (self.runningUp == False):
@@ -305,7 +305,7 @@ class MyForm(wx.Frame):
     def onTestRunDown(self, event):
 
         if (self.connected == True):
-            self.testRunUpBtn.Enable(False)
+            self.btnTestRunUp.Enable(False)
             speedValue = self.scSpeed.GetValue()
 
 	    if (self.runningDown == False):
@@ -328,8 +328,8 @@ class MyForm(wx.Frame):
 	serial_cmd('d', self.ser)
         time.sleep(1)
 	serial_cmd('brake 1', self.ser)
-	self.testRunUpBtn.Enable(True)
-	self.testRunDownBtn.Enable(True)
+	self.btnTestRunUp.Enable(True)
+	self.btnTestRunDown.Enable(True)
 	self.runningUp = False
         self.runningDown = False
 
@@ -337,7 +337,7 @@ class MyForm(wx.Frame):
 	if (self.toggle == False):
 	    try:
                 serial_cmd('param set ti 1', self.ser)
-	        self.testInjectBtn.SetBackgroundColour(RED)
+	        self.btnTestinject.SetBackgroundColour(RED)
 	        self.toggle = True
 	    except:
                 self.lblConnected.SetForegroundColour(wx.Colour(255,0,0))
@@ -346,7 +346,7 @@ class MyForm(wx.Frame):
 	else:
 	    try:
                 serial_cmd('param set ti 0', self.ser)
-	        self.testInjectBtn.SetBackgroundColour(INJECT_COLOR)
+	        self.btnTestinject.SetBackgroundColour(INJECT_COLOR)
 	        self.toggle = False
 	    except:
                 self.lblConnected.SetForegroundColour(wx.Colour(255,0,0))
