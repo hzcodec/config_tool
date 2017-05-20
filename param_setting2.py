@@ -173,7 +173,7 @@ class MyForm(wx.Frame):
         self.param_iq_alpha = wx.StaticText(self.panel, wx.ID_ANY, 'iq_alpha')
         self.param_speed_alpha = wx.StaticText(self.panel, wx.ID_ANY, 'speed_alpha')
         self.param_undershoot = wx.StaticText(self.panel, wx.ID_ANY, 'undershoot')
-        self.param_par2 = wx.StaticText(self.panel, wx.ID_ANY, 'par2')
+        #self.param_par2 = wx.StaticText(self.panel, wx.ID_ANY, 'par2')
         self.param_par3 = wx.StaticText(self.panel, wx.ID_ANY, 'par3')
         self.param_par4 = wx.StaticText(self.panel, wx.ID_ANY, 'par4')
 
@@ -185,13 +185,13 @@ class MyForm(wx.Frame):
         self.txtCtrl_throttle_zero = wx.TextCtrl(self.panel, wx.ID_ANY,'25')
         self.txtCtrl_throttle_down = wx.TextCtrl(self.panel, wx.ID_ANY,'0.5')
         self.txtCtrl_throttle_up = wx.TextCtrl(self.panel, wx.ID_ANY,'4')
-        self.txtCtrl_throttle_deadband_on = wx.TextCtrl(self.panel, wx.ID_ANY,'0.25')
+        self.txtCtrl_throttle_deadband_on = wx.TextCtrl(self.panel, wx.ID_ANY,'0.95')
         self.txtCtrl_dominant_throttle_on = wx.TextCtrl(self.panel, wx.ID_ANY,'1')
         self.txtCtrl_rope_stuck_on = wx.TextCtrl(self.panel, wx.ID_ANY,'1')
         self.txtCtrl_iq_alpha = wx.TextCtrl(self.panel, wx.ID_ANY,'0.005')
         self.txtCtrl_speed_alpha = wx.TextCtrl(self.panel, wx.ID_ANY,'0.05')
         self.txtCtrl_undershoot = wx.TextCtrl(self.panel, wx.ID_ANY,'-1.0')
-        self.txtCtrl_par2 = wx.TextCtrl(self.panel, wx.ID_ANY,'0.6')
+        #self.txtCtrl_par2 = wx.TextCtrl(self.panel, wx.ID_ANY,'0.6')
         self.txtCtrl_par3 = wx.TextCtrl(self.panel, wx.ID_ANY,'0.05')
         self.txtCtrl_par4 = wx.TextCtrl(self.panel, wx.ID_ANY,'0.3')
 
@@ -215,8 +215,8 @@ class MyForm(wx.Frame):
 	self.paramSizer2.Add(self.txtCtrl_throttle_down, 0, wx.ALL, BORDER1)
 	self.paramSizer2.Add(self.param_throttle_up, 0, wx.ALL, BORDER1)
 	self.paramSizer2.Add(self.txtCtrl_throttle_up, 0, wx.ALL, BORDER1)
-	self.paramSizer2.Add(self.param_throttle_deadband_on, 0, wx.ALL, BORDER1)
-	self.paramSizer2.Add(self.txtCtrl_throttle_deadband_on, 0, wx.ALL, BORDER1)
+	#self.paramSizer2.Add(self.param_throttle_deadband_on, 0, wx.ALL, BORDER1)
+	#self.paramSizer2.Add(self.txtCtrl_throttle_deadband_on, 0, wx.ALL, BORDER1)
 
     def create_sizer3(self):
 	self.paramSizer3 = wx.BoxSizer(wx.HORIZONTAL)
@@ -231,8 +231,9 @@ class MyForm(wx.Frame):
 
     def create_sizer4(self):
 	self.paramSizer4 = wx.BoxSizer(wx.VERTICAL)
-	self.paramSizer4.Add(self.param_par2, 0, wx.ALL, BORDER1)
-	self.paramSizer4.Add(self.txtCtrl_par2, 0, wx.ALL, BORDER1)
+	#self.paramSizer4.Add(self.param_par2, 0, wx.ALL, BORDER1)
+	self.paramSizer4.Add(self.param_throttle_deadband_on, 0, wx.ALL, BORDER1)
+	self.paramSizer4.Add(self.txtCtrl_throttle_deadband_on, 0, wx.ALL, BORDER1)
 	self.paramSizer4.Add(self.param_par3, 0, wx.ALL, BORDER1)
 	self.paramSizer4.Add(self.txtCtrl_par3, 0, wx.ALL, BORDER1)
 	self.paramSizer4.Add(self.param_par4, 0, wx.ALL, BORDER1)
@@ -282,7 +283,7 @@ class MyForm(wx.Frame):
 	self.txtCtrl_throttle_down.Disable()
 	self.txtCtrl_throttle_up.Disable()
 	self.txtCtrl_throttle_deadband_on.Disable()
-	self.txtCtrl_par2.Disable()
+	#self.txtCtrl_par2.Disable()
 	self.txtCtrl_par3.Disable()
 	self.txtCtrl_par4.Disable()
 
