@@ -55,6 +55,7 @@ class MyForm(wx.Frame):
 	self.oldDominantThrottle = 1
 	self.oldIqAlpha = 0.005
 	self.oldSpeedAlpha = 0.05
+	self.undershoot = -1.0
 
 	self.Centre()
 	#self.SetPosition((2500, 480))
@@ -342,6 +343,20 @@ class MyForm(wx.Frame):
                 serial_cmd(local_cmd, self.ser)
 	        print 'Updated - speed_alpha = %d' % newSpeedAlpha
 	    self.oldSpeedAlpha = newSpeedAlpha
+
+	    # ----------------------------------------------------------------------------------------------------
+	    # undershoot
+	    # ----------------------------------------------------------------------------------------------------
+            newUndershoot = int(self.txtCtrl_undershoot.GetValue())
+	    if (newUndershoot == self.oldUndershoot):
+		pass
+	    else:
+                time.sleep(1)
+	        # unicode mess ;-)
+	        local_cmd = 'param set undershoot ' + self.txtCtrl_undershoot.GetValue().encode('ascii', 'ignore')
+                serial_cmd(local_cmd, self.ser)
+	        print 'Updated - undershoot = %d' % newUndershoot
+	    self.oldUndershoot = newUndershoot
 
             print 'Config'
 	else:
