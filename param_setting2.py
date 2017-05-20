@@ -93,13 +93,16 @@ class MyForm(wx.Frame):
 	self.staticBoxSizer2.Add(self.paramSizer2, 0, wx.ALL, BORDER1)
 	self.staticBoxSizer2.Add(self.paramSizer4, 0, wx.ALL, BORDER1)
 
-	self.statBoxMisc = wx.StaticBox(self.panel, wx.ID_ANY, '  Test Enhanced Measuring   ')
-	self.statBoxMisc.SetBackgroundColour(GREY)
-	self.statBoxMisc.SetForegroundColour(BLACK)
-        self.staticBoxSizer3 = wx.StaticBoxSizer(self.statBoxMisc, wx.VERTICAL)
-	self.staticBoxSizer3.Add(self.paramSizer3, 0, wx.ALL, BORDER1)
-	self.staticBoxSizer3.Add(self.btnTestinject, 0, wx.LEFT|wx.BOTTOM, BORDER3)
-	self.staticBoxSizer3.Add(self.btnGetIq, 0, wx.LEFT|wx.BOTTOM, BORDER3)
+	self.statBoxEnhMeas = wx.StaticBox(self.panel, wx.ID_ANY, '  Test Enhanced Measuring   ')
+	self.statBoxEnhMeas.SetBackgroundColour(GREY)
+	self.statBoxEnhMeas.SetForegroundColour(BLACK)
+	self.buttonSizer = wx.BoxSizer(wx.HORIZONTAL)
+	self.buttonSizer.Add(self.btnTestInject, 0, wx.ALL, 5)
+	self.buttonSizer.Add(self.btnGetIq, 0, wx.ALL, 5)
+	self.buttonSizer.Add(self.btnConfig2, 0, wx.ALL, 5)
+        self.staticBoxSizer3 = wx.StaticBoxSizer(self.statBoxEnhMeas, wx.VERTICAL)
+	self.staticBoxSizer3.Add(self.paramSizer3, 0, wx.ALL, 10)
+	self.staticBoxSizer3.Add(self.buttonSizer, 0, wx.LEFT|wx.BOTTOM, BORDER3)
 
 	self.debuggingSizer = wx.BoxSizer(wx.VERTICAL)
         self.debuggingSizer.Add(self.btnTestRunUp, 0, wx.ALL|wx.EXPAND, BORDER1)
@@ -134,13 +137,14 @@ class MyForm(wx.Frame):
         self.btnConnected = wx.Button(self.panel, wx.ID_ANY, 'Connect')
 	self.lblConnected = wx.StaticText(self.panel, label= 'Not connected                                 ')
         self.btnConfig = wx.Button(self.panel, wx.ID_ANY, 'Configure parameter')
-        self.btnTestinject = wx.Button(self.panel, wx.ID_ANY, 'Test Inject')
-	self.btnTestinject.SetBackgroundColour(BROWN)
+        self.btnTestInject = wx.Button(self.panel, wx.ID_ANY, 'Test Inject')
+	self.btnTestInject.SetBackgroundColour(BROWN)
         self.btnGetIq = wx.Button(self.panel, wx.ID_ANY, 'get_iq')
         self.btnQuit = wx.Button(self.panel, wx.ID_ANY, 'Quit')
         self.btnTestRunUp = wx.BitmapButton(self.panel, wx.ID_ANY, bitmap=self.bmpUp)
         self.btnTestRunDown = wx.BitmapButton(self.panel, wx.ID_ANY, bitmap=self.bmpDown)
         self.btnTestStop = wx.BitmapButton(self.panel, wx.ID_ANY, bitmap=self.bmpStop)
+        self.btnConfig2 = wx.Button(self.panel, wx.ID_ANY, 'Configure parameter')
 
     def define_spin_control(self):
 	self.scSpeed = wx.SpinCtrl(self.panel, value='0')
@@ -230,13 +234,14 @@ class MyForm(wx.Frame):
 
     def bind_buttons(self):
         self.Bind(wx.EVT_BUTTON, self.onConnect, self.btnConnected)
-        self.Bind(wx.EVT_BUTTON, self.onTestInject, self.btnTestinject)
+        self.Bind(wx.EVT_BUTTON, self.onTestInject, self.btnTestInject)
         self.Bind(wx.EVT_BUTTON, self.onGetIq, self.btnGetIq)
         self.Bind(wx.EVT_BUTTON, self.onQuit, self.btnQuit)
         self.Bind(wx.EVT_BUTTON, self.onConfig, self.btnConfig)
         self.Bind(wx.EVT_BUTTON, self.onTestRunUp, self.btnTestRunUp)
         self.Bind(wx.EVT_BUTTON, self.onTestRunDown, self.btnTestRunDown)
         self.Bind(wx.EVT_BUTTON, self.onTestStop, self.btnTestStop)
+        self.Bind(wx.EVT_BUTTON, self.onConfig, self.btnConfig2)
 
     def onConnect(self, event):
         try:
@@ -362,7 +367,7 @@ class MyForm(wx.Frame):
 	if (self.toggle == False):
 	    try:
                 serial_cmd('param set ti 1', self.ser)
-	        self.btnTestinject.SetBackgroundColour(RED)
+	        self.btnTestInject.SetBackgroundColour(RED)
 	        self.toggle = True
 	    except:
                 self.lblConnected.SetForegroundColour(wx.Colour(255,0,0))
@@ -371,7 +376,7 @@ class MyForm(wx.Frame):
 	else:
 	    try:
                 serial_cmd('param set ti 0', self.ser)
-	        self.btnTestinject.SetBackgroundColour(BROWN)
+	        self.btnTestInject.SetBackgroundColour(BROWN)
 	        self.toggle = False
 	    except:
                 self.lblConnected.SetForegroundColour(wx.Colour(255,0,0))
