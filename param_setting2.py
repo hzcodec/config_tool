@@ -73,7 +73,7 @@ class MyForm(wx.Frame):
 
         self.bind_buttons()
 
-	self.statBoxSerial = wx.StaticBox(self.panel, wx.ID_ANY, '  Serial connection    ', size=(0,20))
+	self.statBoxSerial = wx.StaticBox(self.panel, wx.ID_ANY, '  Serial connection    ', size=(0,10))
 	self.statBoxSerial.SetBackgroundColour(GREY)
 	self.statBoxSerial.SetForegroundColour(BLACK)
         self.staticBoxSizer1 = wx.StaticBoxSizer(self.statBoxSerial, wx.HORIZONTAL)
@@ -84,8 +84,10 @@ class MyForm(wx.Frame):
 	self.leftSizer.Add(self.btnConnected, 0, wx.LEFT, STATBOXSERIAL_BORDER)
 	self.leftSizer.Add(self.lblConnected, 0, wx.LEFT, STATBOXSERIAL_BORDER)
 	self.rightSizer.Add(self.btnQuit, 0, wx.LEFT, 210)
-        self.staticBoxSizer1.Add(self.leftSizer, 1, wx.BOTTOM|wx.TOP|wx.LEFT, STATBOXSERIAL_BORDER)
-        self.staticBoxSizer1.Add(self.rightSizer, 1, wx.BOTTOM|wx.TOP|wx.LEFT, STATBOXSERIAL_BORDER)
+        #self.staticBoxSizer1.Add(self.leftSizer, 1, wx.BOTTOM|wx.TOP|wx.LEFT, STATBOXSERIAL_BORDER)
+        #self.staticBoxSizer1.Add(self.rightSizer, 1, wx.BOTTOM|wx.TOP|wx.LEFT, STATBOXSERIAL_BORDER)
+        self.staticBoxSizer1.Add(self.leftSizer, 0, wx.ALL, STATBOXSERIAL_BORDER)
+        self.staticBoxSizer1.Add(self.rightSizer, 0, wx.ALL, STATBOXSERIAL_BORDER)
 
 	self.statBoxParams = wx.StaticBox(self.panel, wx.ID_ANY, '  Set parameters   ')
 	self.statBoxParams.SetBackgroundColour(GREY)
