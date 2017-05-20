@@ -39,23 +39,27 @@ class MyForm(wx.Frame):
         wx.Frame.__init__(self, None, wx.ID_ANY, title='Built in Test Tool, Ascender ACX/TCX', size=(900,760))
         self.panel = wx.Panel(self, wx.ID_ANY, style=wx.BORDER_RAISED)
 
+	# flag if function is active
 	self.toggle      = False
 	self.connected   = False
+	self.runningUp   = False
+	self.runningDown = False
+
+	# flag to check if parameters have been updated
 	self.oldSlKi = 0.25
 	self.oldDominantThrottle = 1
-	self.runningUp = False
-	self.runningDown = False
 
 	self.Centre()
 	#self.SetPosition((2500, 480))
 
-	self.load_bitmaps()
+	self.load_bitmaps()          # images for up/down/stop buttons 
+	self.defineCombo()           # combo box for port names
 	self.define_buttons()
-	self.define_spin_control()
-	self.defineCombo()
+	self.define_spin_control()   # spin control for motor speed
 
         self.txtSerialPort = wx.StaticText(self.panel, wx.ID_ANY, 'Select serial port')
 
+	# Ascender parameters
 	self.define_parameters()
 	self.define_textctrl_parameters()
 	self.disable_txt_controls()
@@ -81,7 +85,7 @@ class MyForm(wx.Frame):
         self.staticBoxSizer1.Add(self.leftSizer, 1, wx.BOTTOM|wx.TOP|wx.LEFT, BORDER3)
         self.staticBoxSizer1.Add(self.rightSizer, 1, wx.BOTTOM|wx.TOP|wx.LEFT, BORDER3)
 
-	self.statBoxParams = wx.StaticBox(self.panel, wx.ID_ANY, '  Parameters   ')
+	self.statBoxParams = wx.StaticBox(self.panel, wx.ID_ANY, '  Set parameters   ')
 	self.statBoxParams.SetBackgroundColour(GREY)
 	self.statBoxParams.SetForegroundColour(BLACK)
         self.staticBoxSizer2 = wx.StaticBoxSizer(self.statBoxParams, wx.HORIZONTAL)
@@ -252,7 +256,7 @@ class MyForm(wx.Frame):
             self.lblConnected.SetLabel('Cannot connect')
 
     def defineCombo(self):
-        portNames = ['ACM0', 'ACM1', 'USB0', 'TestPort']
+        portNames = ['ACM0', 'ACM1', 'USB0']
         self.combo = wx.ComboBox(self.panel, choices=portNames)
         self.combo.SetSelection(0) # preselect ACM0
         self.combo.Bind(wx.EVT_COMBOBOX, self.onCombo)
@@ -265,6 +269,9 @@ class MyForm(wx.Frame):
 	self.txtCtrl_throttle_down.Disable()
 	self.txtCtrl_throttle_up.Disable()
 	self.txtCtrl_throttle_deadband_on.Disable()
+	self.txtCtrl_par2.Disable()
+	self.txtCtrl_par3.Disable()
+	self.txtCtrl_par4.Disable()
 
     def onConfig(self, event):
 	if (self.connected == True):
