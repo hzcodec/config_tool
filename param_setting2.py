@@ -60,26 +60,8 @@ class MyForm(wx.Frame):
 	self.define_textctrl_parameters()
 	self.disable_txt_controls()
 
-	self.paramSizer1 = wx.BoxSizer(wx.VERTICAL)
-	self.paramSizer1.Add(self.param_cl_kp, 0, wx.ALL, BORDER1)
-	self.paramSizer1.Add(self.txtCtrl_cl_kp, 0, wx.ALL, BORDER1)
-	self.paramSizer1.Add(self.param_cl_ki, 0, wx.ALL, BORDER1)
-	self.paramSizer1.Add(self.txtCtrl_cl_ki, 0, wx.ALL, BORDER1)
-	self.paramSizer1.Add(self.param_sl_kp, 0, wx.ALL, BORDER1)
-	self.paramSizer1.Add(self.txtCtrl_sl_kp, 0, wx.ALL, BORDER1)
-	self.paramSizer1.Add(self.param_sl_ki, 0, wx.ALL, BORDER1)
-	self.paramSizer1.Add(self.txtCtrl_sl_ki, 0, wx.ALL, BORDER1)
-	self.paramSizer1.Add(self.btnConfig, 0, wx.TOP|wx.BOTTOM, BORDER2)
-
-	self.paramSizer2 = wx.BoxSizer(wx.VERTICAL)
-	self.paramSizer2.Add(self.param_throttle_zero, 0, wx.ALL, BORDER1)
-	self.paramSizer2.Add(self.txtCtrl_throttle_zero, 0, wx.ALL, BORDER1)
-	self.paramSizer2.Add(self.param_throttle_down, 0, wx.ALL, BORDER1)
-	self.paramSizer2.Add(self.txtCtrl_throttle_down, 0, wx.ALL, BORDER1)
-	self.paramSizer2.Add(self.param_throttle_up, 0, wx.ALL, BORDER1)
-	self.paramSizer2.Add(self.txtCtrl_throttle_up, 0, wx.ALL, BORDER1)
-	self.paramSizer2.Add(self.param_throttle_deadband_on, 0, wx.ALL, BORDER1)
-	self.paramSizer2.Add(self.txtCtrl_throttle_deadband_on, 0, wx.ALL, BORDER1)
+        self.create_sizer1()
+        self.create_sizer2()
 
 	self.paramSizer3 = wx.BoxSizer(wx.HORIZONTAL)
 	self.paramSizer3.Add(self.param_rope_stuck_on, 0, wx.ALL, BORDER1)
@@ -223,8 +205,28 @@ class MyForm(wx.Frame):
         self.txtCtrl_par3 = wx.TextCtrl(self.panel, wx.ID_ANY,'0.05')
         self.txtCtrl_par4 = wx.TextCtrl(self.panel, wx.ID_ANY,'0.3')
 
+    def create_sizer1(self):
+	self.paramSizer1 = wx.BoxSizer(wx.VERTICAL)
+	self.paramSizer1.Add(self.param_cl_kp, 0, wx.ALL, BORDER1)
+	self.paramSizer1.Add(self.txtCtrl_cl_kp, 0, wx.ALL, BORDER1)
+	self.paramSizer1.Add(self.param_cl_ki, 0, wx.ALL, BORDER1)
+	self.paramSizer1.Add(self.txtCtrl_cl_ki, 0, wx.ALL, BORDER1)
+	self.paramSizer1.Add(self.param_sl_kp, 0, wx.ALL, BORDER1)
+	self.paramSizer1.Add(self.txtCtrl_sl_kp, 0, wx.ALL, BORDER1)
+	self.paramSizer1.Add(self.param_sl_ki, 0, wx.ALL, BORDER1)
+	self.paramSizer1.Add(self.txtCtrl_sl_ki, 0, wx.ALL, BORDER1)
+	self.paramSizer1.Add(self.btnConfig, 0, wx.TOP|wx.BOTTOM, BORDER2)
 
-
+    def create_sizer2(self):
+	self.paramSizer2 = wx.BoxSizer(wx.VERTICAL)
+	self.paramSizer2.Add(self.param_throttle_zero, 0, wx.ALL, BORDER1)
+	self.paramSizer2.Add(self.txtCtrl_throttle_zero, 0, wx.ALL, BORDER1)
+	self.paramSizer2.Add(self.param_throttle_down, 0, wx.ALL, BORDER1)
+	self.paramSizer2.Add(self.txtCtrl_throttle_down, 0, wx.ALL, BORDER1)
+	self.paramSizer2.Add(self.param_throttle_up, 0, wx.ALL, BORDER1)
+	self.paramSizer2.Add(self.txtCtrl_throttle_up, 0, wx.ALL, BORDER1)
+	self.paramSizer2.Add(self.param_throttle_deadband_on, 0, wx.ALL, BORDER1)
+	self.paramSizer2.Add(self.txtCtrl_throttle_deadband_on, 0, wx.ALL, BORDER1)
 
     def onConnect(self, event):
         try:
