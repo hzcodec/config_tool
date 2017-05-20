@@ -300,15 +300,20 @@ class MyForm(wx.Frame):
 	    # Dominant throttle
 	    # ----------------------------------------------------------------------------------------------------
             newDominantThrottle = int(self.txtCtrl_dominant_throttle_on.GetValue())
-	    if (newDominantThrottle == self.oldDominantThrottle):
-		pass
+	    if (newDominantThrottle > 1 or newDominantThrottle < 0):
+	        self.txtCtrl_dominant_throttle_on.SetForegroundColour((RED))
+
 	    else:
-                time.sleep(1)
-	        # unicode mess ;-)
-	        local_cmd = 'param set dominant_throttle_on ' + self.txtCtrl_dominant_throttle_on.GetValue().encode('ascii', 'ignore')
-                serial_cmd(local_cmd, self.ser)
-	        print 'Updated - dominant_trottle_on = %d' % newDominantThrottle
-	    self.oldDominantThrottle = newDominantThrottle
+	        if (newDominantThrottle == self.oldDominantThrottle):
+	            self.txtCtrl_dominant_throttle_on.SetForegroundColour((BLACK))
+	        else:
+	            self.txtCtrl_dominant_throttle_on.SetForegroundColour((BLACK))
+                    time.sleep(1)
+	            # unicode mess ;-)
+	            local_cmd = 'param set dominant_throttle_on ' + self.txtCtrl_dominant_throttle_on.GetValue().encode('ascii', 'ignore')
+                    serial_cmd(local_cmd, self.ser)
+	            print 'Updated - dominant_trottle_on = %d' % newDominantThrottle
+	        self.oldDominantThrottle = newDominantThrottle
 
 	    # ----------------------------------------------------------------------------------------------------
 	    # iq alpha
@@ -357,7 +362,6 @@ class MyForm(wx.Frame):
 	    # ----------------------------------------------------------------------------------------------------
             newRopeStuckOn = int(self.txtCtrl_rope_stuck_on.GetValue())
 	    if (newRopeStuckOn > 1 or newRopeStuckOn < 0):
-	        print 'shit'
                 self.txtCtrl_rope_stuck_on.SetForegroundColour((RED))
 
             else:
