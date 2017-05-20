@@ -21,6 +21,9 @@ BORDER3 = 10
 STATIC_BOX_SERIAL_BORDER = 10
 STATIC_BOX_PARAMS_BORDER = 5
 PARAMSIZER1_BORDER = 2
+PARAMSIZER2_BORDER = 2
+PARAMSIZER3_BORDER = 5
+PARAMSIZER4_BORDER = 2
 
 # color codes
 RED     = (255, 0, 0)
@@ -173,8 +176,6 @@ class MyForm(wx.Frame):
         self.param_iq_alpha = wx.StaticText(self.panel, wx.ID_ANY, 'iq_alpha')
         self.param_speed_alpha = wx.StaticText(self.panel, wx.ID_ANY, 'speed_alpha')
         self.param_undershoot = wx.StaticText(self.panel, wx.ID_ANY, 'undershoot')
-        #self.param_par2 = wx.StaticText(self.panel, wx.ID_ANY, 'par2')
-        #self.param_par3 = wx.StaticText(self.panel, wx.ID_ANY, 'par3')
         self.param_par4 = wx.StaticText(self.panel, wx.ID_ANY, 'par4')
 
     def define_textctrl_parameters(self):
@@ -191,8 +192,6 @@ class MyForm(wx.Frame):
         self.txtCtrl_iq_alpha = wx.TextCtrl(self.panel, wx.ID_ANY,'0.005')
         self.txtCtrl_speed_alpha = wx.TextCtrl(self.panel, wx.ID_ANY,'0.05')
         self.txtCtrl_undershoot = wx.TextCtrl(self.panel, wx.ID_ANY,'-1.0')
-        #self.txtCtrl_par2 = wx.TextCtrl(self.panel, wx.ID_ANY,'0.6')
-        #self.txtCtrl_par3 = wx.TextCtrl(self.panel, wx.ID_ANY,'0.05')
         self.txtCtrl_par4 = wx.TextCtrl(self.panel, wx.ID_ANY,'0.3')
 
     def create_sizer1(self):
@@ -209,32 +208,32 @@ class MyForm(wx.Frame):
 
     def create_sizer2(self):
 	self.paramSizer2 = wx.BoxSizer(wx.VERTICAL)
-	self.paramSizer2.Add(self.param_throttle_zero, 0, wx.ALL, BORDER1)
-	self.paramSizer2.Add(self.txtCtrl_throttle_zero, 0, wx.ALL, BORDER1)
-	self.paramSizer2.Add(self.param_throttle_down, 0, wx.ALL, BORDER1)
-	self.paramSizer2.Add(self.txtCtrl_throttle_down, 0, wx.ALL, BORDER1)
-	self.paramSizer2.Add(self.param_throttle_up, 0, wx.ALL, BORDER1)
-	self.paramSizer2.Add(self.txtCtrl_throttle_up, 0, wx.ALL, BORDER1)
+	self.paramSizer2.Add(self.param_throttle_zero, 0, wx.ALL, PARAMSIZER2_BORDER)
+	self.paramSizer2.Add(self.txtCtrl_throttle_zero, 0, wx.ALL, PARAMSIZER2_BORDER)
+	self.paramSizer2.Add(self.param_throttle_down, 0, wx.ALL, PARAMSIZER2_BORDER)
+	self.paramSizer2.Add(self.txtCtrl_throttle_down, 0, wx.ALL, PARAMSIZER2_BORDER)
+	self.paramSizer2.Add(self.param_throttle_up, 0, wx.ALL, PARAMSIZER2_BORDER)
+	self.paramSizer2.Add(self.txtCtrl_throttle_up, 0, wx.ALL, PARAMSIZER2_BORDER)
 
     def create_sizer3(self):
 	self.paramSizer3 = wx.BoxSizer(wx.HORIZONTAL)
-	self.paramSizer3.Add(self.param_rope_stuck_on, 0, wx.ALL, BORDER1)
-	self.paramSizer3.Add(self.txtCtrl_rope_stuck_on, 0, wx.ALL, BORDER1)
-	self.paramSizer3.Add(self.param_iq_alpha, 0, wx.ALL, BORDER1)
-	self.paramSizer3.Add(self.txtCtrl_iq_alpha, 0, wx.ALL, BORDER1)
-	self.paramSizer3.Add(self.param_speed_alpha, 0, wx.ALL, BORDER1)
-	self.paramSizer3.Add(self.txtCtrl_speed_alpha, 0, wx.ALL, BORDER1)
-	self.paramSizer3.Add(self.param_undershoot, 0, wx.ALL, BORDER1)
-	self.paramSizer3.Add(self.txtCtrl_undershoot, 0, wx.ALL, BORDER1)
+	self.paramSizer3.Add(self.param_rope_stuck_on, 0, wx.ALL, PARAMSIZER3_BORDER)
+	self.paramSizer3.Add(self.txtCtrl_rope_stuck_on, 0, wx.ALL, PARAMSIZER3_BORDER)
+	self.paramSizer3.Add(self.param_iq_alpha, 0, wx.ALL, PARAMSIZER3_BORDER)
+	self.paramSizer3.Add(self.txtCtrl_iq_alpha, 0, wx.ALL, PARAMSIZER3_BORDER)
+	self.paramSizer3.Add(self.param_speed_alpha, 0, wx.ALL, PARAMSIZER3_BORDER)
+	self.paramSizer3.Add(self.txtCtrl_speed_alpha, 0, wx.ALL, PARAMSIZER3_BORDER)
+	self.paramSizer3.Add(self.param_undershoot, 0, wx.ALL, PARAMSIZER3_BORDER)
+	self.paramSizer3.Add(self.txtCtrl_undershoot, 0, wx.ALL, PARAMSIZER3_BORDER)
 
     def create_sizer4(self):
 	self.paramSizer4 = wx.BoxSizer(wx.VERTICAL)
-	self.paramSizer4.Add(self.param_throttle_deadband_on, 0, wx.ALL, BORDER1)
-	self.paramSizer4.Add(self.txtCtrl_throttle_deadband_on, 0, wx.ALL, BORDER1)
-	self.paramSizer4.Add(self.param_dominant_throttle_on, 0, wx.ALL, BORDER1)
-	self.paramSizer4.Add(self.txtCtrl_dominant_throttle_on, 0, wx.ALL, BORDER1)
-	self.paramSizer4.Add(self.param_par4, 0, wx.ALL, BORDER1)
-	self.paramSizer4.Add(self.txtCtrl_par4, 0, wx.ALL, BORDER1)
+	self.paramSizer4.Add(self.param_throttle_deadband_on, 0, wx.ALL, PARAMSIZER4_BORDER)
+	self.paramSizer4.Add(self.txtCtrl_throttle_deadband_on, 0, wx.ALL, PARAMSIZER4_BORDER)
+	self.paramSizer4.Add(self.param_dominant_throttle_on, 0, wx.ALL, PARAMSIZER4_BORDER)
+	self.paramSizer4.Add(self.txtCtrl_dominant_throttle_on, 0, wx.ALL, PARAMSIZER4_BORDER)
+	self.paramSizer4.Add(self.param_par4, 0, wx.ALL, PARAMSIZER4_BORDER)
+	self.paramSizer4.Add(self.txtCtrl_par4, 0, wx.ALL, PARAMSIZER4_BORDER)
 
     def bind_buttons(self):
         self.Bind(wx.EVT_BUTTON, self.onConnect, self.btnConnected)
