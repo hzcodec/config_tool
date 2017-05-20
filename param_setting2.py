@@ -16,8 +16,10 @@ import time
 import serial  
 
 BORDER1 = 5
-BORDER2 = 15
 BORDER3 = 10
+STATBOXSERIAL_BORDER = 10
+STATBOXPARAMS_BORDER = 5
+PARAMSIZER1_BORDER = 2
 RED     = (255, 0, 0)
 GREEN   = (0, 255, 0)
 GREY    = (180, 180, 180)
@@ -77,21 +79,21 @@ class MyForm(wx.Frame):
         self.staticBoxSizer1 = wx.StaticBoxSizer(self.statBoxSerial, wx.HORIZONTAL)
 	self.leftSizer = wx.BoxSizer(wx.HORIZONTAL)
 	self.rightSizer = wx.BoxSizer(wx.HORIZONTAL)
-	self.leftSizer.Add(self.txtSerialPort, 0, wx.LEFT, BORDER3)
-	self.leftSizer.Add(self.combo, 0, wx.LEFT, BORDER3)
-	self.leftSizer.Add(self.btnConnected, 0, wx.LEFT, BORDER3)
-	self.leftSizer.Add(self.lblConnected, 0, wx.LEFT, BORDER3)
+	self.leftSizer.Add(self.txtSerialPort, 0, wx.LEFT, STATBOXSERIAL_BORDER)
+	self.leftSizer.Add(self.combo, 0, wx.LEFT, STATBOXSERIAL_BORDER)
+	self.leftSizer.Add(self.btnConnected, 0, wx.LEFT, STATBOXSERIAL_BORDER)
+	self.leftSizer.Add(self.lblConnected, 0, wx.LEFT, STATBOXSERIAL_BORDER)
 	self.rightSizer.Add(self.btnQuit, 0, wx.LEFT, 210)
-        self.staticBoxSizer1.Add(self.leftSizer, 1, wx.BOTTOM|wx.TOP|wx.LEFT, BORDER3)
-        self.staticBoxSizer1.Add(self.rightSizer, 1, wx.BOTTOM|wx.TOP|wx.LEFT, BORDER3)
+        self.staticBoxSizer1.Add(self.leftSizer, 1, wx.BOTTOM|wx.TOP|wx.LEFT, STATBOXSERIAL_BORDER)
+        self.staticBoxSizer1.Add(self.rightSizer, 1, wx.BOTTOM|wx.TOP|wx.LEFT, STATBOXSERIAL_BORDER)
 
 	self.statBoxParams = wx.StaticBox(self.panel, wx.ID_ANY, '  Set parameters   ')
 	self.statBoxParams.SetBackgroundColour(GREY)
 	self.statBoxParams.SetForegroundColour(BLACK)
         self.staticBoxSizer2 = wx.StaticBoxSizer(self.statBoxParams, wx.HORIZONTAL)
-	self.staticBoxSizer2.Add(self.paramSizer1, 0, wx.ALL, BORDER1)
-	self.staticBoxSizer2.Add(self.paramSizer2, 0, wx.ALL, BORDER1)
-	self.staticBoxSizer2.Add(self.paramSizer4, 0, wx.ALL, BORDER1)
+	self.staticBoxSizer2.Add(self.paramSizer1, 0, wx.ALL, STATBOXPARAMS_BORDER)
+	self.staticBoxSizer2.Add(self.paramSizer2, 0, wx.ALL, STATBOXPARAMS_BORDER)
+	self.staticBoxSizer2.Add(self.paramSizer4, 0, wx.ALL, STATBOXPARAMS_BORDER)
 
 	self.statBoxEnhMeas = wx.StaticBox(self.panel, wx.ID_ANY, '  Test Enhanced Measuring   ')
 	self.statBoxEnhMeas.SetBackgroundColour(GREY)
@@ -189,15 +191,15 @@ class MyForm(wx.Frame):
 
     def create_sizer1(self):
 	self.paramSizer1 = wx.BoxSizer(wx.VERTICAL)
-	self.paramSizer1.Add(self.param_cl_kp, 0, wx.ALL, BORDER1)
-	self.paramSizer1.Add(self.txtCtrl_cl_kp, 0, wx.ALL, BORDER1)
-	self.paramSizer1.Add(self.param_cl_ki, 0, wx.ALL, BORDER1)
-	self.paramSizer1.Add(self.txtCtrl_cl_ki, 0, wx.ALL, BORDER1)
-	self.paramSizer1.Add(self.param_sl_kp, 0, wx.ALL, BORDER1)
-	self.paramSizer1.Add(self.txtCtrl_sl_kp, 0, wx.ALL, BORDER1)
-	self.paramSizer1.Add(self.param_sl_ki, 0, wx.ALL, BORDER1)
-	self.paramSizer1.Add(self.txtCtrl_sl_ki, 0, wx.ALL, BORDER1)
-	self.paramSizer1.Add(self.btnConfig, 0, wx.TOP|wx.BOTTOM, BORDER2)
+	self.paramSizer1.Add(self.param_cl_kp, 0, wx.ALL, PARAMSIZER1_BORDER)
+	self.paramSizer1.Add(self.txtCtrl_cl_kp, 0, wx.ALL, PARAMSIZER1_BORDER)
+	self.paramSizer1.Add(self.param_cl_ki, 0, wx.ALL, PARAMSIZER1_BORDER)
+	self.paramSizer1.Add(self.txtCtrl_cl_ki, 0, wx.ALL, PARAMSIZER1_BORDER)
+	self.paramSizer1.Add(self.param_sl_kp, 0, wx.ALL, PARAMSIZER1_BORDER)
+	self.paramSizer1.Add(self.txtCtrl_sl_kp, 0, wx.ALL, PARAMSIZER1_BORDER)
+	self.paramSizer1.Add(self.param_sl_ki, 0, wx.ALL, PARAMSIZER1_BORDER)
+	self.paramSizer1.Add(self.txtCtrl_sl_ki, 0, wx.ALL, PARAMSIZER1_BORDER)
+	self.paramSizer1.Add(self.btnConfig, 0, wx.TOP|wx.BOTTOM, PARAMSIZER1_BORDER+10)
 
     def create_sizer2(self):
 	self.paramSizer2 = wx.BoxSizer(wx.VERTICAL)
