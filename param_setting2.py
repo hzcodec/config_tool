@@ -66,7 +66,7 @@ class MyForm(wx.Frame):
 
         self.create_sizer1()
         self.create_sizer2()
-        self.create_sizer3()
+        self.create_sizer3()  # sizer for Test Enhanced Measuring
         self.create_sizer4()
 
         self.bind_buttons()
