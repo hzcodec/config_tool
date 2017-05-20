@@ -65,14 +65,7 @@ class MyForm(wx.Frame):
         self.create_sizer3()
         self.create_sizer4()
 
-        self.Bind(wx.EVT_BUTTON, self.onConnect, self.btnConnected)
-        self.Bind(wx.EVT_BUTTON, self.onTestInject, self.btnTestinject)
-        self.Bind(wx.EVT_BUTTON, self.onGetIq, self.btnGetIq)
-        self.Bind(wx.EVT_BUTTON, self.onQuit, self.btnQuit)
-        self.Bind(wx.EVT_BUTTON, self.onConfig, self.btnConfig)
-        self.Bind(wx.EVT_BUTTON, self.onTestRunUp, self.btnTestRunUp)
-        self.Bind(wx.EVT_BUTTON, self.onTestRunDown, self.btnTestRunDown)
-        self.Bind(wx.EVT_BUTTON, self.onTestStop, self.btnTestStop)
+        self.bind_buttons()
 
 	self.statBoxSerial = wx.StaticBox(self.panel, wx.ID_ANY, '  Serial connection    ', size=(0,20))
 	self.statBoxSerial.SetBackgroundColour(GREY)
@@ -230,6 +223,16 @@ class MyForm(wx.Frame):
 	self.paramSizer4.Add(self.txtCtrl_par4, 0, wx.ALL, BORDER1)
 	self.paramSizer4.Add(self.param_dominant_throttle_on, 0, wx.ALL, BORDER1)
 	self.paramSizer4.Add(self.txtCtrl_dominant_throttle_on, 0, wx.ALL, BORDER1)
+
+    def bind_buttons(self):
+        self.Bind(wx.EVT_BUTTON, self.onConnect, self.btnConnected)
+        self.Bind(wx.EVT_BUTTON, self.onTestInject, self.btnTestinject)
+        self.Bind(wx.EVT_BUTTON, self.onGetIq, self.btnGetIq)
+        self.Bind(wx.EVT_BUTTON, self.onQuit, self.btnQuit)
+        self.Bind(wx.EVT_BUTTON, self.onConfig, self.btnConfig)
+        self.Bind(wx.EVT_BUTTON, self.onTestRunUp, self.btnTestRunUp)
+        self.Bind(wx.EVT_BUTTON, self.onTestRunDown, self.btnTestRunDown)
+        self.Bind(wx.EVT_BUTTON, self.onTestStop, self.btnTestStop)
 
     def onConnect(self, event):
         try:
