@@ -356,17 +356,22 @@ class MyForm(wx.Frame):
 	    # rope_stuck_no
 	    # ----------------------------------------------------------------------------------------------------
             newRopeStuckOn = int(self.txtCtrl_rope_stuck_on.GetValue())
-	    if (newRopeStuckOn == self.oldRopeStuckOn):
-		pass
-	    else:
-                time.sleep(1)
-	        # unicode mess ;-)
-	        local_cmd = 'param set rope_stuck_on ' + self.txtCtrl_rope_stuck_on.GetValue().encode('ascii', 'ignore')
-                serial_cmd(local_cmd, self.ser)
-	        print 'Updated - rope_stuck_on = %d' % newRopeStuckOn
-	    self.oldRopeStuckOn = newRopeStuckOn
+	    if (newRopeStuckOn > 1 or newRopeStuckOn < 0):
+	        print 'shit'
+                self.txtCtrl_rope_stuck_on.SetForegroundColour((RED))
 
-            print 'Config'
+            else:
+	        if (newRopeStuckOn == self.oldRopeStuckOn):
+                    self.txtCtrl_rope_stuck_on.SetForegroundColour((BLACK))
+	        else:
+                    self.txtCtrl_rope_stuck_on.SetForegroundColour((BLACK))
+                    time.sleep(1)
+	            # unicode mess ;-)
+	            local_cmd = 'param set rope_stuck_on ' + self.txtCtrl_rope_stuck_on.GetValue().encode('ascii', 'ignore')
+                    serial_cmd(local_cmd, self.ser)
+	            print 'Updated - rope_stuck_on = %d' % newRopeStuckOn
+	        self.oldRopeStuckOn = newRopeStuckOn
+
 	else:
             self.lblConnected.SetForegroundColour(wx.Colour(255,0,0))
 	    self.lblConnected.SetLabel('You must connect first!')
