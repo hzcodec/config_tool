@@ -46,12 +46,10 @@ class MyForm(wx.Frame):
 	self.runningUp = False
 	self.runningDown = False
 
-	#self.Centre()
-	self.SetPosition((2500, 480))
+	self.Centre()
+	#self.SetPosition((2500, 480))
 
-	bmpUp = wx.Bitmap("up.png", wx.BITMAP_TYPE_ANY)
-	bmpDown = wx.Bitmap("up2.png", wx.BITMAP_TYPE_ANY)
-	bmpStop = wx.Bitmap("stop.png", wx.BITMAP_TYPE_ANY)
+	self.load_bitmaps()
 
         self.connectBtn = wx.Button(self.panel, wx.ID_ANY, 'Connect')
 	self.lblConnected = wx.StaticText(self.panel, label= 'Not connected                                 ')
@@ -60,9 +58,9 @@ class MyForm(wx.Frame):
 	self.testInjectBtn.SetBackgroundColour(INJECT_COLOR)
         self.getIqBtn = wx.Button(self.panel, wx.ID_ANY, 'get_iq')
         self.quitBtn = wx.Button(self.panel, wx.ID_ANY, 'Quit')
-        self.testRunUpBtn = wx.BitmapButton(self.panel, wx.ID_ANY, bitmap=bmpUp)
-        self.testRunDownBtn = wx.BitmapButton(self.panel, wx.ID_ANY, bitmap=bmpDown)
-        self.testStopBtn = wx.BitmapButton(self.panel, wx.ID_ANY, bitmap=bmpStop)
+        self.testRunUpBtn = wx.BitmapButton(self.panel, wx.ID_ANY, bitmap=self.bmpUp)
+        self.testRunDownBtn = wx.BitmapButton(self.panel, wx.ID_ANY, bitmap=self.bmpDown)
+        self.testStopBtn = wx.BitmapButton(self.panel, wx.ID_ANY, bitmap=self.bmpStop)
 
 	self.scSpeed = wx.SpinCtrl(self.panel, value='0')
 	self.scSpeed.SetRange(0, 25)
@@ -212,6 +210,11 @@ class MyForm(wx.Frame):
         self.topSizer.Add(self.staticBoxSizer4, 1, wx.ALL|wx.EXPAND, BORDER1)
 
         self.panel.SetSizer(self.topSizer)
+
+    def load_bitmaps(self):
+	self.bmpUp = wx.Bitmap("up.png", wx.BITMAP_TYPE_ANY)
+	self.bmpDown = wx.Bitmap("up2.png", wx.BITMAP_TYPE_ANY)
+	self.bmpStop = wx.Bitmap("stop.png", wx.BITMAP_TYPE_ANY)
 
     def onConnect(self, event):
         try:
