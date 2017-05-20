@@ -50,22 +50,8 @@ class MyForm(wx.Frame):
 	#self.SetPosition((2500, 480))
 
 	self.load_bitmaps()
-
-        self.btnConnected = wx.Button(self.panel, wx.ID_ANY, 'Connect')
-	self.lblConnected = wx.StaticText(self.panel, label= 'Not connected                                 ')
-        self.btnConfig = wx.Button(self.panel, wx.ID_ANY, 'Configure parameter')
-        self.btnTestinject = wx.Button(self.panel, wx.ID_ANY, 'Test Inject')
-	self.btnTestinject.SetBackgroundColour(INJECT_COLOR)
-        self.btnGetIq = wx.Button(self.panel, wx.ID_ANY, 'get_iq')
-        self.btnQuit = wx.Button(self.panel, wx.ID_ANY, 'Quit')
-        self.btnTestRunUp = wx.BitmapButton(self.panel, wx.ID_ANY, bitmap=self.bmpUp)
-        self.btnTestRunDown = wx.BitmapButton(self.panel, wx.ID_ANY, bitmap=self.bmpDown)
-        self.btnTestStop = wx.BitmapButton(self.panel, wx.ID_ANY, bitmap=self.bmpStop)
-
-	self.scSpeed = wx.SpinCtrl(self.panel, value='0')
-	self.scSpeed.SetRange(0, 25)
-        self.lblSpinCtrl = wx.StaticText(self.panel, wx.ID_ANY, 'Speed')
-
+	self.define_buttons()
+	self.define_spin_control()
 	self.defineCombo()
 
         self.txtSerialPort = wx.StaticText(self.panel, wx.ID_ANY, 'Select serial port')
@@ -215,6 +201,25 @@ class MyForm(wx.Frame):
 	self.bmpUp = wx.Bitmap("up.png", wx.BITMAP_TYPE_ANY)
 	self.bmpDown = wx.Bitmap("up2.png", wx.BITMAP_TYPE_ANY)
 	self.bmpStop = wx.Bitmap("stop.png", wx.BITMAP_TYPE_ANY)
+    
+    def define_buttons(self):
+        self.btnConnected = wx.Button(self.panel, wx.ID_ANY, 'Connect')
+	self.lblConnected = wx.StaticText(self.panel, label= 'Not connected                                 ')
+        self.btnConfig = wx.Button(self.panel, wx.ID_ANY, 'Configure parameter')
+        self.btnTestinject = wx.Button(self.panel, wx.ID_ANY, 'Test Inject')
+	self.btnTestinject.SetBackgroundColour(INJECT_COLOR)
+        self.btnGetIq = wx.Button(self.panel, wx.ID_ANY, 'get_iq')
+        self.btnQuit = wx.Button(self.panel, wx.ID_ANY, 'Quit')
+        self.btnTestRunUp = wx.BitmapButton(self.panel, wx.ID_ANY, bitmap=self.bmpUp)
+        self.btnTestRunDown = wx.BitmapButton(self.panel, wx.ID_ANY, bitmap=self.bmpDown)
+        self.btnTestStop = wx.BitmapButton(self.panel, wx.ID_ANY, bitmap=self.bmpStop)
+
+    def define_spin_control(self):
+	self.scSpeed = wx.SpinCtrl(self.panel, value='0')
+	self.scSpeed.SetRange(0, 25)
+        self.lblSpinCtrl = wx.StaticText(self.panel, wx.ID_ANY, 'Speed')
+
+
 
     def onConnect(self, event):
         try:
