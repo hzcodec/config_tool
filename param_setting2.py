@@ -15,11 +15,14 @@ import wx
 import time
 import serial  
 
+# sizer borders
 BORDER1 = 5
 BORDER3 = 10
-STATBOXSERIAL_BORDER = 10
-STATBOXPARAMS_BORDER = 5
+STATIC_BOX_SERIAL_BORDER = 10
+STATIC_BOX_PARAMS_BORDER = 5
 PARAMSIZER1_BORDER = 2
+
+# color codes
 RED     = (255, 0, 0)
 GREEN   = (0, 255, 0)
 GREY    = (180, 180, 180)
@@ -79,21 +82,21 @@ class MyForm(wx.Frame):
         self.staticBoxSizer1 = wx.StaticBoxSizer(self.statBoxSerial, wx.HORIZONTAL)
 	self.leftSizer = wx.BoxSizer(wx.HORIZONTAL)
 	self.rightSizer = wx.BoxSizer(wx.HORIZONTAL)
-	self.leftSizer.Add(self.txtSerialPort, 0, wx.LEFT, STATBOXSERIAL_BORDER)
-	self.leftSizer.Add(self.combo, 0, wx.LEFT, STATBOXSERIAL_BORDER)
-	self.leftSizer.Add(self.btnConnected, 0, wx.LEFT, STATBOXSERIAL_BORDER)
-	self.leftSizer.Add(self.lblConnected, 0, wx.LEFT, STATBOXSERIAL_BORDER)
+	self.leftSizer.Add(self.txtSerialPort, 0, wx.LEFT, STATIC_BOX_SERIAL_BORDER)
+	self.leftSizer.Add(self.combo, 0, wx.LEFT, STATIC_BOX_SERIAL_BORDER)
+	self.leftSizer.Add(self.btnConnected, 0, wx.LEFT, STATIC_BOX_SERIAL_BORDER)
+	self.leftSizer.Add(self.lblConnected, 0, wx.LEFT, STATIC_BOX_SERIAL_BORDER)
 	self.rightSizer.Add(self.btnQuit, 0, wx.LEFT, 210)
-        self.staticBoxSizer1.Add(self.leftSizer, 0, wx.ALL, STATBOXSERIAL_BORDER)
-        self.staticBoxSizer1.Add(self.rightSizer, 0, wx.ALL, STATBOXSERIAL_BORDER)
+        self.staticBoxSizer1.Add(self.leftSizer, 0, wx.ALL, STATIC_BOX_SERIAL_BORDER)
+        self.staticBoxSizer1.Add(self.rightSizer, 0, wx.ALL, STATIC_BOX_SERIAL_BORDER)
 
 	self.statBoxParams = wx.StaticBox(self.panel, wx.ID_ANY, '  Set parameters   ')
 	self.statBoxParams.SetBackgroundColour(GREY)
 	self.statBoxParams.SetForegroundColour(BLACK)
         self.staticBoxSizer2 = wx.StaticBoxSizer(self.statBoxParams, wx.HORIZONTAL)
-	self.staticBoxSizer2.Add(self.paramSizer1, 0, wx.ALL, STATBOXPARAMS_BORDER)
-	self.staticBoxSizer2.Add(self.paramSizer2, 0, wx.ALL, STATBOXPARAMS_BORDER)
-	self.staticBoxSizer2.Add(self.paramSizer4, 0, wx.ALL, STATBOXPARAMS_BORDER)
+	self.staticBoxSizer2.Add(self.paramSizer1, 0, wx.ALL, STATIC_BOX_PARAMS_BORDER)
+	self.staticBoxSizer2.Add(self.paramSizer2, 0, wx.ALL, STATIC_BOX_PARAMS_BORDER)
+	self.staticBoxSizer2.Add(self.paramSizer4, 0, wx.ALL, STATIC_BOX_PARAMS_BORDER)
 
 	self.statBoxEnhMeas = wx.StaticBox(self.panel, wx.ID_ANY, '  Test Enhanced Measuring   ')
 	self.statBoxEnhMeas.SetBackgroundColour(GREY)
