@@ -53,6 +53,7 @@ class MyForm(wx.Frame):
 	# flag to check if parameters have been updated
 	self.oldSlKi = 0.25
 	self.oldDominantThrottle = 1
+	self.oldIqAlpha = 0.005
 
 	self.Centre()
 	#self.SetPosition((2500, 480))
@@ -312,6 +313,20 @@ class MyForm(wx.Frame):
                 serial_cmd(local_cmd, self.ser)
 	        print 'Updated - dominant_trottle_on = %d' % newDominantThrottle
 	    self.oldDominantThrottle = newDominantThrottle
+
+	    # ----------------------------------------------------------------------------------------------------
+	    # iq alpha
+	    # ----------------------------------------------------------------------------------------------------
+            newIqAlpha = int(self.txtCtrl_iq_alpha.GetValue())
+	    if (newIqAlpha == self.oldIqAlpha):
+		pass
+	    else:
+                time.sleep(1)
+	        # unicode mess ;-)
+	        local_cmd = 'param set iq_alpha ' + self.txtCtrl_iq_alpha.GetValue().encode('ascii', 'ignore')
+                serial_cmd(local_cmd, self.ser)
+	        print 'Updated - iq_alpha = %d' % newIqAlpha
+	    self.oldIqAlpha = newIqAlpha
 
             print 'Config'
 	else:
