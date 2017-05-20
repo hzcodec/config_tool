@@ -18,11 +18,11 @@ import serial
 BORDER1 = 5
 BORDER2 = 15
 BORDER3 = 10
-RED = (255, 0, 0)
-GREEN = (0, 255, 0)
-GREY = (180, 180, 180)
-BLACK = (0, 0, 0)
-INJECT_COLOR = (200, 160, 100)
+RED     = (255, 0, 0)
+GREEN   = (0, 255, 0)
+GREY    = (180, 180, 180)
+BLACK   = (0, 0, 0)
+BROWN   = (200, 160, 100)
 
 
 def serial_cmd(cmd, serial):
@@ -131,7 +131,7 @@ class MyForm(wx.Frame):
 	self.lblConnected = wx.StaticText(self.panel, label= 'Not connected                                 ')
         self.btnConfig = wx.Button(self.panel, wx.ID_ANY, 'Configure parameter')
         self.btnTestinject = wx.Button(self.panel, wx.ID_ANY, 'Test Inject')
-	self.btnTestinject.SetBackgroundColour(INJECT_COLOR)
+	self.btnTestinject.SetBackgroundColour(BROWN)
         self.btnGetIq = wx.Button(self.panel, wx.ID_ANY, 'get_iq')
         self.btnQuit = wx.Button(self.panel, wx.ID_ANY, 'Quit')
         self.btnTestRunUp = wx.BitmapButton(self.panel, wx.ID_ANY, bitmap=self.bmpUp)
@@ -364,12 +364,11 @@ class MyForm(wx.Frame):
 	else:
 	    try:
                 serial_cmd('param set ti 0', self.ser)
-	        self.btnTestinject.SetBackgroundColour(INJECT_COLOR)
+	        self.btnTestinject.SetBackgroundColour(BROWN)
 	        self.toggle = False
 	    except:
                 self.lblConnected.SetForegroundColour(wx.Colour(255,0,0))
 	        self.lblConnected.SetLabel('You must connect first!')
-
 
     def onGetIq(self, event):
 	try:
