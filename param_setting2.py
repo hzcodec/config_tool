@@ -76,7 +76,7 @@ class MyForm(wx.Frame):
 	self.disable_txt_controls()
 
         headline = '       - TXC/ACX logging - \n'
-	self.txtMultiCtrl = wx.TextCtrl(self.panel, -1, headline, size=(180, 355), style=wx.TE_MULTILINE)
+	self.txtMultiCtrl = wx.TextCtrl(self.panel, -1, headline, size=(180, 675), style=wx.TE_MULTILINE)
         self.txtMultiCtrl.SetInsertionPoint(0)
 
         self.create_sizer1()  # param sizer 1st column
