@@ -61,6 +61,8 @@ class MyForm(wx.Frame):
 	self.oldUndershoot = -1.0
 	self.oldRopeStuckOn = 1
 
+	self.exitDialog =  wx.MessageDialog( self, " Quit application? \nCheck that motor has stopped!\n", "...", wx.YES_NO)
+
 	self.Centre()
 	#self.SetPosition((2500, 480))
 
@@ -475,7 +477,10 @@ class MyForm(wx.Frame):
         print 'Selected port: ' + self.combo.GetValue()
 
     def onQuit(self, event):
-        self.Close()
+        rv = self.exitDialog.ShowModal()
+
+        if rv == wx.ID_YES:
+            self.Close(True)
 
 
 if __name__ == '__main__':
