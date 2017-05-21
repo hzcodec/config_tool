@@ -15,6 +15,8 @@ import wx
 import time
 import serial  
 
+WINDOW_SIZE = (1035, 730)
+
 # sizer borders
 BORDER1 = 5
 STATIC_BOX_SERIAL_BORDER = 10
@@ -39,11 +41,10 @@ def serial_cmd(cmd, serial):
     except:
         print 'Not Connected!'
 
-
 class MyForm(wx.Frame):
 
     def __init__(self):
-        wx.Frame.__init__(self, None, wx.ID_ANY, title='Built in Configuration Tool, Ascender ACX/TCX', size=(1080,730))
+        wx.Frame.__init__(self, None, wx.ID_ANY, title='Built in Configuration Tool, Ascender ACX/TCX', style=wx.DEFAULT_FRAME_STYLE ^ wx.RESIZE_BORDER, size=WINDOW_SIZE)
         self.panel = wx.Panel(self, wx.ID_ANY, style=wx.BORDER_RAISED)
 
 	# flag if function is active
@@ -77,7 +78,7 @@ class MyForm(wx.Frame):
 	self.disable_txt_controls()
 
         headline = '       - ACX/TXC logging - \n'
-	self.txtMultiCtrl = wx.TextCtrl(self.panel, -1, headline, size=(180, 675), style=wx.TE_MULTILINE)
+	self.txtMultiCtrl = wx.TextCtrl(self.panel, -1, headline, size=(180, 685), style=wx.TE_MULTILINE)
         self.txtMultiCtrl.SetInsertionPoint(0)
 
         self.create_sizer1()  # param sizer 1st column
@@ -97,7 +98,7 @@ class MyForm(wx.Frame):
 	self.leftSizer.Add(self.combo, 0, wx.LEFT, STATIC_BOX_SERIAL_BORDER)
 	self.leftSizer.Add(self.btnConnected, 0, wx.LEFT, STATIC_BOX_SERIAL_BORDER)
 	self.leftSizer.Add(self.lblConnected, 0, wx.LEFT, STATIC_BOX_SERIAL_BORDER)
-	self.rightSizer.Add(self.btnQuit, 0, wx.LEFT, 210)
+	self.rightSizer.Add(self.btnQuit, 0, wx.LEFT, 160)
         self.staticBoxSizer1.Add(self.leftSizer, 0, wx.ALL, STATIC_BOX_SERIAL_BORDER)
         self.staticBoxSizer1.Add(self.rightSizer, 0, wx.ALL, STATIC_BOX_SERIAL_BORDER)
 
