@@ -17,7 +17,6 @@ import serial
 
 # sizer borders
 BORDER1 = 5
-BORDER3 = 10
 STATIC_BOX_SERIAL_BORDER = 10
 STATIC_BOX_PARAMS_BORDER = 5
 PARAMSIZER1_BORDER = 2
@@ -44,7 +43,7 @@ def serial_cmd(cmd, serial):
 class MyForm(wx.Frame):
 
     def __init__(self):
-        wx.Frame.__init__(self, None, wx.ID_ANY, title='Built in Test Tool, Ascender ACX/TCX', size=(1080,730))
+        wx.Frame.__init__(self, None, wx.ID_ANY, title='Built in Configuration Tool, Ascender ACX/TCX', size=(1080,730))
         self.panel = wx.Panel(self, wx.ID_ANY, style=wx.BORDER_RAISED)
 
 	# flag if function is active
@@ -77,7 +76,7 @@ class MyForm(wx.Frame):
 	self.define_textctrl_parameters()
 	self.disable_txt_controls()
 
-        headline = '       - TXC/ACX logging - \n'
+        headline = '       - ACX/TXC logging - \n'
 	self.txtMultiCtrl = wx.TextCtrl(self.panel, -1, headline, size=(180, 675), style=wx.TE_MULTILINE)
         self.txtMultiCtrl.SetInsertionPoint(0)
 
