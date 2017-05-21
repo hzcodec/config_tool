@@ -298,7 +298,8 @@ class MyForm(wx.Frame):
 	        # unicode mess ;-)
 	        local_cmd = 'param set motor.sl.ki ' + self.txtCtrl_sl_ki.GetValue().encode('ascii', 'ignore')
                 serial_cmd(local_cmd, self.ser)
-	        print 'Updated - sl.ki = %f' % newSlKi
+	        self.txtMultiCtrl.AppendText('sl.ki updated' + "\n")
+
 	    self.oldSlKi = newSlKi
 
 	    # ----------------------------------------------------------------------------------------------------
@@ -397,6 +398,7 @@ class MyForm(wx.Frame):
             speedValue = self.scSpeed.GetValue()
 
 	    if (self.runningUp == False):
+	        self.txtMultiCtrl.AppendText('Up command ' + "\n")
                 serial_cmd('e', self.ser)
                 time.sleep(1)
                 serial_cmd('brake 0', self.ser)
@@ -416,6 +418,7 @@ class MyForm(wx.Frame):
             speedValue = self.scSpeed.GetValue()
 
 	    if (self.runningDown == False):
+	        self.txtMultiCtrl.AppendText('Down command ' + "\n")
                 serial_cmd('e', self.ser)
                 time.sleep(1)
                 serial_cmd('brake 0', self.ser)
@@ -429,7 +432,7 @@ class MyForm(wx.Frame):
             self.lblConnected.SetLabel('DOWN not possible, you must connect first!')
 
     def onTestStop(self, event):
-        print 'Stop'
+	self.txtMultiCtrl.AppendText('Stop command ' + "\n")
 	serial_cmd('speed 0', self.ser)
         time.sleep(1)
 	serial_cmd('d', self.ser)
@@ -461,6 +464,7 @@ class MyForm(wx.Frame):
 
     def onGetIq(self, event):
 	try:
+	    self.txtMultiCtrl.AppendText('get_iq ' + "\n")
 	    serial_cmd('get_iq', self.ser)
 	except:
             self.lblConnected.SetForegroundColour(wx.Colour(255,0,0))
