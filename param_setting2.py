@@ -68,7 +68,6 @@ class MyForm(wx.Frame):
 	self.defineCombo()           # combo box for port names
 	self.define_buttons()
 	self.define_spin_control()   # spin control for motor speed
-
         self.txtSerialPort = wx.StaticText(self.panel, wx.ID_ANY, 'Select serial port')
 
 	# Ascender parameters
@@ -76,7 +75,7 @@ class MyForm(wx.Frame):
 	self.define_textctrl_parameters()
 	self.disable_txt_controls()
 
-	self.txtMultiCtrl = wx.TextCtrl(self.panel, -1, "test", size=(180, 355), style=wx.TE_MULTILINE)
+	self.txtMultiCtrl = wx.TextCtrl(self.panel, -1, "", size=(180, 355), style=wx.TE_MULTILINE)
         self.txtMultiCtrl.SetInsertionPoint(0)
 
         self.create_sizer1()  # param sizer 1st column
@@ -318,7 +317,8 @@ class MyForm(wx.Frame):
 	            # unicode mess ;-)
 	            local_cmd = 'param set dominant_throttle_on ' + self.txtCtrl_dominant_throttle_on.GetValue().encode('ascii', 'ignore')
                     serial_cmd(local_cmd, self.ser)
-	            print 'Updated - dominant_trottle_on = %d' % newDominantThrottle
+	            self.txtMultiCtrl.AppendText('dominant_throttle_on updated' + "\n")
+
 	        self.oldDominantThrottle = newDominantThrottle
 
 	    # ----------------------------------------------------------------------------------------------------
@@ -332,7 +332,8 @@ class MyForm(wx.Frame):
 	        # unicode mess ;-)
 	        local_cmd = 'param set iq_alpha ' + self.txtCtrl_iq_alpha.GetValue().encode('ascii', 'ignore')
                 serial_cmd(local_cmd, self.ser)
-	        print 'Updated - iq_alpha = %f' % newIqAlpha
+	        self.txtMultiCtrl.AppendText('iq_alpha updated' + "\n")
+
 	    self.oldIqAlpha = newIqAlpha
 
 	    # ----------------------------------------------------------------------------------------------------
@@ -346,7 +347,8 @@ class MyForm(wx.Frame):
 	        # unicode mess ;-)
 	        local_cmd = 'param set speed_alpha ' + self.txtCtrl_speed_alpha.GetValue().encode('ascii', 'ignore')
                 serial_cmd(local_cmd, self.ser)
-	        print 'Updated - speed_alpha = %f' % newSpeedAlpha
+	        self.txtMultiCtrl.AppendText('speed_alpha updated' + "\n")
+
 	    self.oldSpeedAlpha = newSpeedAlpha
 
 	    # ----------------------------------------------------------------------------------------------------
@@ -360,7 +362,8 @@ class MyForm(wx.Frame):
 	        # unicode mess ;-)
 	        local_cmd = 'param set undershoot ' + self.txtCtrl_undershoot.GetValue().encode('ascii', 'ignore')
                 serial_cmd(local_cmd, self.ser)
-	        print 'Updated - undershoot = %f' % newUndershoot
+	        self.txtMultiCtrl.AppendText('undershoot updated' + "\n")
+
 	    self.oldUndershoot = newUndershoot
 
 	    # ----------------------------------------------------------------------------------------------------
@@ -379,7 +382,8 @@ class MyForm(wx.Frame):
 	            # unicode mess ;-)
 	            local_cmd = 'param set rope_stuck_on ' + self.txtCtrl_rope_stuck_on.GetValue().encode('ascii', 'ignore')
                     serial_cmd(local_cmd, self.ser)
-	            print 'Updated - rope_stuck_on = %d' % newRopeStuckOn
+	            self.txtMultiCtrl.AppendText('rope_stuck_on updated' + "\n")
+
 	        self.oldRopeStuckOn = newRopeStuckOn
 
 	else:
