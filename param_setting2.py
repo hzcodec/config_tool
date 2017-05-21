@@ -449,6 +449,7 @@ class MyForm(wx.Frame):
     def onTestInject(self, event):
 	if (self.toggle == False):
 	    try:
+	        self.txtMultiCtrl.AppendText('Inject On' + "\n")
                 serial_cmd('param set ti 1', self.ser)
 	        self.btnTestInject.SetBackgroundColour(RED)
 	        self.toggle = True
@@ -458,6 +459,7 @@ class MyForm(wx.Frame):
 
 	else:
 	    try:
+	        self.txtMultiCtrl.AppendText('Inject Off' + "\n")
                 serial_cmd('param set ti 0', self.ser)
 	        self.btnTestInject.SetBackgroundColour(BROWN)
 	        self.toggle = False
