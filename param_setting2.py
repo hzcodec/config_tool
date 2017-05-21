@@ -8,9 +8,7 @@
 #               Icons:
 #                  http://www.iconarchive.com/show/soft-scraps-icons-by-hopstarter/Button-Play-icon.html
 #                  http://www.iconarchive.com/show/colorful-long-shadow-icons-by-graphicloads/Button-eject-icon.html
-#
-#               Add:
-#                     Dialog when exit. Check that motor not is running.
+
 import wx
 import time
 import serial  
