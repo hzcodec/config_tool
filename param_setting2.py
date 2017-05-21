@@ -44,7 +44,7 @@ def serial_cmd(cmd, serial):
 class MyForm(wx.Frame):
 
     def __init__(self):
-        wx.Frame.__init__(self, None, wx.ID_ANY, title='Built in Test Tool, Ascender ACX/TCX', size=(900,760))
+        wx.Frame.__init__(self, None, wx.ID_ANY, title='Built in Test Tool, Ascender ACX/TCX', size=(1080,730))
         self.panel = wx.Panel(self, wx.ID_ANY, style=wx.BORDER_RAISED)
 
 	# flag if function is active
@@ -75,6 +75,9 @@ class MyForm(wx.Frame):
 	self.define_parameters()
 	self.define_textctrl_parameters()
 	self.disable_txt_controls()
+
+	self.txtMultiCtrl = wx.TextCtrl(self.panel, -1, "test", size=(180, 355), style=wx.TE_MULTILINE)
+        self.txtMultiCtrl.SetInsertionPoint(0)
 
         self.create_sizer1()  # param sizer 1st column
         self.create_sizer2()  # param sizer 2nd column
@@ -132,11 +135,14 @@ class MyForm(wx.Frame):
 	self.staticBoxSizer4.Add(self.debuggingSizer, 0, wx.ALL, BORDER1)
 	self.staticBoxSizer4.Add(self.btnTestStop, 0, wx.TOP|wx.BOTTOM, 35)
 
-        self.topSizer = wx.BoxSizer(wx.VERTICAL)
-        self.topSizer.Add(self.staticBoxSizer1, 0, wx.ALL|wx.EXPAND, BORDER1)
-        self.topSizer.Add(self.staticBoxSizer2, 1, wx.ALL|wx.EXPAND, BORDER1)
-        self.topSizer.Add(self.staticBoxSizer3, 1, wx.ALL|wx.EXPAND, BORDER1)
-        self.topSizer.Add(self.staticBoxSizer4, 1, wx.ALL|wx.EXPAND, BORDER1)
+        self.topSizer = wx.BoxSizer(wx.HORIZONTAL)
+	self.leftTopSizer = wx.BoxSizer(wx.VERTICAL)
+        self.leftTopSizer.Add(self.staticBoxSizer1, 0, wx.ALL|wx.EXPAND, BORDER1)
+        self.leftTopSizer.Add(self.staticBoxSizer2, 1, wx.ALL|wx.EXPAND, BORDER1)
+        self.leftTopSizer.Add(self.staticBoxSizer3, 1, wx.ALL|wx.EXPAND, BORDER1)
+        self.leftTopSizer.Add(self.staticBoxSizer4, 1, wx.ALL|wx.EXPAND, BORDER1)
+	self.topSizer.Add(self.leftTopSizer, 0, wx.ALL, BORDER1)
+	self.topSizer.Add(self.txtMultiCtrl, 0, wx.TOP, 20)
 
         self.panel.SetSizer(self.topSizer)
 
