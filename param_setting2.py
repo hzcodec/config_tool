@@ -158,7 +158,7 @@ class MyForm(wx.Frame):
 	self.oldSpeedAlpha = 0.05
 	self.oldUndershoot = -1.0
 	self.oldRopeStuckOn = 1
-	self.oldDelaySpeed = 5000
+	self.oldDelayStart = 5000
 
 	self.exitDialog =  wx.MessageDialog( self, " Quit application? \nCheck that motor has stopped!\n", "Quit", wx.YES_NO)
 
@@ -217,8 +217,8 @@ class MyForm(wx.Frame):
 	self.buttonSizer.Add(self.btnTestInject, 0, wx.ALL, 5)
 	self.buttonSizer.Add(self.btnGetIq, 0, wx.ALL, 5)
 	self.buttonSizer2 = wx.BoxSizer(wx.HORIZONTAL)
-	self.buttonSizer2.Add(self.param_delay_start, 1, wx.ALL, 5)
-	self.buttonSizer2.Add(self.txtCtrl_delay_start, 1, wx.ALL, 5)
+	self.buttonSizer2.Add(self.param_delay_start, 1, wx.LEFT, 5)
+	self.buttonSizer2.Add(self.txtCtrl_delay_start, 1, wx.LEFT, 12)
         self.staticBoxSizer3 = wx.StaticBoxSizer(self.statBoxEnhMeas, wx.VERTICAL)
 	self.staticBoxSizer3.Add(self.paramSizer3, 1, wx.ALL, 5)
 	self.staticBoxSizer3.Add(self.buttonSizer2, 1, wx.ALL, 5)
@@ -506,6 +506,26 @@ class MyForm(wx.Frame):
 	            self.txtMultiCtrl.AppendText('rope_stuck_on updated' + "\n")
 
 	        self.oldRopeStuckOn = newRopeStuckOn
+
+	    # ----------------------------------------------------------------------------------------------------
+	    # delay_start
+	    # ----------------------------------------------------------------------------------------------------
+            newDelayStart = int(self.txtCtrl_delay_start.GetValue())
+	    if (newDelayStart > 80000 or newDelayStart < 0):
+                self.txtCtrl_delay_start.SetForegroundColour((RED))
+
+            else:
+	        if (newDelayStart == self.oldDelayStart):
+                    self.txtCtrl_delay_start.SetForegroundColour((BLACK))
+	        else:
+                    self.txtCtrl_delay_start.SetForegroundColour((BLACK))
+                    time.sleep(1)
+	            # unicode mess ;-)
+	            local_cmd = 'param set delay_start ' + self.txtCtrl_delay_start.GetValue().encode('ascii', 'ignore')
+                    serial_cmd(local_cmd, self.ser)
+	            self.txtMultiCtrl.AppendText('delay_start updated' + "\n")
+
+	        self.oldDelayStart = newDelayStart
 
 	else:
             self.lblConnected.SetForegroundColour(wx.Colour(255,0,0))
