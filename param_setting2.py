@@ -41,6 +41,17 @@ def serial_cmd(cmd, serial):
     except:
         print 'Not Connected!'
 
+def serial_read(cmd, serial):
+    # send command to serial port
+    serial.write(cmd+'\r');
+    serial.reset_input_buffer()
+    serial.reset_output_buffer()
+    serial.flush()
+
+    # read data from serial port
+    c = serial.read(1300)
+    return c
+
 
 class MyForm(wx.Frame):
 
@@ -90,8 +101,8 @@ class MyForm(wx.Frame):
 
 	self.exitDialog =  wx.MessageDialog( self, " Quit application? \nCheck that motor has stopped!\n", "...", wx.YES_NO)
 
-	self.Centre()
-	#self.SetPosition((2500, 480))
+	#self.Centre()
+	self.SetPosition((2500, 100))
 
 	self.load_bitmaps()          # images for up/down/stop buttons 
 	self.defineCombo()           # combo box for port names
@@ -497,7 +508,10 @@ class MyForm(wx.Frame):
     def onGetIq(self, event):
 	try:
 	    self.txtMultiCtrl.AppendText('get_iq ' + "\n")
-	    serial_cmd('get_iq', self.ser)
+	    rv = serial_read('get_iq', self.ser)
+	    self.txtMultiCtrl.AppendText(rv[6:21])
+	    self.txtMultiCtrl.AppendText(rv[22:36])
+	    self.txtMultiCtrl.AppendText(rv[37:59] + "\n")
 	except:
             self.lblConnected.SetForegroundColour(wx.Colour(255,0,0))
 	    self.lblConnected.SetLabel('You must connect first!')
