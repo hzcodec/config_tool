@@ -1,7 +1,7 @@
 import base64
 
-string = '2017-05-31'
-data = base64.b64encode(string.encode())
+endDate = '2017-05-31'
+data = base64.b64encode(endDate.encode())
 print(data)
 
 data2 = base64.b64decode(data.decode())
