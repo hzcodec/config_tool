@@ -99,7 +99,7 @@ class MyForm(wx.Frame):
 	self.oldUndershoot = -1.0
 	self.oldRopeStuckOn = 1
 
-	self.exitDialog =  wx.MessageDialog( self, " Quit application? \nCheck that motor has stopped!\n", "...", wx.YES_NO)
+	self.exitDialog =  wx.MessageDialog( self, " Quit application? \nCheck that motor has stopped!\n", "Quit", wx.YES_NO)
 
 	#self.Centre()
 	self.SetPosition((2500, 100))
@@ -305,6 +305,7 @@ class MyForm(wx.Frame):
 
             self.lblConnected.SetForegroundColour(wx.Colour(50, 90 , 150))
             self.lblConnected.SetLabel('Connected to tty' + self.combo.GetValue())
+	    self.txtMultiCtrl.AppendText('Connected' + "\n")
 
         except:
             self.lblConnected.SetForegroundColour(wx.Colour(255,0,0))
