@@ -9,6 +9,65 @@
 #                  http://www.iconarchive.com/show/soft-scraps-icons-by-hopstarter/Button-Play-icon.html
 #                  http://www.iconarchive.com/show/colorful-long-shadow-icons-by-graphicloads/Button-eject-icon.html
 
+#    param list
+#    motor.cl.kp: 0.229996
+#    motor.cl.ki: 0.030518
+#    motor.cl.kt: 1.000000
+#    motor.cl.max: 51.000000
+#    motor.cl.min: -51.000000
+#    motor.sl.kp: 15.000000
+#    motor.sl.ki: 0.250000
+#    motor.sl.kt: 0.125000
+#    motor.sl.max: 80.000000
+#    motor.sl.min: -80.000000
+#    trajec.acc: 80.000000
+#    trajec.ret: 320.000000
+#    throttle.zero: 0.501099
+#    throttle.down: 0.328705
+#    throttle.up: 0.672745
+#    throttle.deadband_on: 0.030518
+#    throttle.deadband_off: 0.027466
+#    throttle.has_switch: 1
+#    num_motor_ch: 1
+#    power_out: 300.000000
+#    power_in: 100.000000
+#    brake_temp_ok: 60.000000
+#    brake_temp_hi: 65.000000
+#    brake_max_id: 40.000000
+#    angle_offset: 0.473084
+#    alignment_current: 40.000000
+#    sin_bias: 0.050049
+#    sin_gain: 4.946854
+#    cos_bias: 0.051147
+#    cos_gain: 4.949844
+#    brake_test.pos_ratio: 0.399994
+#    brake_test.neg_ratio: 0.199997
+#    psu_ok: 0
+#    led.brightness_hi: 0.300003
+#    led.brightness_lo: 0.300003
+#    idreg.kp: 0.009995
+#    idreg.ki: 0.001007
+#    idreg.kt: 0.500000
+#    power_margin: 0.000000
+#    power_factor: 1.000000
+#    speed_filter: 2147483
+#    max_motor_temp: 100.000000
+#    idle_timeout: 14400
+#    remote_ctrl_timeout: 10
+#    soc_lim_run_up: 8
+#    max_drive_temp: 85.000000
+#    dominant_throttle_on: 1
+#    rope_stuck_on: 1
+#    iq_alpha: 0.005005
+#    speed_alpha: 0.050003
+#    mx: 40.000000
+#    mi: -39.999984
+#    delay_start: 5000
+#    speed_lim: 5.000000
+#    undershoot: -0.999985
+#    ti: 0
+
+
 import wx
 import time
 import serial  
@@ -41,7 +100,7 @@ def serial_cmd(cmd, serial):
     except:
         print 'Not Connected!'
 
-def serial_read(cmd, serial):
+def serial_read(cmd, no, serial):
     # send command to serial port
     serial.write(cmd+'\r');
     serial.reset_input_buffer()
@@ -49,7 +108,7 @@ def serial_read(cmd, serial):
     serial.flush()
 
     # read data from serial port
-    c = serial.read(1300)
+    c = serial.read(no)
     return c
 
 
@@ -307,9 +366,21 @@ class MyForm(wx.Frame):
             self.lblConnected.SetLabel('Connected to tty' + self.combo.GetValue())
 	    self.txtMultiCtrl.AppendText('Connected' + "\n")
 
+
         except:
             self.lblConnected.SetForegroundColour(wx.Colour(255,0,0))
             self.lblConnected.SetLabel('Cannot connect')
+
+        self.read_param_list()
+    
+    def read_param_list(self):
+
+	if (self.connected == True):
+            time.sleep(1)
+	    rv = serial_read('param list', 1320, self.ser)
+	    #print (rv[10:33])
+	    newrv = rv.split("\n")
+	    print newrv
 
     def defineCombo(self):
         portNames = ['ACM0', 'ACM1', 'USB0']
@@ -509,7 +580,7 @@ class MyForm(wx.Frame):
     def onGetIq(self, event):
 	try:
 	    self.txtMultiCtrl.AppendText('get_iq ' + "\n")
-	    rv = serial_read('get_iq', self.ser)
+	    rv = serial_read('get_iq', 64, self.ser)
 	    self.txtMultiCtrl.AppendText(rv[6:21])
 	    self.txtMultiCtrl.AppendText(rv[22:36])
 	    self.txtMultiCtrl.AppendText(rv[37:59] + "\n")
