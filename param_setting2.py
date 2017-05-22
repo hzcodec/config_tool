@@ -52,7 +52,6 @@ class MyForm(wx.Frame):
             licFile = open("licensfile.lic", "r")
             licDate = licFile.readline()
 	    decodecDate = base64.b64decode(licDate.decode())
-	    print decodecDate
 
 	    strippedDate = decodecDate.strip('\n')
             splitDate = strippedDate.split('-')
