@@ -157,6 +157,7 @@ class MyForm(wx.Frame):
 	self.oldSpeedAlpha = 0.05
 	self.oldUndershoot = -1.0
 	self.oldRopeStuckOn = 1
+	self.oldDelaySpeed = 5000
 
 	self.exitDialog =  wx.MessageDialog( self, " Quit application? \nCheck that motor has stopped!\n", "Quit", wx.YES_NO)
 
@@ -216,6 +217,8 @@ class MyForm(wx.Frame):
 	self.buttonSizer.Add(self.btnGetIq, 0, wx.ALL, 5)
         self.staticBoxSizer3 = wx.StaticBoxSizer(self.statBoxEnhMeas, wx.VERTICAL)
 	self.staticBoxSizer3.Add(self.paramSizer3, 1, wx.ALL, 5)
+	self.staticBoxSizer3.Add(self.param_delay_start, 1, wx.ALL, 5)
+	self.staticBoxSizer3.Add(self.txtCtrl_delay_start, 1, wx.ALL, 5)
 	self.staticBoxSizer3.Add(self.buttonSizer, 1, wx.LEFT, 5)
 
 	self.debuggingSizer = wx.BoxSizer(wx.VERTICAL)
@@ -283,6 +286,7 @@ class MyForm(wx.Frame):
         self.param_speed_alpha = wx.StaticText(self.panel, wx.ID_ANY, 'speed_alpha')
         self.param_undershoot = wx.StaticText(self.panel, wx.ID_ANY, 'undershoot')
         self.param_par4 = wx.StaticText(self.panel, wx.ID_ANY, 'par4')
+        self.param_delay_start = wx.StaticText(self.panel, wx.ID_ANY, 'delay_start')
 
     def define_textctrl_parameters(self):
         self.txtCtrl_cl_kp = wx.TextCtrl(self.panel, wx.ID_ANY,'0.23')
@@ -299,6 +303,7 @@ class MyForm(wx.Frame):
         self.txtCtrl_speed_alpha = wx.TextCtrl(self.panel, wx.ID_ANY,'0.05')
         self.txtCtrl_undershoot = wx.TextCtrl(self.panel, wx.ID_ANY,'-1.0')
         self.txtCtrl_par4 = wx.TextCtrl(self.panel, wx.ID_ANY,'0.3')
+        self.txtCtrl_delay_start = wx.TextCtrl(self.panel, wx.ID_ANY,'5000')
 
     def create_sizer1(self):
 	self.paramSizer1 = wx.BoxSizer(wx.VERTICAL)
@@ -378,7 +383,6 @@ class MyForm(wx.Frame):
 	if (self.connected == True):
             time.sleep(1)
 	    rv = serial_read('param list', 1320, self.ser)
-	    #print (rv[10:33])
 	    newrv = rv.split("\n")
 	    print newrv
 
