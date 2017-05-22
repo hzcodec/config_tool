@@ -12,6 +12,8 @@
 import wx
 import time
 import serial  
+import base64
+import sys
 
 WINDOW_SIZE = (1035, 730)
 
@@ -39,11 +41,39 @@ def serial_cmd(cmd, serial):
     except:
         print 'Not Connected!'
 
+
 class MyForm(wx.Frame):
 
     def __init__(self):
         wx.Frame.__init__(self, None, wx.ID_ANY, title='Built in Configuration Tool, Ascender ACX/TCX', style=wx.DEFAULT_FRAME_STYLE ^ wx.RESIZE_BORDER, size=WINDOW_SIZE)
         self.panel = wx.Panel(self, wx.ID_ANY, style=wx.BORDER_RAISED)
+
+	try:
+            licFile = open("licensfile.lic", "r")
+            licDate = licFile.readline()
+	    decodecDate = base64.b64decode(licDate.decode())
+	    print decodecDate
+
+	    strippedDate = decodecDate.strip('\n')
+            splitDate = strippedDate.split('-')
+            trigger = 0
+
+            if (int(splitDate[0]) <= 2017):
+                if (int(splitDate[1]) < 5):
+                    trigger = 1
+                else:    
+                    if (int(splitDate[2]) < 22):
+                        trigger = 1
+
+            if (trigger == 0):
+                print 'License OK'
+            else:
+                print 'License has expiered:', strippedDate
+                sys.exit()
+
+        except:
+            print 'No license file'
+            sys.exit()
 
 	# flag if function is active
 	self.toggle      = False
