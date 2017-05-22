@@ -162,6 +162,18 @@ class MyForm(wx.Frame):
 
 	self.exitDialog =  wx.MessageDialog( self, " Quit application? \nCheck that motor has stopped!\n", "Quit", wx.YES_NO)
 
+        fileMenu = wx.Menu()
+	fileMenu.Append(101, "Open", "Open")
+	fileMenu.Append(102, "Save", "Save")
+	fileMenu.Append(103, "Exit", "Close")
+
+	menuBar = wx.MenuBar()
+	menuBar.Append(fileMenu, "File")
+	self.SetMenuBar(menuBar)
+	self.Bind(wx.EVT_MENU, self.onOpen, id=101)
+	self.Bind(wx.EVT_MENU, self.onSave, id=102)
+	self.Bind(wx.EVT_MENU, self.onQuit, id=103)
+
 	#self.Centre()
 	self.SetPosition((2500, 100))
 
@@ -250,6 +262,15 @@ class MyForm(wx.Frame):
 	self.topSizer.Add(self.txtMultiCtrl, 0, wx.TOP, 20)
 
         self.panel.SetSizer(self.topSizer)
+
+    def onOpen(self, event):
+        print 'Open configaration:'
+
+    def onSave(self, event):
+        print 'Save configaration:'
+        fp = open("configuration.txt", "w")
+	fp.write("Hello")
+	fp.close()
 
     def load_bitmaps(self):
 	self.bmpUp = wx.Bitmap("up.png", wx.BITMAP_TYPE_ANY)
