@@ -96,14 +96,17 @@
 # Motor.cl.min
 # Motor.sl.max
 # Motor.sl.min
+# Power_margin
+# Power_factor
+#    power_margin: 0.000000
+#    power_factor: 1.000000
+
 # Num_motor_ch
 # Brake_temp_ok
 # Brake_temp_hi
 # Brake_max_id
 # Brake_test.pos_ratio
 # Led.brightness_lo
-# Power_margin
-# Power_factor
 # Max_motor_temp
 # Idle_timeout
 
@@ -206,6 +209,9 @@ class MyForm(wx.Frame):
 	self.oldSlKi = 0.030518
 	self.oldThrottleHasSwitch = 1
 	self.oldSlMax = 80.0000
+	self.oldSlMin = -80.0000
+	self.oldPowerMargin = 0.0000
+	self.oldPowerFactor = 1.0000
 
 	self.oldDominantThrottle = 1
 	self.oldIqAlpha = 0.005
@@ -368,9 +374,10 @@ class MyForm(wx.Frame):
         self.param_sl_ki = wx.StaticText(self.panel, wx.ID_ANY, 'sl.ki')
         self.param_throttle_has_switch = wx.StaticText(self.panel, wx.ID_ANY, 'has_switch')
         self.param_sl_max = wx.StaticText(self.panel, wx.ID_ANY, 'sl.max')
+        self.param_sl_min = wx.StaticText(self.panel, wx.ID_ANY, 'sl.min')
+        self.param_power_margin = wx.StaticText(self.panel, wx.ID_ANY, 'power_margin')
+        self.param_power_factor = wx.StaticText(self.panel, wx.ID_ANY, 'power_factor')
 
-        self.param_throttle_down = wx.StaticText(self.panel, wx.ID_ANY, 'throttle_down')
-        self.param_throttle_up = wx.StaticText(self.panel, wx.ID_ANY, 'throttle_up')
         self.param_throttle_deadband_on = wx.StaticText(self.panel, wx.ID_ANY, 'throttle_deadband_on')
         self.param_dominant_throttle_on = wx.StaticText(self.panel, wx.ID_ANY, 'dominant_throttle_on')
         self.param_rope_stuck_on = wx.StaticText(self.panel, wx.ID_ANY, 'rope_stuck_on')
@@ -385,10 +392,11 @@ class MyForm(wx.Frame):
         self.txtCtrl_cl_min = wx.TextCtrl(self.panel, wx.ID_ANY,'-51.00')
         self.txtCtrl_sl_ki = wx.TextCtrl(self.panel, wx.ID_ANY,'0.250000')
         self.txtCtrl_throttle_has_switch = wx.TextCtrl(self.panel, wx.ID_ANY,'1')
-        self.txtCtrl_sl_max = wx.TextCtrl(self.panel, wx.ID_ANY,'81.000')
+        self.txtCtrl_sl_max = wx.TextCtrl(self.panel, wx.ID_ANY,'80.000')
+        self.txtCtrl_sl_min = wx.TextCtrl(self.panel, wx.ID_ANY,'-81.000')
+        self.txtCtrl_power_margin = wx.TextCtrl(self.panel, wx.ID_ANY,'0.000')
+        self.txtCtrl_power_factor = wx.TextCtrl(self.panel, wx.ID_ANY,'1.000')
 
-        self.txtCtrl_throttle_down = wx.TextCtrl(self.panel, wx.ID_ANY,'0.5')
-        self.txtCtrl_throttle_up = wx.TextCtrl(self.panel, wx.ID_ANY,'4')
         self.txtCtrl_throttle_deadband_on = wx.TextCtrl(self.panel, wx.ID_ANY,'0.95')
         self.txtCtrl_dominant_throttle_on = wx.TextCtrl(self.panel, wx.ID_ANY,'1')
         self.txtCtrl_rope_stuck_on = wx.TextCtrl(self.panel, wx.ID_ANY,'1')
@@ -415,11 +423,12 @@ class MyForm(wx.Frame):
 	self.paramSizer2 = wx.BoxSizer(wx.VERTICAL)
 	self.paramSizer2.Add(self.param_sl_max, 0, wx.ALL, PARAMSIZER2_BORDER)
 	self.paramSizer2.Add(self.txtCtrl_sl_max, 0, wx.ALL, PARAMSIZER2_BORDER)
-
-	self.paramSizer2.Add(self.param_throttle_down, 0, wx.ALL, PARAMSIZER2_BORDER)
-	self.paramSizer2.Add(self.txtCtrl_throttle_down, 0, wx.ALL, PARAMSIZER2_BORDER)
-	self.paramSizer2.Add(self.param_throttle_up, 0, wx.ALL, PARAMSIZER2_BORDER)
-	self.paramSizer2.Add(self.txtCtrl_throttle_up, 0, wx.ALL, PARAMSIZER2_BORDER)
+	self.paramSizer2.Add(self.param_sl_min, 0, wx.ALL, PARAMSIZER2_BORDER)
+	self.paramSizer2.Add(self.txtCtrl_sl_min, 0, wx.ALL, PARAMSIZER2_BORDER)
+	self.paramSizer2.Add(self.param_power_margin, 0, wx.ALL, PARAMSIZER2_BORDER)
+	self.paramSizer2.Add(self.txtCtrl_power_margin, 0, wx.ALL, PARAMSIZER2_BORDER)
+	self.paramSizer2.Add(self.param_power_factor, 0, wx.ALL, PARAMSIZER2_BORDER)
+	self.paramSizer2.Add(self.txtCtrl_power_factor, 0, wx.ALL, PARAMSIZER2_BORDER)
 
     def create_sizer3(self):
 	self.paramSizer3 = wx.BoxSizer(wx.HORIZONTAL)
@@ -489,8 +498,6 @@ class MyForm(wx.Frame):
         self.combo.Bind(wx.EVT_COMBOBOX, self.onCombo)
 
     def disable_txt_controls(self):
-	self.txtCtrl_throttle_down.Disable()
-	self.txtCtrl_throttle_up.Disable()
 	self.txtCtrl_throttle_deadband_on.Disable()
 	self.txtCtrl_par4.Disable()
 
@@ -570,6 +577,51 @@ class MyForm(wx.Frame):
 	        self.txtMultiCtrl.AppendText('sl.max updated' + "\n")
 
 	    self.oldSlMax = newSlMax
+
+	    # ----------------------------------------------------------------------------------------------------
+            # sl.min
+	    # ----------------------------------------------------------------------------------------------------
+            newSlMin = float(self.txtCtrl_sl_min.GetValue())
+	    if (newSlMin == self.oldSlMin):
+		pass
+	    else:
+                time.sleep(1)
+	        # unicode mess ;-)
+	        local_cmd = 'param set motor.sl.min ' + self.txtCtrl_sl_ki.GetValue().encode('ascii', 'ignore')
+                serial_cmd(local_cmd, self.ser)
+	        self.txtMultiCtrl.AppendText('sl.min updated' + "\n")
+
+	    self.oldSlMin = newSlMin
+
+	    # ----------------------------------------------------------------------------------------------------
+            # power_margin
+	    # ----------------------------------------------------------------------------------------------------
+            newPowerMargin = float(self.txtCtrl_power_margin.GetValue())
+	    if (newPowerMargin == self.oldPowerMargin):
+		pass
+	    else:
+                time.sleep(1)
+	        # unicode mess ;-)
+	        local_cmd = 'param set power_margin ' + self.txtCtrl_power_margin.GetValue().encode('ascii', 'ignore')
+                serial_cmd(local_cmd, self.ser)
+	        self.txtMultiCtrl.AppendText('power_margin updated' + "\n")
+
+	    self.oldPowerMargin = newPowerMargin
+
+	    # ----------------------------------------------------------------------------------------------------
+            # power_factor
+	    # ----------------------------------------------------------------------------------------------------
+            newPowerFactor = float(self.txtCtrl_power_factor.GetValue())
+	    if (newPowerMargin == self.oldPowerMargin):
+		pass
+	    else:
+                time.sleep(1)
+	        # unicode mess ;-)
+	        local_cmd = 'param set power_factor ' + self.txtCtrl_power_factor.GetValue().encode('ascii', 'ignore')
+                serial_cmd(local_cmd, self.ser)
+	        self.txtMultiCtrl.AppendText('power_factor updated' + "\n")
+
+	    self.oldPowerFactor = newPowerFactor
 
 	    # ----------------------------------------------------------------------------------------------------
 	    # Dominant throttle
