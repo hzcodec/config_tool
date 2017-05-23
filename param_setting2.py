@@ -8,7 +8,9 @@
 #               Icons:
 #                  http://www.iconarchive.com/show/soft-scraps-icons-by-hopstarter/Button-Play-icon.html
 #                  http://www.iconarchive.com/show/colorful-long-shadow-icons-by-graphicloads/Button-eject-icon.html
-
+#
+#                Licens check should be done in a separate function.
+#
 #    param list
 #    motor.cl.kp: 0.229996
 #    motor.cl.ki: 0.030518
@@ -264,13 +266,22 @@ class MyForm(wx.Frame):
         self.panel.SetSizer(self.topSizer)
 
     def onOpen(self, event):
-        print 'Open configaration:'
+        print 'Open configuration:'
 
     def onSave(self, event):
-        print 'Save configaration:'
+        print 'Save configuration:'
         fp = open("configuration.txt", "w")
 	fp.write("Hello")
 	fp.close()
+
+    def get_version(self):
+        ascenderVersion = serial_read('v', 56, self.ser)
+	print ascenderVersion
+	#lblAscenderVersion = wx.StaticText(self.panel, label= ver[1:], pos=(150,Ypos2))
+ 
+        remoteVersion = serial_read('r_v', 56, self.ser)
+	print remoteVersion
+	#lblRemoteVersion = wx.StaticText(self.panel, label= ver[3:], pos=(150,Ypos2+60))
 
     def load_bitmaps(self):
 	self.bmpUp = wx.Bitmap("up.png", wx.BITMAP_TYPE_ANY)
@@ -401,6 +412,7 @@ class MyForm(wx.Frame):
             self.lblConnected.SetLabel('Cannot connect')
 
         self.read_param_list()
+	self.get_version()
     
     def read_param_list(self):
 
