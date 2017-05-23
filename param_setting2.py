@@ -71,6 +71,21 @@
 
 #['param list\r', 'motor.cl.kp: 0.229996\r', 'motor.cl.ki: 0.030518\r', 'motor.cl.kt: 1.000000\r', 'motor.cl.max: 51.000000\r', 'motor.cl.min: -51.000000\r', 'motor.sl.kp: 15.000000\r', 'motor.sl.ki: 0.250000\r', 'motor.sl.kt: 0.125000\r', 'motor.sl.max: 80.000000\r', 'motor.sl.min: -80.000000\r', 'trajec.acc: 80.000000\r', 'trajec.ret: 320.000000\r', 'throttle.zero: 0.501099\r', 'throttle.down: 0.328705\r', 'throttle.up: 0.672745\r', 'throttle.deadband_on: 0.030518\r', 'throttle.deadband_off: 0.027466\r', 'throttle.has_switch: 1\r', 'num_motor_ch: 1\r', 'power_out: 300.000000\r', 'power_in: 100.000000\r', 'brake_temp_ok: 60.000000\r', 'brake_temp_hi: 65.000000\r', 'brake_max_id: 40.000000\r', 'angle_offset: 0.473084\r', 'alignment_current: 40.000000\r', 'sin_bias: 0.050049\r', 'sin_gain: 4.946854\r', 'cos_bias: 0.051147\r', 'cos_gain: 4.949844\r', 'brake_test.pos_ratio: 0.399994\r', 'brake_test.neg_ratio: 0.199997\r', 'psu_ok: 0\r', 'led.brightness_hi: 0.300003\r', 'led.brightness_lo: 0.300003\r', 'idreg.kp: 0.009995\r', 'idreg.ki: 0.001007\r', 'idreg.kt: 0.500000\r', 'power_margin: 0.000000\r', 'power_factor: 1.000000\r', 'speed_filter: 2147483\r', 'max_motor_temp: 100.000000\r', 'idle_timeout: 14400\r', 'remote_ctrl_timeout: 10\r', 'soc_lim_run_up: 8\r', 'max_drive_temp: 85.000000\r', 'dominant_throttle_on: 1\r', 'rope_stuck_on: 1\r', 'iq_alpha: 0.005005\r', 'speed_alpha: 0.050003\r', 'mx: 40.000000\r', 'mi: -39.999984\r', 'delay_start: 5000\r', 'speed_lim: 5.000000\r', 'undershoot: -0.999985\r', 'ti: 0\r', '']
 
+#Unjo 500:01 00153 C
+#220:02 00150 A
+#220:02 00111 PC5
+#
+# After split function
+#['Unjo', '500:01', '00153', 'C\r\n220:02', '00150', 'A\r\n220:02', '00111', 'PC5\r\n']
+#r_v
+#Unjo 500:01 00155 PB2
+#220:02 00121 PD1
+#244 bytes 
+#
+# After split function
+#['r_v\r\nUnjo', '500:01', '00155', 'PB2\r\n220:02', '00121', 'PD1\r\n244', 'bytes', '']
+
+
 import wx
 import time
 import serial  
@@ -273,7 +288,7 @@ class MyForm(wx.Frame):
         print 'Open configuration:'
 
     def onSave(self, event):
-        print 'Save configuration:'
+	self.txtMultiCtrl.AppendText('Configuration saved\n')
         fp = open("configuration.txt", "w")
 	fp.write(self.ascenderVersion)
 	fp.write(self.remoteVersion)
@@ -282,10 +297,12 @@ class MyForm(wx.Frame):
     def get_version(self):
         self.ascenderVersion = serial_read('v', 56, self.ser)
 	print self.ascenderVersion
+	print self.ascenderVersion.split(" ")
 	#lblAscenderVersion = wx.StaticText(self.panel, label= ver[1:], pos=(150,Ypos2))
  
         self.remoteVersion = serial_read('r_v', 56, self.ser)
 	print self.remoteVersion
+	print self.remoteVersion.split(" ")
 	#lblRemoteVersion = wx.StaticText(self.panel, label= ver[3:], pos=(150,Ypos2+60))
 
     def load_bitmaps(self):
