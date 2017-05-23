@@ -104,7 +104,9 @@
 # Brake_temp_hi
 #    brake_temp_hi: 65.000000
 # Brake_max_id
+#    brake_max_id: 40.000000
 # Brake_test.pos_ratio
+#    brake_test.pos_ratio: 0.399994
 
 # Num_motor_ch
 # Led.brightness_lo
@@ -215,6 +217,8 @@ class MyForm(wx.Frame):
 	self.oldPowerFactor = 1.0000
 	self.oldBrakeTempOk = 60.000
 	self.oldBrakeTempHi = 65.000
+	self.oldBrakeMaxId = 40.000
+	self.oldBrakePosRatio = 0.3999
 
 	self.oldDominantThrottle = 1
 	self.oldIqAlpha = 0.005
@@ -382,6 +386,8 @@ class MyForm(wx.Frame):
         self.param_power_factor = wx.StaticText(self.panel, wx.ID_ANY, 'power_factor')
         self.param_brake_temp_ok = wx.StaticText(self.panel, wx.ID_ANY, 'brake_temp_ok')
         self.param_brake_temp_hi = wx.StaticText(self.panel, wx.ID_ANY, 'brake_temp_hi')
+        self.param_brake_max_id = wx.StaticText(self.panel, wx.ID_ANY, 'brake_max_id')
+        self.param_brake_pos_ratio = wx.StaticText(self.panel, wx.ID_ANY, 'brake_pos_ratio')
 
         self.param_dominant_throttle_on = wx.StaticText(self.panel, wx.ID_ANY, 'dominant_throttle_on')
         self.param_rope_stuck_on = wx.StaticText(self.panel, wx.ID_ANY, 'rope_stuck_on')
@@ -402,6 +408,8 @@ class MyForm(wx.Frame):
         self.txtCtrl_power_factor = wx.TextCtrl(self.panel, wx.ID_ANY,'1.000')
         self.txtCtrl_brake_temp_ok = wx.TextCtrl(self.panel, wx.ID_ANY,'60.000')
         self.txtCtrl_brake_temp_hi = wx.TextCtrl(self.panel, wx.ID_ANY,'65.000')
+        self.txtCtrl_brake_max_id = wx.TextCtrl(self.panel, wx.ID_ANY,'40.000')
+        self.txtCtrl_brake_pos_ratio = wx.TextCtrl(self.panel, wx.ID_ANY,'0.3999')
 
         self.txtCtrl_dominant_throttle_on = wx.TextCtrl(self.panel, wx.ID_ANY,'1')
         self.txtCtrl_rope_stuck_on = wx.TextCtrl(self.panel, wx.ID_ANY,'1')
@@ -452,11 +460,15 @@ class MyForm(wx.Frame):
 	self.paramSizer4.Add(self.txtCtrl_brake_temp_ok, 0, wx.ALL, PARAMSIZER4_BORDER)
 	self.paramSizer4.Add(self.param_brake_temp_hi, 0, wx.ALL, PARAMSIZER4_BORDER)
 	self.paramSizer4.Add(self.txtCtrl_brake_temp_hi, 0, wx.ALL, PARAMSIZER4_BORDER)
+	self.paramSizer4.Add(self.param_brake_max_id, 0, wx.ALL, PARAMSIZER4_BORDER)
+	self.paramSizer4.Add(self.txtCtrl_brake_max_id, 0, wx.ALL, PARAMSIZER4_BORDER)
+	self.paramSizer4.Add(self.param_brake_pos_ratio, 0, wx.ALL, PARAMSIZER4_BORDER)
+	self.paramSizer4.Add(self.txtCtrl_brake_pos_ratio, 0, wx.ALL, PARAMSIZER4_BORDER)
 
-	self.paramSizer4.Add(self.param_dominant_throttle_on, 0, wx.ALL, PARAMSIZER4_BORDER)
-	self.paramSizer4.Add(self.txtCtrl_dominant_throttle_on, 0, wx.ALL, PARAMSIZER4_BORDER)
-	self.paramSizer4.Add(self.param_par4, 0, wx.ALL, PARAMSIZER4_BORDER)
-	self.paramSizer4.Add(self.txtCtrl_par4, 0, wx.ALL, PARAMSIZER4_BORDER)
+	#self.paramSizer4.Add(self.param_dominant_throttle_on, 0, wx.ALL, PARAMSIZER4_BORDER)
+	#self.paramSizer4.Add(self.txtCtrl_dominant_throttle_on, 0, wx.ALL, PARAMSIZER4_BORDER)
+	#self.paramSizer4.Add(self.param_par4, 0, wx.ALL, PARAMSIZER4_BORDER)
+	#self.paramSizer4.Add(self.txtCtrl_par4, 0, wx.ALL, PARAMSIZER4_BORDER)
 
     def bind_buttons(self):
         self.Bind(wx.EVT_BUTTON, self.onConnect, self.btnConnected)
@@ -559,7 +571,7 @@ class MyForm(wx.Frame):
             # throttle.has_switch
 	    # ----------------------------------------------------------------------------------------------------
             newThrottleHasSwitch = int(self.txtCtrl_throttle_has_switch.GetValue())
-	    if (ThrottleHasSwitch == self.oldThrottleHasSwitch):
+	    if (newThrottleHasSwitch == self.oldThrottleHasSwitch):
 		pass
 	    else:
                 time.sleep(1)
@@ -568,7 +580,7 @@ class MyForm(wx.Frame):
                 serial_cmd(local_cmd, self.ser)
 	        self.txtMultiCtrl.AppendText('has_switch updated' + "\n")
 
-	    self.oldThrottleHasSwitch = ThrottleHasSwitch
+	    self.oldThrottleHasSwitch = newThrottleHasSwitch
 
 	    # ----------------------------------------------------------------------------------------------------
             # sl.max
@@ -619,7 +631,7 @@ class MyForm(wx.Frame):
             # power_factor
 	    # ----------------------------------------------------------------------------------------------------
             newPowerFactor = float(self.txtCtrl_power_factor.GetValue())
-	    if (newPowerMargin == self.oldPowerMargin):
+	    if (newPowerFactor == self.oldPowerFactor):
 		pass
 	    else:
                 time.sleep(1)
@@ -659,6 +671,36 @@ class MyForm(wx.Frame):
 	        self.txtMultiCtrl.AppendText('brake_temp_hi updated' + "\n")
 
 	    self.oldBrakeTempHi = newBrakeTempHi
+
+	    # ----------------------------------------------------------------------------------------------------
+            # brake_max_id
+	    # ----------------------------------------------------------------------------------------------------
+            newBrakeMaxId = float(self.txtCtrl_brake_max_id.GetValue())
+	    if (newBrakeMaxId == self.oldBrakeMaxId):
+		pass
+	    else:
+                time.sleep(1)
+	        # unicode mess ;-)
+	        local_cmd = 'param set brake_max_id ' + self.txtCtrl_brake_max_id.GetValue().encode('ascii', 'ignore')
+                serial_cmd(local_cmd, self.ser)
+	        self.txtMultiCtrl.AppendText('brake_max_id updated' + "\n")
+
+	    self.oldBrakeMaxId = newBrakeMaxId
+
+	    # ----------------------------------------------------------------------------------------------------
+            # brake_pos_ratio
+	    # ----------------------------------------------------------------------------------------------------
+            newBrakePosRatio = float(self.txtCtrl_brake_pos_ratio.GetValue())
+	    if (newBrakePosRatio == self.oldBrakePosRatio):
+		pass
+	    else:
+                time.sleep(1)
+	        # unicode mess ;-)
+	        local_cmd = 'param set brake_pos_ratio ' + self.txtCtrl_brake_pos_ratio.GetValue().encode('ascii', 'ignore')
+                serial_cmd(local_cmd, self.ser)
+	        self.txtMultiCtrl.AppendText('brake_pos_ratio updated' + "\n")
+
+	    self.oldBrakePosRatio = newBrakePosRatio
 
 	    # ----------------------------------------------------------------------------------------------------
 	    # Dominant throttle
