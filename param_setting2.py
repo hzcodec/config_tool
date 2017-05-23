@@ -98,14 +98,15 @@
 # Motor.sl.min
 # Power_margin
 # Power_factor
-#    power_margin: 0.000000
-#    power_factor: 1.000000
 
-# Num_motor_ch
 # Brake_temp_ok
+#    brake_temp_ok: 60.000000
 # Brake_temp_hi
+#    brake_temp_hi: 65.000000
 # Brake_max_id
 # Brake_test.pos_ratio
+
+# Num_motor_ch
 # Led.brightness_lo
 # Max_motor_temp
 # Idle_timeout
@@ -212,6 +213,8 @@ class MyForm(wx.Frame):
 	self.oldSlMin = -80.0000
 	self.oldPowerMargin = 0.0000
 	self.oldPowerFactor = 1.0000
+	self.oldBrakeTempOk = 60.000
+	self.oldBrakeTempHi = 65.000
 
 	self.oldDominantThrottle = 1
 	self.oldIqAlpha = 0.005
@@ -377,8 +380,9 @@ class MyForm(wx.Frame):
         self.param_sl_min = wx.StaticText(self.panel, wx.ID_ANY, 'sl.min')
         self.param_power_margin = wx.StaticText(self.panel, wx.ID_ANY, 'power_margin')
         self.param_power_factor = wx.StaticText(self.panel, wx.ID_ANY, 'power_factor')
+        self.param_brake_temp_ok = wx.StaticText(self.panel, wx.ID_ANY, 'brake_temp_ok')
+        self.param_brake_temp_hi = wx.StaticText(self.panel, wx.ID_ANY, 'brake_temp_hi')
 
-        self.param_throttle_deadband_on = wx.StaticText(self.panel, wx.ID_ANY, 'throttle_deadband_on')
         self.param_dominant_throttle_on = wx.StaticText(self.panel, wx.ID_ANY, 'dominant_throttle_on')
         self.param_rope_stuck_on = wx.StaticText(self.panel, wx.ID_ANY, 'rope_stuck_on')
         self.param_iq_alpha = wx.StaticText(self.panel, wx.ID_ANY, 'iq_alpha')
@@ -396,8 +400,9 @@ class MyForm(wx.Frame):
         self.txtCtrl_sl_min = wx.TextCtrl(self.panel, wx.ID_ANY,'-81.000')
         self.txtCtrl_power_margin = wx.TextCtrl(self.panel, wx.ID_ANY,'0.000')
         self.txtCtrl_power_factor = wx.TextCtrl(self.panel, wx.ID_ANY,'1.000')
+        self.txtCtrl_brake_temp_ok = wx.TextCtrl(self.panel, wx.ID_ANY,'60.000')
+        self.txtCtrl_brake_temp_hi = wx.TextCtrl(self.panel, wx.ID_ANY,'65.000')
 
-        self.txtCtrl_throttle_deadband_on = wx.TextCtrl(self.panel, wx.ID_ANY,'0.95')
         self.txtCtrl_dominant_throttle_on = wx.TextCtrl(self.panel, wx.ID_ANY,'1')
         self.txtCtrl_rope_stuck_on = wx.TextCtrl(self.panel, wx.ID_ANY,'1')
         self.txtCtrl_iq_alpha = wx.TextCtrl(self.panel, wx.ID_ANY,'0.005')
@@ -443,8 +448,11 @@ class MyForm(wx.Frame):
 
     def create_sizer4(self):
 	self.paramSizer4 = wx.BoxSizer(wx.VERTICAL)
-	self.paramSizer4.Add(self.param_throttle_deadband_on, 0, wx.ALL, PARAMSIZER4_BORDER)
-	self.paramSizer4.Add(self.txtCtrl_throttle_deadband_on, 0, wx.ALL, PARAMSIZER4_BORDER)
+	self.paramSizer4.Add(self.param_brake_temp_ok, 0, wx.ALL, PARAMSIZER4_BORDER)
+	self.paramSizer4.Add(self.txtCtrl_brake_temp_ok, 0, wx.ALL, PARAMSIZER4_BORDER)
+	self.paramSizer4.Add(self.param_brake_temp_hi, 0, wx.ALL, PARAMSIZER4_BORDER)
+	self.paramSizer4.Add(self.txtCtrl_brake_temp_hi, 0, wx.ALL, PARAMSIZER4_BORDER)
+
 	self.paramSizer4.Add(self.param_dominant_throttle_on, 0, wx.ALL, PARAMSIZER4_BORDER)
 	self.paramSizer4.Add(self.txtCtrl_dominant_throttle_on, 0, wx.ALL, PARAMSIZER4_BORDER)
 	self.paramSizer4.Add(self.param_par4, 0, wx.ALL, PARAMSIZER4_BORDER)
@@ -498,7 +506,6 @@ class MyForm(wx.Frame):
         self.combo.Bind(wx.EVT_COMBOBOX, self.onCombo)
 
     def disable_txt_controls(self):
-	self.txtCtrl_throttle_deadband_on.Disable()
 	self.txtCtrl_par4.Disable()
 
     def onConfig(self, event):
@@ -622,6 +629,36 @@ class MyForm(wx.Frame):
 	        self.txtMultiCtrl.AppendText('power_factor updated' + "\n")
 
 	    self.oldPowerFactor = newPowerFactor
+
+	    # ----------------------------------------------------------------------------------------------------
+            # brake_temp_ok
+	    # ----------------------------------------------------------------------------------------------------
+            newBrakeTempOk = float(self.txtCtrl_brake_temp_ok.GetValue())
+	    if (newBrakeTempOk == self.oldBrakeTempOk):
+		pass
+	    else:
+                time.sleep(1)
+	        # unicode mess ;-)
+	        local_cmd = 'param set brake_temp_ok ' + self.txtCtrl_brake_temp_ok.GetValue().encode('ascii', 'ignore')
+                serial_cmd(local_cmd, self.ser)
+	        self.txtMultiCtrl.AppendText('brake_temp_ok updated' + "\n")
+
+	    self.oldBrakeTempOk = newBrakeTempOk
+
+	    # ----------------------------------------------------------------------------------------------------
+            # brake_temp_hi
+	    # ----------------------------------------------------------------------------------------------------
+            newBrakeTempHi = float(self.txtCtrl_brake_temp_hi.GetValue())
+	    if (newBrakeTempOk == self.oldBrakeTempOk):
+		pass
+	    else:
+                time.sleep(1)
+	        # unicode mess ;-)
+	        local_cmd = 'param set brake_temp_hi ' + self.txtCtrl_brake_temp_hi.GetValue().encode('ascii', 'ignore')
+                serial_cmd(local_cmd, self.ser)
+	        self.txtMultiCtrl.AppendText('brake_temp_hi updated' + "\n")
+
+	    self.oldBrakeTempHi = newBrakeTempHi
 
 	    # ----------------------------------------------------------------------------------------------------
 	    # Dominant throttle
