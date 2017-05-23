@@ -87,18 +87,15 @@
 #['r_v\r\nUnjo', '500:01', '00155', 'PB2\r\n220:02', '00121', 'PD1\r\n244', 'bytes', '']
 
 
-# Det vi skruvar på i produktion när vi testar/kalibrerar är.
 # Motor.cl.max
 # Motor.cl.min 
-# Motor.sl.ki - sedan ändringen på värdet men det är temporärt tills vi släpper ny mjukvara.
+# Motor.sl.ki
 # 
-# Sedan använder vi även kommandona
 # Throttle cal 0
 # Throttle cal -1
 # Throttle cal 1
 # Align
 # 
-# Sedan ändrar vi på vissa parametrar beroende på vilken modell det är.
 # Motor.cl.max
 # Motor.cl.min
 # Motor.sl.max
@@ -203,7 +200,10 @@ class MyForm(wx.Frame):
 	self.runningDown = False
 
 	# flag to check if parameters have been updated
-	self.oldSlKi = 0.25
+	self.oldClMax = 51.00
+	self.oldClMin = -51.00
+	self.oldSlKi = 0.030518
+	self.oldThrottleHasSwitch = 1
 	self.oldDominantThrottle = 1
 	self.oldIqAlpha = 0.005
 	self.oldSpeedAlpha = 0.05
@@ -360,10 +360,11 @@ class MyForm(wx.Frame):
         self.lblSpinCtrl = wx.StaticText(self.panel, wx.ID_ANY, 'Speed')
 
     def define_parameters(self):
-        self.param_cl_kp = wx.StaticText(self.panel, wx.ID_ANY, 'cl.kp')
-        self.param_cl_ki = wx.StaticText(self.panel, wx.ID_ANY, 'cl.ki')
-        self.param_sl_kp = wx.StaticText(self.panel, wx.ID_ANY, 'sl.kp')
+        self.param_cl_max = wx.StaticText(self.panel, wx.ID_ANY, 'cl.max')
+        self.param_cl_min = wx.StaticText(self.panel, wx.ID_ANY, 'cl.min')
         self.param_sl_ki = wx.StaticText(self.panel, wx.ID_ANY, 'sl.ki')
+        self.param_throttle_has_switch = wx.StaticText(self.panel, wx.ID_ANY, 'has_switch')
+
         self.param_throttle_zero = wx.StaticText(self.panel, wx.ID_ANY, 'throttle_zero')
         self.param_throttle_down = wx.StaticText(self.panel, wx.ID_ANY, 'throttle_down')
         self.param_throttle_up = wx.StaticText(self.panel, wx.ID_ANY, 'throttle_up')
@@ -377,10 +378,11 @@ class MyForm(wx.Frame):
         self.param_delay_start = wx.StaticText(self.panel, wx.ID_ANY, 'delay_start')
 
     def define_textctrl_parameters(self):
-        self.txtCtrl_cl_kp = wx.TextCtrl(self.panel, wx.ID_ANY,'0.23')
-        self.txtCtrl_cl_ki = wx.TextCtrl(self.panel, wx.ID_ANY,'13')
-        self.txtCtrl_sl_kp = wx.TextCtrl(self.panel, wx.ID_ANY,'15')
-        self.txtCtrl_sl_ki = wx.TextCtrl(self.panel, wx.ID_ANY,'0.25')
+        self.txtCtrl_cl_max = wx.TextCtrl(self.panel, wx.ID_ANY,'51.00')
+        self.txtCtrl_cl_min = wx.TextCtrl(self.panel, wx.ID_ANY,'-51.00')
+        self.txtCtrl_sl_ki = wx.TextCtrl(self.panel, wx.ID_ANY,'0.250000')
+        self.txtCtrl_throttle_has_switch = wx.TextCtrl(self.panel, wx.ID_ANY,'1')
+
         self.txtCtrl_throttle_zero = wx.TextCtrl(self.panel, wx.ID_ANY,'25')
         self.txtCtrl_throttle_down = wx.TextCtrl(self.panel, wx.ID_ANY,'0.5')
         self.txtCtrl_throttle_up = wx.TextCtrl(self.panel, wx.ID_ANY,'4')
@@ -395,14 +397,15 @@ class MyForm(wx.Frame):
 
     def create_sizer1(self):
 	self.paramSizer1 = wx.BoxSizer(wx.VERTICAL)
-	self.paramSizer1.Add(self.param_cl_kp, 0, wx.ALL, PARAMSIZER1_BORDER)
-	self.paramSizer1.Add(self.txtCtrl_cl_kp, 0, wx.ALL, PARAMSIZER1_BORDER)
-	self.paramSizer1.Add(self.param_cl_ki, 0, wx.ALL, PARAMSIZER1_BORDER)
-	self.paramSizer1.Add(self.txtCtrl_cl_ki, 0, wx.ALL, PARAMSIZER1_BORDER)
-	self.paramSizer1.Add(self.param_sl_kp, 0, wx.ALL, PARAMSIZER1_BORDER)
-	self.paramSizer1.Add(self.txtCtrl_sl_kp, 0, wx.ALL, PARAMSIZER1_BORDER)
+	self.paramSizer1.Add(self.param_cl_max, 0, wx.ALL, PARAMSIZER1_BORDER)
+	self.paramSizer1.Add(self.txtCtrl_cl_max, 0, wx.ALL, PARAMSIZER1_BORDER)
+	self.paramSizer1.Add(self.param_cl_min, 0, wx.ALL, PARAMSIZER1_BORDER)
+	self.paramSizer1.Add(self.txtCtrl_cl_min, 0, wx.ALL, PARAMSIZER1_BORDER)
 	self.paramSizer1.Add(self.param_sl_ki, 0, wx.ALL, PARAMSIZER1_BORDER)
 	self.paramSizer1.Add(self.txtCtrl_sl_ki, 0, wx.ALL, PARAMSIZER1_BORDER)
+	self.paramSizer1.Add(self.param_throttle_has_switch, 0, wx.ALL, PARAMSIZER1_BORDER)
+	self.paramSizer1.Add(self.txtCtrl_throttle_has_switch, 0, wx.ALL, PARAMSIZER1_BORDER)
+
 	self.paramSizer1.Add(self.btnConfig, 0, wx.TOP|wx.BOTTOM, PARAMSIZER1_BORDER+10)
 
     def create_sizer2(self):
@@ -482,9 +485,6 @@ class MyForm(wx.Frame):
         self.combo.Bind(wx.EVT_COMBOBOX, self.onCombo)
 
     def disable_txt_controls(self):
-	self.txtCtrl_cl_kp.Disable()
-	self.txtCtrl_cl_ki.Disable()
-	self.txtCtrl_sl_kp.Disable()
 	self.txtCtrl_throttle_zero.Disable()
 	self.txtCtrl_throttle_down.Disable()
 	self.txtCtrl_throttle_up.Disable()
@@ -494,7 +494,37 @@ class MyForm(wx.Frame):
     def onConfig(self, event):
 	if (self.connected == True):
 	    # ----------------------------------------------------------------------------------------------------
-            # speed loop ki
+            # cl max
+	    # ----------------------------------------------------------------------------------------------------
+            newClMax = float(self.txtCtrl_cl_max.GetValue())
+	    if (newClMax == self.oldClMax):
+		pass
+	    else:
+                time.sleep(1)
+	        # unicode mess ;-)
+	        local_cmd = 'param set motor.cl.max ' + self.txtCtrl_cl_max.GetValue().encode('ascii', 'ignore')
+                serial_cmd(local_cmd, self.ser)
+	        self.txtMultiCtrl.AppendText('cl.max updated' + "\n")
+
+	    self.oldClMax = newClMax
+
+	    # ----------------------------------------------------------------------------------------------------
+            # cl min
+	    # ----------------------------------------------------------------------------------------------------
+            newClMin = float(self.txtCtrl_cl_min.GetValue())
+	    if (newClMin == self.oldClMin):
+		pass
+	    else:
+                time.sleep(1)
+	        # unicode mess ;-)
+	        local_cmd = 'param set motor.cl.min ' + self.txtCtrl_cl_min.GetValue().encode('ascii', 'ignore')
+                serial_cmd(local_cmd, self.ser)
+	        self.txtMultiCtrl.AppendText('cl.min updated' + "\n")
+
+	    self.oldClMin = newClMin
+
+	    # ----------------------------------------------------------------------------------------------------
+            # sl.ki
 	    # ----------------------------------------------------------------------------------------------------
             newSlKi = float(self.txtCtrl_sl_ki.GetValue())
 	    if (newSlKi == self.oldSlKi):
@@ -507,6 +537,21 @@ class MyForm(wx.Frame):
 	        self.txtMultiCtrl.AppendText('sl.ki updated' + "\n")
 
 	    self.oldSlKi = newSlKi
+
+	    # ----------------------------------------------------------------------------------------------------
+            # throttle.has_switch
+	    # ----------------------------------------------------------------------------------------------------
+            newThrottleHasSwitch = int(self.txtCtrl_throttle_has_switch.GetValue())
+	    if (ThrottleHasSwitch == self.oldThrottleHasSwitch):
+		pass
+	    else:
+                time.sleep(1)
+	        # unicode mess ;-)
+	        local_cmd = 'param set throttle.has_switch ' + self.txtCtrl_throttle_has_switch.GetValue().encode('ascii', 'ignore')
+                serial_cmd(local_cmd, self.ser)
+	        self.txtMultiCtrl.AppendText('has_switch updated' + "\n")
+
+	    self.oldThrottleHasSwitch = ThrottleHasSwitch
 
 	    # ----------------------------------------------------------------------------------------------------
 	    # Dominant throttle
