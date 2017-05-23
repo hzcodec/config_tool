@@ -147,7 +147,7 @@ class MyForm(wx.Frame):
                 print 'License has expiered:', strippedDate
                 sys.exit()
 
-        except:
+        except IOError:
             print 'No license file'
             sys.exit()
 
