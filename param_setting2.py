@@ -87,6 +87,35 @@
 #['r_v\r\nUnjo', '500:01', '00155', 'PB2\r\n220:02', '00121', 'PD1\r\n244', 'bytes', '']
 
 
+# Det vi skruvar på i produktion när vi testar/kalibrerar är.
+# Motor.cl.max
+# Motor.cl.min 
+# Motor.sl.ki - sedan ändringen på värdet men det är temporärt tills vi släpper ny mjukvara.
+# 
+# Sedan använder vi även kommandona
+# Throttle cal 0
+# Throttle cal -1
+# Throttle cal 1
+# Align
+# 
+# Sedan ändrar vi på vissa parametrar beroende på vilken modell det är.
+# Motor.cl.max
+# Motor.cl.min
+# Motor.sl.max
+# Motor.sl.min
+# Throttle.has_switch
+# Num_motor_ch
+# Brake_temp_ok
+# Brake_temp_hi
+# Brake_max_id
+# Brake_test.pos_ratio
+# Led.brightness_lo
+# Power_margin
+# Power_factor
+# Max_motor_temp
+# Idle_timeout
+
+
 import wx
 import time
 import serial  
