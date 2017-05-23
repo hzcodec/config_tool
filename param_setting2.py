@@ -10,6 +10,7 @@
 #                  http://www.iconarchive.com/show/colorful-long-shadow-icons-by-graphicloads/Button-eject-icon.html
 #
 #                Licens check should be done in a separate function.
+#                Param save button is missing
 #
 #    param list
 #    motor.cl.kp: 0.229996
@@ -292,6 +293,7 @@ class MyForm(wx.Frame):
         fp = open("configuration.txt", "w")
 	fp.write(self.ascenderVersion)
 	fp.write(self.remoteVersion)
+	fp.write(self.rv)
 	fp.close()
 
     def get_version(self):
@@ -440,9 +442,9 @@ class MyForm(wx.Frame):
 
 	if (self.connected == True):
             time.sleep(1)
-	    rv = serial_read('param list', 1320, self.ser)
-	    newrv = rv.split("\n")
-	    print newrv
+	    self.rv = serial_read('param list', 1320, self.ser)
+	    self.newrv = self.rv.split("\n")
+	    print self.newrv
 
     def defineCombo(self):
         portNames = ['ACM0', 'ACM1', 'USB0']
