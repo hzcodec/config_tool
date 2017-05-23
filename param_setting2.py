@@ -76,6 +76,7 @@ import time
 import serial  
 import base64
 import sys
+import datetime
 
 WINDOW_SIZE = (1035, 730)
 
@@ -121,6 +122,9 @@ class MyForm(wx.Frame):
         wx.Frame.__init__(self, None, wx.ID_ANY, title='Built in Configuration Tool, Ascender ACX/TCX', style=wx.DEFAULT_FRAME_STYLE ^ wx.RESIZE_BORDER, size=WINDOW_SIZE)
         self.panel = wx.Panel(self, wx.ID_ANY, style=wx.BORDER_RAISED)
 
+	# get today date from system
+	now = datetime.datetime.now().strftime("%Y-%m-%d   %H:%M")
+
 	try:
             licFile = open("licensfile.lic", "r")
             licDate = licFile.readline()
@@ -130,15 +134,15 @@ class MyForm(wx.Frame):
             splitDate = strippedDate.split('-')
             trigger = 0
 
-            if (int(splitDate[0]) <= 2017):
-                if (int(splitDate[1]) < 5):
+            if (int(splitDate[0]) <= int(now[0:4])):  # year
+                if (int(splitDate[1]) < int(now[6:7])): # month
                     trigger = 1
                 else:    
-                    if (int(splitDate[2]) < 22):
+                    if (int(splitDate[2]) < int(now[8:10])): # day
                         trigger = 1
 
             if (trigger == 0):
-                print 'License OK'
+                print 'License OK, expire data:', strippedDate
             else:
                 print 'License has expiered:', strippedDate
                 sys.exit()
@@ -271,16 +275,17 @@ class MyForm(wx.Frame):
     def onSave(self, event):
         print 'Save configuration:'
         fp = open("configuration.txt", "w")
-	fp.write("Hello")
+	fp.write(self.ascenderVersion)
+	fp.write(self.remoteVersion)
 	fp.close()
 
     def get_version(self):
-        ascenderVersion = serial_read('v', 56, self.ser)
-	print ascenderVersion
+        self.ascenderVersion = serial_read('v', 56, self.ser)
+	print self.ascenderVersion
 	#lblAscenderVersion = wx.StaticText(self.panel, label= ver[1:], pos=(150,Ypos2))
  
-        remoteVersion = serial_read('r_v', 56, self.ser)
-	print remoteVersion
+        self.remoteVersion = serial_read('r_v', 56, self.ser)
+	print self.remoteVersion
 	#lblRemoteVersion = wx.StaticText(self.panel, label= ver[3:], pos=(150,Ypos2+60))
 
     def load_bitmaps(self):
