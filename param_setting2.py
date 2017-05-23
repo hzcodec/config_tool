@@ -158,7 +158,7 @@ class MyForm(wx.Frame):
                         trigger = 1
 
             if (trigger == 0):
-                print 'License OK, expire data:', strippedDate
+                print 'License OK. Will expire:', strippedDate
             else:
                 print 'License has expiered:', strippedDate
                 sys.exit()
