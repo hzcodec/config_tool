@@ -90,17 +90,12 @@
 # Motor.cl.max
 # Motor.cl.min 
 # Motor.sl.ki
-# 
-# Throttle cal 0
-# Throttle cal -1
-# Throttle cal 1
-# Align
+# Throttle.has_switch
 # 
 # Motor.cl.max
 # Motor.cl.min
 # Motor.sl.max
 # Motor.sl.min
-# Throttle.has_switch
 # Num_motor_ch
 # Brake_temp_ok
 # Brake_temp_hi
@@ -111,6 +106,12 @@
 # Power_factor
 # Max_motor_temp
 # Idle_timeout
+
+# *** Commands ***
+# Throttle cal 0
+# Throttle cal -1
+# Throttle cal 1
+# Align
 
 
 import wx
@@ -204,6 +205,8 @@ class MyForm(wx.Frame):
 	self.oldClMin = -51.00
 	self.oldSlKi = 0.030518
 	self.oldThrottleHasSwitch = 1
+	self.oldSlMax = 80.0000
+
 	self.oldDominantThrottle = 1
 	self.oldIqAlpha = 0.005
 	self.oldSpeedAlpha = 0.05
@@ -364,8 +367,8 @@ class MyForm(wx.Frame):
         self.param_cl_min = wx.StaticText(self.panel, wx.ID_ANY, 'cl.min')
         self.param_sl_ki = wx.StaticText(self.panel, wx.ID_ANY, 'sl.ki')
         self.param_throttle_has_switch = wx.StaticText(self.panel, wx.ID_ANY, 'has_switch')
+        self.param_sl_max = wx.StaticText(self.panel, wx.ID_ANY, 'sl.max')
 
-        self.param_throttle_zero = wx.StaticText(self.panel, wx.ID_ANY, 'throttle_zero')
         self.param_throttle_down = wx.StaticText(self.panel, wx.ID_ANY, 'throttle_down')
         self.param_throttle_up = wx.StaticText(self.panel, wx.ID_ANY, 'throttle_up')
         self.param_throttle_deadband_on = wx.StaticText(self.panel, wx.ID_ANY, 'throttle_deadband_on')
@@ -382,8 +385,8 @@ class MyForm(wx.Frame):
         self.txtCtrl_cl_min = wx.TextCtrl(self.panel, wx.ID_ANY,'-51.00')
         self.txtCtrl_sl_ki = wx.TextCtrl(self.panel, wx.ID_ANY,'0.250000')
         self.txtCtrl_throttle_has_switch = wx.TextCtrl(self.panel, wx.ID_ANY,'1')
+        self.txtCtrl_sl_max = wx.TextCtrl(self.panel, wx.ID_ANY,'81.000')
 
-        self.txtCtrl_throttle_zero = wx.TextCtrl(self.panel, wx.ID_ANY,'25')
         self.txtCtrl_throttle_down = wx.TextCtrl(self.panel, wx.ID_ANY,'0.5')
         self.txtCtrl_throttle_up = wx.TextCtrl(self.panel, wx.ID_ANY,'4')
         self.txtCtrl_throttle_deadband_on = wx.TextCtrl(self.panel, wx.ID_ANY,'0.95')
@@ -410,8 +413,9 @@ class MyForm(wx.Frame):
 
     def create_sizer2(self):
 	self.paramSizer2 = wx.BoxSizer(wx.VERTICAL)
-	self.paramSizer2.Add(self.param_throttle_zero, 0, wx.ALL, PARAMSIZER2_BORDER)
-	self.paramSizer2.Add(self.txtCtrl_throttle_zero, 0, wx.ALL, PARAMSIZER2_BORDER)
+	self.paramSizer2.Add(self.param_sl_max, 0, wx.ALL, PARAMSIZER2_BORDER)
+	self.paramSizer2.Add(self.txtCtrl_sl_max, 0, wx.ALL, PARAMSIZER2_BORDER)
+
 	self.paramSizer2.Add(self.param_throttle_down, 0, wx.ALL, PARAMSIZER2_BORDER)
 	self.paramSizer2.Add(self.txtCtrl_throttle_down, 0, wx.ALL, PARAMSIZER2_BORDER)
 	self.paramSizer2.Add(self.param_throttle_up, 0, wx.ALL, PARAMSIZER2_BORDER)
@@ -485,7 +489,6 @@ class MyForm(wx.Frame):
         self.combo.Bind(wx.EVT_COMBOBOX, self.onCombo)
 
     def disable_txt_controls(self):
-	self.txtCtrl_throttle_zero.Disable()
 	self.txtCtrl_throttle_down.Disable()
 	self.txtCtrl_throttle_up.Disable()
 	self.txtCtrl_throttle_deadband_on.Disable()
@@ -552,6 +555,21 @@ class MyForm(wx.Frame):
 	        self.txtMultiCtrl.AppendText('has_switch updated' + "\n")
 
 	    self.oldThrottleHasSwitch = ThrottleHasSwitch
+
+	    # ----------------------------------------------------------------------------------------------------
+            # sl.max
+	    # ----------------------------------------------------------------------------------------------------
+            newSlMax = float(self.txtCtrl_sl_max.GetValue())
+	    if (newSlMax == self.oldSlMax):
+		pass
+	    else:
+                time.sleep(1)
+	        # unicode mess ;-)
+	        local_cmd = 'param set motor.sl.max ' + self.txtCtrl_sl_ki.GetValue().encode('ascii', 'ignore')
+                serial_cmd(local_cmd, self.ser)
+	        self.txtMultiCtrl.AppendText('sl.max updated' + "\n")
+
+	    self.oldSlMax = newSlMax
 
 	    # ----------------------------------------------------------------------------------------------------
 	    # Dominant throttle
