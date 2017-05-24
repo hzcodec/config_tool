@@ -35,14 +35,10 @@ class Calib(wx.Panel):
 class ProdTestForm(wx.Panel):
 
     def __init__(self, parent):
-        #wx.Frame.__init__(self, None, wx.ID_ANY, title=HEADLINE, style=wx.DEFAULT_FRAME_STYLE, size=WINDOW_SIZE)
         wx.Panel.__init__(self, parent)
-        #self.panel = wx.Panel(self, wx.ID_ANY, style=wx.BORDER_RAISED)
 
 	#self.Centre()
 	#self.SetPosition((2500, 100))
-
-	self.exitDialog =  wx.MessageDialog( self, " Quit application? \nCheck that motor has stopped!\n", "Quit", wx.YES_NO)
 
         #self.setup_menu()
 
@@ -112,7 +108,7 @@ class ProdTestForm(wx.Panel):
         btnQuit = wx.Button(self, wx.ID_ANY, 'Quit')
 	btnQuitSizer = wx.BoxSizer(wx.HORIZONTAL)
 	btnQuitSizer.Add(btnQuit, 0, wx.ALL, 20)
-        self.Bind(wx.EVT_BUTTON, self.onQuit, btnQuit)
+        #self.Bind(wx.EVT_BUTTON, self.onQuit, btnQuit)
 
         statBoxSizer.Add(txtSerPortSizer, 0, wx.TOP|wx.BOTTOM|wx.LEFT, 15)
         statBoxSizer.Add(comboSizer, 0, wx.TOP|wx.BOTTOM|wx.LEFT, 10)
@@ -399,12 +395,6 @@ class ProdTestForm(wx.Panel):
     def onCombo(self, event):
         print 'Selected port: '
 
-    #def onOpen(self, event):
-    #    print 'Open'
-
-    #def onSave(self, event):
-    #    print 'Save'
-
     #def onLock(self, event):
     #    self.lock_text_controls()
 
@@ -443,30 +433,15 @@ class ProdTestForm(wx.Panel):
     #            self.txtCtrl_undershoot.Enable()
     #            self.txtCtrl_delay_start.Enable()
 
-    #def onAbout(self, event):
-    #    print 'About'
-    #    licence = """As is"""
-    #    description = """Production Test Tool for ActSafe's ACX/TCX"""
-    #    info = wx.AboutDialogInfo()
-    #    info.SetName('prod_test_tool')
-    #    info.SetVersion('1.0')
-    #    info.SetDescription(description)
-    #    info.SetCopyright('(C) 2017 - Unjo AB')
-    #    info.SetWebSite('http://www.unjo.com')
-    #    info.SetLicence(licence)
-    #    info.AddDeveloper('Heinz Samuelsson')
-    #    wx.AboutBox(info)
 
-    def onQuit(self, event):
-        rv = self.exitDialog.ShowModal()
-
-        if rv == wx.ID_YES:
-            self.Close(True)
 
 
 class MainFrame(wx.Frame):
     def __init__(self):
-        wx.Frame.__init__(self, None, title="wxPython tabs example @pythonspot.com")
+        wx.Frame.__init__(self, None, wx.ID_ANY, title=HEADLINE, style=wx.DEFAULT_FRAME_STYLE, size=WINDOW_SIZE)
+        #self.panel = wx.Panel(self, wx.ID_ANY, style=wx.BORDER_RAISED)
+
+	self.exitDialog =  wx.MessageDialog( self, " Quit application? \nCheck that motor has stopped!\n", "Quit", wx.YES_NO)
 
 	self.Centre()
  
@@ -493,14 +468,56 @@ class MainFrame(wx.Frame):
 
     def setup_menu(self):
         menuBar = wx.MenuBar()
+        fileMenu = wx.Menu()
         unlockMenu = wx.Menu()
+        aboutMenu = wx.Menu()
 
+	fileMenu.Append(wx.ID_OPEN, "Open", "Open")
+	fileMenu.Append(wx.ID_SAVE, "Save", "Save")
+	fileMenu.Append(wx.ID_EXIT, "Exit", "Close")
 	unlockMenu.Append(101, "Lock", "Lock")
+	unlockMenu.Append(102, "UnLock", "UnLock")
+	aboutMenu.Append(103, "About", "Open")
 
+	menuBar.Append(fileMenu, "&File")
 	menuBar.Append(unlockMenu, "&Unlock")
+	menuBar.Append(aboutMenu, "&About")
 	self.SetMenuBar(menuBar)
+	self.Bind(wx.EVT_MENU, self.onOpen, id=wx.ID_OPEN)
+	self.Bind(wx.EVT_MENU, self.onSave, id=wx.ID_SAVE)
+	self.Bind(wx.EVT_MENU, self.onQuit, id=wx.ID_EXIT)
+#	self.Bind(wx.EVT_MENU, self.onLock, id=101)
+#	self.Bind(wx.EVT_MENU, self.onUnLock, id=102)
+	self.Bind(wx.EVT_MENU, self.onAbout, id=103)
 
-	#self.Bind(wx.EVT_MENU, self.onLock, id=101)
+    def onOpen(self, event):
+        print 'Open'
+
+    def onSave(self, event):
+        print 'Save'
+
+    #def onLock(self, event):
+    #    self.lock_text_controls()
+
+    def onQuit(self, event):
+        rv = self.exitDialog.ShowModal()
+
+        if rv == wx.ID_YES:
+            self.Close(True)
+
+    def onAbout(self, event):
+        print 'About'
+        licence = """As is"""
+        description = """Production Test Tool for ActSafe's ACX/TCX"""
+        info = wx.AboutDialogInfo()
+        info.SetName('prod_test_tool')
+        info.SetVersion('1.0')
+        info.SetDescription(description)
+        info.SetCopyright('(C) 2017 - Unjo AB')
+        info.SetWebSite('http://www.unjo.com')
+        info.SetLicence(licence)
+        info.AddDeveloper('Heinz Samuelsson')
+        wx.AboutBox(info)
 
 if __name__ == '__main__':
     app = wx.App()
