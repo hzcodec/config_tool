@@ -130,7 +130,7 @@ import base64
 import sys
 import datetime
 
-WINDOW_SIZE = (1035, 730)
+WINDOW_SIZE = (1035, 760)
 
 # sizer borders
 BORDER1 = 5
@@ -379,6 +379,7 @@ class MyForm(wx.Frame):
         self.btnTestRunDown = wx.BitmapButton(self.panel, wx.ID_ANY, bitmap=self.bmpDown)
         self.btnTestStop = wx.BitmapButton(self.panel, wx.ID_ANY, bitmap=self.bmpStop)
         self.btnConfig2 = wx.Button(self.panel, wx.ID_ANY, 'Configure     ')
+        self.btnSaveParam = wx.Button(self.panel, wx.ID_ANY, 'Save param ')
 
     def define_spin_control(self):
 	self.scSpeed = wx.SpinCtrl(self.panel, value='0')
@@ -435,6 +436,7 @@ class MyForm(wx.Frame):
 
     def create_sizer1(self):
 	self.paramSizer1 = wx.BoxSizer(wx.VERTICAL)
+	self.paramSizer1 = wx.BoxSizer(wx.VERTICAL)
 	self.paramSizer1.Add(self.param_cl_max, 0, wx.ALL, PARAMSIZER1_BORDER)
 	self.paramSizer1.Add(self.txtCtrl_cl_max, 0, wx.ALL, PARAMSIZER1_BORDER)
 	self.paramSizer1.Add(self.param_cl_min, 0, wx.ALL, PARAMSIZER1_BORDER)
@@ -445,6 +447,14 @@ class MyForm(wx.Frame):
 	self.paramSizer1.Add(self.txtCtrl_throttle_has_switch, 0, wx.ALL, PARAMSIZER1_BORDER)
 
 	self.paramSizer1.Add(self.btnConfig, 0, wx.TOP|wx.BOTTOM, PARAMSIZER1_BORDER+10)
+	self.paramSizer1.Add(self.btnSaveParam, 0, wx.BOTTOM, PARAMSIZER1_BORDER+10)
+
+	#self.btnSizer = wx.BoxSizer(wx.HORIZONTAL)
+	#self.btnSizer.Add(self.btnConfig, 0, wx.TOP|wx.BOTTOM, PARAMSIZER1_BORDER+10)
+	#self.btnSizer.Add(self.btnSaveParam, 0, wx.TOP|wx.BOTTOM, PARAMSIZER1_BORDER+10)
+
+	#self.paramSizer1.Add(self.topSizer1, 0, wx.ALL, PARAMSIZER1_BORDER)
+	#self.paramSizer1.Add(self.btnSizer, 0, wx.ALL, PARAMSIZER1_BORDER)
 
     def create_sizer2(self):
 	self.paramSizer2 = wx.BoxSizer(wx.VERTICAL)
@@ -505,6 +515,7 @@ class MyForm(wx.Frame):
         self.Bind(wx.EVT_BUTTON, self.onTestRunDown, self.btnTestRunDown)
         self.Bind(wx.EVT_BUTTON, self.onTestStop, self.btnTestStop)
         self.Bind(wx.EVT_BUTTON, self.onConfig, self.btnConfig2)
+        self.Bind(wx.EVT_BUTTON, self.onSaveParam, self.btnSaveParam)
 
     def onConnect(self, event):
         try:
@@ -919,6 +930,9 @@ class MyForm(wx.Frame):
 	except:
             self.lblConnected.SetForegroundColour(wx.Colour(255,0,0))
 	    self.lblConnected.SetLabel('You must connect first!')
+
+    def onSaveParam(self, event):
+	self.txtMultiCtrl.AppendText('Parameters saved' + "\n")
 
     def onCombo(self, event):
         print 'Selected port: ' + self.combo.GetValue()
