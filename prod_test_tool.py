@@ -33,16 +33,16 @@ class MyForm(wx.Frame):
 	testRun = self.setup_test_run()
         multiTextControl = self.setup_multi_text_control()
 
-	self.leftTopSizer = wx.BoxSizer(wx.VERTICAL)
-        self.leftTopSizer.Add(serialSizer, 0, wx.ALL|wx.EXPAND, BORDER1)
-        self.leftTopSizer.Add(configParamsSizer, 0, wx.ALL|wx.EXPAND, BORDER1)
-        self.leftTopSizer.Add(enhancedMeasSizer, 0, wx.ALL|wx.EXPAND, BORDER1)
-        self.leftTopSizer.Add(testRun, 0, wx.ALL|wx.EXPAND, BORDER1)
-        self.leftTopSizer.Add(multiTextControl, 0, wx.ALL|wx.EXPAND, BORDER1)
-        self.topSizer = wx.BoxSizer(wx.HORIZONTAL)
-	self.topSizer.Add(self.leftTopSizer, 0, wx.ALL, BORDER1)
+	leftTopSizer = wx.BoxSizer(wx.VERTICAL)
+        leftTopSizer.Add(serialSizer, 0, wx.ALL|wx.EXPAND, BORDER1)
+        leftTopSizer.Add(configParamsSizer, 0, wx.ALL|wx.EXPAND, BORDER1)
+        leftTopSizer.Add(enhancedMeasSizer, 0, wx.ALL|wx.EXPAND, BORDER1)
+        leftTopSizer.Add(testRun, 0, wx.ALL|wx.EXPAND, BORDER1)
+        leftTopSizer.Add(multiTextControl, 0, wx.ALL|wx.EXPAND, BORDER1)
+        topSizer = wx.BoxSizer(wx.HORIZONTAL)
+	topSizer.Add(leftTopSizer, 0, wx.ALL, BORDER1)
 
-        self.panel.SetSizer(self.topSizer)
+        self.panel.SetSizer(topSizer)
 
     def setup_serial_sizer(self):
         txtSerialPort = wx.StaticText(self.panel, wx.ID_ANY, 'Select serial port')
