@@ -18,7 +18,7 @@ BLACK   = (0, 0, 0)
 class SerialSizer():
     pass
 
-class MyForm(wx.Frame):
+class ProdTestForm(wx.Frame):
 
     def __init__(self):
         wx.Frame.__init__(self, None, wx.ID_ANY, title=HEADLINE, style=wx.DEFAULT_FRAME_STYLE, size=WINDOW_SIZE)
@@ -150,6 +150,14 @@ class MyForm(wx.Frame):
         param_idle_timeout = wx.StaticText(self.panel, wx.ID_ANY, 'idle_timeout')
         self.txtCtrl_idle_timeout = wx.TextCtrl(self.panel, wx.ID_ANY,'14400')
 
+        btnConfigure = wx.Button(self.panel, wx.ID_ANY, ' Configure   ')
+        self.Bind(wx.EVT_BUTTON, self.onConfigure, btnConfigure)
+        btnSaveParam = wx.Button(self.panel, wx.ID_ANY, ' Save Param')
+        self.Bind(wx.EVT_BUTTON, self.onSaveParam, btnSaveParam)
+	btnSizer = wx.BoxSizer(wx.HORIZONTAL)
+        btnSizer.Add(btnConfigure, 0, wx.LEFT, 10)
+        btnSizer.Add(btnSaveParam, 0, wx.LEFT, 10)
+
 	paramSizer1 = wx.BoxSizer(wx.VERTICAL)
 	paramSizer1.Add(param_cl_max, 0, wx.TOP, 10)
 	paramSizer1.Add(self.txtCtrl_cl_max, 0, wx.TOP, 10)
@@ -202,18 +210,30 @@ class MyForm(wx.Frame):
 	paramSizer7.Add(param_idle_timeout, 0, wx.TOP, 10)
 	paramSizer7.Add(self.txtCtrl_idle_timeout, 0, wx.TOP, 10)
 
+	paramTopSizer = wx.BoxSizer(wx.HORIZONTAL)
+	paramTopSizer.Add(paramSizer1, 0, wx.TOP, 10)
+	paramTopSizer.Add(paramSizer2, 0, wx.TOP, 10)
+	paramTopSizer.Add(paramSizer3, 0, wx.TOP, 10)
+	paramTopSizer.Add(paramSizer4, 0, wx.TOP, 10)
+	paramTopSizer.Add(paramSizer5, 0, wx.TOP, 10)
+	paramTopSizer.Add(paramSizer6, 0, wx.TOP, 10)
+	paramTopSizer.Add(paramSizer7, 0, wx.TOP, 10)
+
 	statBoxConfigParams = wx.StaticBox(self.panel, wx.ID_ANY, '  Set paramters')
 	statBoxConfigParams.SetBackgroundColour(GREY)
 	statBoxConfigParams.SetForegroundColour(BLACK)
-        statBoxSizer = wx.StaticBoxSizer(statBoxConfigParams, wx.HORIZONTAL)
+        #statBoxSizer = wx.StaticBoxSizer(statBoxConfigParams, wx.HORIZONTAL)
+        statBoxSizer = wx.StaticBoxSizer(statBoxConfigParams, wx.VERTICAL)
 
-        statBoxSizer.Add(paramSizer1, 0, wx.ALL, 10)
-        statBoxSizer.Add(paramSizer2, 0, wx.ALL, 10)
-        statBoxSizer.Add(paramSizer3, 0, wx.ALL, 10)
-        statBoxSizer.Add(paramSizer4, 0, wx.ALL, 10)
-        statBoxSizer.Add(paramSizer5, 0, wx.ALL, 10)
-        statBoxSizer.Add(paramSizer6, 0, wx.ALL, 10)
-        statBoxSizer.Add(paramSizer7, 0, wx.ALL, 10)
+        #statBoxSizer.Add(paramSizer1, 0, wx.ALL, 10)
+        #statBoxSizer.Add(paramSizer2, 0, wx.ALL, 10)
+        #statBoxSizer.Add(paramSizer3, 0, wx.ALL, 10)
+        #statBoxSizer.Add(paramSizer4, 0, wx.ALL, 10)
+        #statBoxSizer.Add(paramSizer5, 0, wx.ALL, 10)
+        #statBoxSizer.Add(paramSizer6, 0, wx.ALL, 10)
+        #statBoxSizer.Add(paramSizer7, 0, wx.ALL, 10)
+        statBoxSizer.Add(paramTopSizer, 0, wx.ALL, 10)
+	statBoxSizer.Add(btnSizer, 0, wx.ALL, 10)
 
 	return statBoxSizer
 
@@ -412,5 +432,5 @@ class MyForm(wx.Frame):
 
 if __name__ == '__main__':
     app = wx.App()
-    frame = MyForm().Show()
+    frame = ProdTestForm().Show()
     app.MainLoop()
