@@ -18,18 +18,33 @@ BLACK   = (0, 0, 0)
 class SerialSizer():
     pass
 
-class ProdTestForm(wx.Frame):
 
-    def __init__(self):
-        wx.Frame.__init__(self, None, wx.ID_ANY, title=HEADLINE, style=wx.DEFAULT_FRAME_STYLE, size=WINDOW_SIZE)
-        self.panel = wx.Panel(self, wx.ID_ANY, style=wx.BORDER_RAISED)
+class DownLoaderForm(wx.Panel):
+
+    def __init__(self, parent):
+        wx.Panel.__init__(self, parent)
+        t = wx.StaticText(self, -1, "Downloader", (20,60))
+
+
+class Calib(wx.Panel):
+    def __init__(self, parent):
+        wx.Panel.__init__(self, parent)
+        t = wx.StaticText(self, -1, "1st tab", (20,20))
+
+
+class ProdTestForm(wx.Panel):
+
+    def __init__(self, parent):
+        #wx.Frame.__init__(self, None, wx.ID_ANY, title=HEADLINE, style=wx.DEFAULT_FRAME_STYLE, size=WINDOW_SIZE)
+        wx.Panel.__init__(self, parent)
+        #self.panel = wx.Panel(self, wx.ID_ANY, style=wx.BORDER_RAISED)
 
 	#self.Centre()
-	self.SetPosition((2500, 100))
+	#self.SetPosition((2500, 100))
 
 	self.exitDialog =  wx.MessageDialog( self, " Quit application? \nCheck that motor has stopped!\n", "Quit", wx.YES_NO)
 
-        self.setup_menu()
+        #self.setup_menu()
 
 	serialSizer = self.setup_serial_sizer()
 	configParamsSizer = self.setup_config_params()
@@ -46,55 +61,55 @@ class ProdTestForm(wx.Frame):
         topSizer = wx.BoxSizer(wx.HORIZONTAL)
 	topSizer.Add(leftTopSizer, 0, wx.ALL, BORDER1)
 
-        self.panel.SetSizer(topSizer)
+        self.SetSizer(topSizer)
 	self.lock_text_controls()
 
-    def setup_menu(self):
-        menuBar = wx.MenuBar()
-        fileMenu = wx.Menu()
-        unlockMenu = wx.Menu()
-        aboutMenu = wx.Menu()
-
-	fileMenu.Append(wx.ID_OPEN, "Open", "Open")
-	fileMenu.Append(wx.ID_SAVE, "Save", "Save")
-	fileMenu.Append(wx.ID_EXIT, "Exit", "Close")
-	unlockMenu.Append(101, "Lock", "Lock")
-	unlockMenu.Append(102, "UnLock", "UnLock")
-	aboutMenu.Append(103, "About", "Open")
-
-	menuBar.Append(fileMenu, "&File")
-	menuBar.Append(unlockMenu, "&Unlock")
-	menuBar.Append(aboutMenu, "&About")
-	self.SetMenuBar(menuBar)
-	self.Bind(wx.EVT_MENU, self.onOpen, id=wx.ID_OPEN)
-	self.Bind(wx.EVT_MENU, self.onSave, id=wx.ID_SAVE)
-	self.Bind(wx.EVT_MENU, self.onQuit, id=wx.ID_EXIT)
-	self.Bind(wx.EVT_MENU, self.onLock, id=101)
-	self.Bind(wx.EVT_MENU, self.onUnLock, id=102)
-	self.Bind(wx.EVT_MENU, self.onAbout, id=103)
+#    def setup_menu(self):
+#        menuBar = wx.MenuBar()
+#        fileMenu = wx.Menu()
+#        unlockMenu = wx.Menu()
+#        aboutMenu = wx.Menu()
+#
+#	fileMenu.Append(wx.ID_OPEN, "Open", "Open")
+#	fileMenu.Append(wx.ID_SAVE, "Save", "Save")
+#	fileMenu.Append(wx.ID_EXIT, "Exit", "Close")
+#	unlockMenu.Append(101, "Lock", "Lock")
+#	unlockMenu.Append(102, "UnLock", "UnLock")
+#	aboutMenu.Append(103, "About", "Open")
+#
+#	menuBar.Append(fileMenu, "&File")
+#	menuBar.Append(unlockMenu, "&Unlock")
+#	menuBar.Append(aboutMenu, "&About")
+#	self.SetMenuBar(menuBar)
+#	self.Bind(wx.EVT_MENU, self.onOpen, id=wx.ID_OPEN)
+#	self.Bind(wx.EVT_MENU, self.onSave, id=wx.ID_SAVE)
+#	self.Bind(wx.EVT_MENU, self.onQuit, id=wx.ID_EXIT)
+#	self.Bind(wx.EVT_MENU, self.onLock, id=101)
+#	self.Bind(wx.EVT_MENU, self.onUnLock, id=102)
+#	self.Bind(wx.EVT_MENU, self.onAbout, id=103)
 
     def setup_serial_sizer(self):
-        txtSerialPort = wx.StaticText(self.panel, wx.ID_ANY, 'Select serial port')
+        txtSerialPort = wx.StaticText(self, wx.ID_ANY, 'Select serial port')
 	txtSerPortSizer = wx.BoxSizer(wx.HORIZONTAL)
 	txtSerPortSizer.Add(txtSerialPort, 0, wx.TOP, TEXT_SERIAL_PORT_BORDER)
 
         portNames = ['ACM0', 'ACM1', 'USB0']
-        comboBox = wx.ComboBox(self.panel, choices=portNames)
+        comboBox = wx.ComboBox(self, choices=portNames)
         comboBox.SetSelection(0) # preselect ACM0
         comboBox.Bind(wx.EVT_COMBOBOX, self.onCombo)
 	comboSizer = wx.BoxSizer(wx.HORIZONTAL)
 	comboSizer.Add(comboBox, 0, wx.TOP, 10)
 
-	statBoxSerial = wx.StaticBox(self.panel, wx.ID_ANY, '  Serial connection    ')
+	statBoxSerial = wx.StaticBox(self, wx.ID_ANY, '  Serial connection    ')
 	statBoxSerial.SetBackgroundColour(GREY)
 	statBoxSerial.SetForegroundColour(BLACK)
         statBoxSizer = wx.StaticBoxSizer(statBoxSerial, wx.HORIZONTAL)
 
-        btnConnect = wx.Button(self.panel, wx.ID_ANY, 'Connect')
+        btnConnect = wx.Button(self, wx.ID_ANY, 'Connect')
         self.Bind(wx.EVT_BUTTON, self.onConnect, btnConnect)
-	lblConnect = wx.StaticText(self.panel, label= 'Not connected')
+	lblConnect = wx.StaticText(self, label= 'Not connected')
 
-        btnQuit = wx.Button(self.panel, wx.ID_ANY, 'Quit')
+        btnQuit = wx.Button(self, wx.ID_ANY, 'Quit')
 	btnQuitSizer = wx.BoxSizer(wx.HORIZONTAL)
 	btnQuitSizer.Add(btnQuit, 0, wx.ALL, 20)
         self.Bind(wx.EVT_BUTTON, self.onQuit, btnQuit)
@@ -109,54 +124,54 @@ class ProdTestForm(wx.Frame):
 
     def setup_config_params(self):
 
-        param_cl_max = wx.StaticText(self.panel, wx.ID_ANY, 'cl.max')
-        self.txtCtrl_cl_max = wx.TextCtrl(self.panel, wx.ID_ANY,'51.00')
-        param_cl_min = wx.StaticText(self.panel, wx.ID_ANY, 'cl.min')
-        self.txtCtrl_cl_min = wx.TextCtrl(self.panel, wx.ID_ANY,'-51.00')
-        param_sl_ki = wx.StaticText(self.panel, wx.ID_ANY, 'sl.ki')
-        self.txtCtrl_sl_ki = wx.TextCtrl(self.panel, wx.ID_ANY,'0.25000')
+        param_cl_max = wx.StaticText(self, wx.ID_ANY, 'cl.max')
+        self.txtCtrl_cl_max = wx.TextCtrl(self, wx.ID_ANY,'51.00')
+        param_cl_min = wx.StaticText(self, wx.ID_ANY, 'cl.min')
+        self.txtCtrl_cl_min = wx.TextCtrl(self, wx.ID_ANY,'-51.00')
+        param_sl_ki = wx.StaticText(self, wx.ID_ANY, 'sl.ki')
+        self.txtCtrl_sl_ki = wx.TextCtrl(self, wx.ID_ANY,'0.25000')
 
-        param_sl_max = wx.StaticText(self.panel, wx.ID_ANY, 'sl.max')
-        self.txtCtrl_sl_max = wx.TextCtrl(self.panel, wx.ID_ANY,'80.00')
-        param_sl_min = wx.StaticText(self.panel, wx.ID_ANY, 'sl.min')
-        self.txtCtrl_sl_min = wx.TextCtrl(self.panel, wx.ID_ANY,'-80.00')
-        param_has_switch = wx.StaticText(self.panel, wx.ID_ANY, 'has_switch')
-        self.txtCtrl_has_switch = wx.TextCtrl(self.panel, wx.ID_ANY,'1')
+        param_sl_max = wx.StaticText(self, wx.ID_ANY, 'sl.max')
+        self.txtCtrl_sl_max = wx.TextCtrl(self, wx.ID_ANY,'80.00')
+        param_sl_min = wx.StaticText(self, wx.ID_ANY, 'sl.min')
+        self.txtCtrl_sl_min = wx.TextCtrl(self, wx.ID_ANY,'-80.00')
+        param_has_switch = wx.StaticText(self, wx.ID_ANY, 'has_switch')
+        self.txtCtrl_has_switch = wx.TextCtrl(self, wx.ID_ANY,'1')
 
-        param_power_margin = wx.StaticText(self.panel, wx.ID_ANY, 'power_margin')
-        self.txtCtrl_power_margin = wx.TextCtrl(self.panel, wx.ID_ANY,'0.0000')
-        param_power_factor = wx.StaticText(self.panel, wx.ID_ANY, 'power_factor')
-        self.txtCtrl_power_factor = wx.TextCtrl(self.panel, wx.ID_ANY,'1.0000')
-        param_brightness_lo = wx.StaticText(self.panel, wx.ID_ANY, 'brightness_lo')
-        self.txtCtrl_brightness_lo = wx.TextCtrl(self.panel, wx.ID_ANY,'1.0000')
+        param_power_margin = wx.StaticText(self, wx.ID_ANY, 'power_margin')
+        self.txtCtrl_power_margin = wx.TextCtrl(self, wx.ID_ANY,'0.0000')
+        param_power_factor = wx.StaticText(self, wx.ID_ANY, 'power_factor')
+        self.txtCtrl_power_factor = wx.TextCtrl(self, wx.ID_ANY,'1.0000')
+        param_brightness_lo = wx.StaticText(self, wx.ID_ANY, 'brightness_lo')
+        self.txtCtrl_brightness_lo = wx.TextCtrl(self, wx.ID_ANY,'1.0000')
 
-        param_brake_temp_ok = wx.StaticText(self.panel, wx.ID_ANY, 'brake_temp_ok')
-        self.txtCtrl_brake_temp_ok = wx.TextCtrl(self.panel, wx.ID_ANY,'60.0000')
-        param_brake_temp_hi = wx.StaticText(self.panel, wx.ID_ANY, 'brake_temp_hi')
-        self.txtCtrl_brake_temp_hi = wx.TextCtrl(self.panel, wx.ID_ANY,'65.0000')
-        param_brake_max_id = wx.StaticText(self.panel, wx.ID_ANY, 'brake_max_id')
-        self.txtCtrl_brake_max_id = wx.TextCtrl(self.panel, wx.ID_ANY,'40.0000')
+        param_brake_temp_ok = wx.StaticText(self, wx.ID_ANY, 'brake_temp_ok')
+        self.txtCtrl_brake_temp_ok = wx.TextCtrl(self, wx.ID_ANY,'60.0000')
+        param_brake_temp_hi = wx.StaticText(self, wx.ID_ANY, 'brake_temp_hi')
+        self.txtCtrl_brake_temp_hi = wx.TextCtrl(self, wx.ID_ANY,'65.0000')
+        param_brake_max_id = wx.StaticText(self, wx.ID_ANY, 'brake_max_id')
+        self.txtCtrl_brake_max_id = wx.TextCtrl(self, wx.ID_ANY,'40.0000')
 
-        param_brake_pos_ratio = wx.StaticText(self.panel, wx.ID_ANY, 'brake_pos_ratio')
-        self.txtCtrl_brake_pos_ratio = wx.TextCtrl(self.panel, wx.ID_ANY,'0.39999')
-        param_trajec_acc = wx.StaticText(self.panel, wx.ID_ANY, 'trajec.acc')
-        self.txtCtrl_trajec_acc = wx.TextCtrl(self.panel, wx.ID_ANY,'80.0000')
-        param_trajec_ret = wx.StaticText(self.panel, wx.ID_ANY, 'trajec.ret')
-        self.txtCtrl_trajec_ret = wx.TextCtrl(self.panel, wx.ID_ANY,'320.000')
+        param_brake_pos_ratio = wx.StaticText(self, wx.ID_ANY, 'brake_pos_ratio')
+        self.txtCtrl_brake_pos_ratio = wx.TextCtrl(self, wx.ID_ANY,'0.39999')
+        param_trajec_acc = wx.StaticText(self, wx.ID_ANY, 'trajec.acc')
+        self.txtCtrl_trajec_acc = wx.TextCtrl(self, wx.ID_ANY,'80.0000')
+        param_trajec_ret = wx.StaticText(self, wx.ID_ANY, 'trajec.ret')
+        self.txtCtrl_trajec_ret = wx.TextCtrl(self, wx.ID_ANY,'320.000')
 
-        param_dominant_throttle_on = wx.StaticText(self.panel, wx.ID_ANY, 'dominant_throttle_on')
-        self.txtCtrl_dominant_throttle_on = wx.TextCtrl(self.panel, wx.ID_ANY,'1')
-        param_max_motor_temp = wx.StaticText(self.panel, wx.ID_ANY, 'max_motor_temp')
-        self.txtCtrl_max_motor_temp = wx.TextCtrl(self.panel, wx.ID_ANY,'100.000')
-        param_num_motor_ch = wx.StaticText(self.panel, wx.ID_ANY, 'num_motor_ch')
-        self.txtCtrl_num_motor_ch = wx.TextCtrl(self.panel, wx.ID_ANY,'1')
+        param_dominant_throttle_on = wx.StaticText(self, wx.ID_ANY, 'dominant_throttle_on')
+        self.txtCtrl_dominant_throttle_on = wx.TextCtrl(self, wx.ID_ANY,'1')
+        param_max_motor_temp = wx.StaticText(self, wx.ID_ANY, 'max_motor_temp')
+        self.txtCtrl_max_motor_temp = wx.TextCtrl(self, wx.ID_ANY,'100.000')
+        param_num_motor_ch = wx.StaticText(self, wx.ID_ANY, 'num_motor_ch')
+        self.txtCtrl_num_motor_ch = wx.TextCtrl(self, wx.ID_ANY,'1')
 
-        param_idle_timeout = wx.StaticText(self.panel, wx.ID_ANY, 'idle_timeout')
-        self.txtCtrl_idle_timeout = wx.TextCtrl(self.panel, wx.ID_ANY,'14400')
+        param_idle_timeout = wx.StaticText(self, wx.ID_ANY, 'idle_timeout')
+        self.txtCtrl_idle_timeout = wx.TextCtrl(self, wx.ID_ANY,'14400')
 
-        btnConfigure = wx.Button(self.panel, wx.ID_ANY, ' Configure   ')
+        btnConfigure = wx.Button(self, wx.ID_ANY, ' Configure   ')
         self.Bind(wx.EVT_BUTTON, self.onConfigure, btnConfigure)
-        btnSaveParam = wx.Button(self.panel, wx.ID_ANY, ' Save Param')
+        btnSaveParam = wx.Button(self, wx.ID_ANY, ' Save Param')
         self.Bind(wx.EVT_BUTTON, self.onSaveParam, btnSaveParam)
 	btnSizer = wx.BoxSizer(wx.HORIZONTAL)
         btnSizer.Add(btnConfigure, 0, wx.LEFT, 10)
@@ -223,7 +238,7 @@ class ProdTestForm(wx.Frame):
 	paramTopSizer.Add(paramSizer6, 0, wx.ALL, 10)
 	paramTopSizer.Add(paramSizer7, 0, wx.ALL, 10)
 
-	statBoxConfigParams = wx.StaticBox(self.panel, wx.ID_ANY, '  Set paramters')
+	statBoxConfigParams = wx.StaticBox(self, wx.ID_ANY, '  Set paramters')
 	statBoxConfigParams.SetBackgroundColour(GREY)
 	statBoxConfigParams.SetForegroundColour(BLACK)
         statBoxSizer = wx.StaticBoxSizer(statBoxConfigParams, wx.VERTICAL)
@@ -235,24 +250,24 @@ class ProdTestForm(wx.Frame):
 
     def setup_test_enahanced_measuring(self):
 
-        param_rope_stuck_on = wx.StaticText(self.panel, wx.ID_ANY, 'rope_stuck_on')
-        self.txtCtrl_rope_stuck_on = wx.TextCtrl(self.panel, wx.ID_ANY,'1')
-        param_iq_alpha = wx.StaticText(self.panel, wx.ID_ANY, 'iq_alpha')
-        self.txtCtrl_iq_alpha = wx.TextCtrl(self.panel, wx.ID_ANY,'0.005')
-        param_speed_alpha = wx.StaticText(self.panel, wx.ID_ANY, 'speed_alpha')
-        self.txtCtrl_speed_alpha = wx.TextCtrl(self.panel, wx.ID_ANY,'0.05')
-        param_undershoot = wx.StaticText(self.panel, wx.ID_ANY, 'undershoot')
-        self.txtCtrl_undershoot = wx.TextCtrl(self.panel, wx.ID_ANY,'-1.0')
-        param_delay_start = wx.StaticText(self.panel, wx.ID_ANY, 'delay_start')
-        self.txtCtrl_delay_start = wx.TextCtrl(self.panel, wx.ID_ANY,'5000')
+        param_rope_stuck_on = wx.StaticText(self, wx.ID_ANY, 'rope_stuck_on')
+        self.txtCtrl_rope_stuck_on = wx.TextCtrl(self, wx.ID_ANY,'1')
+        param_iq_alpha = wx.StaticText(self, wx.ID_ANY, 'iq_alpha')
+        self.txtCtrl_iq_alpha = wx.TextCtrl(self, wx.ID_ANY,'0.005')
+        param_speed_alpha = wx.StaticText(self, wx.ID_ANY, 'speed_alpha')
+        self.txtCtrl_speed_alpha = wx.TextCtrl(self, wx.ID_ANY,'0.05')
+        param_undershoot = wx.StaticText(self, wx.ID_ANY, 'undershoot')
+        self.txtCtrl_undershoot = wx.TextCtrl(self, wx.ID_ANY,'-1.0')
+        param_delay_start = wx.StaticText(self, wx.ID_ANY, 'delay_start')
+        self.txtCtrl_delay_start = wx.TextCtrl(self, wx.ID_ANY,'5000')
 
-        btnConfigure = wx.Button(self.panel, wx.ID_ANY, ' Configure   ')
+        btnConfigure = wx.Button(self, wx.ID_ANY, ' Configure   ')
         self.Bind(wx.EVT_BUTTON, self.onConfigure, btnConfigure)
-        btnTestInject = wx.Button(self.panel, wx.ID_ANY, ' Test Inject ')
+        btnTestInject = wx.Button(self, wx.ID_ANY, ' Test Inject ')
         self.Bind(wx.EVT_BUTTON, self.onTestInject, btnTestInject)
-        btnGetIq = wx.Button(self.panel, wx.ID_ANY, '    Get iq          ')
+        btnGetIq = wx.Button(self, wx.ID_ANY, '    Get iq          ')
         self.Bind(wx.EVT_BUTTON, self.onGetIq, btnGetIq)
-        btnSaveParam = wx.Button(self.panel, wx.ID_ANY, ' Save Param')
+        btnSaveParam = wx.Button(self, wx.ID_ANY, ' Save Param')
         self.Bind(wx.EVT_BUTTON, self.onSaveParam, btnSaveParam)
 
 	paramSizer1 = wx.BoxSizer(wx.HORIZONTAL)
@@ -275,7 +290,7 @@ class ProdTestForm(wx.Frame):
 	paramSizer3.Add(btnGetIq, 0, wx.LEFT, 15)
 	paramSizer3.Add(btnSaveParam, 0, wx.LEFT, 15)
 
-	statBoxTestEnhanced = wx.StaticBox(self.panel, wx.ID_ANY, '  Test Enhanced Measuring')
+	statBoxTestEnhanced = wx.StaticBox(self, wx.ID_ANY, '  Test Enhanced Measuring')
 	statBoxTestEnhanced.SetBackgroundColour(GREY)
 	statBoxTestEnhanced.SetForegroundColour(BLACK)
         statBoxSizer = wx.StaticBoxSizer(statBoxTestEnhanced, wx.VERTICAL)
@@ -292,16 +307,16 @@ class ProdTestForm(wx.Frame):
 	bmpDown = wx.Bitmap("up2.png", wx.BITMAP_TYPE_ANY)
 	bmpStop = wx.Bitmap("stop.png", wx.BITMAP_TYPE_ANY)
 
-        btnTestRunUp = wx.BitmapButton(self.panel, wx.ID_ANY, bitmap=bmpUp)
-        btnTestRunDown = wx.BitmapButton(self.panel, wx.ID_ANY, bitmap=bmpDown)
-        btnTestStop = wx.BitmapButton(self.panel, wx.ID_ANY, bitmap=bmpStop)
+        btnTestRunUp = wx.BitmapButton(self, wx.ID_ANY, bitmap=bmpUp)
+        btnTestRunDown = wx.BitmapButton(self, wx.ID_ANY, bitmap=bmpDown)
+        btnTestStop = wx.BitmapButton(self, wx.ID_ANY, bitmap=bmpStop)
         self.Bind(wx.EVT_BUTTON, self.onTestRunUp, btnTestRunUp)
         self.Bind(wx.EVT_BUTTON, self.onTestRunDown, btnTestRunDown)
         self.Bind(wx.EVT_BUTTON, self.onTestStop, btnTestStop)
 
-        speed = wx.StaticText(self.panel, wx.ID_ANY, 'Speed')
+        speed = wx.StaticText(self, wx.ID_ANY, 'Speed')
 
-	spinCtrlSpeed = wx.SpinCtrl(self.panel, value='0')
+	spinCtrlSpeed = wx.SpinCtrl(self, value='0')
 	spinCtrlSpeed.SetRange(0, 25)
 
 	paramSizer1 = wx.BoxSizer(wx.VERTICAL)
@@ -313,7 +328,7 @@ class ProdTestForm(wx.Frame):
 	paramSizer2.Add(btnTestRunDown, 0, wx.TOP|wx.LEFT, 10)
 	paramSizer2.Add(btnTestStop, 0, wx.TOP|wx.LEFT, 10)
 
-	statBoxTestRun = wx.StaticBox(self.panel, wx.ID_ANY, '  Test Run')
+	statBoxTestRun = wx.StaticBox(self, wx.ID_ANY, '  Test Run')
 	statBoxTestRun.SetBackgroundColour(GREY)
 	statBoxTestRun.SetForegroundColour(BLACK)
         statBoxSizer = wx.StaticBoxSizer(statBoxTestRun, wx.HORIZONTAL)
@@ -326,7 +341,7 @@ class ProdTestForm(wx.Frame):
     def setup_multi_text_control(self):
 
         headline = '       - ACX/TCX logging - \n'
-	txtMultiCtrl = wx.TextCtrl(self.panel, -1, headline, size=(790, 180), style=wx.TE_MULTILINE)
+	txtMultiCtrl = wx.TextCtrl(self, -1, headline, size=(790, 180), style=wx.TE_MULTILINE)
         txtMultiCtrl.SetInsertionPoint(0)
 
 	return txtMultiCtrl
@@ -384,63 +399,63 @@ class ProdTestForm(wx.Frame):
     def onCombo(self, event):
         print 'Selected port: '
 
-    def onOpen(self, event):
-        print 'Open'
+    #def onOpen(self, event):
+    #    print 'Open'
 
-    def onSave(self, event):
-        print 'Save'
+    #def onSave(self, event):
+    #    print 'Save'
 
-    def onLock(self, event):
-        self.lock_text_controls()
+    #def onLock(self, event):
+    #    self.lock_text_controls()
 
-    def onUnLock(self, event):
-        dialog = wx.TextEntryDialog(self, message="Enter Password", caption="Password query", style=wx.OK|wx.CANCEL|wx.TE_PASSWORD)
-        dialog.SetValue("")
-        result = dialog.ShowModal()
+    #def onUnLock(self, event):
+    #    dialog = wx.TextEntryDialog(self, message="Enter Password", caption="Password query", style=wx.OK|wx.CANCEL|wx.TE_PASSWORD)
+    #    dialog.SetValue("")
+    #    result = dialog.ShowModal()
 
-	# check password if OK button was pressed
-        if result == wx.ID_OK:
-            passwd = dialog.GetValue()
+    #    # check password if OK button was pressed
+    #    if result == wx.ID_OK:
+    #        passwd = dialog.GetValue()
 
-	    if (passwd == 'admin'):
-                self.txtCtrl_cl_max.Enable()
-                self.txtCtrl_cl_min.Enable()
-                self.txtCtrl_sl_ki.Enable()
-                self.txtCtrl_sl_max.Enable()
-                self.txtCtrl_sl_min.Enable()
-                self.txtCtrl_has_switch.Enable()
-                self.txtCtrl_power_margin.Enable()
-                self.txtCtrl_power_factor.Enable()
-                self.txtCtrl_brightness_lo.Enable()
-                self.txtCtrl_brake_temp_ok.Enable()
-                self.txtCtrl_brake_temp_hi.Enable()
-                self.txtCtrl_brake_max_id.Enable()
-                self.txtCtrl_brake_pos_ratio.Enable()
-                self.txtCtrl_trajec_acc.Enable()
-                self.txtCtrl_trajec_ret.Enable()
-                self.txtCtrl_dominant_throttle_on.Enable()
-                self.txtCtrl_max_motor_temp.Enable()
-                self.txtCtrl_num_motor_ch.Enable()
-                self.txtCtrl_idle_timeout.Enable()
-                self.txtCtrl_rope_stuck_on.Enable()
-                self.txtCtrl_iq_alpha.Enable()
-                self.txtCtrl_speed_alpha.Enable()
-                self.txtCtrl_undershoot.Enable()
-                self.txtCtrl_delay_start.Enable()
+    #        if (passwd == 'admin'):
+    #            self.txtCtrl_cl_max.Enable()
+    #            self.txtCtrl_cl_min.Enable()
+    #            self.txtCtrl_sl_ki.Enable()
+    #            self.txtCtrl_sl_max.Enable()
+    #            self.txtCtrl_sl_min.Enable()
+    #            self.txtCtrl_has_switch.Enable()
+    #            self.txtCtrl_power_margin.Enable()
+    #            self.txtCtrl_power_factor.Enable()
+    #            self.txtCtrl_brightness_lo.Enable()
+    #            self.txtCtrl_brake_temp_ok.Enable()
+    #            self.txtCtrl_brake_temp_hi.Enable()
+    #            self.txtCtrl_brake_max_id.Enable()
+    #            self.txtCtrl_brake_pos_ratio.Enable()
+    #            self.txtCtrl_trajec_acc.Enable()
+    #            self.txtCtrl_trajec_ret.Enable()
+    #            self.txtCtrl_dominant_throttle_on.Enable()
+    #            self.txtCtrl_max_motor_temp.Enable()
+    #            self.txtCtrl_num_motor_ch.Enable()
+    #            self.txtCtrl_idle_timeout.Enable()
+    #            self.txtCtrl_rope_stuck_on.Enable()
+    #            self.txtCtrl_iq_alpha.Enable()
+    #            self.txtCtrl_speed_alpha.Enable()
+    #            self.txtCtrl_undershoot.Enable()
+    #            self.txtCtrl_delay_start.Enable()
 
-    def onAbout(self, event):
-        print 'About'
-	licence = """As is"""
-	description = """Production Test Tool for ActSafe's ACX/TCX"""
-        info = wx.AboutDialogInfo()
-        info.SetName('prod_test_tool')
-        info.SetVersion('1.0')
-        info.SetDescription(description)
-        info.SetCopyright('(C) 2017 - Unjo AB')
-        info.SetWebSite('http://www.unjo.com')
-        info.SetLicence(licence)
-        info.AddDeveloper('Heinz Samuelsson')
-        wx.AboutBox(info)
+    #def onAbout(self, event):
+    #    print 'About'
+    #    licence = """As is"""
+    #    description = """Production Test Tool for ActSafe's ACX/TCX"""
+    #    info = wx.AboutDialogInfo()
+    #    info.SetName('prod_test_tool')
+    #    info.SetVersion('1.0')
+    #    info.SetDescription(description)
+    #    info.SetCopyright('(C) 2017 - Unjo AB')
+    #    info.SetWebSite('http://www.unjo.com')
+    #    info.SetLicence(licence)
+    #    info.AddDeveloper('Heinz Samuelsson')
+    #    wx.AboutBox(info)
 
     def onQuit(self, event):
         rv = self.exitDialog.ShowModal()
@@ -449,7 +464,45 @@ class ProdTestForm(wx.Frame):
             self.Close(True)
 
 
+class MainFrame(wx.Frame):
+    def __init__(self):
+        wx.Frame.__init__(self, None, title="wxPython tabs example @pythonspot.com")
+
+	self.Centre()
+ 
+        # Create a panel and notebook (tabs holder)
+        p = wx.Panel(self)
+        nb = wx.Notebook(p)
+ 
+        # Create the tab windows
+        self.tabDownLoader = DownLoaderForm(nb)
+        tabCalib = Calib(nb)
+        self.tabProdTest = ProdTestForm(nb)
+ 
+        # Add the windows to tabs and name them.
+        nb.AddPage(self.tabDownLoader, "Downloader")
+        nb.AddPage(tabCalib, "Calibrate")
+        nb.AddPage(self.tabProdTest, "Prod Test")
+
+        self.setup_menu()
+
+        # Set noteboook in a sizer to create the layout
+        sizer = wx.BoxSizer()
+        sizer.Add(nb, 1, wx.EXPAND)
+        p.SetSizer(sizer)
+
+    def setup_menu(self):
+        menuBar = wx.MenuBar()
+        unlockMenu = wx.Menu()
+
+	unlockMenu.Append(101, "Lock", "Lock")
+
+	menuBar.Append(unlockMenu, "&Unlock")
+	self.SetMenuBar(menuBar)
+
+	#self.Bind(wx.EVT_MENU, self.onLock, id=101)
+
 if __name__ == '__main__':
     app = wx.App()
-    frame = ProdTestForm().Show()
+    MainFrame().Show()
     app.MainLoop()
