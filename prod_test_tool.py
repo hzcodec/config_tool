@@ -108,6 +108,19 @@ class MyForm(wx.Frame):
         param_brake_max_id = wx.StaticText(self.panel, wx.ID_ANY, 'brake_max_id')
         txtCtrl_brake_max_id = wx.TextCtrl(self.panel, wx.ID_ANY,'40.0000')
 
+        param_brake_pos_ratio = wx.StaticText(self.panel, wx.ID_ANY, 'brake_pos_ratio')
+        txtCtrl_brake_pos_ratio = wx.TextCtrl(self.panel, wx.ID_ANY,'0.39999')
+        param_trajec_acc = wx.StaticText(self.panel, wx.ID_ANY, 'trajec.acc')
+        txtCtrl_trajec_acc = wx.TextCtrl(self.panel, wx.ID_ANY,'80.0000')
+        param_trajec_ret = wx.StaticText(self.panel, wx.ID_ANY, 'trajec.ret')
+        txtCtrl_trajec_ret = wx.TextCtrl(self.panel, wx.ID_ANY,'320.000')
+
+        param_dominant_throttle_on = wx.StaticText(self.panel, wx.ID_ANY, 'dominant_throttle_on')
+        txtCtrl_dominant_throttle_on = wx.TextCtrl(self.panel, wx.ID_ANY,'1')
+        param_max_motor_temp = wx.StaticText(self.panel, wx.ID_ANY, 'max_motor_temp')
+        txtCtrl_max_motor_temp = wx.TextCtrl(self.panel, wx.ID_ANY,'100.000')
+        param_num_motor_ch = wx.StaticText(self.panel, wx.ID_ANY, 'num_motor_ch')
+        txtCtrl_num_motor_ch = wx.TextCtrl(self.panel, wx.ID_ANY,'1')
 
 	paramSizer1 = wx.BoxSizer(wx.VERTICAL)
 	paramSizer1.Add(param_cl_max, 0, wx.TOP, 10)
@@ -141,6 +154,22 @@ class MyForm(wx.Frame):
 	paramSizer4.Add(param_brake_max_id, 0, wx.TOP, 10)
 	paramSizer4.Add(txtCtrl_brake_max_id, 0, wx.TOP, 10)
 
+	paramSizer5 = wx.BoxSizer(wx.VERTICAL)
+	paramSizer5.Add(param_brake_pos_ratio, 0, wx.TOP, 10)
+	paramSizer5.Add(txtCtrl_brake_pos_ratio, 0, wx.TOP, 10)
+	paramSizer5.Add(param_trajec_acc, 0, wx.TOP, 10)
+	paramSizer5.Add(txtCtrl_trajec_acc, 0, wx.TOP, 10)
+	paramSizer5.Add(param_trajec_ret, 0, wx.TOP, 10)
+	paramSizer5.Add(txtCtrl_trajec_ret, 0, wx.TOP, 10)
+
+	paramSizer6 = wx.BoxSizer(wx.VERTICAL)
+	paramSizer6.Add(param_dominant_throttle_on, 0, wx.TOP, 10)
+	paramSizer6.Add(txtCtrl_dominant_throttle_on, 0, wx.TOP, 10)
+	paramSizer6.Add(param_max_motor_temp, 0, wx.TOP, 10)
+	paramSizer6.Add(txtCtrl_max_motor_temp, 0, wx.TOP, 10)
+	paramSizer6.Add(param_num_motor_ch, 0, wx.TOP, 10)
+	paramSizer6.Add(txtCtrl_num_motor_ch, 0, wx.TOP, 10)
+
 	statBoxConfigParams = wx.StaticBox(self.panel, wx.ID_ANY, '  Set paramters')
 	statBoxConfigParams.SetBackgroundColour(GREY)
 	statBoxConfigParams.SetForegroundColour(BLACK)
@@ -150,6 +179,8 @@ class MyForm(wx.Frame):
         statBoxSizer.Add(paramSizer2, 0, wx.ALL, 10)
         statBoxSizer.Add(paramSizer3, 0, wx.ALL, 10)
         statBoxSizer.Add(paramSizer4, 0, wx.ALL, 10)
+        statBoxSizer.Add(paramSizer5, 0, wx.ALL, 10)
+        statBoxSizer.Add(paramSizer6, 0, wx.ALL, 10)
 
 	return statBoxSizer
 
