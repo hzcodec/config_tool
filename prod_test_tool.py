@@ -120,6 +120,13 @@ class MyForm(wx.Frame):
         param_delay_start = wx.StaticText(self.panel, wx.ID_ANY, 'delay_start')
         txtCtrl_delay_start = wx.TextCtrl(self.panel, wx.ID_ANY,'5000')
 
+        btnConfigure = wx.Button(self.panel, wx.ID_ANY, ' Configure   ')
+        self.Bind(wx.EVT_BUTTON, self.onConfigure, btnConfigure)
+        btnTestInject = wx.Button(self.panel, wx.ID_ANY, ' Test Inject ')
+        self.Bind(wx.EVT_BUTTON, self.onTestInject, btnTestInject)
+        btnGetIq = wx.Button(self.panel, wx.ID_ANY, '    Get iq          ')
+        self.Bind(wx.EVT_BUTTON, self.onGetIq, btnGetIq)
+
 	paramSizer1 = wx.BoxSizer(wx.HORIZONTAL)
 	paramSizer1.Add(param_rope_stuck_on, 0, wx.LEFT, 10)
 	paramSizer1.Add(param_iq_alpha, 0, wx.LEFT, 14)
@@ -134,6 +141,11 @@ class MyForm(wx.Frame):
 	paramSizer2.Add(txtCtrl_undershoot, 0, wx.LEFT, 15)
 	paramSizer2.Add(txtCtrl_delay_start, 0, wx.LEFT, 15)
 
+	paramSizer3 = wx.BoxSizer(wx.HORIZONTAL)
+	paramSizer3.Add(btnConfigure, 0, wx.RIGHT, 10)
+	paramSizer3.Add(btnTestInject, 0, wx.LEFT, 15)
+	paramSizer3.Add(btnGetIq, 0, wx.LEFT, 15)
+
 	statBoxTestEnhanced = wx.StaticBox(self.panel, wx.ID_ANY, '  Test Enhanced Measuring')
 	statBoxTestEnhanced.SetBackgroundColour(GREY)
 	statBoxTestEnhanced.SetForegroundColour(BLACK)
@@ -141,14 +153,23 @@ class MyForm(wx.Frame):
 
         statBoxSizer.Add(paramSizer1, 0, wx.TOP|wx.BOTTOM|wx.LEFT, 10)
         statBoxSizer.Add(paramSizer2, 0, wx.BOTTOM|wx.LEFT, 15)
+        statBoxSizer.Add(paramSizer3, 0, wx.BOTTOM|wx.LEFT, 15)
 
 	return statBoxSizer
 
 
     def onConnect(self, event):
 	print 'Connect'
-    
 
+    def onConfigure(self, event):
+	print 'Configure'
+
+    def onTestInject(self, event):
+	print 'Test Inject'
+
+    def onGetIq(self, event):
+	print 'Get iq'
+    
     def onCombo(self, event):
         print 'Selected port: '
 
