@@ -130,12 +130,12 @@ import base64
 import sys
 import datetime
 
-WINDOW_SIZE = (1035, 760)
+WINDOW_SIZE = (1035, 770)
 
 # sizer borders
 BORDER1 = 5
 STATIC_BOX_SERIAL_BORDER = 10
-STATIC_BOX_PARAMS_BORDER = 5
+STATIC_BOX_PARAMS_BORDER = 10
 PARAMSIZER1_BORDER = 2
 PARAMSIZER2_BORDER = 2
 PARAMSIZER3_BORDER = 5
@@ -262,7 +262,7 @@ class MyForm(wx.Frame):
 	self.disable_txt_controls()
 
         headline = '       - ACX/TXC logging - \n'
-	self.txtMultiCtrl = wx.TextCtrl(self.panel, -1, headline, size=(180, 690), style=wx.TE_MULTILINE)
+	self.txtMultiCtrl = wx.TextCtrl(self.panel, -1, headline, size=(190, 730), style=wx.TE_MULTILINE)
         self.txtMultiCtrl.SetInsertionPoint(0)
 
         self.create_sizer1()  # param sizer 1st column
