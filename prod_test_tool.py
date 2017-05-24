@@ -30,11 +30,13 @@ class MyForm(wx.Frame):
 	serialSizer = self.setup_serial_sizer()
 	configParamsSizer = self.setup_config_params()
 	enhancedMeasSizer = self.setup_test_enahanced_measuring()
+	testRun = self.setup_test_run()
 
 	self.leftTopSizer = wx.BoxSizer(wx.VERTICAL)
         self.leftTopSizer.Add(serialSizer, 0, wx.ALL|wx.EXPAND, BORDER1)
         self.leftTopSizer.Add(configParamsSizer, 0, wx.ALL|wx.EXPAND, BORDER1)
         self.leftTopSizer.Add(enhancedMeasSizer, 0, wx.ALL|wx.EXPAND, BORDER1)
+        self.leftTopSizer.Add(testRun, 0, wx.ALL|wx.EXPAND, BORDER1)
         self.topSizer = wx.BoxSizer(wx.HORIZONTAL)
 	self.topSizer.Add(self.leftTopSizer, 0, wx.ALL, BORDER1)
 
@@ -160,6 +162,26 @@ class MyForm(wx.Frame):
 
 	return statBoxSizer
 
+    def setup_test_run(self):
+
+        speed = wx.StaticText(self.panel, wx.ID_ANY, 'Speed')
+
+	spinCtrlSpeed = wx.SpinCtrl(self.panel, value='0')
+	spinCtrlSpeed.SetRange(0, 25)
+        #lblSpinCtrl = wx.StaticText(self.panel, wx.ID_ANY, 'Speed')
+
+	paramSizer1 = wx.BoxSizer(wx.VERTICAL)
+	paramSizer1.Add(speed, 0, wx.LEFT, 30)
+	paramSizer1.Add(spinCtrlSpeed, 0, wx.TOP, 10)
+
+	statBoxTestRun = wx.StaticBox(self.panel, wx.ID_ANY, '  Test Run')
+	statBoxTestRun.SetBackgroundColour(GREY)
+	statBoxTestRun.SetForegroundColour(BLACK)
+        statBoxSizer = wx.StaticBoxSizer(statBoxTestRun, wx.HORIZONTAL)
+
+        statBoxSizer.Add(paramSizer1, 0, wx.ALL, 10)
+
+	return statBoxSizer
 
     def onConnect(self, event):
 	print 'Connect'
