@@ -37,11 +37,6 @@ class ProdTestForm(wx.Panel):
     def __init__(self, parent):
         wx.Panel.__init__(self, parent)
 
-	#self.Centre()
-	#self.SetPosition((2500, 100))
-
-        #self.setup_menu()
-
 	serialSizer = self.setup_serial_sizer()
 	configParamsSizer = self.setup_config_params()
 	enhancedMeasSizer = self.setup_test_enahanced_measuring()
@@ -59,30 +54,6 @@ class ProdTestForm(wx.Panel):
 
         self.SetSizer(topSizer)
 	self.lock_text_controls()
-
-#    def setup_menu(self):
-#        menuBar = wx.MenuBar()
-#        fileMenu = wx.Menu()
-#        unlockMenu = wx.Menu()
-#        aboutMenu = wx.Menu()
-#
-#	fileMenu.Append(wx.ID_OPEN, "Open", "Open")
-#	fileMenu.Append(wx.ID_SAVE, "Save", "Save")
-#	fileMenu.Append(wx.ID_EXIT, "Exit", "Close")
-#	unlockMenu.Append(101, "Lock", "Lock")
-#	unlockMenu.Append(102, "UnLock", "UnLock")
-#	aboutMenu.Append(103, "About", "Open")
-#
-#	menuBar.Append(fileMenu, "&File")
-#	menuBar.Append(unlockMenu, "&Unlock")
-#	menuBar.Append(aboutMenu, "&About")
-#	self.SetMenuBar(menuBar)
-#	self.Bind(wx.EVT_MENU, self.onOpen, id=wx.ID_OPEN)
-#	self.Bind(wx.EVT_MENU, self.onSave, id=wx.ID_SAVE)
-#	self.Bind(wx.EVT_MENU, self.onQuit, id=wx.ID_EXIT)
-#	self.Bind(wx.EVT_MENU, self.onLock, id=101)
-#	self.Bind(wx.EVT_MENU, self.onUnLock, id=102)
-#	self.Bind(wx.EVT_MENU, self.onAbout, id=103)
 
     def setup_serial_sizer(self):
         txtSerialPort = wx.StaticText(self, wx.ID_ANY, 'Select serial port')
@@ -108,7 +79,6 @@ class ProdTestForm(wx.Panel):
         btnQuit = wx.Button(self, wx.ID_ANY, 'Quit')
 	btnQuitSizer = wx.BoxSizer(wx.HORIZONTAL)
 	btnQuitSizer.Add(btnQuit, 0, wx.ALL, 20)
-        #self.Bind(wx.EVT_BUTTON, self.onQuit, btnQuit)
 
         statBoxSizer.Add(txtSerPortSizer, 0, wx.TOP|wx.BOTTOM|wx.LEFT, 15)
         statBoxSizer.Add(comboSizer, 0, wx.TOP|wx.BOTTOM|wx.LEFT, 10)
@@ -514,6 +484,7 @@ class MainFrame(wx.Frame):
         info.SetLicence(licence)
         info.AddDeveloper('Heinz Samuelsson')
         wx.AboutBox(info)
+
 
 if __name__ == '__main__':
     app = wx.App()
