@@ -29,13 +29,18 @@ class MyForm(wx.Frame):
 
 	self.exitDialog =  wx.MessageDialog( self, " Quit application? \nCheck that motor has stopped!\n", "Quit", wx.YES_NO)
 
+        menuBar = wx.MenuBar()
         fileMenu = wx.Menu()
+        unlockMenu = wx.Menu()
+
 	fileMenu.Append(wx.ID_OPEN, "Open", "Open")
 	fileMenu.Append(wx.ID_SAVE, "Save", "Save")
 	fileMenu.Append(wx.ID_EXIT, "Exit", "Close")
+	unlockMenu.Append(101, "Lock", "Lock")
+	unlockMenu.Append(102, "UnLock", "UnLock")
 
-	menuBar = wx.MenuBar()
 	menuBar.Append(fileMenu, "&File")
+	menuBar.Append(unlockMenu, "&Unlock")
 	self.SetMenuBar(menuBar)
 	self.Bind(wx.EVT_MENU, self.onOpen, id=wx.ID_OPEN)
 	self.Bind(wx.EVT_MENU, self.onSave, id=wx.ID_SAVE)
