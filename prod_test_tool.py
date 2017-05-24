@@ -45,6 +45,8 @@ class MyForm(wx.Frame):
 	self.Bind(wx.EVT_MENU, self.onOpen, id=wx.ID_OPEN)
 	self.Bind(wx.EVT_MENU, self.onSave, id=wx.ID_SAVE)
 	self.Bind(wx.EVT_MENU, self.onQuit, id=wx.ID_EXIT)
+	self.Bind(wx.EVT_MENU, self.onLock, id=101)
+	self.Bind(wx.EVT_MENU, self.onUnLock, id=102)
 
 	serialSizer = self.setup_serial_sizer()
 	configParamsSizer = self.setup_config_params()
@@ -344,6 +346,12 @@ class MyForm(wx.Frame):
 
     def onSave(self, event):
         print 'Save'
+
+    def onLock(self, event):
+        print 'Lock'
+
+    def onUnLock(self, event):
+        print 'UnLock'
 
     def onQuit(self, event):
         rv = self.exitDialog.ShowModal()
