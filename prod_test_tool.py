@@ -1,7 +1,8 @@
 #!/usr/bin/python
-
 import wx
+#import wx.lib.scrolledpanel
 import time
+import wx.lib.scrolledpanel as scrolled
 
 WINDOW_SIZE = (1035, 870)
 
@@ -37,6 +38,9 @@ class ProdTestForm(wx.Panel):
     def __init__(self, parent):
         wx.Panel.__init__(self, parent)
 
+	# Add a panel so it looks the correct on all platforms
+        #self.panel = wx.Panel(self, wx.ID_ANY)
+        
 	serialSizer = self.setup_serial_sizer()
 	configParamsSizer = self.setup_config_params()
 	enhancedMeasSizer = self.setup_test_enahanced_measuring()
