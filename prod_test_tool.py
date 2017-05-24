@@ -220,15 +220,15 @@ class MyForm(wx.Frame):
     def setup_test_enahanced_measuring(self):
 
         param_rope_stuck_on = wx.StaticText(self.panel, wx.ID_ANY, 'rope_stuck_on')
-        txtCtrl_rope_stuck_on = wx.TextCtrl(self.panel, wx.ID_ANY,'1')
+        self.txtCtrl_rope_stuck_on = wx.TextCtrl(self.panel, wx.ID_ANY,'1')
         param_iq_alpha = wx.StaticText(self.panel, wx.ID_ANY, 'iq_alpha')
-        txtCtrl_iq_alpha = wx.TextCtrl(self.panel, wx.ID_ANY,'0.005')
+        self.txtCtrl_iq_alpha = wx.TextCtrl(self.panel, wx.ID_ANY,'0.005')
         param_speed_alpha = wx.StaticText(self.panel, wx.ID_ANY, 'speed_alpha')
-        txtCtrl_speed_alpha = wx.TextCtrl(self.panel, wx.ID_ANY,'0.05')
+        self.txtCtrl_speed_alpha = wx.TextCtrl(self.panel, wx.ID_ANY,'0.05')
         param_undershoot = wx.StaticText(self.panel, wx.ID_ANY, 'undershoot')
-        txtCtrl_undershoot = wx.TextCtrl(self.panel, wx.ID_ANY,'-1.0')
+        self.txtCtrl_undershoot = wx.TextCtrl(self.panel, wx.ID_ANY,'-1.0')
         param_delay_start = wx.StaticText(self.panel, wx.ID_ANY, 'delay_start')
-        txtCtrl_delay_start = wx.TextCtrl(self.panel, wx.ID_ANY,'5000')
+        self.txtCtrl_delay_start = wx.TextCtrl(self.panel, wx.ID_ANY,'5000')
 
         btnConfigure = wx.Button(self.panel, wx.ID_ANY, ' Configure   ')
         self.Bind(wx.EVT_BUTTON, self.onConfigure, btnConfigure)
@@ -247,11 +247,11 @@ class MyForm(wx.Frame):
 	paramSizer1.Add(param_delay_start, 0, wx.LEFT, 24)
 
 	paramSizer2 = wx.BoxSizer(wx.HORIZONTAL)
-	paramSizer2.Add(txtCtrl_rope_stuck_on, 0, wx.RIGHT, 10)
-	paramSizer2.Add(txtCtrl_iq_alpha, 0, wx.LEFT, 15)
-	paramSizer2.Add(txtCtrl_speed_alpha, 0, wx.LEFT, 15)
-	paramSizer2.Add(txtCtrl_undershoot, 0, wx.LEFT, 15)
-	paramSizer2.Add(txtCtrl_delay_start, 0, wx.LEFT, 15)
+	paramSizer2.Add(self.txtCtrl_rope_stuck_on, 0, wx.RIGHT, 10)
+	paramSizer2.Add(self.txtCtrl_iq_alpha, 0, wx.LEFT, 15)
+	paramSizer2.Add(self.txtCtrl_speed_alpha, 0, wx.LEFT, 15)
+	paramSizer2.Add(self.txtCtrl_undershoot, 0, wx.LEFT, 15)
+	paramSizer2.Add(self.txtCtrl_delay_start, 0, wx.LEFT, 15)
 
 	paramSizer3 = wx.BoxSizer(wx.HORIZONTAL)
 	paramSizer3.Add(btnConfigure, 0, wx.RIGHT, 10)
@@ -341,6 +341,11 @@ class MyForm(wx.Frame):
         self.txtCtrl_max_motor_temp.Disable()
         self.txtCtrl_num_motor_ch.Disable()
         self.txtCtrl_idle_timeout.Disable()
+        self.txtCtrl_rope_stuck_on.Disable()
+        self.txtCtrl_iq_alpha.Disable()
+        self.txtCtrl_speed_alpha.Disable()
+        self.txtCtrl_undershoot.Disable()
+        self.txtCtrl_delay_start.Disable()
         
     def onTestInject(self, event):
 	print 'Test Inject'
@@ -389,6 +394,11 @@ class MyForm(wx.Frame):
         self.txtCtrl_max_motor_temp.Disable()
         self.txtCtrl_num_motor_ch.Disable()
         self.txtCtrl_idle_timeout.Disable()
+        self.txtCtrl_rope_stuck_on.Disable()
+        self.txtCtrl_iq_alpha.Disable()
+        self.txtCtrl_speed_alpha.Disable()
+        self.txtCtrl_undershoot.Disable()
+        self.txtCtrl_delay_start.Disable()
 
     def onUnLock(self, event):
         self.txtCtrl_cl_max.Enable()
@@ -410,6 +420,11 @@ class MyForm(wx.Frame):
         self.txtCtrl_max_motor_temp.Enable()
         self.txtCtrl_num_motor_ch.Enable()
         self.txtCtrl_idle_timeout.Enable()
+        self.txtCtrl_rope_stuck_on.Enable()
+        self.txtCtrl_iq_alpha.Enable()
+        self.txtCtrl_speed_alpha.Enable()
+        self.txtCtrl_undershoot.Enable()
+        self.txtCtrl_delay_start.Enable()
 
     def onQuit(self, event):
         rv = self.exitDialog.ShowModal()
