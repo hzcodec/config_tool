@@ -27,6 +27,20 @@ class MyForm(wx.Frame):
 	#self.Centre()
 	self.SetPosition((2500, 100))
 
+	self.exitDialog =  wx.MessageDialog( self, " Quit application? \nCheck that motor has stopped!\n", "Quit", wx.YES_NO)
+
+        fileMenu = wx.Menu()
+	fileMenu.Append(wx.ID_OPEN, "Open", "Open")
+	fileMenu.Append(wx.ID_SAVE, "Save", "Save")
+	fileMenu.Append(wx.ID_EXIT, "Exit", "Close")
+
+	menuBar = wx.MenuBar()
+	menuBar.Append(fileMenu, "&File")
+	self.SetMenuBar(menuBar)
+	self.Bind(wx.EVT_MENU, self.onOpen, id=wx.ID_OPEN)
+	self.Bind(wx.EVT_MENU, self.onSave, id=wx.ID_SAVE)
+	self.Bind(wx.EVT_MENU, self.onQuit, id=wx.ID_EXIT)
+
 	serialSizer = self.setup_serial_sizer()
 	configParamsSizer = self.setup_config_params()
 	enhancedMeasSizer = self.setup_test_enahanced_measuring()
@@ -114,6 +128,9 @@ class MyForm(wx.Frame):
         txtCtrl_trajec_acc = wx.TextCtrl(self.panel, wx.ID_ANY,'80.0000')
         param_trajec_ret = wx.StaticText(self.panel, wx.ID_ANY, 'trajec.ret')
         txtCtrl_trajec_ret = wx.TextCtrl(self.panel, wx.ID_ANY,'320.000')
+
+	txtCtrl_trajec_acc.Disable()
+	txtCtrl_trajec_ret.Disable()
 
         param_dominant_throttle_on = wx.StaticText(self.panel, wx.ID_ANY, 'dominant_throttle_on')
         txtCtrl_dominant_throttle_on = wx.TextCtrl(self.panel, wx.ID_ANY,'1')
@@ -316,6 +333,12 @@ class MyForm(wx.Frame):
 
     def onCombo(self, event):
         print 'Selected port: '
+
+    def onOpen(self, event):
+        print 'Open'
+
+    def onSave(self, event):
+        print 'Save'
 
     def onQuit(self, event):
         rv = self.exitDialog.ShowModal()
