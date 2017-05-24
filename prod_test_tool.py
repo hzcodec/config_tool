@@ -84,22 +84,47 @@ class MyForm(wx.Frame):
         txtCtrl_cl_max = wx.TextCtrl(self.panel, wx.ID_ANY,'51.00')
         param_cl_min = wx.StaticText(self.panel, wx.ID_ANY, 'cl.min')
         txtCtrl_cl_min = wx.TextCtrl(self.panel, wx.ID_ANY,'-51.00')
+        param_sl_ki = wx.StaticText(self.panel, wx.ID_ANY, 'sl.ki')
+        txtCtrl_sl_ki = wx.TextCtrl(self.panel, wx.ID_ANY,'0.25000')
+
         param_sl_max = wx.StaticText(self.panel, wx.ID_ANY, 'sl.max')
         txtCtrl_sl_max = wx.TextCtrl(self.panel, wx.ID_ANY,'80.00')
         param_sl_min = wx.StaticText(self.panel, wx.ID_ANY, 'sl.min')
         txtCtrl_sl_min = wx.TextCtrl(self.panel, wx.ID_ANY,'-80.00')
+        param_has_switch = wx.StaticText(self.panel, wx.ID_ANY, 'has_switch')
+        txtCtrl_has_switch = wx.TextCtrl(self.panel, wx.ID_ANY,'1')
+
+        param_power_margin = wx.StaticText(self.panel, wx.ID_ANY, 'power_margin')
+        txtCtrl_power_margin = wx.TextCtrl(self.panel, wx.ID_ANY,'0.0000')
+        param_power_factor = wx.StaticText(self.panel, wx.ID_ANY, 'power_factor')
+        txtCtrl_power_factor = wx.TextCtrl(self.panel, wx.ID_ANY,'1.0000')
+        param_brightness_lo = wx.StaticText(self.panel, wx.ID_ANY, 'brightness_lo')
+        txtCtrl_brightness_lo = wx.TextCtrl(self.panel, wx.ID_ANY,'1.0000')
+
 
 	paramSizer1 = wx.BoxSizer(wx.VERTICAL)
 	paramSizer1.Add(param_cl_max, 0, wx.TOP, 10)
 	paramSizer1.Add(txtCtrl_cl_max, 0, wx.TOP, 10)
 	paramSizer1.Add(param_cl_min, 0, wx.TOP, 10)
 	paramSizer1.Add(txtCtrl_cl_min, 0, wx.TOP, 10)
+	paramSizer1.Add(param_sl_ki, 0, wx.TOP, 10)
+	paramSizer1.Add(txtCtrl_sl_ki, 0, wx.TOP, 10)
 
 	paramSizer2 = wx.BoxSizer(wx.VERTICAL)
 	paramSizer2.Add(param_sl_max, 0, wx.TOP, 10)
 	paramSizer2.Add(txtCtrl_sl_max, 0, wx.TOP, 10)
 	paramSizer2.Add(param_sl_min, 0, wx.TOP, 10)
 	paramSizer2.Add(txtCtrl_sl_min, 0, wx.TOP, 10)
+	paramSizer2.Add(param_has_switch, 0, wx.TOP, 10)
+	paramSizer2.Add(txtCtrl_has_switch, 0, wx.TOP, 10)
+
+	paramSizer3 = wx.BoxSizer(wx.VERTICAL)
+	paramSizer3.Add(param_power_margin, 0, wx.TOP, 10)
+	paramSizer3.Add(txtCtrl_power_margin, 0, wx.TOP, 10)
+	paramSizer3.Add(param_power_factor, 0, wx.TOP, 10)
+	paramSizer3.Add(txtCtrl_power_factor, 0, wx.TOP, 10)
+	paramSizer3.Add(param_brightness_lo, 0, wx.TOP, 10)
+	paramSizer3.Add(txtCtrl_brightness_lo, 0, wx.TOP, 10)
 
 	statBoxConfigParams = wx.StaticBox(self.panel, wx.ID_ANY, '  Set paramters')
 	statBoxConfigParams.SetBackgroundColour(GREY)
@@ -108,6 +133,7 @@ class MyForm(wx.Frame):
 
         statBoxSizer.Add(paramSizer1, 0, wx.ALL, 10)
         statBoxSizer.Add(paramSizer2, 0, wx.ALL, 10)
+        statBoxSizer.Add(paramSizer3, 0, wx.ALL, 10)
 
 	return statBoxSizer
 
