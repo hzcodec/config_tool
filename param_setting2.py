@@ -401,12 +401,10 @@ class MyForm(wx.Frame):
         self.param_num_motor_ch = wx.StaticText(self.panel, wx.ID_ANY, 'num_motor_ch')
         self.param_led_brightness_lo = wx.StaticText(self.panel, wx.ID_ANY, 'brightness_lo')
         self.param_dominant_throttle_on = wx.StaticText(self.panel, wx.ID_ANY, 'dominant_throttle_on')
-
         self.param_rope_stuck_on = wx.StaticText(self.panel, wx.ID_ANY, 'rope_stuck_on')
         self.param_iq_alpha = wx.StaticText(self.panel, wx.ID_ANY, 'iq_alpha')
         self.param_speed_alpha = wx.StaticText(self.panel, wx.ID_ANY, 'speed_alpha')
         self.param_undershoot = wx.StaticText(self.panel, wx.ID_ANY, 'undershoot')
-        self.param_par4 = wx.StaticText(self.panel, wx.ID_ANY, 'par4')
         self.param_delay_start = wx.StaticText(self.panel, wx.ID_ANY, 'delay_start')
 
     def define_textctrl_parameters(self):
@@ -427,12 +425,10 @@ class MyForm(wx.Frame):
         self.txtCtrl_num_motor_ch = wx.TextCtrl(self.panel, wx.ID_ANY,'1')
         self.txtCtrl_led_brightness_lo = wx.TextCtrl(self.panel, wx.ID_ANY,'0.3000')
         self.txtCtrl_dominant_throttle_on = wx.TextCtrl(self.panel, wx.ID_ANY,'1')
-
         self.txtCtrl_rope_stuck_on = wx.TextCtrl(self.panel, wx.ID_ANY,'1')
         self.txtCtrl_iq_alpha = wx.TextCtrl(self.panel, wx.ID_ANY,'0.005')
         self.txtCtrl_speed_alpha = wx.TextCtrl(self.panel, wx.ID_ANY,'0.05')
         self.txtCtrl_undershoot = wx.TextCtrl(self.panel, wx.ID_ANY,'-1.0')
-        #self.txtCtrl_par4 = wx.TextCtrl(self.panel, wx.ID_ANY,'0.3')
         self.txtCtrl_delay_start = wx.TextCtrl(self.panel, wx.ID_ANY,'5000')
 
     def create_sizer1(self):
@@ -496,9 +492,6 @@ class MyForm(wx.Frame):
 	self.paramSizer6 = wx.BoxSizer(wx.VERTICAL)
 	self.paramSizer6.Add(self.param_dominant_throttle_on, 0, wx.ALL, PARAMSIZER4_BORDER)
 	self.paramSizer6.Add(self.txtCtrl_dominant_throttle_on, 0, wx.ALL, PARAMSIZER4_BORDER)
-
-	#self.paramSizer4.Add(self.param_par4, 0, wx.ALL, PARAMSIZER4_BORDER)
-	#self.paramSizer4.Add(self.txtCtrl_par4, 0, wx.ALL, PARAMSIZER4_BORDER)
 
     def bind_buttons(self):
         self.Bind(wx.EVT_BUTTON, self.onConnect, self.btnConnected)
