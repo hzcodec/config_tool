@@ -433,15 +433,12 @@ class ProdTestForm(wx.Panel):
     #            self.txtCtrl_undershoot.Enable()
     #            self.txtCtrl_delay_start.Enable()
 
-
-
-
 class MainFrame(wx.Frame):
     def __init__(self):
         wx.Frame.__init__(self, None, wx.ID_ANY, title=HEADLINE, style=wx.DEFAULT_FRAME_STYLE, size=WINDOW_SIZE)
         #self.panel = wx.Panel(self, wx.ID_ANY, style=wx.BORDER_RAISED)
 
-	self.exitDialog =  wx.MessageDialog( self, " Quit application? \nCheck that motor has stopped!\n", "Quit", wx.YES_NO)
+	self.exitDialog =  wx.MessageDialog( self, "Quit application?\n\nCheck that Ascender motor has stopped!\n", "Quit", wx.YES_NO)
 
 	self.Centre()
  
