@@ -29,10 +29,12 @@ class MyForm(wx.Frame):
 
 	serialSizer = self.setup_serial_sizer()
 	configParamsSizer = self.setup_config_params()
+	enhancedMeasSizer = self.setup_test_enahanced_measuring()
 
 	self.leftTopSizer = wx.BoxSizer(wx.VERTICAL)
         self.leftTopSizer.Add(serialSizer, 0, wx.ALL|wx.EXPAND, BORDER1)
         self.leftTopSizer.Add(configParamsSizer, 0, wx.ALL|wx.EXPAND, BORDER1)
+        self.leftTopSizer.Add(enhancedMeasSizer, 0, wx.ALL|wx.EXPAND, BORDER1)
         self.topSizer = wx.BoxSizer(wx.HORIZONTAL)
 	self.topSizer.Add(self.leftTopSizer, 0, wx.ALL, BORDER1)
 
@@ -103,6 +105,25 @@ class MyForm(wx.Frame):
         statBoxSizer.Add(paramSizer2, 0, wx.ALL, 10)
 
 	return statBoxSizer
+
+    def setup_test_enahanced_measuring(self):
+
+        param_rope_stuck_on = wx.StaticText(self.panel, wx.ID_ANY, 'rope_stuck_on')
+        txtCtrl_rope_stuck_on = wx.TextCtrl(self.panel, wx.ID_ANY,'1')
+
+	paramSizer1 = wx.BoxSizer(wx.VERTICAL)
+	paramSizer1.Add(param_rope_stuck_on, 0, wx.TOP, 10)
+	paramSizer1.Add(txtCtrl_rope_stuck_on, 0, wx.TOP, 10)
+
+	statBoxTestEnhanced = wx.StaticBox(self.panel, wx.ID_ANY, '  Test Enhanced Measuring')
+	statBoxTestEnhanced.SetBackgroundColour(GREY)
+	statBoxTestEnhanced.SetForegroundColour(BLACK)
+        statBoxSizer = wx.StaticBoxSizer(statBoxTestEnhanced, wx.HORIZONTAL)
+
+        statBoxSizer.Add(paramSizer1, 0, wx.ALL, 10)
+
+	return statBoxSizer
+
 
     def onConnect(self, event):
 	print 'Connect'
