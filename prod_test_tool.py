@@ -375,30 +375,7 @@ class MyForm(wx.Frame):
         print 'Save'
 
     def onLock(self, event):
-        self.txtCtrl_cl_max.Disable()
-        self.txtCtrl_cl_min.Disable()
-        self.txtCtrl_sl_ki.Disable()
-        self.txtCtrl_sl_max.Disable()
-        self.txtCtrl_sl_min.Disable()
-        self.txtCtrl_has_switch.Disable()
-        self.txtCtrl_power_margin.Disable()
-        self.txtCtrl_power_factor.Disable()
-        self.txtCtrl_brightness_lo.Disable()
-        self.txtCtrl_brake_temp_ok.Disable()
-        self.txtCtrl_brake_temp_hi.Disable()
-        self.txtCtrl_brake_max_id.Disable()
-        self.txtCtrl_brake_pos_ratio.Disable()
-        self.txtCtrl_trajec_acc.Disable()
-        self.txtCtrl_trajec_ret.Disable()
-        self.txtCtrl_dominant_throttle_on.Disable()
-        self.txtCtrl_max_motor_temp.Disable()
-        self.txtCtrl_num_motor_ch.Disable()
-        self.txtCtrl_idle_timeout.Disable()
-        self.txtCtrl_rope_stuck_on.Disable()
-        self.txtCtrl_iq_alpha.Disable()
-        self.txtCtrl_speed_alpha.Disable()
-        self.txtCtrl_undershoot.Disable()
-        self.txtCtrl_delay_start.Disable()
+        self.lock_text_controls()
 
     def onUnLock(self, event):
         self.txtCtrl_cl_max.Enable()
