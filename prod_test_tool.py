@@ -122,6 +122,9 @@ class MyForm(wx.Frame):
         param_num_motor_ch = wx.StaticText(self.panel, wx.ID_ANY, 'num_motor_ch')
         txtCtrl_num_motor_ch = wx.TextCtrl(self.panel, wx.ID_ANY,'1')
 
+        param_idle_timeout = wx.StaticText(self.panel, wx.ID_ANY, 'idle_timeout')
+        txtCtrl_idle_timeout = wx.TextCtrl(self.panel, wx.ID_ANY,'14400')
+
 	paramSizer1 = wx.BoxSizer(wx.VERTICAL)
 	paramSizer1.Add(param_cl_max, 0, wx.TOP, 10)
 	paramSizer1.Add(txtCtrl_cl_max, 0, wx.TOP, 10)
@@ -170,6 +173,10 @@ class MyForm(wx.Frame):
 	paramSizer6.Add(param_num_motor_ch, 0, wx.TOP, 10)
 	paramSizer6.Add(txtCtrl_num_motor_ch, 0, wx.TOP, 10)
 
+	paramSizer7 = wx.BoxSizer(wx.VERTICAL)
+	paramSizer7.Add(param_idle_timeout, 0, wx.TOP, 10)
+	paramSizer7.Add(txtCtrl_idle_timeout, 0, wx.TOP, 10)
+
 	statBoxConfigParams = wx.StaticBox(self.panel, wx.ID_ANY, '  Set paramters')
 	statBoxConfigParams.SetBackgroundColour(GREY)
 	statBoxConfigParams.SetForegroundColour(BLACK)
@@ -181,6 +188,7 @@ class MyForm(wx.Frame):
         statBoxSizer.Add(paramSizer4, 0, wx.ALL, 10)
         statBoxSizer.Add(paramSizer5, 0, wx.ALL, 10)
         statBoxSizer.Add(paramSizer6, 0, wx.ALL, 10)
+        statBoxSizer.Add(paramSizer7, 0, wx.ALL, 10)
 
 	return statBoxSizer
 
@@ -203,7 +211,7 @@ class MyForm(wx.Frame):
         self.Bind(wx.EVT_BUTTON, self.onTestInject, btnTestInject)
         btnGetIq = wx.Button(self.panel, wx.ID_ANY, '    Get iq          ')
         self.Bind(wx.EVT_BUTTON, self.onGetIq, btnGetIq)
-        btnSaveParam = wx.Button(self.panel, wx.ID_ANY, ' SaveParam ')
+        btnSaveParam = wx.Button(self.panel, wx.ID_ANY, ' Save Param')
         self.Bind(wx.EVT_BUTTON, self.onSaveParam, btnSaveParam)
 
 	paramSizer1 = wx.BoxSizer(wx.HORIZONTAL)
