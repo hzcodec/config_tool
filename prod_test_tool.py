@@ -31,12 +31,14 @@ class MyForm(wx.Frame):
 	configParamsSizer = self.setup_config_params()
 	enhancedMeasSizer = self.setup_test_enahanced_measuring()
 	testRun = self.setup_test_run()
+        multiTextControl = self.setup_multi_text_control()
 
 	self.leftTopSizer = wx.BoxSizer(wx.VERTICAL)
         self.leftTopSizer.Add(serialSizer, 0, wx.ALL|wx.EXPAND, BORDER1)
         self.leftTopSizer.Add(configParamsSizer, 0, wx.ALL|wx.EXPAND, BORDER1)
         self.leftTopSizer.Add(enhancedMeasSizer, 0, wx.ALL|wx.EXPAND, BORDER1)
         self.leftTopSizer.Add(testRun, 0, wx.ALL|wx.EXPAND, BORDER1)
+        self.leftTopSizer.Add(multiTextControl, 0, wx.ALL|wx.EXPAND, BORDER1)
         self.topSizer = wx.BoxSizer(wx.HORIZONTAL)
 	self.topSizer.Add(self.leftTopSizer, 0, wx.ALL, BORDER1)
 
@@ -198,6 +200,14 @@ class MyForm(wx.Frame):
         statBoxSizer.Add(paramSizer2, 0, wx.ALL, 10)
 
 	return statBoxSizer
+
+    def setup_multi_text_control(self):
+
+        headline = '       - ACX/TCX logging - \n'
+	txtMultiCtrl = wx.TextCtrl(self.panel, -1, headline, size=(790, 180), style=wx.TE_MULTILINE)
+        txtMultiCtrl.SetInsertionPoint(0)
+
+	return txtMultiCtrl
 
     def onConnect(self, event):
 	print 'Connect'
