@@ -64,6 +64,7 @@ class MyForm(wx.Frame):
         btnQuit = wx.Button(self.panel, wx.ID_ANY, 'Quit')
 	btnQuitSizer = wx.BoxSizer(wx.HORIZONTAL)
 	btnQuitSizer.Add(btnQuit, 0, wx.ALL, 20)
+        self.Bind(wx.EVT_BUTTON, self.onQuit, btnQuit)
 
         statBoxSizer.Add(txtSerPortSizer, 0, wx.TOP|wx.BOTTOM|wx.LEFT, 15)
         statBoxSizer.Add(comboSizer, 0, wx.TOP|wx.BOTTOM|wx.LEFT, 10)
@@ -110,17 +111,24 @@ class MyForm(wx.Frame):
 
         param_rope_stuck_on = wx.StaticText(self.panel, wx.ID_ANY, 'rope_stuck_on')
         txtCtrl_rope_stuck_on = wx.TextCtrl(self.panel, wx.ID_ANY,'1')
+        param_iq_alpha = wx.StaticText(self.panel, wx.ID_ANY, 'iq_alpha')
+        txtCtrl_iq_alpha = wx.TextCtrl(self.panel, wx.ID_ANY,'0.005')
 
-	paramSizer1 = wx.BoxSizer(wx.VERTICAL)
-	paramSizer1.Add(param_rope_stuck_on, 0, wx.TOP, 10)
-	paramSizer1.Add(txtCtrl_rope_stuck_on, 0, wx.TOP, 10)
+	paramSizer1 = wx.BoxSizer(wx.HORIZONTAL)
+	paramSizer1.Add(param_rope_stuck_on, 0, wx.TOP|wx.BOTTOM|wx.LEFT, 10)
+	paramSizer1.Add(param_iq_alpha, 0, wx.TOP|wx.BOTTOM|wx.LEFT, 10)
+
+	paramSizer2 = wx.BoxSizer(wx.HORIZONTAL)
+	paramSizer2.Add(txtCtrl_rope_stuck_on, 0, wx.RIGHT, 10)
+	paramSizer2.Add(txtCtrl_iq_alpha, 0, wx.LEFT, 15)
 
 	statBoxTestEnhanced = wx.StaticBox(self.panel, wx.ID_ANY, '  Test Enhanced Measuring')
 	statBoxTestEnhanced.SetBackgroundColour(GREY)
 	statBoxTestEnhanced.SetForegroundColour(BLACK)
-        statBoxSizer = wx.StaticBoxSizer(statBoxTestEnhanced, wx.HORIZONTAL)
+        statBoxSizer = wx.StaticBoxSizer(statBoxTestEnhanced, wx.VERTICAL)
 
-        statBoxSizer.Add(paramSizer1, 0, wx.ALL, 10)
+        statBoxSizer.Add(paramSizer1, 0, wx.TOP|wx.BOTTOM|wx.LEFT, 10)
+        statBoxSizer.Add(paramSizer2, 0, wx.BOTTOM|wx.LEFT, 15)
 
 	return statBoxSizer
 
