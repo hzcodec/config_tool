@@ -69,7 +69,7 @@
 #    speed_lim: 5.000000
 #    undershoot: -0.999985
 #    ti: 0
-
+#
 #['param list\r', 'motor.cl.kp: 0.229996\r', 'motor.cl.ki: 0.030518\r', 'motor.cl.kt: 1.000000\r', 'motor.cl.max: 51.000000\r', 'motor.cl.min: -51.000000\r', 'motor.sl.kp: 15.000000\r', 'motor.sl.ki: 0.250000\r', 'motor.sl.kt: 0.125000\r', 'motor.sl.max: 80.000000\r', 'motor.sl.min: -80.000000\r', 'trajec.acc: 80.000000\r', 'trajec.ret: 320.000000\r', 'throttle.zero: 0.501099\r', 'throttle.down: 0.328705\r', 'throttle.up: 0.672745\r', 'throttle.deadband_on: 0.030518\r', 'throttle.deadband_off: 0.027466\r', 'throttle.has_switch: 1\r', 'num_motor_ch: 1\r', 'power_out: 300.000000\r', 'power_in: 100.000000\r', 'brake_temp_ok: 60.000000\r', 'brake_temp_hi: 65.000000\r', 'brake_max_id: 40.000000\r', 'angle_offset: 0.473084\r', 'alignment_current: 40.000000\r', 'sin_bias: 0.050049\r', 'sin_gain: 4.946854\r', 'cos_bias: 0.051147\r', 'cos_gain: 4.949844\r', 'brake_test.pos_ratio: 0.399994\r', 'brake_test.neg_ratio: 0.199997\r', 'psu_ok: 0\r', 'led.brightness_hi: 0.300003\r', 'led.brightness_lo: 0.300003\r', 'idreg.kp: 0.009995\r', 'idreg.ki: 0.001007\r', 'idreg.kt: 0.500000\r', 'power_margin: 0.000000\r', 'power_factor: 1.000000\r', 'speed_filter: 2147483\r', 'max_motor_temp: 100.000000\r', 'idle_timeout: 14400\r', 'remote_ctrl_timeout: 10\r', 'soc_lim_run_up: 8\r', 'max_drive_temp: 85.000000\r', 'dominant_throttle_on: 1\r', 'rope_stuck_on: 1\r', 'iq_alpha: 0.005005\r', 'speed_alpha: 0.050003\r', 'mx: 40.000000\r', 'mi: -39.999984\r', 'delay_start: 5000\r', 'speed_lim: 5.000000\r', 'undershoot: -0.999985\r', 'ti: 0\r', '']
 
 #Unjo 500:01 00153 C
@@ -110,8 +110,11 @@
 
 # Num_motor_ch
 # Led.brightness_lo
+#    led.brightness_lo: 0.300003
 # Max_motor_temp
+#    max_motor_temp: 100.000000
 # Idle_timeout
+#    idle_timeout: 14400
 
 # *** Commands ***
 # Throttle cal 0
@@ -137,6 +140,7 @@ PARAMSIZER1_BORDER = 2
 PARAMSIZER2_BORDER = 2
 PARAMSIZER3_BORDER = 5
 PARAMSIZER4_BORDER = 2
+PARAMSIZER5_BORDER = 2
 
 # color codes
 RED     = (255, 0, 0)
@@ -263,6 +267,8 @@ class MyForm(wx.Frame):
         self.create_sizer2()  # param sizer 2nd column
         self.create_sizer3()  # sizer for Test Enhanced Measuring
         self.create_sizer4()  # param sizer 3rd column
+        self.create_sizer5()  # param sizer 4th column
+        self.create_sizer6()  # param sizer 4th column
 
         self.bind_buttons()
 
@@ -287,6 +293,8 @@ class MyForm(wx.Frame):
 	self.staticBoxSizer2.Add(self.paramSizer1, 0, wx.ALL, STATIC_BOX_PARAMS_BORDER)
 	self.staticBoxSizer2.Add(self.paramSizer2, 0, wx.ALL, STATIC_BOX_PARAMS_BORDER)
 	self.staticBoxSizer2.Add(self.paramSizer4, 0, wx.ALL, STATIC_BOX_PARAMS_BORDER)
+	self.staticBoxSizer2.Add(self.paramSizer5, 0, wx.ALL, STATIC_BOX_PARAMS_BORDER)
+	self.staticBoxSizer2.Add(self.paramSizer6, 0, wx.ALL, STATIC_BOX_PARAMS_BORDER)
 
 	self.statBoxEnhMeas = wx.StaticBox(self.panel, wx.ID_ANY, '  Test Enhanced Measuring   ')
 	self.statBoxEnhMeas.SetBackgroundColour(GREY)
@@ -388,8 +396,12 @@ class MyForm(wx.Frame):
         self.param_brake_temp_hi = wx.StaticText(self.panel, wx.ID_ANY, 'brake_temp_hi')
         self.param_brake_max_id = wx.StaticText(self.panel, wx.ID_ANY, 'brake_max_id')
         self.param_brake_pos_ratio = wx.StaticText(self.panel, wx.ID_ANY, 'brake_pos_ratio')
-
+        self.param_max_motor_temp = wx.StaticText(self.panel, wx.ID_ANY, 'max_motor_temp')
+        self.param_idle_timeout = wx.StaticText(self.panel, wx.ID_ANY, 'idle_timeout')
+        self.param_num_motor_ch = wx.StaticText(self.panel, wx.ID_ANY, 'num_motor_ch')
+        self.param_led_brightness_lo = wx.StaticText(self.panel, wx.ID_ANY, 'brightness_lo')
         self.param_dominant_throttle_on = wx.StaticText(self.panel, wx.ID_ANY, 'dominant_throttle_on')
+
         self.param_rope_stuck_on = wx.StaticText(self.panel, wx.ID_ANY, 'rope_stuck_on')
         self.param_iq_alpha = wx.StaticText(self.panel, wx.ID_ANY, 'iq_alpha')
         self.param_speed_alpha = wx.StaticText(self.panel, wx.ID_ANY, 'speed_alpha')
@@ -410,13 +422,17 @@ class MyForm(wx.Frame):
         self.txtCtrl_brake_temp_hi = wx.TextCtrl(self.panel, wx.ID_ANY,'65.000')
         self.txtCtrl_brake_max_id = wx.TextCtrl(self.panel, wx.ID_ANY,'40.000')
         self.txtCtrl_brake_pos_ratio = wx.TextCtrl(self.panel, wx.ID_ANY,'0.3999')
-
+        self.txtCtrl_max_motor_temp = wx.TextCtrl(self.panel, wx.ID_ANY,'100.000')
+        self.txtCtrl_idle_timeout = wx.TextCtrl(self.panel, wx.ID_ANY,'14400')
+        self.txtCtrl_num_motor_ch = wx.TextCtrl(self.panel, wx.ID_ANY,'1')
+        self.txtCtrl_led_brightness_lo = wx.TextCtrl(self.panel, wx.ID_ANY,'0.3000')
         self.txtCtrl_dominant_throttle_on = wx.TextCtrl(self.panel, wx.ID_ANY,'1')
+
         self.txtCtrl_rope_stuck_on = wx.TextCtrl(self.panel, wx.ID_ANY,'1')
         self.txtCtrl_iq_alpha = wx.TextCtrl(self.panel, wx.ID_ANY,'0.005')
         self.txtCtrl_speed_alpha = wx.TextCtrl(self.panel, wx.ID_ANY,'0.05')
         self.txtCtrl_undershoot = wx.TextCtrl(self.panel, wx.ID_ANY,'-1.0')
-        self.txtCtrl_par4 = wx.TextCtrl(self.panel, wx.ID_ANY,'0.3')
+        #self.txtCtrl_par4 = wx.TextCtrl(self.panel, wx.ID_ANY,'0.3')
         self.txtCtrl_delay_start = wx.TextCtrl(self.panel, wx.ID_ANY,'5000')
 
     def create_sizer1(self):
@@ -465,8 +481,22 @@ class MyForm(wx.Frame):
 	self.paramSizer4.Add(self.param_brake_pos_ratio, 0, wx.ALL, PARAMSIZER4_BORDER)
 	self.paramSizer4.Add(self.txtCtrl_brake_pos_ratio, 0, wx.ALL, PARAMSIZER4_BORDER)
 
-	#self.paramSizer4.Add(self.param_dominant_throttle_on, 0, wx.ALL, PARAMSIZER4_BORDER)
-	#self.paramSizer4.Add(self.txtCtrl_dominant_throttle_on, 0, wx.ALL, PARAMSIZER4_BORDER)
+    def create_sizer5(self):
+	self.paramSizer5 = wx.BoxSizer(wx.VERTICAL)
+	self.paramSizer5.Add(self.param_max_motor_temp, 0, wx.ALL, PARAMSIZER5_BORDER)
+	self.paramSizer5.Add(self.txtCtrl_max_motor_temp, 0, wx.ALL, PARAMSIZER5_BORDER)
+	self.paramSizer5.Add(self.param_idle_timeout, 0, wx.ALL, PARAMSIZER5_BORDER)
+	self.paramSizer5.Add(self.txtCtrl_idle_timeout, 0, wx.ALL, PARAMSIZER5_BORDER)
+	self.paramSizer5.Add(self.param_num_motor_ch, 0, wx.ALL, PARAMSIZER5_BORDER)
+	self.paramSizer5.Add(self.txtCtrl_num_motor_ch, 0, wx.ALL, PARAMSIZER5_BORDER)
+	self.paramSizer5.Add(self.param_led_brightness_lo, 0, wx.ALL, PARAMSIZER5_BORDER)
+	self.paramSizer5.Add(self.txtCtrl_led_brightness_lo, 0, wx.ALL, PARAMSIZER5_BORDER)
+
+    def create_sizer6(self):
+	self.paramSizer6 = wx.BoxSizer(wx.VERTICAL)
+	self.paramSizer6.Add(self.param_dominant_throttle_on, 0, wx.ALL, PARAMSIZER4_BORDER)
+	self.paramSizer6.Add(self.txtCtrl_dominant_throttle_on, 0, wx.ALL, PARAMSIZER4_BORDER)
+
 	#self.paramSizer4.Add(self.param_par4, 0, wx.ALL, PARAMSIZER4_BORDER)
 	#self.paramSizer4.Add(self.txtCtrl_par4, 0, wx.ALL, PARAMSIZER4_BORDER)
 
@@ -518,7 +548,7 @@ class MyForm(wx.Frame):
         self.combo.Bind(wx.EVT_COMBOBOX, self.onCombo)
 
     def disable_txt_controls(self):
-	self.txtCtrl_par4.Disable()
+	pass
 
     def onConfig(self, event):
 	if (self.connected == True):

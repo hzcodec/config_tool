@@ -57,7 +57,7 @@ iq_alpha: 0.005005
 speed_alpha: 0.050003
 mx: 40.000000
 mi: -39.999984
-delay_start: 2000
+delay_start: 5000
 speed_lim: 5.000000
 undershoot: -0.999985
 ti: 0
