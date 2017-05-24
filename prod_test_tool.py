@@ -395,43 +395,6 @@ class ProdTestForm(wx.Panel):
     def onCombo(self, event):
         print 'Selected port: '
 
-    #def onLock(self, event):
-    #    self.lock_text_controls()
-
-    #def onUnLock(self, event):
-    #    dialog = wx.TextEntryDialog(self, message="Enter Password", caption="Password query", style=wx.OK|wx.CANCEL|wx.TE_PASSWORD)
-    #    dialog.SetValue("")
-    #    result = dialog.ShowModal()
-
-    #    # check password if OK button was pressed
-    #    if result == wx.ID_OK:
-    #        passwd = dialog.GetValue()
-
-    #        if (passwd == 'admin'):
-    #            self.txtCtrl_cl_max.Enable()
-    #            self.txtCtrl_cl_min.Enable()
-    #            self.txtCtrl_sl_ki.Enable()
-    #            self.txtCtrl_sl_max.Enable()
-    #            self.txtCtrl_sl_min.Enable()
-    #            self.txtCtrl_has_switch.Enable()
-    #            self.txtCtrl_power_margin.Enable()
-    #            self.txtCtrl_power_factor.Enable()
-    #            self.txtCtrl_brightness_lo.Enable()
-    #            self.txtCtrl_brake_temp_ok.Enable()
-    #            self.txtCtrl_brake_temp_hi.Enable()
-    #            self.txtCtrl_brake_max_id.Enable()
-    #            self.txtCtrl_brake_pos_ratio.Enable()
-    #            self.txtCtrl_trajec_acc.Enable()
-    #            self.txtCtrl_trajec_ret.Enable()
-    #            self.txtCtrl_dominant_throttle_on.Enable()
-    #            self.txtCtrl_max_motor_temp.Enable()
-    #            self.txtCtrl_num_motor_ch.Enable()
-    #            self.txtCtrl_idle_timeout.Enable()
-    #            self.txtCtrl_rope_stuck_on.Enable()
-    #            self.txtCtrl_iq_alpha.Enable()
-    #            self.txtCtrl_speed_alpha.Enable()
-    #            self.txtCtrl_undershoot.Enable()
-    #            self.txtCtrl_delay_start.Enable()
 
 class MainFrame(wx.Frame):
     def __init__(self):
@@ -483,7 +446,7 @@ class MainFrame(wx.Frame):
 	self.Bind(wx.EVT_MENU, self.onOpen, id=wx.ID_OPEN)
 	self.Bind(wx.EVT_MENU, self.onSave, id=wx.ID_SAVE)
 	self.Bind(wx.EVT_MENU, self.onQuit, id=wx.ID_EXIT)
-#	self.Bind(wx.EVT_MENU, self.onLock, id=101)
+	self.Bind(wx.EVT_MENU, self.onLock, id=101)
 	self.Bind(wx.EVT_MENU, self.onUnLock, id=102)
 	self.Bind(wx.EVT_MENU, self.onAbout, id=103)
 
@@ -493,8 +456,8 @@ class MainFrame(wx.Frame):
     def onSave(self, event):
         print 'Save'
 
-    #def onLock(self, event):
-    #    self.lock_text_controls()
+    def onLock(self, event):
+        self.tabProdTest.lock_text_controls()
 
     def onQuit(self, event):
         rv = self.exitDialog.ShowModal()
