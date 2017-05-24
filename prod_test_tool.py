@@ -164,15 +164,30 @@ class MyForm(wx.Frame):
 
     def setup_test_run(self):
 
+	bmpUp = wx.Bitmap("up.png", wx.BITMAP_TYPE_ANY)
+	bmpDown = wx.Bitmap("up2.png", wx.BITMAP_TYPE_ANY)
+	bmpStop = wx.Bitmap("stop.png", wx.BITMAP_TYPE_ANY)
+
+        btnTestRunUp = wx.BitmapButton(self.panel, wx.ID_ANY, bitmap=bmpUp)
+        btnTestRunDown = wx.BitmapButton(self.panel, wx.ID_ANY, bitmap=bmpDown)
+        btnTestStop = wx.BitmapButton(self.panel, wx.ID_ANY, bitmap=bmpStop)
+        self.Bind(wx.EVT_BUTTON, self.onTestRunUp, btnTestRunUp)
+        self.Bind(wx.EVT_BUTTON, self.onTestRunDown, btnTestRunDown)
+        self.Bind(wx.EVT_BUTTON, self.onTestStop, btnTestStop)
+
         speed = wx.StaticText(self.panel, wx.ID_ANY, 'Speed')
 
 	spinCtrlSpeed = wx.SpinCtrl(self.panel, value='0')
 	spinCtrlSpeed.SetRange(0, 25)
-        #lblSpinCtrl = wx.StaticText(self.panel, wx.ID_ANY, 'Speed')
 
 	paramSizer1 = wx.BoxSizer(wx.VERTICAL)
 	paramSizer1.Add(speed, 0, wx.LEFT, 30)
 	paramSizer1.Add(spinCtrlSpeed, 0, wx.TOP, 10)
+
+	paramSizer2 = wx.BoxSizer(wx.HORIZONTAL)
+	paramSizer2.Add(btnTestRunUp, 0, wx.TOP|wx.LEFT, 10)
+	paramSizer2.Add(btnTestRunDown, 0, wx.TOP|wx.LEFT, 10)
+	paramSizer2.Add(btnTestStop, 0, wx.TOP|wx.LEFT, 10)
 
 	statBoxTestRun = wx.StaticBox(self.panel, wx.ID_ANY, '  Test Run')
 	statBoxTestRun.SetBackgroundColour(GREY)
@@ -180,6 +195,7 @@ class MyForm(wx.Frame):
         statBoxSizer = wx.StaticBoxSizer(statBoxTestRun, wx.HORIZONTAL)
 
         statBoxSizer.Add(paramSizer1, 0, wx.ALL, 10)
+        statBoxSizer.Add(paramSizer2, 0, wx.ALL, 10)
 
 	return statBoxSizer
 
@@ -197,7 +213,16 @@ class MyForm(wx.Frame):
 
     def onSaveParam(self, event):
 	print 'Save param'
-    
+
+    def onTestRunUp(self, event):
+	print 'Test run Up'
+
+    def onTestRunDown(self, event):
+	print 'Test run Down'
+
+    def onTestStop(self, event):
+	print 'Test stop'
+
     def onCombo(self, event):
         print 'Selected port: '
 
