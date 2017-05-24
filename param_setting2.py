@@ -169,13 +169,7 @@ def serial_read(cmd, no, serial):
     return c
 
 
-class MyForm(wx.Frame):
-
-    def __init__(self):
-        wx.Frame.__init__(self, None, wx.ID_ANY, title='Built in Configuration Tool, Ascender ACX/TCX', style=wx.DEFAULT_FRAME_STYLE ^ wx.RESIZE_BORDER, size=WINDOW_SIZE)
-        self.panel = wx.Panel(self, wx.ID_ANY, style=wx.BORDER_RAISED)
-
-	# get today date from system
+def check_licens():
 	now = datetime.datetime.now().strftime("%Y-%m-%d   %H:%M")
 
 	try:
@@ -204,6 +198,15 @@ class MyForm(wx.Frame):
             print 'No license file'
             sys.exit()
 
+
+class MyForm(wx.Frame):
+
+    def __init__(self):
+        wx.Frame.__init__(self, None, wx.ID_ANY, title='Built in Configuration Tool, Ascender ACX/TCX', style=wx.DEFAULT_FRAME_STYLE ^ wx.RESIZE_BORDER, size=WINDOW_SIZE)
+        self.panel = wx.Panel(self, wx.ID_ANY, style=wx.BORDER_RAISED)
+
+	check_licens()
+
 	# flag if function is active
 	self.toggle      = False
 	self.connected   = False
@@ -223,7 +226,6 @@ class MyForm(wx.Frame):
 	self.oldBrakeTempHi = 65.000
 	self.oldBrakeMaxId = 40.000
 	self.oldBrakePosRatio = 0.3999
-
 	self.oldDominantThrottle = 1
 	self.oldIqAlpha = 0.005
 	self.oldSpeedAlpha = 0.05
