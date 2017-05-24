@@ -126,6 +126,8 @@ class MyForm(wx.Frame):
         self.Bind(wx.EVT_BUTTON, self.onTestInject, btnTestInject)
         btnGetIq = wx.Button(self.panel, wx.ID_ANY, '    Get iq          ')
         self.Bind(wx.EVT_BUTTON, self.onGetIq, btnGetIq)
+        btnSaveParam = wx.Button(self.panel, wx.ID_ANY, ' SaveParam ')
+        self.Bind(wx.EVT_BUTTON, self.onSaveParam, btnSaveParam)
 
 	paramSizer1 = wx.BoxSizer(wx.HORIZONTAL)
 	paramSizer1.Add(param_rope_stuck_on, 0, wx.LEFT, 10)
@@ -145,6 +147,7 @@ class MyForm(wx.Frame):
 	paramSizer3.Add(btnConfigure, 0, wx.RIGHT, 10)
 	paramSizer3.Add(btnTestInject, 0, wx.LEFT, 15)
 	paramSizer3.Add(btnGetIq, 0, wx.LEFT, 15)
+	paramSizer3.Add(btnSaveParam, 0, wx.LEFT, 15)
 
 	statBoxTestEnhanced = wx.StaticBox(self.panel, wx.ID_ANY, '  Test Enhanced Measuring')
 	statBoxTestEnhanced.SetBackgroundColour(GREY)
@@ -169,6 +172,9 @@ class MyForm(wx.Frame):
 
     def onGetIq(self, event):
 	print 'Get iq'
+
+    def onSaveParam(self, event):
+	print 'Save param'
     
     def onCombo(self, event):
         print 'Selected port: '
