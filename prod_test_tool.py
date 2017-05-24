@@ -3,13 +3,13 @@
 import wx
 import time
 
-WINDOW_SIZE = (1035, 770)
+WINDOW_SIZE = (1035, 870)
 
 # sizer borders
 BORDER1 = 5
 TEXT_SERIAL_PORT_BORDER = 10
 
-HEADLINE = 'Production Test Tool, Ascender ACX/TCX'
+HEADLINE = '                                                             Production Test Tool, Ascender ACX/TCX'
 
 # color codes
 GREY    = (180, 180, 180)
@@ -222,16 +222,8 @@ class ProdTestForm(wx.Frame):
 	statBoxConfigParams = wx.StaticBox(self.panel, wx.ID_ANY, '  Set paramters')
 	statBoxConfigParams.SetBackgroundColour(GREY)
 	statBoxConfigParams.SetForegroundColour(BLACK)
-        #statBoxSizer = wx.StaticBoxSizer(statBoxConfigParams, wx.HORIZONTAL)
         statBoxSizer = wx.StaticBoxSizer(statBoxConfigParams, wx.VERTICAL)
 
-        #statBoxSizer.Add(paramSizer1, 0, wx.ALL, 10)
-        #statBoxSizer.Add(paramSizer2, 0, wx.ALL, 10)
-        #statBoxSizer.Add(paramSizer3, 0, wx.ALL, 10)
-        #statBoxSizer.Add(paramSizer4, 0, wx.ALL, 10)
-        #statBoxSizer.Add(paramSizer5, 0, wx.ALL, 10)
-        #statBoxSizer.Add(paramSizer6, 0, wx.ALL, 10)
-        #statBoxSizer.Add(paramSizer7, 0, wx.ALL, 10)
         statBoxSizer.Add(paramTopSizer, 0, wx.ALL, 10)
 	statBoxSizer.Add(btnSizer, 0, wx.ALL, 10)
 
