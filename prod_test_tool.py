@@ -101,6 +101,13 @@ class MyForm(wx.Frame):
         param_brightness_lo = wx.StaticText(self.panel, wx.ID_ANY, 'brightness_lo')
         txtCtrl_brightness_lo = wx.TextCtrl(self.panel, wx.ID_ANY,'1.0000')
 
+        param_brake_temp_ok = wx.StaticText(self.panel, wx.ID_ANY, 'brake_temp_ok')
+        txtCtrl_brake_temp_ok = wx.TextCtrl(self.panel, wx.ID_ANY,'60.0000')
+        param_brake_temp_hi = wx.StaticText(self.panel, wx.ID_ANY, 'brake_temp_hi')
+        txtCtrl_brake_temp_hi = wx.TextCtrl(self.panel, wx.ID_ANY,'65.0000')
+        param_brake_max_id = wx.StaticText(self.panel, wx.ID_ANY, 'brake_max_id')
+        txtCtrl_brake_max_id = wx.TextCtrl(self.panel, wx.ID_ANY,'40.0000')
+
 
 	paramSizer1 = wx.BoxSizer(wx.VERTICAL)
 	paramSizer1.Add(param_cl_max, 0, wx.TOP, 10)
@@ -126,6 +133,14 @@ class MyForm(wx.Frame):
 	paramSizer3.Add(param_brightness_lo, 0, wx.TOP, 10)
 	paramSizer3.Add(txtCtrl_brightness_lo, 0, wx.TOP, 10)
 
+	paramSizer4 = wx.BoxSizer(wx.VERTICAL)
+	paramSizer4.Add(param_brake_temp_ok, 0, wx.TOP, 10)
+	paramSizer4.Add(txtCtrl_brake_temp_ok, 0, wx.TOP, 10)
+	paramSizer4.Add(param_brake_temp_hi, 0, wx.TOP, 10)
+	paramSizer4.Add(txtCtrl_brake_temp_hi, 0, wx.TOP, 10)
+	paramSizer4.Add(param_brake_max_id, 0, wx.TOP, 10)
+	paramSizer4.Add(txtCtrl_brake_max_id, 0, wx.TOP, 10)
+
 	statBoxConfigParams = wx.StaticBox(self.panel, wx.ID_ANY, '  Set paramters')
 	statBoxConfigParams.SetBackgroundColour(GREY)
 	statBoxConfigParams.SetForegroundColour(BLACK)
@@ -134,6 +149,7 @@ class MyForm(wx.Frame):
         statBoxSizer.Add(paramSizer1, 0, wx.ALL, 10)
         statBoxSizer.Add(paramSizer2, 0, wx.ALL, 10)
         statBoxSizer.Add(paramSizer3, 0, wx.ALL, 10)
+        statBoxSizer.Add(paramSizer4, 0, wx.ALL, 10)
 
 	return statBoxSizer
 
