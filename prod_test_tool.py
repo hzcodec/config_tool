@@ -29,6 +29,26 @@ class MyForm(wx.Frame):
 
 	self.exitDialog =  wx.MessageDialog( self, " Quit application? \nCheck that motor has stopped!\n", "Quit", wx.YES_NO)
 
+        self.setup_menu()
+
+	serialSizer = self.setup_serial_sizer()
+	configParamsSizer = self.setup_config_params()
+	enhancedMeasSizer = self.setup_test_enahanced_measuring()
+	testRun = self.setup_test_run()
+        multiTextControl = self.setup_multi_text_control()
+
+	leftTopSizer = wx.BoxSizer(wx.VERTICAL)
+        leftTopSizer.Add(serialSizer, 0, wx.ALL|wx.EXPAND, BORDER1)
+        leftTopSizer.Add(configParamsSizer, 0, wx.ALL|wx.EXPAND, BORDER1)
+        leftTopSizer.Add(enhancedMeasSizer, 0, wx.ALL|wx.EXPAND, BORDER1)
+        leftTopSizer.Add(testRun, 0, wx.ALL|wx.EXPAND, BORDER1)
+        leftTopSizer.Add(multiTextControl, 0, wx.ALL|wx.EXPAND, BORDER1)
+        topSizer = wx.BoxSizer(wx.HORIZONTAL)
+	topSizer.Add(leftTopSizer, 0, wx.ALL, BORDER1)
+
+        self.panel.SetSizer(topSizer)
+
+    def setup_menu(self):
         menuBar = wx.MenuBar()
         fileMenu = wx.Menu()
         unlockMenu = wx.Menu()
@@ -47,23 +67,6 @@ class MyForm(wx.Frame):
 	self.Bind(wx.EVT_MENU, self.onQuit, id=wx.ID_EXIT)
 	self.Bind(wx.EVT_MENU, self.onLock, id=101)
 	self.Bind(wx.EVT_MENU, self.onUnLock, id=102)
-
-	serialSizer = self.setup_serial_sizer()
-	configParamsSizer = self.setup_config_params()
-	enhancedMeasSizer = self.setup_test_enahanced_measuring()
-	testRun = self.setup_test_run()
-        multiTextControl = self.setup_multi_text_control()
-
-	leftTopSizer = wx.BoxSizer(wx.VERTICAL)
-        leftTopSizer.Add(serialSizer, 0, wx.ALL|wx.EXPAND, BORDER1)
-        leftTopSizer.Add(configParamsSizer, 0, wx.ALL|wx.EXPAND, BORDER1)
-        leftTopSizer.Add(enhancedMeasSizer, 0, wx.ALL|wx.EXPAND, BORDER1)
-        leftTopSizer.Add(testRun, 0, wx.ALL|wx.EXPAND, BORDER1)
-        leftTopSizer.Add(multiTextControl, 0, wx.ALL|wx.EXPAND, BORDER1)
-        topSizer = wx.BoxSizer(wx.HORIZONTAL)
-	topSizer.Add(leftTopSizer, 0, wx.ALL, BORDER1)
-
-        self.panel.SetSizer(topSizer)
 
     def setup_serial_sizer(self):
         txtSerialPort = wx.StaticText(self.panel, wx.ID_ANY, 'Select serial port')
