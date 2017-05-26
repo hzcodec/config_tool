@@ -32,6 +32,7 @@ class Calib(wx.Panel):
         wx.Panel.__init__(self, parent)
 	alignSizer = self.setup_alignment_sizer()
 	calibSizer = self.setup_calibration_sizer()
+	saveParamSizer = self.setup_save_param_sizer()
 
 	nullSizer = wx.BoxSizer(wx.VERTICAL)
         txtNull = wx.StaticText(self, wx.ID_ANY, ' ')
@@ -41,6 +42,7 @@ class Calib(wx.Panel):
 	topSizer.Add(alignSizer, 0, wx.TOP|wx.LEFT, 10)
 	topSizer.Add(nullSizer, 0, wx.TOP|wx.LEFT, 10)
 	topSizer.Add(calibSizer, 0, wx.TOP|wx.LEFT, 10)
+	topSizer.Add(saveParamSizer, 0, wx.TOP|wx.LEFT, 10)
         self.SetSizer(topSizer)
 
     def setup_alignment_sizer(self):
@@ -55,7 +57,7 @@ class Calib(wx.Panel):
         btnConnect = wx.Button(self, wx.ID_ANY, 'Align')
         statBoxSizer.Add(btnConnect, 0, wx.ALL, 20)
         statBoxSizer.Add(txtAlignment, 0, wx.TOP|wx.LEFT|wx.RIGHT, 25)
-        statBoxSizer.Add(txtNull, 0, wx.LEFT, 690) # this is just to get the statBoxSerial larger 
+        statBoxSizer.Add(txtNull, 0, wx.LEFT, 650) # this is just to get the statBoxSerial larger 
 
 	return statBoxSizer
 
@@ -68,6 +70,7 @@ class Calib(wx.Panel):
         txtThrottleMaxUp = wx.StaticText(self, wx.ID_ANY, 'Turn throttle handle max up')
         txtThrottleMaxDown = wx.StaticText(self, wx.ID_ANY, 'Turn throttle handle max down')
         txtThrottleNeutral = wx.StaticText(self, wx.ID_ANY, 'Set throttle handle in neutal position')
+        txtNull = wx.StaticText(self, wx.ID_ANY, ' ')
 
         btnCalibRight = wx.Button(self, wx.ID_ANY, 'Calib Right')
         btnCalibLeft = wx.Button(self, wx.ID_ANY, 'Calib Left')
@@ -89,9 +92,24 @@ class Calib(wx.Panel):
         statBoxSizer.Add(rightSizer, 0, wx.ALL, 10)
         statBoxSizer.Add(leftSizer, 0, wx.ALL, 10)
         statBoxSizer.Add(neutralSizer, 0, wx.ALL, 10)
-        statBoxSizer.Add(btnCalibRestart, 0, wx.ALL, 20)
+        statBoxSizer.Add(btnCalibRestart, 0, wx.TOP|wx.LEFT, 20)
+        statBoxSizer.Add(txtNull, 0, wx.LEFT, 1000) # this is just to get the statBoxSerial larger 
 
 	return statBoxSizer
+
+    def setup_save_param_sizer(self):
+	statBoxSerial = wx.StaticBox(self, wx.ID_ANY, '  Save Parameter')
+	statBoxSerial.SetBackgroundColour(GREY)
+	statBoxSerial.SetForegroundColour(BLACK)
+        statBoxSizer = wx.StaticBoxSizer(statBoxSerial, wx.HORIZONTAL)
+        txtNull = wx.StaticText(self, wx.ID_ANY, ' ')
+
+        btnSaveParam = wx.Button(self, wx.ID_ANY, 'Save Param')
+        statBoxSizer.Add(btnSaveParam, 0, wx.ALL, 20)
+        statBoxSizer.Add(txtNull, 0, wx.LEFT, 870) # this is just to get the statBoxSerial larger 
+
+	return statBoxSizer
+
 
 
 class ProdTestForm(wx.Panel):
