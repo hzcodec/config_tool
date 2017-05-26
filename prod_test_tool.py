@@ -34,8 +34,8 @@ class Calib(wx.Panel):
 	calibSizer = self.setup_calibration_sizer()
 
         topSizer = wx.BoxSizer(wx.VERTICAL)
-	topSizer.Add(alignSizer, 0, wx.ALL, BORDER1)
-	topSizer.Add(calibSizer, 0, wx.ALL, BORDER1)
+	topSizer.Add(alignSizer, 0, wx.TOP|wx.LEFT, 10)
+	topSizer.Add(calibSizer, 0, wx.TOP|wx.LEFT, 10)
         self.SetSizer(topSizer)
 
     def setup_alignment_sizer(self):
@@ -58,14 +58,31 @@ class Calib(wx.Panel):
 	statBoxSerial.SetForegroundColour(BLACK)
         statBoxSizer = wx.StaticBoxSizer(statBoxSerial, wx.VERTICAL)
 
+        txtThrottleMaxUp = wx.StaticText(self, wx.ID_ANY, 'Turn throttle handle max up')
+        txtThrottleMaxDown = wx.StaticText(self, wx.ID_ANY, 'Turn throttle handle max down')
+        txtThrottleNeutral = wx.StaticText(self, wx.ID_ANY, 'Set throttle handle in neutal position')
+
         btnCalibRight = wx.Button(self, wx.ID_ANY, 'Calib Right')
         btnCalibLeft = wx.Button(self, wx.ID_ANY, 'Calib Left')
         btnCalibNeutral = wx.Button(self, wx.ID_ANY, 'Calib Neutral')
         btnCalibRestart = wx.Button(self, wx.ID_ANY, 'Calib Restart')
-        statBoxSizer.Add(btnCalibRight, 0, wx.ALL, 10)
-        statBoxSizer.Add(btnCalibLeft, 0, wx.ALL, 10)
-        statBoxSizer.Add(btnCalibNeutral, 0, wx.ALL, 10)
-        statBoxSizer.Add(btnCalibRestart, 0, wx.ALL, 10)
+
+	rightSizer = wx.BoxSizer(wx.HORIZONTAL)
+        rightSizer.Add(btnCalibRight, 0, wx.TOP|wx.LEFT, 10)
+        rightSizer.Add(txtThrottleMaxUp, 0, wx.TOP|wx.LEFT, 15)
+
+	leftSizer = wx.BoxSizer(wx.HORIZONTAL)
+        leftSizer.Add(btnCalibLeft, 0, wx.TOP|wx.LEFT, 10)
+        leftSizer.Add(txtThrottleMaxDown, 0, wx.TOP|wx.LEFT, 15)
+
+	neutralSizer = wx.BoxSizer(wx.HORIZONTAL)
+        neutralSizer.Add(btnCalibNeutral, 0, wx.TOP|wx.LEFT, 10)
+        neutralSizer.Add(txtThrottleNeutral, 0, wx.TOP|wx.LEFT, 15)
+
+        statBoxSizer.Add(rightSizer, 0, wx.ALL, 10)
+        statBoxSizer.Add(leftSizer, 0, wx.ALL, 10)
+        statBoxSizer.Add(neutralSizer, 0, wx.ALL, 10)
+        statBoxSizer.Add(btnCalibRestart, 0, wx.ALL, 20)
 
 	return statBoxSizer
 
