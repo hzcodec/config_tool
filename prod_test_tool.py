@@ -31,9 +31,11 @@ class Calib(wx.Panel):
     def __init__(self, parent):
         wx.Panel.__init__(self, parent)
 	alignSizer = self.setup_alignment_sizer()
+	calibSizer = self.setup_calibration_sizer()
 
-        topSizer = wx.BoxSizer(wx.HORIZONTAL)
+        topSizer = wx.BoxSizer(wx.VERTICAL)
 	topSizer.Add(alignSizer, 0, wx.ALL, BORDER1)
+	topSizer.Add(calibSizer, 0, wx.ALL, BORDER1)
         self.SetSizer(topSizer)
 
     def setup_alignment_sizer(self):
@@ -42,8 +44,28 @@ class Calib(wx.Panel):
 	statBoxSerial.SetForegroundColour(BLACK)
         statBoxSizer = wx.StaticBoxSizer(statBoxSerial, wx.HORIZONTAL)
 
+        txtAlignment = wx.StaticText(self, wx.ID_ANY, 'Alignment not performed')
+
         btnConnect = wx.Button(self, wx.ID_ANY, 'Align')
-        statBoxSizer.Add(btnConnect, 0, wx.ALL, 20)
+        statBoxSizer.Add(btnConnect, 0, wx.ALL, 10)
+        statBoxSizer.Add(txtAlignment, 0, wx.TOP|wx.LEFT|wx.RIGHT, 15)
+
+	return statBoxSizer
+
+    def setup_calibration_sizer(self):
+	statBoxSerial = wx.StaticBox(self, wx.ID_ANY, '  Calibration')
+	statBoxSerial.SetBackgroundColour(GREY)
+	statBoxSerial.SetForegroundColour(BLACK)
+        statBoxSizer = wx.StaticBoxSizer(statBoxSerial, wx.VERTICAL)
+
+        btnCalibRight = wx.Button(self, wx.ID_ANY, 'Calib Right')
+        btnCalibLeft = wx.Button(self, wx.ID_ANY, 'Calib Left')
+        btnCalibNeutral = wx.Button(self, wx.ID_ANY, 'Calib Neutral')
+        btnCalibRestart = wx.Button(self, wx.ID_ANY, 'Calib Restart')
+        statBoxSizer.Add(btnCalibRight, 0, wx.ALL, 10)
+        statBoxSizer.Add(btnCalibLeft, 0, wx.ALL, 10)
+        statBoxSizer.Add(btnCalibNeutral, 0, wx.ALL, 10)
+        statBoxSizer.Add(btnCalibRestart, 0, wx.ALL, 10)
 
 	return statBoxSizer
 
