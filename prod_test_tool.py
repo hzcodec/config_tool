@@ -50,10 +50,12 @@ class Calib(wx.Panel):
         statBoxSizer = wx.StaticBoxSizer(statBoxSerial, wx.HORIZONTAL)
 
         txtAlignment = wx.StaticText(self, wx.ID_ANY, 'Alignment not performed')
+        txtNull = wx.StaticText(self, wx.ID_ANY, ' ')
 
         btnConnect = wx.Button(self, wx.ID_ANY, 'Align')
-        statBoxSizer.Add(btnConnect, 0, wx.ALL, 10)
-        statBoxSizer.Add(txtAlignment, 0, wx.TOP|wx.LEFT|wx.RIGHT, 15)
+        statBoxSizer.Add(btnConnect, 0, wx.ALL, 20)
+        statBoxSizer.Add(txtAlignment, 0, wx.TOP|wx.LEFT|wx.RIGHT, 25)
+        statBoxSizer.Add(txtNull, 0, wx.LEFT, 690) # this is just to get the statBoxSerial larger 
 
 	return statBoxSizer
 
