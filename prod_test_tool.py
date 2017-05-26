@@ -33,8 +33,13 @@ class Calib(wx.Panel):
 	alignSizer = self.setup_alignment_sizer()
 	calibSizer = self.setup_calibration_sizer()
 
+	nullSizer = wx.BoxSizer(wx.VERTICAL)
+        txtNull = wx.StaticText(self, wx.ID_ANY, ' ')
+	nullSizer.Add(txtNull, 0, wx.TOP, 10)
+
         topSizer = wx.BoxSizer(wx.VERTICAL)
 	topSizer.Add(alignSizer, 0, wx.TOP|wx.LEFT, 10)
+	topSizer.Add(nullSizer, 0, wx.TOP|wx.LEFT, 10)
 	topSizer.Add(calibSizer, 0, wx.TOP|wx.LEFT, 10)
         self.SetSizer(topSizer)
 
