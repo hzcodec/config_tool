@@ -30,7 +30,22 @@ class DownLoaderForm(wx.Panel):
 class Calib(wx.Panel):
     def __init__(self, parent):
         wx.Panel.__init__(self, parent)
-        t = wx.StaticText(self, -1, "1st tab", (20,20))
+	alignSizer = self.setup_alignment_sizer()
+
+        topSizer = wx.BoxSizer(wx.HORIZONTAL)
+	topSizer.Add(alignSizer, 0, wx.ALL, BORDER1)
+        self.SetSizer(topSizer)
+
+    def setup_alignment_sizer(self):
+	statBoxSerial = wx.StaticBox(self, wx.ID_ANY, '  Alignment')
+	statBoxSerial.SetBackgroundColour(GREY)
+	statBoxSerial.SetForegroundColour(BLACK)
+        statBoxSizer = wx.StaticBoxSizer(statBoxSerial, wx.HORIZONTAL)
+
+        btnConnect = wx.Button(self, wx.ID_ANY, 'Align')
+        statBoxSizer.Add(btnConnect, 0, wx.ALL, 20)
+
+	return statBoxSizer
 
 
 class ProdTestForm(wx.Panel):
