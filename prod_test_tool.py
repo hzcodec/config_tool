@@ -28,8 +28,8 @@ class DownLoaderForm(wx.Panel):
 	connectSizer = self.setup_connect_sizer()
 
         topSizer = wx.BoxSizer(wx.VERTICAL)
-	topSizer.Add(connectSizer, 0, wx.TOP|wx.LEFT, 10)
-	topSizer.Add(downloadSizer, 0, wx.TOP|wx.LEFT, 10)
+	topSizer.Add(connectSizer, 0, wx.TOP|wx.LEFT, 0)
+	topSizer.Add(downloadSizer, 0, wx.TOP|wx.LEFT, 0)
         self.SetSizer(topSizer)
 
     def setup_connect_sizer(self):
@@ -37,6 +37,12 @@ class DownLoaderForm(wx.Panel):
 	statBoxDownload.SetBackgroundColour(GREY)
 	statBoxDownload.SetForegroundColour(BLACK)
         statBoxSizer = wx.StaticBoxSizer(statBoxDownload, wx.VERTICAL)
+
+        txtNull = wx.StaticText(self, wx.ID_ANY, ' ')
+        btnConnect = wx.Button(self, wx.ID_ANY, 'Connect')
+
+        statBoxSizer.Add(txtNull, 0, wx.LEFT, 1000)
+        statBoxSizer.Add(btnConnect, 0, wx.BOTTOM|wx.LEFT, 20)
 
 	return statBoxSizer
 
@@ -46,12 +52,15 @@ class DownLoaderForm(wx.Panel):
 	statBoxDownload.SetForegroundColour(BLACK)
         statBoxSizer = wx.StaticBoxSizer(statBoxDownload, wx.VERTICAL)
 
+        txtNull = wx.StaticText(self, wx.ID_ANY, ' ')
+
         ascenderVersion = wx.StaticText(self, -1, "Ascender Version:")
         remoteVersion = wx.StaticText(self, -1, "Remote Version:")
 
         btnDownload = wx.Button(self, wx.ID_ANY, 'Download')
         statBoxSizer.Add(btnDownload, 0, wx.ALL, 20)
         statBoxSizer.Add(ascenderVersion, 0, wx.ALL, 20)
+        statBoxSizer.Add(txtNull, 0, wx.LEFT, 1000)
         statBoxSizer.Add(remoteVersion, 0, wx.ALL, 20)
 
 	return statBoxSizer
