@@ -24,7 +24,7 @@ class DownLoaderForm(wx.Panel):
 
     def __init__(self, parent):
         wx.Panel.__init__(self, parent)
-        t = wx.StaticText(self, -1, "Downloader", (20,60))
+        ser = wx.StaticText(self, -1, "Downloader", (20,60))
 
 
 class Calib(wx.Panel):
@@ -42,6 +42,7 @@ class Calib(wx.Panel):
 	topSizer.Add(alignSizer, 0, wx.TOP|wx.LEFT, 10)
 	topSizer.Add(nullSizer, 0, wx.TOP|wx.LEFT, 10)
 	topSizer.Add(calibSizer, 0, wx.TOP|wx.LEFT, 10)
+	topSizer.Add(nullSizer, 0, wx.TOP|wx.LEFT, 10)
 	topSizer.Add(saveParamSizer, 0, wx.TOP|wx.LEFT, 10)
         self.SetSizer(topSizer)
 
