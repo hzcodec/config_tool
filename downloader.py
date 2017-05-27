@@ -11,8 +11,8 @@ class DownLoaderForm(wx.Panel):
 	connectSizer = self.setup_connect_sizer()
 
         topSizer = wx.BoxSizer(wx.VERTICAL)
-	topSizer.Add(connectSizer, 0, wx.TOP|wx.LEFT, 0)
-	topSizer.Add(downloadSizer, 0, wx.TOP|wx.LEFT, 0)
+	topSizer.Add(connectSizer, 0, wx.TOP|wx.LEFT, 10)
+	topSizer.Add(downloadSizer, 0, wx.TOP|wx.LEFT, 10)
         self.SetSizer(topSizer)
 
     def setup_connect_sizer(self):
@@ -26,7 +26,7 @@ class DownLoaderForm(wx.Panel):
         txtNull = wx.StaticText(self, wx.ID_ANY, ' ')
 
 	connectSizer = wx.BoxSizer(wx.HORIZONTAL)
-        connectSizer.Add(btnConnect, 0, wx.BOTTOM|wx.LEFT, 20)
+        connectSizer.Add(btnConnect, 0, wx.BOTTOM|wx.LEFT, 10)
         connectSizer.Add(txtNoConnection, 0, wx.TOP|wx.LEFT, 6)
 
         statBoxSizer.Add(txtNull, 0, wx.LEFT, 1000)
