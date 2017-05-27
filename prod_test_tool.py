@@ -24,7 +24,24 @@ class DownLoaderForm(wx.Panel):
 
     def __init__(self, parent):
         wx.Panel.__init__(self, parent)
+	downloadSizer = self.setup_download_sizer()
+
+        topSizer = wx.BoxSizer(wx.VERTICAL)
+	topSizer.Add(downloadSizer, 0, wx.TOP|wx.LEFT, 10)
+        self.SetSizer(topSizer)
+
         ser = wx.StaticText(self, -1, "Downloader", (20,60))
+
+    def setup_download_sizer(self):
+	statBoxDownload = wx.StaticBox(self, wx.ID_ANY, '  Alignment')
+	statBoxDownload.SetBackgroundColour(GREY)
+	statBoxDownload.SetForegroundColour(BLACK)
+        statBoxSizer = wx.StaticBoxSizer(statBoxDownload, wx.HORIZONTAL)
+
+        btnDownload = wx.Button(self, wx.ID_ANY, 'Download')
+        statBoxSizer.Add(btnDownload, 0, wx.ALL, 20)
+
+	return statBoxSizer
 
 
 class Calib(wx.Panel):
