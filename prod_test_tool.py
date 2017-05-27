@@ -25,10 +25,20 @@ class DownLoaderForm(wx.Panel):
     def __init__(self, parent):
         wx.Panel.__init__(self, parent)
 	downloadSizer = self.setup_download_sizer()
+	connectSizer = self.setup_connect_sizer()
 
         topSizer = wx.BoxSizer(wx.VERTICAL)
+	topSizer.Add(connectSizer, 0, wx.TOP|wx.LEFT, 10)
 	topSizer.Add(downloadSizer, 0, wx.TOP|wx.LEFT, 10)
         self.SetSizer(topSizer)
+
+    def setup_connect_sizer(self):
+	statBoxDownload = wx.StaticBox(self, wx.ID_ANY, '  Connect')
+	statBoxDownload.SetBackgroundColour(GREY)
+	statBoxDownload.SetForegroundColour(BLACK)
+        statBoxSizer = wx.StaticBoxSizer(statBoxDownload, wx.VERTICAL)
+
+	return statBoxSizer
 
     def setup_download_sizer(self):
 	statBoxDownload = wx.StaticBox(self, wx.ID_ANY, '  Downloader')
