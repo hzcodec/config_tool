@@ -38,11 +38,16 @@ class DownLoaderForm(wx.Panel):
 	statBoxDownload.SetForegroundColour(BLACK)
         statBoxSizer = wx.StaticBoxSizer(statBoxDownload, wx.VERTICAL)
 
-        txtNull = wx.StaticText(self, wx.ID_ANY, ' ')
+        txtNoConnection = wx.StaticText(self, wx.ID_ANY, 'Not connected')
         btnConnect = wx.Button(self, wx.ID_ANY, 'Connect')
+        txtNull = wx.StaticText(self, wx.ID_ANY, ' ')
+
+	connectSizer = wx.BoxSizer(wx.HORIZONTAL)
+        connectSizer.Add(btnConnect, 0, wx.BOTTOM|wx.LEFT, 20)
+        connectSizer.Add(txtNoConnection, 0, wx.TOP|wx.LEFT, 6)
 
         statBoxSizer.Add(txtNull, 0, wx.LEFT, 1000)
-        statBoxSizer.Add(btnConnect, 0, wx.BOTTOM|wx.LEFT, 20)
+        statBoxSizer.Add(connectSizer, 0, wx.LEFT, 10)
 
 	return statBoxSizer
 
@@ -67,6 +72,7 @@ class DownLoaderForm(wx.Panel):
 
 
 class Calib(wx.Panel):
+
     def __init__(self, parent):
         wx.Panel.__init__(self, parent)
 	alignSizer = self.setup_alignment_sizer()
@@ -153,7 +159,6 @@ class Calib(wx.Panel):
         statBoxSizer.Add(txtNull, 0, wx.LEFT, 870) # this is just to get the statBoxSerial larger 
 
 	return statBoxSizer
-
 
 
 class ProdTestForm(wx.Panel):
