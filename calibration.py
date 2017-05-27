@@ -3,7 +3,7 @@ import wx
 GREY  = (180, 180, 180)
 BLACK = (0, 0, 0)
 
-class Calib(wx.Panel):
+class CalibForm(wx.Panel):
 
     def __init__(self, parent):
         wx.Panel.__init__(self, parent)
