@@ -30,16 +30,19 @@ class DownLoaderForm(wx.Panel):
 	topSizer.Add(downloadSizer, 0, wx.TOP|wx.LEFT, 10)
         self.SetSizer(topSizer)
 
-        ser = wx.StaticText(self, -1, "Downloader", (20,60))
-
     def setup_download_sizer(self):
-	statBoxDownload = wx.StaticBox(self, wx.ID_ANY, '  Alignment')
+	statBoxDownload = wx.StaticBox(self, wx.ID_ANY, '  Downloader')
 	statBoxDownload.SetBackgroundColour(GREY)
 	statBoxDownload.SetForegroundColour(BLACK)
-        statBoxSizer = wx.StaticBoxSizer(statBoxDownload, wx.HORIZONTAL)
+        statBoxSizer = wx.StaticBoxSizer(statBoxDownload, wx.VERTICAL)
+
+        ascenderVersion = wx.StaticText(self, -1, "Ascender Version:")
+        remoteVersion = wx.StaticText(self, -1, "Remote Version:")
 
         btnDownload = wx.Button(self, wx.ID_ANY, 'Download')
         statBoxSizer.Add(btnDownload, 0, wx.ALL, 20)
+        statBoxSizer.Add(ascenderVersion, 0, wx.ALL, 20)
+        statBoxSizer.Add(remoteVersion, 0, wx.ALL, 20)
 
 	return statBoxSizer
 
