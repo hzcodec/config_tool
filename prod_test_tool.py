@@ -38,11 +38,15 @@ class Calib(wx.Panel):
         txtNull = wx.StaticText(self, wx.ID_ANY, ' ')
 	nullSizer.Add(txtNull, 0, wx.TOP, 10)
 
+	nullSizer2 = wx.BoxSizer(wx.VERTICAL)
+        txtNull2 = wx.StaticText(self, wx.ID_ANY, ' ')
+	nullSizer2.Add(txtNull2, 0, wx.TOP, 10)
+
         topSizer = wx.BoxSizer(wx.VERTICAL)
 	topSizer.Add(alignSizer, 0, wx.TOP|wx.LEFT, 10)
 	topSizer.Add(nullSizer, 0, wx.TOP|wx.LEFT, 10)
 	topSizer.Add(calibSizer, 0, wx.TOP|wx.LEFT, 10)
-	topSizer.Add(nullSizer, 0, wx.TOP|wx.LEFT, 10)
+	topSizer.Add(nullSizer2, 0, wx.TOP|wx.LEFT, 10)
 	topSizer.Add(saveParamSizer, 0, wx.TOP|wx.LEFT, 10)
         self.SetSizer(topSizer)
 
