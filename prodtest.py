@@ -1,4 +1,5 @@
 import wx
+import downloader
 
 BORDER1 = 5
 TEXT_SERIAL_PORT_BORDER = 10
@@ -13,6 +14,8 @@ class ProdTestForm(wx.Panel):
 
 	# Add a panel so it looks the correct on all platforms
         #self.panel = wx.Panel(self, wx.ID_ANY)
+
+	#self.downloaderObject = downloader.DownLoaderForm(wx.ALL)
         
 	serialSizer = self.setup_serial_sizer()
 	configParamsSizer = self.setup_config_params()
@@ -291,6 +294,7 @@ class ProdTestForm(wx.Panel):
 
     def onConnect(self, event):
 	print 'Connect'
+	#print 'hello', self.downloaderObject.connected
 
     def onConfigure(self, event):
 	print 'Configure'
