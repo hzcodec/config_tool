@@ -16,6 +16,7 @@ class ProdTestForm(wx.Panel):
         #self.panel = wx.Panel(self, wx.ID_ANY)
 
 	#self.downloaderObject = downloader.DownLoaderForm(wx.ALL)
+        #print MainFrame.tabDownLoader.connected
         
 	serialSizer = self.setup_serial_sizer()
 	configParamsSizer = self.setup_config_params()

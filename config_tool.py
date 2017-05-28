@@ -22,7 +22,8 @@ import glob
 import sys
 import datetime
 import threading
-from wx.lib.pubsub import setuparg1
+#from wx.lib.pubsub import setuparg1
+from wx.lib.pubsub import setupkwargs
 from wx.lib.pubsub import pub as Publisher
 
 # button start position
