@@ -27,7 +27,7 @@ class MainFrame(wx.Frame):
 
 	self.Centre()
  
-        # Create a panel and notebook (tabs holder)
+        # create a panel and notebook (tabs holder)
         p = wx.Panel(self)
         nb = wx.Notebook(p)
  
@@ -36,14 +36,14 @@ class MainFrame(wx.Frame):
         tabCalib = calibration.CalibForm(nb)
         self.tabProdTest = prodtest.ProdTestForm(nb)
  
-        # Add the windows to tabs and name them.
+        # add the windows to tabs and name them
         nb.AddPage(self.tabDownLoader, "Downloader")
         nb.AddPage(tabCalib, "Calibrate")
         nb.AddPage(self.tabProdTest, "Prod Test")
 
         self.setup_menu()
 
-        # Set noteboook in a sizer to create the layout
+        # set noteboook in a sizer to create the layout
         sizer = wx.BoxSizer()
         sizer.Add(nb, 1, wx.EXPAND)
         p.SetSizer(sizer)
