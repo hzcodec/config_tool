@@ -11,7 +11,7 @@ class DownLoaderForm(wx.Panel):
 	downloadSizer = self.setup_serial_sizer()
 	versionSizer = self.setup_version_sizer()
 
-	self.connected = False
+	self.connected = False # flag indicating if connection to serial port is established
 
         topSizer = wx.BoxSizer(wx.VERTICAL)
 	topSizer.Add(downloadSizer, 0, wx.TOP|wx.LEFT, 10)

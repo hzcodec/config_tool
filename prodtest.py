@@ -15,8 +15,8 @@ class ProdTestForm(wx.Panel):
 	# Add a panel so it looks the correct on all platforms
         #self.panel = wx.Panel(self, wx.ID_ANY)
 
-	#self.downloaderObject = downloader.DownLoaderForm(wx.ALL)
-        #print MainFrame.tabDownLoader.connected
+	# need to get hold of variable from downloader (is this a good way to do it?)
+	self.downloaderInstance = downloader.DownLoaderForm(self)
         
 	serialSizer = self.setup_serial_sizer()
 	configParamsSizer = self.setup_config_params()
@@ -295,7 +295,7 @@ class ProdTestForm(wx.Panel):
 
     def onConnect(self, event):
 	print 'Connect'
-	#print 'hello', self.downloaderObject.connected
+	print 'hello', self.downloaderInstance.connected
 
     def onConfigure(self, event):
 	print 'Configure'
