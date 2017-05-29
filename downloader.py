@@ -1,4 +1,5 @@
 import wx
+import serial
 
 GREY  = (180, 180, 180)
 BLACK = (0, 0, 0)
@@ -8,10 +9,11 @@ class DownLoaderForm(wx.Panel):
 
     def __init__(self, parent):
         wx.Panel.__init__(self, parent)
+
 	downloadSizer = self.setup_serial_sizer()
 	versionSizer = self.setup_version_sizer()
 
-	self.connected = False # flag indicating if connection to serial port is established
+	self.connected = 44 # flag indicating if connection to serial port is established
 
         topSizer = wx.BoxSizer(wx.VERTICAL)
 	topSizer.Add(downloadSizer, 0, wx.TOP|wx.LEFT, 10)
@@ -24,11 +26,12 @@ class DownLoaderForm(wx.Panel):
 	txtSerPortSizer.Add(txtSerialPort, 0, wx.TOP, TEXT_SERIAL_PORT_BORDER)
 
         portNames = ['ACM0', 'ACM1', 'USB0']
-        comboBox = wx.ComboBox(self, choices=portNames)
-        comboBox.SetSelection(0) # preselect ACM0
-        comboBox.Bind(wx.EVT_COMBOBOX, self.onCombo)
+        self.comboBox = wx.ComboBox(self, choices=portNames)
+        self.comboBox.SetSelection(0) # preselect ACM0
+        self.comboBox.Bind(wx.EVT_COMBOBOX, self.onCombo)
+
 	comboSizer = wx.BoxSizer(wx.HORIZONTAL)
-	comboSizer.Add(comboBox, 0, wx.TOP, 10)
+	comboSizer.Add(self.comboBox, 0, wx.TOP, 10)
 
 	statBoxSerial = wx.StaticBox(self, wx.ID_ANY, '  Serial connection    ')
 	statBoxSerial.SetBackgroundColour(GREY)
@@ -37,7 +40,7 @@ class DownLoaderForm(wx.Panel):
 
         btnConnect = wx.Button(self, wx.ID_ANY, 'Connect')
         self.Bind(wx.EVT_BUTTON, self.onConnect, btnConnect)
-	lblConnect = wx.StaticText(self, label= 'Not connected')
+	self.lblConnect = wx.StaticText(self, label= 'Not connected')
 
         btnQuit = wx.Button(self, wx.ID_ANY, 'Quit')
 	btnQuitSizer = wx.BoxSizer(wx.HORIZONTAL)
@@ -46,7 +49,7 @@ class DownLoaderForm(wx.Panel):
         statBoxSizer.Add(txtSerPortSizer, 0, wx.TOP|wx.BOTTOM|wx.LEFT, 15)
         statBoxSizer.Add(comboSizer, 0, wx.TOP|wx.BOTTOM|wx.LEFT, 10)
         statBoxSizer.Add(btnConnect, 0, wx.TOP|wx.BOTTOM|wx.LEFT, 20)
-        statBoxSizer.Add(lblConnect, 0, wx.TOP|wx.BOTTOM|wx.LEFT, 25)
+        statBoxSizer.Add(self.lblConnect, 0, wx.TOP|wx.BOTTOM|wx.LEFT, 25)
         statBoxSizer.Add(btnQuitSizer, 0, wx.LEFT, 420)
 
 	return statBoxSizer
@@ -71,24 +74,24 @@ class DownLoaderForm(wx.Panel):
 	return statBoxSizer
 
     def onConnect(self, event):
-        print 'Connect'
-	self.connected = True
+        print 'Connect:', self.comboBox.GetValue()
 
 	try:
-            self.ser = serial.Serial(port = '/dev/tty'+self.combo.GetValue(),
+	    self.connected = 88
+            self.ser = serial.Serial(port = '/dev/tty'+self.comboBox.GetValue(),
                                      baudrate = 9600,
                                      parity = serial.PARITY_NONE,
                                      stopbits = serial.STOPBITS_ONE,
                                      bytesize = serial.EIGHTBITS,
                                      timeout = 1)
 
-            #self.lblConnected.SetForegroundColour(wx.Colour(11, 102 , 66))
-	    #self.lblConnected.SetLabel("Connected to " + self.combo.GetValue())
+            self.lblConnect.SetForegroundColour(wx.Colour(11, 102 , 66))
+	    self.lblConnect.SetLabel("Connected to " + self.comboBox.GetValue())
 
 	except:
-            #self.lblConnected.SetForegroundColour(wx.Colour(255,0,0))
-	    #self.lblConnected.SetLabel('Cannot connect')
-	    pass
+            self.lblConnect.SetForegroundColour(wx.Colour(255,0,0))
+	    self.lblConnect.SetLabel('Cannot connect')
 
     def onCombo(self, event):
         print 'Selected port: '
+

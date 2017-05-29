@@ -7,6 +7,14 @@ TEXT_SERIAL_PORT_BORDER = 10
 GREY  = (180, 180, 180)
 BLACK = (0, 0, 0)
 
+
+def serial_cmd(cmd, serial):
+    # send command to serial port
+    try:
+        serial.write(cmd + '\r');
+    except:
+        print 'Not Connected!'
+
 class ProdTestForm(wx.Panel):
 
     def __init__(self, parent):
@@ -15,9 +23,6 @@ class ProdTestForm(wx.Panel):
 	# Add a panel so it looks the correct on all platforms
         #self.panel = wx.Panel(self, wx.ID_ANY)
 
-	# need to get hold of variable from downloader (is this a good way to do it?)
-	self.downloaderInstance = downloader.DownLoaderForm(self)
-        
 	serialSizer = self.setup_serial_sizer()
 	configParamsSizer = self.setup_config_params()
 	enhancedMeasSizer = self.setup_test_enahanced_measuring()
@@ -295,7 +300,7 @@ class ProdTestForm(wx.Panel):
 
     def onConnect(self, event):
 	print 'Connect'
-	print 'hello', self.downloaderInstance.connected
+	#print 'hello', self.downloaderInstance.connected
 
     def onConfigure(self, event):
 	print 'Configure'
@@ -337,6 +342,7 @@ class ProdTestForm(wx.Panel):
 
     def onTestRunUp(self, event):
 	print 'Test run Up'
+        serial_cmd('e', self.downloaderInstance.ser)
 
     def onTestRunDown(self, event):
 	print 'Test run Down'
