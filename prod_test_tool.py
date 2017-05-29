@@ -23,6 +23,17 @@
 #       print_const()
 #       app.MainLoop()
 
+# Check these
+# https://groups.google.com/forum/#!topic/wxpython-users/_cEWQs8ws8I
+# https://stackoverflow.com/questions/8359644/wxpython-passing-a-value-to-wx-textctrl-from-another-class
+#   
+#
+#There are several ways to do this:
+#
+#    *  Keep a reference to each panel and pass them around willy nilly. 
+#       Then you can do stuff like self.panelOne.MyTextCtrl.SetValue(self.otherText.GetValue())
+#    *  Use wx.PostEvent to pass around the information
+#    *  Use pubsub
 
 import wx
 import time
@@ -39,14 +50,19 @@ HEADLINE = '                                                             Product
 GREY  = (180, 180, 180)
 BLACK = (0, 0, 0)
 
-class SerialSizer():
-    pass
+
+def print_const():
+   app = wx.GetApp()
+   print app.frame.tabDownLoader.ser
 
 
 class MainFrame(wx.Frame):
-    def __init__(self):
-        wx.Frame.__init__(self, None, wx.ID_ANY, title=HEADLINE, style=wx.DEFAULT_FRAME_STYLE, size=WINDOW_SIZE)
+    #def __init__(self):
+        #wx.Frame.__init__(self, None, wx.ID_ANY, title=HEADLINE, style=wx.DEFAULT_FRAME_STYLE, size=WINDOW_SIZE)
         #self.panel = wx.Panel(self, wx.ID_ANY, style=wx.BORDER_RAISED)
+	
+    def __init__(self, *args, **kwargs):
+        wx.Frame.__init__(self, *args, **kwargs)
 
 	self.exitDialog =  wx.MessageDialog( self, "Quit application?\n\nCheck that Ascender motor has stopped!\n", "Quit", wx.YES_NO)
 
@@ -60,7 +76,7 @@ class MainFrame(wx.Frame):
         self.tabDownLoader = downloader.DownLoaderForm(nb)
         tabCalib = calibration.CalibForm(nb)
         self.tabProdTest = prodtest.ProdTestForm(nb)
- 
+
         # add the windows to tabs and name them
         nb.AddPage(self.tabDownLoader, "Downloader")
         nb.AddPage(tabCalib, "Calibrate")
@@ -99,9 +115,11 @@ class MainFrame(wx.Frame):
 
     def onOpen(self, event):
         print 'Open'
+        print_const()
 
     def onSave(self, event):
         print 'Save'
+        print self.tabDownLoader.ser
 
     def onLock(self, event):
         self.tabProdTest.lock_text_controls()
@@ -163,7 +181,17 @@ class MainFrame(wx.Frame):
         wx.AboutBox(info)
 
 
+class mainApp(wx.App):
+   def OnInit(self):
+       self.frame = MainFrame(None, -1, title=HEADLINE, style=wx.DEFAULT_FRAME_STYLE, size=WINDOW_SIZE)
+       self.frame.Show()
+       return True
+
+
 if __name__ == '__main__':
-    app = wx.App()
-    MainFrame().Show()
+    app = mainApp() 
     app.MainLoop()
+#if __name__ == '__main__':
+#    app = wx.App()
+#    MainFrame().Show()
+#    app.MainLoop()

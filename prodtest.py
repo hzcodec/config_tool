@@ -300,7 +300,8 @@ class ProdTestForm(wx.Panel):
 
     def onConnect(self, event):
 	print 'Connect'
-	#print 'hello', self.downloaderInstance.connected
+	self.dl = downloader.DownLoaderForm(self)
+	print 'hello', self.dl.ser
 
     def onConfigure(self, event):
 	print 'Configure'
@@ -342,7 +343,7 @@ class ProdTestForm(wx.Panel):
 
     def onTestRunUp(self, event):
 	print 'Test run Up'
-        serial_cmd('e', self.downloaderInstance.ser)
+        serial_cmd('e', self.dl.ser)
 
     def onTestRunDown(self, event):
 	print 'Test run Down'

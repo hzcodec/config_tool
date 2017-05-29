@@ -10,6 +10,8 @@ class DownLoaderForm(wx.Panel):
     def __init__(self, parent):
         wx.Panel.__init__(self, parent)
 
+	self.ser = None
+
 	downloadSizer = self.setup_serial_sizer()
 	versionSizer = self.setup_version_sizer()
 
@@ -66,6 +68,8 @@ class DownLoaderForm(wx.Panel):
         remoteVersion = wx.StaticText(self, -1, "Remote Version:")
 
         btnDownload = wx.Button(self, wx.ID_ANY, 'Download')
+        self.Bind(wx.EVT_BUTTON, self.onDownload, btnDownload)
+
         statBoxSizer.Add(btnDownload, 0, wx.ALL, 20)
         statBoxSizer.Add(ascenderVersion, 0, wx.ALL, 20)
         statBoxSizer.Add(txtNull, 0, wx.LEFT, 1000)
@@ -91,6 +95,10 @@ class DownLoaderForm(wx.Panel):
 	except:
             self.lblConnect.SetForegroundColour(wx.Colour(255,0,0))
 	    self.lblConnect.SetLabel('Cannot connect')
+
+    def onDownload(self, event):
+        print 'Download'
+	print_const()
 
     def onCombo(self, event):
         print 'Selected port: '
