@@ -1,4 +1,6 @@
 import wx
+from wx.lib.pubsub import setupkwargs
+from wx.lib.pubsub import pub as Publisher
 
 GREY  = (180, 180, 180)
 BLACK = (0, 0, 0)
@@ -36,8 +38,10 @@ class CalibForm(wx.Panel):
         txtAlignment = wx.StaticText(self, wx.ID_ANY, 'Alignment not performed')
         txtNull = wx.StaticText(self, wx.ID_ANY, ' ')
 
-        btnConnect = wx.Button(self, wx.ID_ANY, 'Align')
-        statBoxSizer.Add(btnConnect, 0, wx.ALL, 20)
+        btnAlign = wx.Button(self, wx.ID_ANY, 'Align')
+        self.Bind(wx.EVT_BUTTON, self.onAlign, btnAlign)
+
+        statBoxSizer.Add(btnAlign, 0, wx.ALL, 20)
         statBoxSizer.Add(txtAlignment, 0, wx.TOP|wx.LEFT|wx.RIGHT, 25)
         statBoxSizer.Add(txtNull, 0, wx.LEFT, 650) # this is just to get the statBoxSerial larger 
 
@@ -91,3 +95,6 @@ class CalibForm(wx.Panel):
         statBoxSizer.Add(txtNull, 0, wx.LEFT, 870) # this is just to get the statBoxSerial larger 
 
 	return statBoxSizer
+
+    def onAlign(self, event):
+        print 'Align'

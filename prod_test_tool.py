@@ -1,28 +1,5 @@
 #!/usr/bin/python
 
-#wx.GetApp().myModel.myVariable
-#    import wx
-#    
-#    def print_const():
-#       app = wx.GetApp()
-#       print(app.frame.CONSTANT)
-#    
-#    class MainFrame(wx.Frame):
-#       CONSTANT = 3
-#       def __init__(self, *args, **kwargs):
-#           wx.Frame.__init__(self, *args, **kwargs)
-#    
-#    class mainApp(wx.App):
-#       def OnInit(self):
-#           self.frame = MainFrame(None, -1)
-#           self.frame.Show()
-#           return True
-#    
-#    if __name__ == "__main__":
-#       app = mainApp()
-#       print_const()
-#       app.MainLoop()
-
 # Check these
 # https://groups.google.com/forum/#!topic/wxpython-users/_cEWQs8ws8I
 # https://stackoverflow.com/questions/8359644/wxpython-passing-a-value-to-wx-textctrl-from-another-class

@@ -1,5 +1,7 @@
 import wx
 import serial
+from wx.lib.pubsub import setupkwargs
+from wx.lib.pubsub import pub as Publisher
 
 GREY  = (180, 180, 180)
 BLACK = (0, 0, 0)
@@ -15,7 +17,7 @@ class DownLoaderForm(wx.Panel):
 	downloadSizer = self.setup_serial_sizer()
 	versionSizer = self.setup_version_sizer()
 
-	self.connected = 44 # flag indicating if connection to serial port is established
+	self.connected = False # flag indicating if connection to serial port is established
 
         topSizer = wx.BoxSizer(wx.VERTICAL)
 	topSizer.Add(downloadSizer, 0, wx.TOP|wx.LEFT, 10)
@@ -81,7 +83,7 @@ class DownLoaderForm(wx.Panel):
         print 'Connect:', self.comboBox.GetValue()
 
 	try:
-	    self.connected = 88
+	    self.connected = True
             self.ser = serial.Serial(port = '/dev/tty'+self.comboBox.GetValue(),
                                      baudrate = 9600,
                                      parity = serial.PARITY_NONE,
@@ -95,6 +97,11 @@ class DownLoaderForm(wx.Panel):
 	except:
             self.lblConnect.SetForegroundColour(wx.Colour(255,0,0))
 	    self.lblConnect.SetLabel('Cannot connect')
+
+	Publisher.subscribe(self.connectionOK, "Connected")
+
+    def connectionOK(self, msg):
+        print 'connectionOK'
 
     def onDownload(self, event):
         print 'Download'
