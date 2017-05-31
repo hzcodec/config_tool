@@ -143,10 +143,9 @@ class MainFrame(wx.Frame):
         licence = """Requires software versions -
 	             Ascender: 220 rev C
 	             Remote  : 111 rev D"""
-        description = """Production Test Tool for ActSafe's ACX/TCX"""
+        description = """Version 1.0"""
         info = wx.AboutDialogInfo()
-        info.SetName('prod_test_tool')
-        info.SetVersion('1.0')
+        info.SetName("Production Test Tool for ActSafe's ACX/TCX")
         info.SetDescription(description)
         info.SetCopyright('(C) 2017 - Unjo AB')
         info.SetWebSite('http://www.unjo.com')
@@ -159,7 +158,6 @@ class mainApp(wx.App):
        self.frame = MainFrame(None, -1, title=HEADLINE, style=wx.DEFAULT_FRAME_STYLE, size=WINDOW_SIZE)
        self.frame.Show()
        return True
-
 
 if __name__ == '__main__':
     app = mainApp() 
