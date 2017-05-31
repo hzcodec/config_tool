@@ -41,10 +41,11 @@ class ProdTestForm(wx.Panel):
 
         self.SetSizer(topSizer)
 	self.lock_text_controls()
-	Publisher.subscribe(self.listener, ("show.data"))
+	Publisher.subscribe(self.listener, ('show.data'))
 
     def listener(self, msg):
         print "msg:", msg.data
+	self.mySer = msg.data
 
     def setup_serial_sizer(self):
         txtSerialPort = wx.StaticText(self, wx.ID_ANY, 'Select serial port')
@@ -305,6 +306,7 @@ class ProdTestForm(wx.Panel):
 
     def onConnect(self, event):
 	print 'Connect'
+        serial_cmd('v', self.mySer)
 
     def onConfigure(self, event):
 	print 'Configure'
@@ -346,7 +348,6 @@ class ProdTestForm(wx.Panel):
 
     def onTestRunUp(self, event):
 	print 'Test run Up'
-        serial_cmd('e', self.dl.ser)
 
     def onTestRunDown(self, event):
 	print 'Test run Down'

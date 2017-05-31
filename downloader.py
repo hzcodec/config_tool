@@ -99,7 +99,7 @@ class DownLoaderForm(wx.Panel):
 	    self.lblConnect.SetLabel('Cannot connect')
 
 	msg = 'Jennie'
-	Publisher.sendMessage(("show.data"), data=msg)
+	Publisher.sendMessage(('show.data'), data=self.ser)
 
     def connectionOK(self, msg):
         print 'connectionOK'
