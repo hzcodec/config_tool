@@ -1,6 +1,8 @@
 import wx
-from wx.lib.pubsub import setuparg1
-from wx.lib.pubsub import pub as Publisher
+from wx.lib.pubsub import pub
+from wx.lib.pubsub import setupkwargs
+#from wx.lib.pubsub import setuparg1
+#from wx.lib.pubsub import pub as Publisher
 
 BORDER1 = 5
 TEXT_SERIAL_PORT_BORDER = 10
@@ -41,11 +43,11 @@ class ProdTestForm(wx.Panel):
 
         self.SetSizer(topSizer)
 	self.lock_text_controls()
-	Publisher.subscribe(self.listener, ('show.data'))
+	pub.subscribe(self.myListener, 'panelListener')
 
-    def listener(self, msg):
-        print "msg:", msg.data
-	self.mySer = msg.data
+    def myListener(self, message, arg2=None):
+        print "msg:", message
+	self.mySer = message
 
     def setup_serial_sizer(self):
         txtSerialPort = wx.StaticText(self, wx.ID_ANY, 'Select serial port')

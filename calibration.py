@@ -1,6 +1,6 @@
 import wx
-from wx.lib.pubsub import setuparg1
-from wx.lib.pubsub import pub as Publisher
+from wx.lib.pubsub import pub
+from wx.lib.pubsub import setupkwargs
 
 GREY  = (180, 180, 180)
 BLACK = (0, 0, 0)
@@ -37,11 +37,11 @@ class CalibForm(wx.Panel):
 	topSizer.Add(saveParamSizer, 0, wx.TOP|wx.LEFT, 10)
         self.SetSizer(topSizer)
 
-	Publisher.subscribe(self.listener, ('show.data'))
+	pub.subscribe(self.myListener, 'panelListener')
 
-    def listener(self, msg):
-        print "msg:", msg.data
-	self.mySer = msg.data
+    def myListener(self, message, arg2=None):
+        print "msg:", message
+	self.mySer = message
 
     def setup_alignment_sizer(self):
 	statBoxSerial = wx.StaticBox(self, wx.ID_ANY, '  Alignment')
