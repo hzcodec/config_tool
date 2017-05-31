@@ -1,7 +1,17 @@
 import wx
+from wx.lib.pubsub import setuparg1
+from wx.lib.pubsub import pub as Publisher
 
 GREY  = (180, 180, 180)
 BLACK = (0, 0, 0)
+
+def serial_cmd(cmd, serial):
+    # send command to serial port
+    try:
+        serial.write(cmd + '\r');
+    except:
+        print 'Not Connected!'
+
 
 class CalibForm(wx.Panel):
 
@@ -26,6 +36,12 @@ class CalibForm(wx.Panel):
 	topSizer.Add(nullSizer2, 0, wx.TOP|wx.LEFT, 10)
 	topSizer.Add(saveParamSizer, 0, wx.TOP|wx.LEFT, 10)
         self.SetSizer(topSizer)
+
+	Publisher.subscribe(self.listener, ('show.data'))
+
+    def listener(self, msg):
+        print "msg:", msg.data
+	self.mySer = msg.data
 
     def setup_alignment_sizer(self):
 	statBoxSerial = wx.StaticBox(self, wx.ID_ANY, '  Alignment')
@@ -96,4 +112,5 @@ class CalibForm(wx.Panel):
 
     def onAlign(self, event):
         print 'Align'
-        #wx.CallAfter(Publisher.sendMessage, "topic_aligned", "Aligned done")
+        serial_cmd('align', self.mySer)
+
