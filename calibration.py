@@ -37,10 +37,10 @@ class CalibForm(wx.Panel):
 	topSizer.Add(saveParamSizer, 0, wx.TOP|wx.LEFT, 10)
         self.SetSizer(topSizer)
 
-	pub.subscribe(self.myListener, 'panelListener')
+	pub.subscribe(self.serialListener, 'serialListener')
 
-    def myListener(self, message, arg2=None):
-        print "msg:", message
+    def serialListener(self, message, arg2=None):
+        print 'msg:', message
 	self.mySer = message
 
     def setup_alignment_sizer(self):

@@ -98,7 +98,7 @@ class DownLoaderForm(wx.Panel):
             self.lblConnect.SetForegroundColour(wx.Colour(255,0,0))
 	    self.lblConnect.SetLabel('Cannot connect')
 
-	pub.sendMessage("panelListener", message=self.ser)
+	pub.sendMessage('serialListener', message=self.ser)
 
     def onDownload(self, event):
         print 'Download'
