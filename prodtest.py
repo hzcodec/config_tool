@@ -1,8 +1,6 @@
 import wx
 from wx.lib.pubsub import pub
 from wx.lib.pubsub import setupkwargs
-#from wx.lib.pubsub import setuparg1
-#from wx.lib.pubsub import pub as Publisher
 
 BORDER1 = 5
 TEXT_SERIAL_PORT_BORDER = 10
@@ -26,14 +24,12 @@ class ProdTestForm(wx.Panel):
 	# Add a panel so it looks the correct on all platforms
         #self.panel = wx.Panel(self, wx.ID_ANY)
 
-	serialSizer = self.setup_serial_sizer()
 	configParamsSizer = self.setup_config_params()
 	enhancedMeasSizer = self.setup_test_enahanced_measuring()
 	testRun = self.setup_test_run()
         multiTextControl = self.setup_multi_text_control()
 
 	leftTopSizer = wx.BoxSizer(wx.VERTICAL)
-        leftTopSizer.Add(serialSizer, 0, wx.ALL|wx.EXPAND, BORDER1)
         leftTopSizer.Add(configParamsSizer, 0, wx.ALL|wx.EXPAND, BORDER1)
         leftTopSizer.Add(enhancedMeasSizer, 0, wx.ALL|wx.EXPAND, BORDER1)
         leftTopSizer.Add(testRun, 0, wx.ALL|wx.EXPAND, BORDER1)
@@ -48,39 +44,6 @@ class ProdTestForm(wx.Panel):
     def serialListener(self, message, arg2=None):
         print 'msg:', message
 	self.mySer = message
-
-    def setup_serial_sizer(self):
-        txtSerialPort = wx.StaticText(self, wx.ID_ANY, 'Select serial port')
-	txtSerPortSizer = wx.BoxSizer(wx.HORIZONTAL)
-	txtSerPortSizer.Add(txtSerialPort, 0, wx.TOP, TEXT_SERIAL_PORT_BORDER)
-
-        portNames = ['ACM0', 'ACM1', 'USB0']
-        comboBox = wx.ComboBox(self, choices=portNames)
-        comboBox.SetSelection(0) # preselect ACM0
-        comboBox.Bind(wx.EVT_COMBOBOX, self.onCombo)
-	comboSizer = wx.BoxSizer(wx.HORIZONTAL)
-	comboSizer.Add(comboBox, 0, wx.TOP, 10)
-
-	statBoxSerial = wx.StaticBox(self, wx.ID_ANY, '  Serial connection    ')
-	statBoxSerial.SetBackgroundColour(GREY)
-	statBoxSerial.SetForegroundColour(BLACK)
-        statBoxSizer = wx.StaticBoxSizer(statBoxSerial, wx.HORIZONTAL)
-
-        btnConnect = wx.Button(self, wx.ID_ANY, 'Connect')
-        self.Bind(wx.EVT_BUTTON, self.onConnect, btnConnect)
-	lblConnect = wx.StaticText(self, label= 'Not connected')
-
-        btnQuit = wx.Button(self, wx.ID_ANY, 'Quit')
-	btnQuitSizer = wx.BoxSizer(wx.HORIZONTAL)
-	btnQuitSizer.Add(btnQuit, 0, wx.ALL, 20)
-
-        statBoxSizer.Add(txtSerPortSizer, 0, wx.TOP|wx.BOTTOM|wx.LEFT, 15)
-        statBoxSizer.Add(comboSizer, 0, wx.TOP|wx.BOTTOM|wx.LEFT, 10)
-        statBoxSizer.Add(btnConnect, 0, wx.TOP|wx.BOTTOM|wx.LEFT, 20)
-        statBoxSizer.Add(lblConnect, 0, wx.TOP|wx.BOTTOM|wx.LEFT, 25)
-        statBoxSizer.Add(btnQuitSizer, 0, wx.LEFT, 420)
-
-	return statBoxSizer
 
     def setup_config_params(self):
 
@@ -250,7 +213,7 @@ class ProdTestForm(wx.Panel):
 	paramSizer3.Add(btnGetIq, 0, wx.LEFT, 15)
 	paramSizer3.Add(btnSaveParam, 0, wx.LEFT, 15)
 
-	statBoxTestEnhanced = wx.StaticBox(self, wx.ID_ANY, '  Test Enhanced Measuring')
+	statBoxTestEnhanced = wx.StaticBox(self, wx.ID_ANY, '  Enhanced Measuring')
 	statBoxTestEnhanced.SetBackgroundColour(GREY)
 	statBoxTestEnhanced.SetForegroundColour(BLACK)
         statBoxSizer = wx.StaticBoxSizer(statBoxTestEnhanced, wx.VERTICAL)
@@ -274,6 +237,10 @@ class ProdTestForm(wx.Panel):
         self.Bind(wx.EVT_BUTTON, self.onTestRunDown, btnTestRunDown)
         self.Bind(wx.EVT_BUTTON, self.onTestStop, btnTestStop)
 
+        btnQuit = wx.Button(self, wx.ID_ANY, 'Quit')
+	btnQuitSizer = wx.BoxSizer(wx.HORIZONTAL)
+	btnQuitSizer.Add(btnQuit, 0, wx.ALL, 10)
+
         speed = wx.StaticText(self, wx.ID_ANY, 'Speed')
 
 	spinCtrlSpeed = wx.SpinCtrl(self, value='0')
@@ -287,6 +254,7 @@ class ProdTestForm(wx.Panel):
 	paramSizer2.Add(btnTestRunUp, 0, wx.TOP|wx.LEFT, 10)
 	paramSizer2.Add(btnTestRunDown, 0, wx.TOP|wx.LEFT, 10)
 	paramSizer2.Add(btnTestStop, 0, wx.TOP|wx.LEFT, 10)
+	paramSizer2.Add(btnQuitSizer, 0, wx.LEFT, 550)
 
 	statBoxTestRun = wx.StaticBox(self, wx.ID_ANY, '  Test Run')
 	statBoxTestRun.SetBackgroundColour(GREY)

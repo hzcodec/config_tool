@@ -1,6 +1,7 @@
 import wx
 from wx.lib.pubsub import pub
 from wx.lib.pubsub import setupkwargs
+# Add text 'remember to save par after calib'
 
 GREY  = (180, 180, 180)
 BLACK = (0, 0, 0)
