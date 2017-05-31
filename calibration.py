@@ -3,6 +3,7 @@ from wx.lib.pubsub import pub
 from wx.lib.pubsub import setupkwargs
 # Add text 'remember to save par after calib'
 
+GREEN = (36, 119, 62)
 GREY  = (180, 180, 180)
 BLACK = (0, 0, 0)
 
@@ -68,32 +69,40 @@ class CalibForm(wx.Panel):
 	statBoxSerial.SetForegroundColour(BLACK)
         statBoxSizer = wx.StaticBoxSizer(statBoxSerial, wx.VERTICAL)
 
-        txtThrottleMaxUp = wx.StaticText(self, wx.ID_ANY, 'Turn throttle handle max up')
-        txtThrottleMaxDown = wx.StaticText(self, wx.ID_ANY, 'Turn throttle handle max down')
-        txtThrottleNeutral = wx.StaticText(self, wx.ID_ANY, 'Set throttle handle in neutal position')
+        self.txtThrottleMaxUp = wx.StaticText(self, wx.ID_ANY, 'Turn throttle handle max up')
+        self.txtThrottleMaxDown = wx.StaticText(self, wx.ID_ANY, 'Turn throttle handle max down')
+        self.txtThrottleNeutral = wx.StaticText(self, wx.ID_ANY, 'Set throttle handle in neutal position')
         txtNull = wx.StaticText(self, wx.ID_ANY, ' ')
 
-        btnCalibRight = wx.Button(self, wx.ID_ANY, 'Calib Right')
-        btnCalibLeft = wx.Button(self, wx.ID_ANY, 'Calib Left')
-        btnCalibNeutral = wx.Button(self, wx.ID_ANY, 'Calib Neutral')
-        btnCalibRestart = wx.Button(self, wx.ID_ANY, 'Calib Restart')
+        self.btnCalibRight = wx.Button(self, wx.ID_ANY, 'Calib Right')
+        self.btnCalibLeft = wx.Button(self, wx.ID_ANY, 'Calib Left')
+        self.btnCalibNeutral = wx.Button(self, wx.ID_ANY, 'Calib Neutral')
+        self.btnCalibRestart = wx.Button(self, wx.ID_ANY, 'Calib Restart')
+
+        self.Bind(wx.EVT_BUTTON, self.onCalibRight, self.btnCalibRight)
+        self.Bind(wx.EVT_BUTTON, self.onCalibLeft, self.btnCalibLeft)
+        self.Bind(wx.EVT_BUTTON, self.onCalibNeutral, self.btnCalibNeutral)
+        self.Bind(wx.EVT_BUTTON, self.onCalibRestart, self.btnCalibRestart)
+
+	self.btnCalibLeft.Enable(False)
+	self.btnCalibNeutral.Enable(False)
 
 	rightSizer = wx.BoxSizer(wx.HORIZONTAL)
-        rightSizer.Add(btnCalibRight, 0, wx.TOP|wx.LEFT, 10)
-        rightSizer.Add(txtThrottleMaxUp, 0, wx.TOP|wx.LEFT, 15)
+        rightSizer.Add(self.btnCalibRight, 0, wx.TOP|wx.LEFT, 10)
+        rightSizer.Add(self.txtThrottleMaxUp, 0, wx.TOP|wx.LEFT, 15)
 
 	leftSizer = wx.BoxSizer(wx.HORIZONTAL)
-        leftSizer.Add(btnCalibLeft, 0, wx.TOP|wx.LEFT, 10)
-        leftSizer.Add(txtThrottleMaxDown, 0, wx.TOP|wx.LEFT, 15)
+        leftSizer.Add(self.btnCalibLeft, 0, wx.TOP|wx.LEFT, 10)
+        leftSizer.Add(self.txtThrottleMaxDown, 0, wx.TOP|wx.LEFT, 15)
 
 	neutralSizer = wx.BoxSizer(wx.HORIZONTAL)
-        neutralSizer.Add(btnCalibNeutral, 0, wx.TOP|wx.LEFT, 10)
-        neutralSizer.Add(txtThrottleNeutral, 0, wx.TOP|wx.LEFT, 15)
+        neutralSizer.Add(self.btnCalibNeutral, 0, wx.TOP|wx.LEFT, 10)
+        neutralSizer.Add(self.txtThrottleNeutral, 0, wx.TOP|wx.LEFT, 15)
 
         statBoxSizer.Add(rightSizer, 0, wx.ALL, 10)
         statBoxSizer.Add(leftSizer, 0, wx.ALL, 10)
         statBoxSizer.Add(neutralSizer, 0, wx.ALL, 10)
-        statBoxSizer.Add(btnCalibRestart, 0, wx.TOP|wx.LEFT, 20)
+        statBoxSizer.Add(self.btnCalibRestart, 0, wx.TOP|wx.LEFT, 20)
         statBoxSizer.Add(txtNull, 0, wx.LEFT, 1000) # this is just to get the statBoxSerial larger 
 
 	return statBoxSizer
@@ -114,4 +123,34 @@ class CalibForm(wx.Panel):
     def onAlign(self, event):
         print 'Align'
         serial_cmd('align', self.mySer)
+
+    def onCalibRight(self, event):
+        print 'Calib Right'
+	self.btnCalibRight.Enable(False)
+	self.btnCalibLeft.Enable(True)
+	self.txtThrottleMaxUp.SetForegroundColour(GREEN)
+	self.txtThrottleMaxUp.SetLabel("Up Calibration finished")
+
+    def onCalibLeft(self, event):
+        print 'Calib Left'
+	self.btnCalibLeft.Enable(False)
+	self.btnCalibNeutral.Enable(True)
+	self.txtThrottleMaxDown.SetForegroundColour(GREEN)
+	self.txtThrottleMaxDown.SetLabel("Down Calibration finished")
+
+    def onCalibNeutral(self, event):
+        print 'Calib Neutral'
+	self.btnCalibNeutral.Enable(False)
+	self.txtThrottleNeutral.SetForegroundColour(GREEN)
+	self.txtThrottleNeutral.SetLabel("Down Calibration finished")
+
+    def onCalibRestart(self, event):
+        print 'Calib Restart'
+	self.txtThrottleMaxUp.SetForegroundColour(BLACK)
+	self.txtThrottleMaxUp.SetLabel("Turn throttle handle max up")
+	self.txtThrottleMaxDown.SetForegroundColour(BLACK)
+	self.txtThrottleMaxDown.SetLabel("Turn throttle handle max down")
+	self.txtThrottleNeutral.SetForegroundColour(BLACK)
+	self.txtThrottleNeutral.SetLabel("Set throttle handle in neutal position")
+	self.btnCalibRight.Enable(True)
 

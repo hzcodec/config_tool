@@ -140,8 +140,9 @@ class MainFrame(wx.Frame):
                 self.tabProdTest.txtCtrl_delay_start.Enable()
 
     def onAbout(self, event):
-        print 'About'
-        licence = """As is"""
+        licence = """Requires software versions -
+	             Ascender: 220 rev C
+	             Remote  : 111 rev D"""
         description = """Production Test Tool for ActSafe's ACX/TCX"""
         info = wx.AboutDialogInfo()
         info.SetName('prod_test_tool')
@@ -150,7 +151,6 @@ class MainFrame(wx.Frame):
         info.SetCopyright('(C) 2017 - Unjo AB')
         info.SetWebSite('http://www.unjo.com')
         info.SetLicence(licence)
-        info.AddDeveloper('Heinz Samuelsson')
         wx.AboutBox(info)
 
 
