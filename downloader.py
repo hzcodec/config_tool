@@ -1,6 +1,6 @@
 import wx
 import serial
-from wx.lib.pubsub import setupkwargs
+from wx.lib.pubsub import setuparg1
 from wx.lib.pubsub import pub as Publisher
 
 GREY  = (180, 180, 180)
@@ -98,7 +98,8 @@ class DownLoaderForm(wx.Panel):
             self.lblConnect.SetForegroundColour(wx.Colour(255,0,0))
 	    self.lblConnect.SetLabel('Cannot connect')
 
-	Publisher.subscribe(self.connectionOK, "Connected")
+	msg = 'kalle'
+	Publisher.sendMessage(("show.mainframe"), data=msg)
 
     def connectionOK(self, msg):
         print 'connectionOK'

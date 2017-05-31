@@ -1,5 +1,6 @@
 import wx
-import downloader
+from wx.lib.pubsub import setuparg1
+from wx.lib.pubsub import pub as Publisher
 
 BORDER1 = 5
 TEXT_SERIAL_PORT_BORDER = 10
@@ -40,6 +41,10 @@ class ProdTestForm(wx.Panel):
 
         self.SetSizer(topSizer)
 	self.lock_text_controls()
+	Publisher.subscribe(self.readmsg, ("show.mainframe"))
+
+    def readmsg(self, msg):
+        self.pubsubText.SetValue(msg.data)
 
     def setup_serial_sizer(self):
         txtSerialPort = wx.StaticText(self, wx.ID_ANY, 'Select serial port')
@@ -300,8 +305,6 @@ class ProdTestForm(wx.Panel):
 
     def onConnect(self, event):
 	print 'Connect'
-	self.dl = downloader.DownLoaderForm(self)
-	print 'hello', self.dl.ser
 
     def onConfigure(self, event):
 	print 'Configure'
