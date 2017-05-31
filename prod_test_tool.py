@@ -5,12 +5,6 @@
 # https://stackoverflow.com/questions/8359644/wxpython-passing-a-value-to-wx-textctrl-from-another-class
 #   
 #
-#There are several ways to do this:
-#
-#    *  Keep a reference to each panel and pass them around willy nilly. 
-#       Then you can do stuff like self.panelOne.MyTextCtrl.SetValue(self.otherText.GetValue())
-#    *  Use wx.PostEvent to pass around the information
-#    *  Use pubsub
 
 import wx
 import time
@@ -23,7 +17,7 @@ from wx.lib.pubsub import pub as Publisher
 
 WINDOW_SIZE = (1035, 870)
 
-HEADLINE = '                                                             Production Test Tool, Ascender ACX/TCX'
+HEADLINE = 70*' '+'Production Test Tool, ACX/TCX'
 
 # color codes
 GREY  = (180, 180, 180)

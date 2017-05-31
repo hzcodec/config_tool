@@ -16,6 +16,7 @@ def serial_cmd(cmd, serial):
     except:
         print 'Not Connected!'
 
+
 class ProdTestForm(wx.Panel):
 
     def __init__(self, parent):
