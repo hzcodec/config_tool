@@ -3,6 +3,7 @@ from wx.lib.pubsub import pub
 from wx.lib.pubsub import setupkwargs
 # Add text 'remember to save par after calib'
 
+RED   = (255, 19, 32)
 GREEN = (36, 119, 62)
 GREY  = (180, 180, 180)
 BLACK = (0, 0, 0)
@@ -114,8 +115,11 @@ class CalibForm(wx.Panel):
         statBoxSizer = wx.StaticBoxSizer(statBoxSerial, wx.HORIZONTAL)
         txtNull = wx.StaticText(self, wx.ID_ANY, ' ')
 
+        self.txtAlertUser = wx.StaticText(self, wx.ID_ANY, 'Remember ...')
+
         btnSaveParam = wx.Button(self, wx.ID_ANY, 'Save Param')
         statBoxSizer.Add(btnSaveParam, 0, wx.ALL, 20)
+        statBoxSizer.Add(self.txtAlertUser, 0, wx.ALL, 20)
         statBoxSizer.Add(txtNull, 0, wx.LEFT, 870) # this is just to get the statBoxSerial larger 
 
 	return statBoxSizer
@@ -143,6 +147,8 @@ class CalibForm(wx.Panel):
 	self.btnCalibNeutral.Enable(False)
 	self.txtThrottleNeutral.SetForegroundColour(GREEN)
 	self.txtThrottleNeutral.SetLabel("Down Calibration finished")
+	self.txtAlertUser.SetForegroundColour(RED)
+	self.txtAlertUser.SetLabel("Remember to save calibration result")
 
     def onCalibRestart(self, event):
         print 'Calib Restart'
