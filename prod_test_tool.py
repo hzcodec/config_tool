@@ -18,6 +18,8 @@ import wx.lib.scrolledpanel as scrolled
 import downloader
 import calibration
 import prodtest
+from wx.lib.pubsub import setupkwargs
+from wx.lib.pubsub import pub as Publisher
 
 WINDOW_SIZE = (1035, 870)
 

@@ -1,6 +1,4 @@
 import wx
-from wx.lib.pubsub import setupkwargs
-from wx.lib.pubsub import pub as Publisher
 
 GREY  = (180, 180, 180)
 BLACK = (0, 0, 0)
@@ -98,3 +96,4 @@ class CalibForm(wx.Panel):
 
     def onAlign(self, event):
         print 'Align'
+        #wx.CallAfter(Publisher.sendMessage, "topic_aligned", "Aligned done")
