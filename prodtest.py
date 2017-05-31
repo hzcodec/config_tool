@@ -41,10 +41,10 @@ class ProdTestForm(wx.Panel):
 
         self.SetSizer(topSizer)
 	self.lock_text_controls()
-	Publisher.subscribe(self.readmsg, ("show.mainframe"))
+	Publisher.subscribe(self.listener, ("show.data"))
 
-    def readmsg(self, msg):
-        self.pubsubText.SetValue(msg.data)
+    def listener(self, msg):
+        print "msg:", msg.data
 
     def setup_serial_sizer(self):
         txtSerialPort = wx.StaticText(self, wx.ID_ANY, 'Select serial port')

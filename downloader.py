@@ -98,8 +98,8 @@ class DownLoaderForm(wx.Panel):
             self.lblConnect.SetForegroundColour(wx.Colour(255,0,0))
 	    self.lblConnect.SetLabel('Cannot connect')
 
-	msg = 'kalle'
-	Publisher.sendMessage(("show.mainframe"), data=msg)
+	msg = 'Jennie'
+	Publisher.sendMessage(("show.data"), data=msg)
 
     def connectionOK(self, msg):
         print 'connectionOK'
