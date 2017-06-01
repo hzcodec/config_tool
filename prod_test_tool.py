@@ -97,11 +97,6 @@ class MainFrame(wx.Frame):
           lines = f.readlines()
 	  print lines
 
-	  for i in range(0, len(lines)):
-	      stripLine = lines[i].strip('\n')
-	      splitLine = stripLine.split(',')
-	      print splitLine
-
 	pub.sendMessage('configListener', message=lines)
         openFileDialog.Destroy()
 

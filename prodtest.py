@@ -56,6 +56,14 @@ class ProdTestForm(wx.Panel):
 	self.configParameters = message
 	print '------------------------------'
 	print self.configParameters
+	self.extract_paramters(self.configParameters)
+
+    def extract_paramters(self, par):
+        for i in range(0, len(par)):
+	    stripPar = par[i].strip('\n')
+	    splitPar = stripPar.split(',')
+	    print splitPar
+
 
     def setup_config_params(self):
 
