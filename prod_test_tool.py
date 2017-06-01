@@ -139,9 +139,16 @@ class MainFrame(wx.Frame):
                 self.tabProdTest.txtCtrl_delay_start.Enable()
 
     def onAbout(self, event):
-        licence = """Requires software versions -
-	             Ascender: 220 rev C
-	             Remote  : 111 rev D"""
+        licence = """Required software versions not lower than -
+
+    Ascender:
+        Unjo 500:01 00153 C
+        220:02 00150 A
+        220:02 00111 PC5
+                         
+    Remote controller:
+        Unjo 500:01 00155 PB2
+        220:02 00121 PD1 """
         description = """Version 1.0"""
         info = wx.AboutDialogInfo()
         info.SetName("Production Test Tool for ActSafe's ACX/TCX")
