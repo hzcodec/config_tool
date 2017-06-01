@@ -12,8 +12,8 @@ import wx.lib.scrolledpanel as scrolled
 import downloader
 import calibration
 import prodtest
+from wx.lib.pubsub import pub
 from wx.lib.pubsub import setupkwargs
-from wx.lib.pubsub import pub as Publisher
 
 WINDOW_SIZE = (1035, 870)
 
@@ -93,16 +93,16 @@ class MainFrame(wx.Frame):
         openFileDialog.GetPath()
 	print openFileDialog.GetPath()
 
-	#file = open(openFileDialog.GetPath(), "r")
-	#print file.read()
 	with open(openFileDialog.GetPath()) as f:
           lines = f.readlines()
+	  print lines
 
 	  for i in range(0, len(lines)):
 	      stripLine = lines[i].strip('\n')
 	      splitLine = stripLine.split(',')
 	      print splitLine
 
+	pub.sendMessage('configListener', message=lines)
         openFileDialog.Destroy()
 
     def onSave(self, event):

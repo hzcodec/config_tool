@@ -45,10 +45,17 @@ class ProdTestForm(wx.Panel):
         self.SetSizer(topSizer)
 	#self.lock_text_controls()
 	pub.subscribe(self.serialListener, 'serialListener')
+	pub.subscribe(self.configListener, 'configListener')
 
     def serialListener(self, message, arg2=None):
         #print 'msg:', message
 	self.mySer = message
+
+    def configListener(self, message, arg2=None):
+        #print 'msg:', message
+	self.configParameters = message
+	print '------------------------------'
+	print self.configParameters
 
     def setup_config_params(self):
 
