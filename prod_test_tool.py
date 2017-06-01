@@ -7,7 +7,6 @@
 #
 
 import wx
-import time
 import wx.lib.scrolledpanel as scrolled
 import downloader
 import calibration

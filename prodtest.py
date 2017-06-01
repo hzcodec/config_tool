@@ -1,4 +1,5 @@
 import wx
+import time
 from wx.lib.pubsub import pub
 from wx.lib.pubsub import setupkwargs
 
@@ -244,12 +245,12 @@ class ProdTestForm(wx.Panel):
 
         speed = wx.StaticText(self, wx.ID_ANY, 'Speed')
 
-	spinCtrlSpeed = wx.SpinCtrl(self, value='0')
-	spinCtrlSpeed.SetRange(0, 25)
+	self.spinCtrlSpeed = wx.SpinCtrl(self, value='0')
+	self.spinCtrlSpeed.SetRange(0, 25)
 
 	paramSizer1 = wx.BoxSizer(wx.VERTICAL)
 	paramSizer1.Add(speed, 0, wx.LEFT, 30)
-	paramSizer1.Add(spinCtrlSpeed, 0, wx.TOP, 10)
+	paramSizer1.Add(self.spinCtrlSpeed, 0, wx.TOP, 10)
 
 	paramSizer2 = wx.BoxSizer(wx.HORIZONTAL)
 	paramSizer2.Add(btnTestRunUp, 0, wx.TOP|wx.LEFT, 10)
@@ -281,6 +282,7 @@ class ProdTestForm(wx.Panel):
 
     def onConfigure(self, event):
 	print 'Configure'
+        serial_cmd('v', self.mySer)
 
     def lock_text_controls(self):
         self.txtCtrl_cl_max.Disable()
@@ -320,8 +322,16 @@ class ProdTestForm(wx.Panel):
     def onTestRunUp(self, event):
 	print 'Test run Up'
 
+        speedValue = self.spinCtrlSpeed.GetValue()
+        serial_cmd('e', self.mySer)
+        time.sleep(1)
+        serial_cmd('brake 0', self.mySer)
+        #self.runningUp = True
+        time.sleep(1)
+        serial_cmd('speed -' + str(speedValue), self.mySer)
+
     def onTestRunDown(self, event):
-	print 'Test run Down'
+        pass
 
     def onTestStop(self, event):
 	print 'Test stop'
