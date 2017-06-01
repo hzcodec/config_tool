@@ -93,13 +93,15 @@ class MainFrame(wx.Frame):
         openFileDialog.GetPath()
 	print openFileDialog.GetPath()
 
-	file = open(openFileDialog.GetPath(), "r")
-	print file.read()
+	#file = open(openFileDialog.GetPath(), "r")
+	#print file.read()
+	with open(openFileDialog.GetPath()) as f:
+          lines = f.readlines()
 
-	#input_stream = wx.FileInputStream(openFileDialog.GetPath())
-
-	#if not input_stream.IsOk():
-        #    wx.LogError("Cannot open file '%s'." % openFileDialog.GetPath())
+	  for i in range(0, len(lines)):
+	      stripLine = lines[i].strip('\n')
+	      splitLine = stripLine.split(',')
+	      print splitLine
 
         openFileDialog.Destroy()
 

@@ -1,4 +1,5 @@
 import wx
+import time
 from wx.lib.pubsub import pub
 from wx.lib.pubsub import setupkwargs
 
@@ -25,6 +26,9 @@ class ProdTestForm(wx.Panel):
 	# Add a panel so it looks the correct on all platforms
         #self.panel = wx.Panel(self, wx.ID_ANY)
 
+	# define initial values for the parameters
+	self.oldClMax = 51.00
+
 	configParamsSizer = self.setup_config_params()
 	enhancedMeasSizer = self.setup_test_enahanced_measuring()
 	testRun = self.setup_test_run()
@@ -39,16 +43,16 @@ class ProdTestForm(wx.Panel):
 	topSizer.Add(leftTopSizer, 0, wx.ALL, BORDER1)
 
         self.SetSizer(topSizer)
-	self.lock_text_controls()
+	#self.lock_text_controls()
 	pub.subscribe(self.serialListener, 'serialListener')
 
     def serialListener(self, message, arg2=None):
-        print 'msg:', message
+        #print 'msg:', message
 	self.mySer = message
 
     def setup_config_params(self):
 
-        param_cl_max = wx.StaticText(self, wx.ID_ANY, 'cl.max')
+        self.param_cl_max = wx.StaticText(self, wx.ID_ANY, 'cl.max')
         self.txtCtrl_cl_max = wx.TextCtrl(self, wx.ID_ANY,'51.00')
         param_cl_min = wx.StaticText(self, wx.ID_ANY, 'cl.min')
         self.txtCtrl_cl_min = wx.TextCtrl(self, wx.ID_ANY,'-51.00')
@@ -102,7 +106,7 @@ class ProdTestForm(wx.Panel):
         btnSizer.Add(btnSaveParam, 0, wx.LEFT, 10)
 
 	paramSizer1 = wx.BoxSizer(wx.VERTICAL)
-	paramSizer1.Add(param_cl_max, 0, wx.TOP, 10)
+	paramSizer1.Add(self.param_cl_max, 0, wx.TOP, 10)
 	paramSizer1.Add(self.txtCtrl_cl_max, 0, wx.TOP, 10)
 	paramSizer1.Add(param_cl_min, 0, wx.TOP, 10)
 	paramSizer1.Add(self.txtCtrl_cl_min, 0, wx.TOP, 10)
@@ -270,17 +274,29 @@ class ProdTestForm(wx.Panel):
     def setup_multi_text_control(self):
 
         headline = '       - ACX/TCX logging - \n'
-	txtMultiCtrl = wx.TextCtrl(self, -1, headline, size=(790, 180), style=wx.TE_MULTILINE)
-        txtMultiCtrl.SetInsertionPoint(0)
+	self.txtMultiCtrl = wx.TextCtrl(self, -1, headline, size=(790, 180), style=wx.TE_MULTILINE)
+        self.txtMultiCtrl.SetInsertionPoint(0)
 
-	return txtMultiCtrl
+	return self.txtMultiCtrl
 
     def onConnect(self, event):
 	print 'Connect'
         serial_cmd('v', self.mySer)
 
     def onConfigure(self, event):
-	print 'Configure'
+        newClMax = float(self.txtCtrl_cl_max.GetValue())
+
+	if (newClMax == self.oldClMax):
+	    pass
+	else:
+	    print 'New cl.max'
+            time.sleep(1)
+	    # unicode mess ;-)
+	    local_cmd = 'param set motor.cl.max ' + self.txtCtrl_cl_max.GetValue().encode('ascii', 'ignore')
+            serial_cmd(local_cmd, self.mySer)
+	    self.txtMultiCtrl.AppendText('cl.max updated to: ' + str(newClMax) + "\n")
+
+	self.oldClMax = newClMax
 
     def lock_text_controls(self):
         self.txtCtrl_cl_max.Disable()
