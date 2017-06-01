@@ -87,12 +87,27 @@ class MainFrame(wx.Frame):
 	self.Bind(wx.EVT_MENU, self.onAbout, id=103)
 
     def onOpen(self, event):
-        print 'Open'
         print_const()
+	openFileDialog = wx.FileDialog(self, "Open", "", "", "ACX/TCX config files (*.txt)|*.txt", wx.FD_OPEN | wx.FD_FILE_MUST_EXIST)
+        openFileDialog.ShowModal()
+        openFileDialog.GetPath()
+	print openFileDialog.GetPath()
+
+	file = open(openFileDialog.GetPath(), "r")
+	print file.read()
+
+	#input_stream = wx.FileInputStream(openFileDialog.GetPath())
+
+	#if not input_stream.IsOk():
+        #    wx.LogError("Cannot open file '%s'." % openFileDialog.GetPath())
+
+        openFileDialog.Destroy()
 
     def onSave(self, event):
-        print 'Save'
-        print self.tabDownLoader.ser
+	saveFileDialog = wx.FileDialog(self, "Save As", "", "", "ACX/TCX config files (*.txt)|*.txt", wx.FD_SAVE | wx.FD_OVERWRITE_PROMPT)
+        saveFileDialog.ShowModal()
+        saveFileDialog.GetPath()
+        saveFileDialog.Destroy()
 
     def onLock(self, event):
         self.tabProdTest.lock_text_controls()
