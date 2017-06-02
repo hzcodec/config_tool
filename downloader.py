@@ -103,8 +103,6 @@ class DownLoaderForm(wx.Panel):
 
 	self.btnSaveParam.Enable(True)
 
-
-
     def setup_serial_sizer(self):
         txtSerialPort = wx.StaticText(self, wx.ID_ANY, 'Select serial port')
 	txtSerPortSizer = wx.BoxSizer(wx.HORIZONTAL)
