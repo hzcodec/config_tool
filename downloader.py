@@ -77,7 +77,7 @@ class DownLoaderForm(wx.Panel):
 	    par1 = self.configParameters[parIndex]
 	    par2 = par1.split(',')
 	    par3 = par2[1].strip('\n')
-            local_cmd = 'param set motor.cl.max' + par3
+            local_cmd = 'param set' + PARAMETER_NAMES + par3
 	    print local_cmd
 
         #serial_cmd(local_cmd, self.mySer)
