@@ -44,6 +44,24 @@ class DownLoaderForm(wx.Panel):
 	self.configurationFileName = fname
 	print '=============================='
 
+    def print_parameters(self):
+        """
+            Update filename in Configuration sizer.
+	    Then extract parameters.
+	"""
+        print 'Print out parameters'
+	self.txtFileName.SetLabel(self.configurationFileName)
+	self.extract_parameters(self.configParameters)
+
+    def extract_parameters(self, par):
+	print '..............................'
+	print len(par)
+        for i in range(0, len(par)):
+	    stripPar = par[i].strip('\n')
+	    splitPar = stripPar.split(',')
+	    print splitPar
+	print '..............................'
+
     def setup_serial_sizer(self):
         txtSerialPort = wx.StaticText(self, wx.ID_ANY, 'Select serial port')
 	txtSerPortSizer = wx.BoxSizer(wx.HORIZONTAL)
@@ -154,8 +172,4 @@ class DownLoaderForm(wx.Panel):
     def onConfig(self, event):
         print 'Config'
 	print self.configParameters
-
-    def print_parameters(self):
-        print 'Print out parameters'
-	self.txtFileName.SetLabel(self.configurationFileName)
 
