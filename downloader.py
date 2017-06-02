@@ -34,6 +34,19 @@ def serial_cmd(cmd, serial):
     except:
         print 'Not Connected!'
 
+
+def serial_read(cmd, no, serial):
+    # send command to serial port
+    serial.write(cmd+'\r');
+    serial.reset_input_buffer()
+    serial.reset_output_buffer()
+    serial.flush()
+
+    # read data from serial port
+    c = serial.read(no)
+    return c
+
+
 class DownLoaderForm(wx.Panel):
 
     def __init__(self, parent):
@@ -56,6 +69,19 @@ class DownLoaderForm(wx.Panel):
 	pub.subscribe(self.configListener, 'configListener')
 	pub.subscribe(self.serialListener, 'serialListener')
         logging.basicConfig(format="%(funcName)s() - %(message)s", level=logging.INFO)
+
+    def get_version(self):
+        self.ascenderVersion = serial_read('v', 56, self.mySer)
+        logging.info('Ascender version: %s', self.ascenderVersion) 
+	print self.ascenderVersion.split(" ")
+
+	#lblAscenderVersion = wx.StaticText(self.panel, label= ver[1:], pos=(150,Ypos2))
+        #ver = serial_cmd('r_v', self.ser)
+	#lblRemoteVersion = wx.StaticText(self.panel, label= ver[3:], pos=(150,Ypos2+60))
+ 
+        #self.remoteVersion = serial_read('r_v', 56, self.ser)
+	#print self.remoteVersion
+	#print self.remoteVersion.split(" ")
 
     def serialListener(self, message, fname=None):
         logging.info('')
@@ -143,16 +169,16 @@ class DownLoaderForm(wx.Panel):
 
         txtNull = wx.StaticText(self, wx.ID_ANY, ' ')
 
-        ascenderVersion = wx.StaticText(self, -1, "Ascender Version:")
-        remoteVersion = wx.StaticText(self, -1, "Remote Version:")
+        ascenderVersionHeadline = wx.StaticText(self, -1, "Ascender Version:")
+	lblAscenderVersion = wx.StaticText(self, -1, "no version")
+        remoteVersionHeadline = wx.StaticText(self, -1, "Remote Version:")
+	lblRemoteVersion = wx.StaticText(self, -1, "no version")
 
-        btnDownload = wx.Button(self, wx.ID_ANY, 'Download')
-        self.Bind(wx.EVT_BUTTON, self.onDownload, btnDownload)
-
-        statBoxSizer.Add(btnDownload, 0, wx.ALL, 20)
-        statBoxSizer.Add(ascenderVersion, 0, wx.ALL, 20)
+        statBoxSizer.Add(ascenderVersionHeadline, 0, wx.ALL, 20)
+        statBoxSizer.Add(lblAscenderVersion, 0, wx.ALL, 20)
         statBoxSizer.Add(txtNull, 0, wx.LEFT, 1000)
-        statBoxSizer.Add(remoteVersion, 0, wx.ALL, 20)
+        statBoxSizer.Add(remoteVersionHeadline, 0, wx.ALL, 20)
+        statBoxSizer.Add(lblRemoteVersion, 0, wx.ALL, 20)
 
 	return statBoxSizer
 
@@ -203,6 +229,7 @@ class DownLoaderForm(wx.Panel):
 	    self.lblConnect.SetLabel('Cannot connect')
 
 	pub.sendMessage('serialListener', message=self.ser)
+	self.get_version()
 
     def onDownload(self, event):
         logging.info('')
