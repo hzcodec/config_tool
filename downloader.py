@@ -33,7 +33,7 @@ class DownLoaderForm(wx.Panel):
 	configSizer = self.setup_config_sizer()
 
 	self.connected = False # flag indicating if connection to serial port is established
-#
+
         topSizer = wx.BoxSizer(wx.VERTICAL)
 	topSizer.Add(downloadSizer, 0, wx.TOP|wx.LEFT, 10)
 	topSizer.Add(versionSizer, 0, wx.TOP|wx.LEFT, 10)
@@ -62,7 +62,6 @@ class DownLoaderForm(wx.Panel):
 	    Then extract parameters.
 	"""
         logging.info('')
-	#print self.configParameters
 	self.config_parameters()
 
     def config_parameters(self):
@@ -72,19 +71,20 @@ class DownLoaderForm(wx.Panel):
 	"""
 	parListLength = len(self.configParameters)
         logging.info('Par list length: %s', parListLength)
-
-	self.txtFileName.SetLabel("Configuration ongoing")
+	self.txtFileName.SetLabel(self.configurationFileName)
 
 	for parIndex in range(0, parListLength):
 	    par1 = self.configParameters[parIndex]
 	    par2 = par1.split(',')
 	    par3 = par2[1].strip('\n')
             local_cmd = 'param set ' + PARAMETER_NAMES[parIndex] + par3
+
 	    print local_cmd
             #serial_cmd(local_cmd, self.mySer)
-            time.sleep(0.5)
+            time.sleep(0.3)
+	    self.gauge.SetValue(parIndex)
+	    wx.Yield()
 
-	self.txtFileName.SetLabel(self.configurationFileName)
 
 
     def setup_serial_sizer(self):
@@ -151,11 +151,14 @@ class DownLoaderForm(wx.Panel):
         txtNull = wx.StaticText(self, wx.ID_ANY, ' ')
 
         self.txtConfiguration = wx.StaticText(self, -1, "Configuration file:")
-        self.txtFileName = wx.StaticText(self, -1, "No file name selected")
+        self.txtFileName = wx.StaticText(self, -1, "No config file selected")
+
+        self.gauge = wx.Gauge(self, range = 18, size = (250, 25)) 
 
 	configSizer = wx.BoxSizer(wx.HORIZONTAL)
         configSizer.Add(self.txtConfiguration, 0, wx.TOP|wx.LEFT, 10)
         configSizer.Add(self.txtFileName, 0, wx.TOP|wx.LEFT, 10)
+        configSizer.Add(self.gauge, 0, wx.TOP|wx.LEFT, 10)
 
         btnConfig= wx.Button(self, wx.ID_ANY, 'Config')
         self.Bind(wx.EVT_BUTTON, self.onConfig, btnConfig)
