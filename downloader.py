@@ -1,5 +1,6 @@
 import wx
 import serial
+import logging
 from wx.lib.pubsub import pub
 from wx.lib.pubsub import setupkwargs
 
@@ -34,6 +35,7 @@ class DownLoaderForm(wx.Panel):
         self.SetSizer(topSizer)
 
 	pub.subscribe(self.configListener, 'configListener')
+        logging.basicConfig( format="%(funcName)s():", level=logging.INFO)
 
     # handle configuration data read from 'Open'
     def configListener(self, message, fname=None):
@@ -49,18 +51,25 @@ class DownLoaderForm(wx.Panel):
             Update filename in Configuration sizer.
 	    Then extract parameters.
 	"""
-        print 'Print out parameters'
+        logging.info('')
 	self.txtFileName.SetLabel(self.configurationFileName)
 	self.extract_parameters(self.configParameters)
+	self.config_parameters(self.configParameters)
 
     def extract_parameters(self, par):
 	print '..............................'
-	print len(par)
         for i in range(0, len(par)):
 	    stripPar = par[i].strip('\n')
 	    splitPar = stripPar.split(',')
 	    print splitPar
 	print '..............................'
+
+    def config_parameters(self, par):
+	splitPar = par[0].split('\n')
+	print '', logging.info(''), splitPar[1]
+        local_cmd = 'param set motor.cl.max ' + splitPar[1]
+	print local_cmd
+        #serial_cmd(local_cmd, self.ser)
 
     def setup_serial_sizer(self):
         txtSerialPort = wx.StaticText(self, wx.ID_ANY, 'Select serial port')
