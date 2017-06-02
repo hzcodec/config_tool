@@ -1,3 +1,13 @@
+# Auther      : Heinz Samuelsson
+# Date        : 2017-06-02
+# File        : downloader.py, part of prod_test_tool.py
+# Reference   : -
+# Description : Remember to set gauge size according to the length of parameter list.
+#               Right now the length is: range = 18
+#               The length is extracted in config_parameters() function.
+#
+# Python ver  : 2.7.3 (gcc 4.6.3)
+
 import wx
 import serial
 import logging
@@ -73,6 +83,7 @@ class DownLoaderForm(wx.Panel):
         logging.info('Par list length: %s', parListLength)
 	self.txtFileName.SetLabel(self.configurationFileName)
 
+	# get all parameters and its corresponding command
 	for parIndex in range(0, parListLength):
 	    par1 = self.configParameters[parIndex]
 	    par2 = par1.split(',')
