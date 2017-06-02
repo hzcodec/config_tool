@@ -25,7 +25,7 @@ BLACK = (0, 0, 0)
 
 def print_const():
    app = wx.GetApp()
-   print app.frame.tabDownLoader.ser
+   #print app.frame.tabDownLoader.ser
 
 
 class MainFrame(wx.Frame):
@@ -90,11 +90,11 @@ class MainFrame(wx.Frame):
 	openFileDialog = wx.FileDialog(self, "Open", "", "", "ACX/TCX config files (*.txt)|*.txt", wx.FD_OPEN | wx.FD_FILE_MUST_EXIST)
         openFileDialog.ShowModal()
         openFileDialog.GetPath()
-	print openFileDialog.GetPath()
+	#print openFileDialog.GetPath()
 
 	with open(openFileDialog.GetPath()) as f:
           lines = f.readlines()
-	  print lines
+	  #print lines
 
         # pass information to downloader and prodtest
 	pub.sendMessage('configListener', message=lines, fname=openFileDialog.GetFilename())

@@ -54,7 +54,6 @@ class ProdTestForm(wx.Panel):
     def configListener(self, message, fname=None):
         #print 'msg:', message
 	self.configParameters = message
-	print '------------------------------'
 	#print self.configParameters
 	self.extract_parameters(self.configParameters)
 

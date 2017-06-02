@@ -8,6 +8,11 @@ GREY  = (180, 180, 180)
 BLACK = (0, 0, 0)
 TEXT_SERIAL_PORT_BORDER = 10
 
+PARAMETER_NAMES = ['motor.cl.max', 'motor.cl.min', 'motor.sl.ki', 'motor.sl.max', 'motor.sl.min', \
+                   'throttle.has_switch', 'power_margin', 'power_factor', 'led.brightness_lo', 'brake_temp_ok', \
+		   'brake_temp_hi', 'brake_max_id', 'brake_test.pos_ratio', 'trajec.acc', 'trajec.ret', \
+		   'dominant_throttle_on', 'max_motor_temp', 'num_motor_ch', 'idle_timeout']
+
 def serial_cmd(cmd, serial):
     # send command to serial port
     try:
@@ -27,7 +32,7 @@ class DownLoaderForm(wx.Panel):
 	configSizer = self.setup_config_sizer()
 
 	self.connected = False # flag indicating if connection to serial port is established
-
+#
         topSizer = wx.BoxSizer(wx.VERTICAL)
 	topSizer.Add(downloadSizer, 0, wx.TOP|wx.LEFT, 10)
 	topSizer.Add(versionSizer, 0, wx.TOP|wx.LEFT, 10)
@@ -61,12 +66,19 @@ class DownLoaderForm(wx.Panel):
 	self.config_parameters()
 
     def config_parameters(self):
-        logging.info('')
-	par1 = self.configParameters[0]
-	par2 = par1.split(',')
-	par3 = par2[1].strip('\n')
-        local_cmd = 'param set motor.cl.max' + par3
-	print local_cmd
+        """
+            Configure parameters via serial IF.
+	    Parameters are configured when file is read.
+	"""
+	parListLength = len(self.configParameters)
+        logging.info('Par list length: %s', parListLength)
+
+	for parIndex in range(0, parListLength):
+	    par1 = self.configParameters[parIndex]
+	    par2 = par1.split(',')
+	    par3 = par2[1].strip('\n')
+            local_cmd = 'param set motor.cl.max' + par3
+	    print local_cmd
 
         #serial_cmd(local_cmd, self.mySer)
 
@@ -150,7 +162,7 @@ class DownLoaderForm(wx.Panel):
 	return statBoxSizer
 
     def onConnect(self, event):
-        print 'Connect:', self.comboBox.GetValue()
+        logging.info('Downloder connected to: %s', self.comboBox.GetValue())
 
 	try:
 	    self.connected = True
