@@ -5,8 +5,8 @@ import wx.lib.scrolledpanel as scrolled
 import downloader
 import calibration
 import prodtest
+from wx.lib.pubsub import pub
 from wx.lib.pubsub import setupkwargs
-from wx.lib.pubsub import pub as Publisher
 
 WINDOW_SIZE = (1035, 870)
 
@@ -77,12 +77,24 @@ class MainFrame(wx.Frame):
 	self.Bind(wx.EVT_MENU, self.onAbout, id=103)
 
     def onOpen(self, event):
-        print 'Open'
         print_const()
+	openFileDialog = wx.FileDialog(self, "Open", "", "", "ACX/TCX config files (*.txt)|*.txt", wx.FD_OPEN | wx.FD_FILE_MUST_EXIST)
+        openFileDialog.ShowModal()
+        openFileDialog.GetPath()
+	print openFileDialog.GetPath()
+
+	with open(openFileDialog.GetPath()) as f:
+          lines = f.readlines()
+	  print lines
+
+	pub.sendMessage('configListener', message=lines)
+        openFileDialog.Destroy()
 
     def onSave(self, event):
-        print 'Save'
-        print self.tabDownLoader.ser
+	saveFileDialog = wx.FileDialog(self, "Save As", "", "", "ACX/TCX config files (*.txt)|*.txt", wx.FD_SAVE | wx.FD_OVERWRITE_PROMPT)
+        saveFileDialog.ShowModal()
+        saveFileDialog.GetPath()
+        saveFileDialog.Destroy()
 
     def onLock(self, event):
         self.tabProdTest.lock_text_controls()
