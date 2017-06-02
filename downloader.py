@@ -167,7 +167,8 @@ class DownLoaderForm(wx.Panel):
 	statBoxDownload.SetForegroundColour(BLACK)
         statBoxSizer = wx.StaticBoxSizer(statBoxDownload, wx.VERTICAL)
 
-        txtNull = wx.StaticText(self, wx.ID_ANY, ' ')
+        txtNull  = wx.StaticText(self, wx.ID_ANY, ' ')
+        txtNull2 = wx.StaticText(self, wx.ID_ANY, ' ')
 
         ascenderVersionHeadline = wx.StaticText(self, -1, "Ascender Version:")
 	self.lblAscenderVersion = wx.StaticText(self, -1, "\nno version")
@@ -185,14 +186,15 @@ class DownLoaderForm(wx.Panel):
 	remoteASizer = wx.BoxSizer(wx.HORIZONTAL)
 	remoteASizer.Add(remoteVersionHeadline, 0, wx.TOP|wx.RIGHT, 20)
 	remoteBSizer = wx.BoxSizer(wx.HORIZONTAL)
-	remoteBSizer.Add(self.lblRemoteVersion, 0, wx.TOP, 3)
+	remoteBSizer.Add(self.lblRemoteVersion, 0, wx.TOP, 0)
 	remoteSizer = wx.BoxSizer(wx.HORIZONTAL)
 	remoteSizer.Add(remoteASizer, 0, wx.ALL, 5)
-	remoteSizer.Add(remoteBSizer, 0, wx.ALL, 5)
+	remoteSizer.Add(remoteBSizer, 0, wx.ALL, 10)
 
-        statBoxSizer.Add(ascenderSizer, 0, wx.TOP, 10)
-        statBoxSizer.Add(remoteSizer, 0, wx.TOP|wx.BOTTOM, 20)
+        statBoxSizer.Add(ascenderSizer, 0, wx.TOP|wx.BOTTOM|wx.LEFT, 10)
+        statBoxSizer.Add(remoteSizer, 0, wx.BOTTOM|wx.LEFT, 10)
         statBoxSizer.Add(txtNull, 0, wx.LEFT, 1000)
+        statBoxSizer.Add(txtNull2, 0, wx.BOTTOM, 5)
 
 	return statBoxSizer
 
