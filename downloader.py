@@ -73,16 +73,15 @@ class DownLoaderForm(wx.Panel):
     def get_version(self):
         self.ascenderVersion = serial_read('v', 56, self.mySer)
         logging.info('Ascender version: %s', self.ascenderVersion) 
-	print self.ascenderVersion.split(" ")
+	#print self.ascenderVersion.split(" ")
+	print self.ascenderVersion.split("v")
+	kalle = self.ascenderVersion.split("v")
+	self.lblAscenderVersion.SetLabel(kalle[1])
 
-	#lblAscenderVersion = wx.StaticText(self.panel, label= ver[1:], pos=(150,Ypos2))
-        #ver = serial_cmd('r_v', self.ser)
-	#lblRemoteVersion = wx.StaticText(self.panel, label= ver[3:], pos=(150,Ypos2+60))
+        self.remoteVersion = serial_cmd('r_v', 56, self.mySer)
+	olle = self.remoteVersion.split("r_v")
+	self.lblRemoteVersion.SetLabel(olle[1])
  
-        #self.remoteVersion = serial_read('r_v', 56, self.ser)
-	#print self.remoteVersion
-	#print self.remoteVersion.split(" ")
-
     def serialListener(self, message, fname=None):
         logging.info('')
 	self.mySer = message
@@ -170,16 +169,26 @@ class DownLoaderForm(wx.Panel):
         txtNull = wx.StaticText(self, wx.ID_ANY, ' ')
 
         ascenderVersionHeadline = wx.StaticText(self, -1, "Ascender Version:")
-	lblAscenderVersion = wx.StaticText(self, -1, "no version")
+	self.lblAscenderVersion = wx.StaticText(self, -1, "\nno version")
+	ascenderASizer = wx.BoxSizer(wx.HORIZONTAL)
+	ascenderASizer.Add(ascenderVersionHeadline, 0, wx.TOP|wx.RIGHT, 20)
+
+	ascenderBSizer = wx.BoxSizer(wx.HORIZONTAL)
+	ascenderBSizer.Add(self.lblAscenderVersion, 0, wx.TOP, 3)
 	ascenderSizer = wx.BoxSizer(wx.HORIZONTAL)
-	ascenderSizer.Add(ascenderVersionHeadline, 0, wx.LEFT, 10)
-	ascenderSizer.Add(lblAscenderVersion, 0, wx.LEFT, 10)
+	ascenderSizer.Add(ascenderASizer, 0, wx.ALL, 5)
+	ascenderSizer.Add(ascenderBSizer, 0, wx.ALL, 5)
+
 
         remoteVersionHeadline = wx.StaticText(self, -1, "Remote Version:")
-	lblRemoteVersion = wx.StaticText(self, -1, "no version")
+	self.lblRemoteVersion = wx.StaticText(self, -1, "no version")
+	remoteASizer = wx.BoxSizer(wx.HORIZONTAL)
+	remoteASizer.Add(remoteVersionHeadline, 0, wx.TOP|wx.RIGHT, 20)
+	remoteBSizer = wx.BoxSizer(wx.HORIZONTAL)
+	remoteBSizer.Add(self.lblRemoteVersion, 0, wx.TOP, 3)
 	remoteSizer = wx.BoxSizer(wx.HORIZONTAL)
-	remoteSizer.Add(remoteVersionHeadline, 0, wx.LEFT, 10)
-	remoteSizer.Add(lblRemoteVersion, 0, wx.LEFT, 10)
+	remoteSizer.Add(remoteASizer, 0, wx.ALL, 5)
+	remoteSizer.Add(remoteBSizer, 0, wx.ALL, 5)
 
         statBoxSizer.Add(ascenderSizer, 0, wx.ALL, 20)
         statBoxSizer.Add(remoteSizer, 0, wx.ALL, 20)
