@@ -1,6 +1,7 @@
 import wx
 import serial
 import logging
+import time
 from wx.lib.pubsub import pub
 from wx.lib.pubsub import setupkwargs
 
@@ -61,7 +62,6 @@ class DownLoaderForm(wx.Panel):
 	    Then extract parameters.
 	"""
         logging.info('')
-	self.txtFileName.SetLabel(self.configurationFileName)
 	#print self.configParameters
 	self.config_parameters()
 
@@ -73,14 +73,19 @@ class DownLoaderForm(wx.Panel):
 	parListLength = len(self.configParameters)
         logging.info('Par list length: %s', parListLength)
 
+	self.txtFileName.SetLabel("Configuration ongoing")
+
 	for parIndex in range(0, parListLength):
 	    par1 = self.configParameters[parIndex]
 	    par2 = par1.split(',')
 	    par3 = par2[1].strip('\n')
-            local_cmd = 'param set' + PARAMETER_NAMES + par3
+            local_cmd = 'param set ' + PARAMETER_NAMES[parIndex] + par3
 	    print local_cmd
+            #serial_cmd(local_cmd, self.mySer)
+            time.sleep(0.5)
 
-        #serial_cmd(local_cmd, self.mySer)
+	self.txtFileName.SetLabel(self.configurationFileName)
+
 
     def setup_serial_sizer(self):
         txtSerialPort = wx.StaticText(self, wx.ID_ANY, 'Select serial port')
