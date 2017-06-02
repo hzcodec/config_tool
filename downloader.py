@@ -73,12 +73,13 @@ class DownLoaderForm(wx.Panel):
     def get_version(self):
         self.ascenderVersion = serial_read('v', 56, self.mySer)
         logging.info('Ascender version: %s', self.ascenderVersion) 
-	#print self.ascenderVersion.split(" ")
+
 	print self.ascenderVersion.split("v")
 	kalle = self.ascenderVersion.split("v")
 	self.lblAscenderVersion.SetLabel(kalle[1])
 
-        self.remoteVersion = serial_cmd('r_v', 56, self.mySer)
+        self.remoteVersion = serial_read('r_v', 56, self.mySer)
+        logging.info('Remote version: %s', self.remoteVersion) 
 	olle = self.remoteVersion.split("r_v")
 	self.lblRemoteVersion.SetLabel(olle[1])
  
@@ -179,9 +180,8 @@ class DownLoaderForm(wx.Panel):
 	ascenderSizer.Add(ascenderASizer, 0, wx.ALL, 5)
 	ascenderSizer.Add(ascenderBSizer, 0, wx.ALL, 5)
 
-
         remoteVersionHeadline = wx.StaticText(self, -1, "Remote Version:")
-	self.lblRemoteVersion = wx.StaticText(self, -1, "no version")
+	self.lblRemoteVersion = wx.StaticText(self, -1, "\nno version")
 	remoteASizer = wx.BoxSizer(wx.HORIZONTAL)
 	remoteASizer.Add(remoteVersionHeadline, 0, wx.TOP|wx.RIGHT, 20)
 	remoteBSizer = wx.BoxSizer(wx.HORIZONTAL)
@@ -190,8 +190,8 @@ class DownLoaderForm(wx.Panel):
 	remoteSizer.Add(remoteASizer, 0, wx.ALL, 5)
 	remoteSizer.Add(remoteBSizer, 0, wx.ALL, 5)
 
-        statBoxSizer.Add(ascenderSizer, 0, wx.ALL, 20)
-        statBoxSizer.Add(remoteSizer, 0, wx.ALL, 20)
+        statBoxSizer.Add(ascenderSizer, 0, wx.TOP, 10)
+        statBoxSizer.Add(remoteSizer, 0, wx.TOP|wx.BOTTOM, 20)
         statBoxSizer.Add(txtNull, 0, wx.LEFT, 1000)
 
 	return statBoxSizer
