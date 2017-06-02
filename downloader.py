@@ -125,15 +125,13 @@ class DownLoaderForm(wx.Panel):
         self.Bind(wx.EVT_BUTTON, self.onConnect, btnConnect)
 	self.lblConnect = wx.StaticText(self, label= 'Not connected')
 
-        btnQuit = wx.Button(self, wx.ID_ANY, 'Quit')
-	btnQuitSizer = wx.BoxSizer(wx.HORIZONTAL)
-	btnQuitSizer.Add(btnQuit, 0, wx.ALL, 20)
+        txtNull = wx.StaticText(self, wx.ID_ANY, ' ')
 
         statBoxSizer.Add(txtSerPortSizer, 0, wx.TOP|wx.BOTTOM|wx.LEFT, 15)
         statBoxSizer.Add(comboSizer, 0, wx.TOP|wx.BOTTOM|wx.LEFT, 10)
         statBoxSizer.Add(btnConnect, 0, wx.TOP|wx.BOTTOM|wx.LEFT, 20)
         statBoxSizer.Add(self.lblConnect, 0, wx.TOP|wx.BOTTOM|wx.LEFT, 25)
-        statBoxSizer.Add(btnQuitSizer, 0, wx.LEFT, 420)
+        statBoxSizer.Add(txtNull, 0, wx.LEFT, 545) # this is just to get the statBoxSerial larger 
 
 	return statBoxSizer
 

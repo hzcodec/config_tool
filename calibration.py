@@ -1,4 +1,5 @@
 import wx
+import logging
 from wx.lib.pubsub import pub
 from wx.lib.pubsub import setupkwargs
 # Add text 'remember to save par after calib'
@@ -41,6 +42,7 @@ class CalibForm(wx.Panel):
         self.SetSizer(topSizer)
 
 	pub.subscribe(self.serialListener, 'serialListener')
+        logging.basicConfig(format="%(funcName)s() - %(message)s", level=logging.INFO)
 
     def serialListener(self, message, fname=None):
         print 'msg:', message
@@ -125,7 +127,7 @@ class CalibForm(wx.Panel):
 	return statBoxSizer
 
     def onAlign(self, event):
-        print 'Align'
+        logging.info('')
         serial_cmd('align', self.mySer)
 
     def onCalibRight(self, event):
