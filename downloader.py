@@ -37,9 +37,9 @@ class DownLoaderForm(wx.Panel):
 
     # handle configuration data read from 'Open'
     def configListener(self, message, fname=None):
-	print '=============================='
+	#print '=============================='
 	print 'fname:', fname
-        print 'msg:', message
+        #print 'msg:', message
 	self.configParameters = message
 	self.configurationFileName = fname
 	print '=============================='
@@ -153,7 +153,9 @@ class DownLoaderForm(wx.Panel):
 
     def onConfig(self, event):
         print 'Config'
+	print self.configParameters
 
     def print_parameters(self):
         print 'Print out parameters'
 	self.txtFileName.SetLabel(self.configurationFileName)
+
