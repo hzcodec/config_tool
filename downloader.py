@@ -171,14 +171,19 @@ class DownLoaderForm(wx.Panel):
 
         ascenderVersionHeadline = wx.StaticText(self, -1, "Ascender Version:")
 	lblAscenderVersion = wx.StaticText(self, -1, "no version")
+	ascenderSizer = wx.BoxSizer(wx.HORIZONTAL)
+	ascenderSizer.Add(ascenderVersionHeadline, 0, wx.LEFT, 10)
+	ascenderSizer.Add(lblAscenderVersion, 0, wx.LEFT, 10)
+
         remoteVersionHeadline = wx.StaticText(self, -1, "Remote Version:")
 	lblRemoteVersion = wx.StaticText(self, -1, "no version")
+	remoteSizer = wx.BoxSizer(wx.HORIZONTAL)
+	remoteSizer.Add(remoteVersionHeadline, 0, wx.LEFT, 10)
+	remoteSizer.Add(lblRemoteVersion, 0, wx.LEFT, 10)
 
-        statBoxSizer.Add(ascenderVersionHeadline, 0, wx.ALL, 20)
-        statBoxSizer.Add(lblAscenderVersion, 0, wx.ALL, 20)
+        statBoxSizer.Add(ascenderSizer, 0, wx.ALL, 20)
+        statBoxSizer.Add(remoteSizer, 0, wx.ALL, 20)
         statBoxSizer.Add(txtNull, 0, wx.LEFT, 1000)
-        statBoxSizer.Add(remoteVersionHeadline, 0, wx.ALL, 20)
-        statBoxSizer.Add(lblRemoteVersion, 0, wx.ALL, 20)
 
 	return statBoxSizer
 
