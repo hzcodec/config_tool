@@ -53,21 +53,15 @@ class DownLoaderForm(wx.Panel):
 	"""
         logging.info('')
 	self.txtFileName.SetLabel(self.configurationFileName)
-	self.extract_parameters(self.configParameters)
-	self.config_parameters(self.configParameters)
+	#print self.configParameters
+	self.config_parameters()
 
-    def extract_parameters(self, par):
-	print '..............................'
-        for i in range(0, len(par)):
-	    stripPar = par[i].strip('\n')
-	    splitPar = stripPar.split(',')
-	    print splitPar
-	print '..............................'
-
-    def config_parameters(self, par):
-	splitPar = par[0].split('\n')
-	print '', logging.info(''), splitPar[1]
-        local_cmd = 'param set motor.cl.max ' + splitPar[1]
+    def config_parameters(self):
+        logging.info('')
+	par1 = self.configParameters[0]
+	par2 = par1.split(',')
+	par3 = par2[1].strip('\n')
+        local_cmd = 'param set motor.cl.max' + par3
 	print local_cmd
         #serial_cmd(local_cmd, self.ser)
 
