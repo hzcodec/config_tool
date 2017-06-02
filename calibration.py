@@ -56,14 +56,14 @@ class CalibForm(wx.Panel):
 	statBoxSerial.SetForegroundColour(BLACK)
         statBoxSizer = wx.StaticBoxSizer(statBoxSerial, wx.HORIZONTAL)
 
-        txtAlignment = wx.StaticText(self, wx.ID_ANY, 'Alignment not performed')
+        self.txtAlignment = wx.StaticText(self, wx.ID_ANY, 'Alignment not performed')
         txtNull = wx.StaticText(self, wx.ID_ANY, ' ')
 
         btnAlign = wx.Button(self, wx.ID_ANY, 'Align')
         self.Bind(wx.EVT_BUTTON, self.onAlign, btnAlign)
 
         statBoxSizer.Add(btnAlign, 0, wx.ALL, 20)
-        statBoxSizer.Add(txtAlignment, 0, wx.TOP|wx.LEFT|wx.RIGHT, 25)
+        statBoxSizer.Add(self.txtAlignment, 0, wx.TOP|wx.LEFT|wx.RIGHT, 25)
         statBoxSizer.Add(txtNull, 0, wx.LEFT, 650) # this is just to get the statBoxSerial larger 
 
 	return statBoxSizer
@@ -119,7 +119,7 @@ class CalibForm(wx.Panel):
         statBoxSizer = wx.StaticBoxSizer(statBoxSerial, wx.HORIZONTAL)
         txtNull = wx.StaticText(self, wx.ID_ANY, ' ')
 
-        self.txtAlertUser = wx.StaticText(self, wx.ID_ANY, 'Remember ...')
+        self.txtAlertUser = wx.StaticText(self, wx.ID_ANY, '...')
 
         self.btnSaveParam = wx.Button(self, wx.ID_ANY, 'Save Param')
         self.Bind(wx.EVT_BUTTON, self.onSaveParam, self.btnSaveParam)
@@ -130,11 +130,16 @@ class CalibForm(wx.Panel):
 	return statBoxSizer
 
     def onAlign(self, event):
-        logging.info('')
-        serial_cmd('align', self.mySer)
+        logging.info('Alignment initiated')
+	self.txtAlignment.SetForegroundColour(GREEN)
+	self.txtAlignment.SetLabel("Alignment initiated")
+	self.btnSaveParam.Enable(True)
+	self.operation = 'alignment'
+        #serial_cmd('align', self.mySer)
 
     def onCalibUp(self, event):
         logging.info('Calibration Up done')
+	self.btnSaveParam.Enable(False)
 	self.btnCalibRight.Enable(False)
 	self.btnCalibLeft.Enable(True)
 	self.txtThrottleMaxUp.SetForegroundColour(GREEN)
@@ -156,6 +161,7 @@ class CalibForm(wx.Panel):
 	self.txtThrottleNeutral.SetLabel("Down Calibration finished")
 	self.txtAlertUser.SetForegroundColour(RED)
 	self.txtAlertUser.SetLabel("Remember to save calibration result")
+	self.operation = 'calibration'
         #serial_cmd('throttle cal 0', self.mySer)
 	self.btnSaveParam.Enable(True)
 
@@ -174,5 +180,5 @@ class CalibForm(wx.Panel):
     def onSaveParam(self, event):
         logging.info('Save configuration after calibration')
 	self.txtAlertUser.SetForegroundColour(GREEN)
-	self.txtAlertUser.SetLabel("Parameter saved after calibration")
+	self.txtAlertUser.SetLabel("Parameter saved after " + self.operation)
         #serial_cmd('save param', self.mySer)
