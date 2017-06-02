@@ -35,10 +35,16 @@ class DownLoaderForm(wx.Panel):
         self.SetSizer(topSizer)
 
 	pub.subscribe(self.configListener, 'configListener')
+	pub.subscribe(self.serialListener, 'serialListener')
         logging.basicConfig( format="%(funcName)s():", level=logging.INFO)
+
+    def serialListener(self, message, fname=None):
+        logging.info('')
+	self.mySer = message
 
     # handle configuration data read from 'Open'
     def configListener(self, message, fname=None):
+        logging.info('')
 	#print '=============================='
 	print 'fname:', fname
         #print 'msg:', message
@@ -63,7 +69,8 @@ class DownLoaderForm(wx.Panel):
 	par3 = par2[1].strip('\n')
         local_cmd = 'param set motor.cl.max' + par3
 	print local_cmd
-        #serial_cmd(local_cmd, self.ser)
+
+        #serial_cmd(local_cmd, self.mySer)
 
     def setup_serial_sizer(self):
         txtSerialPort = wx.StaticText(self, wx.ID_ANY, 'Select serial port')
@@ -166,13 +173,13 @@ class DownLoaderForm(wx.Panel):
 	pub.sendMessage('serialListener', message=self.ser)
 
     def onDownload(self, event):
-        print 'Download'
+        logging.info('')
 	print_const()
 
     def onCombo(self, event):
         print 'Selected port: '
 
     def onConfig(self, event):
-        print 'Config'
+        logging.info('')
 	print self.configParameters
 
