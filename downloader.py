@@ -74,14 +74,13 @@ class DownLoaderForm(wx.Panel):
         self.ascenderVersion = serial_read('v', 56, self.mySer)
         logging.info('Ascender version: %s', self.ascenderVersion) 
 
-	print self.ascenderVersion.split("v")
-	kalle = self.ascenderVersion.split("v")
-	self.lblAscenderVersion.SetLabel(kalle[1])
+	aVersion = self.ascenderVersion.split("v")
+	self.lblAscenderVersion.SetLabel(aVersion[1])
 
         self.remoteVersion = serial_read('r_v', 56, self.mySer)
         logging.info('Remote version: %s', self.remoteVersion) 
-	olle = self.remoteVersion.split("r_v")
-	self.lblRemoteVersion.SetLabel(olle[1])
+	rVersion = self.remoteVersion.split("r_v")
+	self.lblRemoteVersion.SetLabel(rVersion[1])
  
     def serialListener(self, message, fname=None):
         logging.info('')
