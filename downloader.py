@@ -7,6 +7,13 @@ GREY  = (180, 180, 180)
 BLACK = (0, 0, 0)
 TEXT_SERIAL_PORT_BORDER = 10
 
+def serial_cmd(cmd, serial):
+    # send command to serial port
+    try:
+        serial.write(cmd + '\r');
+    except:
+        print 'Not Connected!'
+
 class DownLoaderForm(wx.Panel):
 
     def __init__(self, parent):
@@ -16,13 +23,26 @@ class DownLoaderForm(wx.Panel):
 
 	downloadSizer = self.setup_serial_sizer()
 	versionSizer = self.setup_version_sizer()
+	configSizer = self.setup_config_sizer()
 
 	self.connected = False # flag indicating if connection to serial port is established
 
         topSizer = wx.BoxSizer(wx.VERTICAL)
 	topSizer.Add(downloadSizer, 0, wx.TOP|wx.LEFT, 10)
 	topSizer.Add(versionSizer, 0, wx.TOP|wx.LEFT, 10)
+	topSizer.Add(configSizer, 0, wx.TOP|wx.LEFT, 10)
         self.SetSizer(topSizer)
+
+	pub.subscribe(self.configListener, 'configListener')
+
+    # handle configuration data read from 'Open'
+    def configListener(self, message, fname=None):
+	print '=============================='
+	print 'fname:', fname
+        print 'msg:', message
+	self.configParameters = message
+	self.configurationFileName = fname
+	print '=============================='
 
     def setup_serial_sizer(self):
         txtSerialPort = wx.StaticText(self, wx.ID_ANY, 'Select serial port')
@@ -79,6 +99,30 @@ class DownLoaderForm(wx.Panel):
 
 	return statBoxSizer
 
+    def setup_config_sizer(self):
+	statBoxDownload = wx.StaticBox(self, wx.ID_ANY, '  Configuration')
+	statBoxDownload.SetBackgroundColour(GREY)
+	statBoxDownload.SetForegroundColour(BLACK)
+        statBoxSizer = wx.StaticBoxSizer(statBoxDownload, wx.VERTICAL)
+
+        txtNull = wx.StaticText(self, wx.ID_ANY, ' ')
+
+        self.txtConfiguration = wx.StaticText(self, -1, "Configuration file:")
+        self.txtFileName = wx.StaticText(self, -1, "No file name selected")
+
+	configSizer = wx.BoxSizer(wx.HORIZONTAL)
+        configSizer.Add(self.txtConfiguration, 0, wx.TOP|wx.LEFT, 10)
+        configSizer.Add(self.txtFileName, 0, wx.TOP|wx.LEFT, 10)
+
+        btnConfig= wx.Button(self, wx.ID_ANY, 'Config')
+        self.Bind(wx.EVT_BUTTON, self.onConfig, btnConfig)
+
+        statBoxSizer.Add(configSizer, 0, wx.ALL, 15)
+        statBoxSizer.Add(btnConfig, 0, wx.ALL, 15)
+        statBoxSizer.Add(txtNull, 0, wx.LEFT, 1000)
+
+	return statBoxSizer
+
     def onConnect(self, event):
         print 'Connect:', self.comboBox.GetValue()
 
@@ -107,3 +151,9 @@ class DownLoaderForm(wx.Panel):
     def onCombo(self, event):
         print 'Selected port: '
 
+    def onConfig(self, event):
+        print 'Config'
+
+    def print_parameters(self):
+        print 'Print out parameters'
+	self.txtFileName.SetLabel(self.configurationFileName)

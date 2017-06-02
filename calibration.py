@@ -42,7 +42,7 @@ class CalibForm(wx.Panel):
 
 	pub.subscribe(self.serialListener, 'serialListener')
 
-    def serialListener(self, message, arg2=None):
+    def serialListener(self, message, fname=None):
         print 'msg:', message
 	self.mySer = message
 

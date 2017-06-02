@@ -1,5 +1,11 @@
 #!/usr/bin/python
 
+# Check these
+# https://groups.google.com/forum/#!topic/wxpython-users/_cEWQs8ws8I
+# https://stackoverflow.com/questions/8359644/wxpython-passing-a-value-to-wx-textctrl-from-another-class
+#   
+#
+
 import wx
 import wx.lib.scrolledpanel as scrolled
 import downloader
@@ -23,6 +29,9 @@ def print_const():
 
 
 class MainFrame(wx.Frame):
+    #def __init__(self):
+        #wx.Frame.__init__(self, None, wx.ID_ANY, title=HEADLINE, style=wx.DEFAULT_FRAME_STYLE, size=WINDOW_SIZE)
+        #self.panel = wx.Panel(self, wx.ID_ANY, style=wx.BORDER_RAISED)
 	
     def __init__(self, *args, **kwargs):
         wx.Frame.__init__(self, *args, **kwargs)
@@ -87,7 +96,9 @@ class MainFrame(wx.Frame):
           lines = f.readlines()
 	  print lines
 
-	pub.sendMessage('configListener', message=lines)
+        # pass information to downloader and prodtest
+	pub.sendMessage('configListener', message=lines, fname=openFileDialog.GetFilename())
+	self.tabDownLoader.print_parameters()
         openFileDialog.Destroy()
 
     def onSave(self, event):
@@ -142,16 +153,9 @@ class MainFrame(wx.Frame):
                 self.tabProdTest.txtCtrl_delay_start.Enable()
 
     def onAbout(self, event):
-        licence = """Required software versions not lower than -
-
-    Ascender:
-        Unjo 500:01 00153 C
-        220:02 00150 A
-        220:02 00111 PC5
-                         
-    Remote controller:
-        Unjo 500:01 00155 PB2
-        220:02 00121 PD1 """
+        licence = """Requires software versions -
+	             Ascender: 220 rev C
+	             Remote  : 111 rev D"""
         description = """Version 1.0"""
         info = wx.AboutDialogInfo()
         info.SetName("Production Test Tool for ActSafe's ACX/TCX")
@@ -171,3 +175,7 @@ class mainApp(wx.App):
 if __name__ == '__main__':
     app = mainApp() 
     app.MainLoop()
+#if __name__ == '__main__':
+#    app = wx.App()
+#    MainFrame().Show()
+#    app.MainLoop()

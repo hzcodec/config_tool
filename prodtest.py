@@ -47,22 +47,22 @@ class ProdTestForm(wx.Panel):
 	pub.subscribe(self.serialListener, 'serialListener')
 	pub.subscribe(self.configListener, 'configListener')
 
-    def serialListener(self, message, arg2=None):
+    def serialListener(self, message, fname=None):
         #print 'msg:', message
 	self.mySer = message
 
-    def configListener(self, message, arg2=None):
+    def configListener(self, message, fname=None):
         #print 'msg:', message
 	self.configParameters = message
 	print '------------------------------'
-	print self.configParameters
+	#print self.configParameters
 	self.extract_parameters(self.configParameters)
 
     def extract_parameters(self, par):
         for i in range(0, len(par)):
 	    stripPar = par[i].strip('\n')
 	    splitPar = stripPar.split(',')
-	    print splitPar
+	    #print splitPar
 
     def setup_config_params(self):
 
@@ -354,7 +354,6 @@ class ProdTestForm(wx.Panel):
         serial_cmd('e', self.mySer)
         time.sleep(1)
         serial_cmd('brake 0', self.mySer)
-        #self.runningUp = True
         time.sleep(1)
         serial_cmd('speed -' + str(speedValue), self.mySer)
 
