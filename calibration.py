@@ -41,6 +41,8 @@ class CalibForm(wx.Panel):
 	topSizer.Add(saveParamSizer, 0, wx.TOP|wx.LEFT, 10)
         self.SetSizer(topSizer)
 
+	self.btnSaveParam.Enable(False) # disabel save param button from beginning, enabled after last calibration
+
 	pub.subscribe(self.serialListener, 'serialListener')
         logging.basicConfig(format="%(funcName)s() - %(message)s", level=logging.INFO)
 
@@ -119,9 +121,9 @@ class CalibForm(wx.Panel):
 
         self.txtAlertUser = wx.StaticText(self, wx.ID_ANY, 'Remember ...')
 
-        btnSaveParam = wx.Button(self, wx.ID_ANY, 'Save Param')
-        self.Bind(wx.EVT_BUTTON, self.onSaveParam, btnSaveParam)
-        statBoxSizer.Add(btnSaveParam, 0, wx.ALL, 20)
+        self.btnSaveParam = wx.Button(self, wx.ID_ANY, 'Save Param')
+        self.Bind(wx.EVT_BUTTON, self.onSaveParam, self.btnSaveParam)
+        statBoxSizer.Add(self.btnSaveParam, 0, wx.ALL, 20)
         statBoxSizer.Add(self.txtAlertUser, 0, wx.ALL, 20)
         statBoxSizer.Add(txtNull, 0, wx.LEFT, 870) # this is just to get the statBoxSerial larger 
 
@@ -155,9 +157,10 @@ class CalibForm(wx.Panel):
 	self.txtAlertUser.SetForegroundColour(RED)
 	self.txtAlertUser.SetLabel("Remember to save calibration result")
         #serial_cmd('throttle cal 0', self.mySer)
+	self.btnSaveParam.Enable(True)
 
     def onCalibRestart(self, event):
-        print 'Calib Restart'
+        logging.info('Calibration Restarted')
 	self.txtThrottleMaxUp.SetForegroundColour(BLACK)
 	self.txtThrottleMaxUp.SetLabel("Turn throttle handle max up")
 	self.txtThrottleMaxDown.SetForegroundColour(BLACK)
@@ -165,8 +168,11 @@ class CalibForm(wx.Panel):
 	self.txtThrottleNeutral.SetForegroundColour(BLACK)
 	self.txtThrottleNeutral.SetLabel("Set throttle handle in neutal position")
 	self.btnCalibRight.Enable(True)
+	self.btnSaveParam.Enable(False)
+	self.txtAlertUser.SetLabel(" ")
 
     def onSaveParam(self, event):
+        logging.info('Save configuration after calibration')
 	self.txtAlertUser.SetForegroundColour(GREEN)
 	self.txtAlertUser.SetLabel("Parameter saved after calibration")
         #serial_cmd('save param', self.mySer)
