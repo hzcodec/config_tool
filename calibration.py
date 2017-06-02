@@ -120,6 +120,7 @@ class CalibForm(wx.Panel):
         self.txtAlertUser = wx.StaticText(self, wx.ID_ANY, 'Remember ...')
 
         btnSaveParam = wx.Button(self, wx.ID_ANY, 'Save Param')
+        self.Bind(wx.EVT_BUTTON, self.onSaveParam, btnSaveParam)
         statBoxSizer.Add(btnSaveParam, 0, wx.ALL, 20)
         statBoxSizer.Add(self.txtAlertUser, 0, wx.ALL, 20)
         statBoxSizer.Add(txtNull, 0, wx.LEFT, 870) # this is just to get the statBoxSerial larger 
@@ -165,3 +166,7 @@ class CalibForm(wx.Panel):
 	self.txtThrottleNeutral.SetLabel("Set throttle handle in neutal position")
 	self.btnCalibRight.Enable(True)
 
+    def onSaveParam(self, event):
+	self.txtAlertUser.SetForegroundColour(GREEN)
+	self.txtAlertUser.SetLabel("Parameter saved after calibration")
+        #serial_cmd('save param', self.mySer)
