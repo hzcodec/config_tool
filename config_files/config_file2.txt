@@ -17,3 +17,8 @@ dominant_throttle_on, 0
 max_motor_temp, 40.000
 num_motor_ch, 1
 idle_timeout, 3400
+rope_stuck_on, 1
+iq_alpha, 0.005
+speed_alpha, 0.05
+undershoot, -2.0
+delay_start, 5000

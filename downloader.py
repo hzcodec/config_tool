@@ -5,6 +5,7 @@
 # Description : Remember to set gauge size according to the length of parameter list.
 #               Right now the length is: range = 18
 #               The length is extracted in config_parameters() function.
+#               Also the PARAMETER_NAMES need to be updated.
 #
 # Python ver  : 2.7.3 (gcc 4.6.3)
 
@@ -19,10 +20,12 @@ GREY  = (180, 180, 180)
 BLACK = (0, 0, 0)
 TEXT_SERIAL_PORT_BORDER = 10
 
+# current parameters
 PARAMETER_NAMES = ['motor.cl.max', 'motor.cl.min', 'motor.sl.ki', 'motor.sl.max', 'motor.sl.min', \
                    'throttle.has_switch', 'power_margin', 'power_factor', 'led.brightness_lo', 'brake_temp_ok', \
 		   'brake_temp_hi', 'brake_max_id', 'brake_test.pos_ratio', 'trajec.acc', 'trajec.ret', \
-		   'dominant_throttle_on', 'max_motor_temp', 'num_motor_ch', 'idle_timeout']
+		   'dominant_throttle_on', 'max_motor_temp', 'num_motor_ch', 'idle_timeout', 'rope_stuck_on', \
+		   'iq_alpha', 'speed_alpha', 'undershoot', 'delay_start']
 
 def serial_cmd(cmd, serial):
     # send command to serial port
@@ -164,7 +167,7 @@ class DownLoaderForm(wx.Panel):
         self.txtConfiguration = wx.StaticText(self, -1, "Configuration file:")
         self.txtFileName = wx.StaticText(self, -1, "No config file selected")
 
-        self.gauge = wx.Gauge(self, range = 18, size = (250, 25)) 
+        self.gauge = wx.Gauge(self, range = 23, size = (250, 25)) 
 
 	configSizer = wx.BoxSizer(wx.HORIZONTAL)
         configSizer.Add(self.txtConfiguration, 0, wx.TOP|wx.LEFT, 10)
