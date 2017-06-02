@@ -80,8 +80,10 @@ class DownLoaderForm(wx.Panel):
     def config_parameters(self):
         """
             Configure parameters via serial IF.
-	    Parameters are configured when file is read.
+	    Parameters are configured when file is selected via Open.
+	    Save param button is disabled during configuration.
 	"""
+	self.btnSaveParam.Enable(False)
 	parListLength = len(self.configParameters)
         logging.info('Par list length: %s', parListLength)
 	self.txtFileName.SetLabel(self.configurationFileName)
@@ -98,6 +100,8 @@ class DownLoaderForm(wx.Panel):
             time.sleep(0.3)
 	    self.gauge.SetValue(parIndex)
 	    wx.Yield()
+
+	self.btnSaveParam.Enable(True)
 
 
 
@@ -174,11 +178,11 @@ class DownLoaderForm(wx.Panel):
         configSizer.Add(self.txtFileName, 0, wx.TOP|wx.LEFT, 10)
         configSizer.Add(self.gauge, 0, wx.TOP|wx.LEFT, 10)
 
-        btnConfig= wx.Button(self, wx.ID_ANY, 'Config')
-        self.Bind(wx.EVT_BUTTON, self.onConfig, btnConfig)
+        self.btnSaveParam= wx.Button(self, wx.ID_ANY, 'Save Param')
+        self.Bind(wx.EVT_BUTTON, self.onSaveParam, self.btnSaveParam)
 
         statBoxSizer.Add(configSizer, 0, wx.ALL, 15)
-        statBoxSizer.Add(btnConfig, 0, wx.ALL, 15)
+        statBoxSizer.Add(self.btnSaveParam, 0, wx.ALL, 15)
         statBoxSizer.Add(txtNull, 0, wx.LEFT, 1000)
 
 	return statBoxSizer
@@ -211,7 +215,7 @@ class DownLoaderForm(wx.Panel):
     def onCombo(self, event):
         print 'Selected port: '
 
-    def onConfig(self, event):
+    def onSaveParam(self, event):
+        # add check if param file has been loaded
         logging.info('')
-	print self.configParameters
 
