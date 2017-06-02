@@ -36,21 +36,19 @@ class DownLoaderForm(wx.Panel):
 
 	pub.subscribe(self.configListener, 'configListener')
 	pub.subscribe(self.serialListener, 'serialListener')
-        logging.basicConfig( format="%(funcName)s():", level=logging.INFO)
+        logging.basicConfig(format="%(funcName)s() - %(message)s", level=logging.INFO)
 
     def serialListener(self, message, fname=None):
         logging.info('')
 	self.mySer = message
 
-    # handle configuration data read from 'Open'
     def configListener(self, message, fname=None):
-        logging.info('')
-	#print '=============================='
-	print 'fname:', fname
-        #print 'msg:', message
+        """
+            Handle configuration data read from 'Open'.
+	"""
+        logging.info('File name: %s', fname)
 	self.configParameters = message
 	self.configurationFileName = fname
-	print '=============================='
 
     def print_parameters(self):
         """
