@@ -94,10 +94,10 @@ PARAMETER_NAMES = ['motor.cl.kp', 'motor.cl.ki', 'motor.cl.kt', 'motor.cl.max', 
 		   'trajec.acc', 'trajec.ret', 'throttle_zero', 'throttle_down', 'throttle_up' \
 		   'throttle_deadband_on', 'throttle_deadband_off', 'throttle_has_switch', 'num_motor_ch', \
 		   'power_out', 'power_in', 'brake_temp_ok', 'brake_temp_hi', 'brake_max_id', \
-		   'angle_offset', 'alignment_current', \ 
+		   'angle_offset', 'alignment_current', \
 		   'sin_bias', 'sin_gain', 'cos_bias', 'cos_gain', \
 		   'brake_test.pos_ratio', 'brake_test.net_ratio', 'psu_ok', 'led.brightness_hi', 'led.brightness_lo'\
-		   'idreg.kp', 'idreg.ki', 'idreg.kit', 'power_margin', 'power_factor', \
+		   'idreg.kp', 'idreg.ki', 'idreg.kt', 'power_margin', 'power_factor', \
 		   'speed_filter', 'max_motor_temp', 'idle_timeout', 'remote_ctrl_timeout', 'sock_lim_run_up', \
 		   'max_drive_temp', 'dominant_throttle_on', 'rope_stuck_on', 'iq_alpha', 'speed_alpha', \
 		   'mx', 'mi', 'delay_start', 'speed_lim', 'undershoot', 'ti']
@@ -185,6 +185,7 @@ class DownLoaderForm(wx.Panel):
 	"""
 	self.btnSaveParam.Enable(False)
 	parListLength = len(self.configParameters)
+	print parListLength
         logging.info('Par list length: %s', parListLength)
 	self.txtFileName.SetLabel(self.configurationFileName)
 
