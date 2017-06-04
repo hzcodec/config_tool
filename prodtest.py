@@ -1,5 +1,6 @@
 import wx
 import time
+import logging
 from wx.lib.pubsub import pub
 from wx.lib.pubsub import setupkwargs
 
@@ -16,6 +17,17 @@ def serial_cmd(cmd, serial):
         serial.write(cmd + '\r');
     except:
         print 'Not Connected!'
+
+def serial_read(cmd, no, serial):
+    # send command to serial port
+    serial.write(cmd+'\r');
+    serial.reset_input_buffer()
+    serial.reset_output_buffer()
+    serial.flush()
+
+    # read data from serial port
+    c = serial.read(no)
+    return c
 
 
 class ProdTestForm(wx.Panel):
@@ -46,6 +58,8 @@ class ProdTestForm(wx.Panel):
 	self.lock_text_controls()
 	pub.subscribe(self.serialListener, 'serialListener')
 	pub.subscribe(self.configListener, 'configListener')
+
+        logging.basicConfig(format="%(filename)s: %(funcName)s() - %(message)s", level=logging.INFO)
 
     def serialListener(self, message, fname=None):
         #print 'msg:', message
@@ -297,6 +311,7 @@ class ProdTestForm(wx.Panel):
         serial_cmd('v', self.mySer)
 
     def onConfigure(self, event):
+        logging.info('') 
         newClMax = float(self.txtCtrl_cl_max.GetValue())
 
 	if (newClMax == self.oldClMax):
@@ -341,7 +356,15 @@ class ProdTestForm(wx.Panel):
 	print 'Test Inject'
 
     def onGetIq(self, event):
-	print 'Get iq'
+        logging.info('') 
+	try:
+	    self.txtMultiCtrl.AppendText('get_iq ' + "\n")
+	    rv = serial_read('get_iq', 64, self.mySer)
+	    self.txtMultiCtrl.AppendText(rv[6:21])
+	    self.txtMultiCtrl.AppendText(rv[22:36])
+	    self.txtMultiCtrl.AppendText(rv[37:59] + "\n")
+	except:
+            logging.info('No data received') 
 
     def onSaveParam(self, event):
 	print 'Save param'
