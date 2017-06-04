@@ -266,4 +266,5 @@ class DownLoaderForm(wx.Panel):
     def onSaveParam(self, event):
         # add check if param file has been loaded
         logging.info('')
+        serial_cmd('save param', self.mySer)
 
