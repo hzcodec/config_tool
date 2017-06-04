@@ -7,6 +7,8 @@ from wx.lib.pubsub import setupkwargs
 BORDER1 = 5
 TEXT_SERIAL_PORT_BORDER = 10
 
+RED   = (255, 0, 0)
+WHITE   = (255, 255, 255)
 GREY  = (180, 180, 180)
 BLACK = (0, 0, 0)
 
@@ -59,7 +61,7 @@ class ProdTestForm(wx.Panel):
 	self.oldDelayStart = 5000
 
 	# flag if function is active
-	self.toggle      = False
+	self.toggle = False
 
 	configParamsSizer = self.setup_config_params()
 	enhancedMeasSizer = self.setup_test_enahanced_measuring()
@@ -238,8 +240,8 @@ class ProdTestForm(wx.Panel):
 
         btnConfigure = wx.Button(self, wx.ID_ANY, ' Configure   ')
         self.Bind(wx.EVT_BUTTON, self.onConfigure, btnConfigure)
-        btnTestInject = wx.Button(self, wx.ID_ANY, ' Test Inject ')
-        self.Bind(wx.EVT_BUTTON, self.onTestInject, btnTestInject)
+        self.btnTestInject = wx.Button(self, wx.ID_ANY, ' Test Inject ')
+        self.Bind(wx.EVT_BUTTON, self.onTestInject, self.btnTestInject)
         btnGetIq = wx.Button(self, wx.ID_ANY, '    Get iq          ')
         self.Bind(wx.EVT_BUTTON, self.onGetIq, btnGetIq)
         btnSaveParam = wx.Button(self, wx.ID_ANY, ' Save Param')
@@ -261,7 +263,7 @@ class ProdTestForm(wx.Panel):
 
 	paramSizer3 = wx.BoxSizer(wx.HORIZONTAL)
 	paramSizer3.Add(btnConfigure, 0, wx.RIGHT, 10)
-	paramSizer3.Add(btnTestInject, 0, wx.LEFT, 15)
+	paramSizer3.Add(self.btnTestInject, 0, wx.LEFT, 15)
 	paramSizer3.Add(btnGetIq, 0, wx.LEFT, 15)
 	paramSizer3.Add(btnSaveParam, 0, wx.LEFT, 15)
 
@@ -360,7 +362,7 @@ class ProdTestForm(wx.Panel):
             time.sleep(1)
 	    # unicode mess ;-)
 	    local_cmd = 'param set motor.cl.min ' + self.txtCtrl_cl_min.GetValue().encode('ascii', 'ignore')
-            serial_cmd(local_cmd, self.ser)
+            serial_cmd(local_cmd, self.mySer)
 	    self.txtMultiCtrl.AppendText('cl.min updated' + "\n")
 
 	self.oldClMin = newClMin
@@ -375,7 +377,7 @@ class ProdTestForm(wx.Panel):
             time.sleep(1)
 	    # unicode mess ;-)
 	    local_cmd = 'param set motor.sl.ki ' + self.txtCtrl_sl_ki.GetValue().encode('ascii', 'ignore')
-            serial_cmd(local_cmd, self.ser)
+            serial_cmd(local_cmd, self.mySer)
 	    self.txtMultiCtrl.AppendText('sl.ki updated' + "\n")
 
 	self.oldSlKi = newSlKi
@@ -407,24 +409,19 @@ class ProdTestForm(wx.Panel):
         self.txtCtrl_delay_start.Disable()
         
     def onTestInject(self, event):
-        logging.info('') 
 	if (self.toggle == False):
-	    try:
-	        self.txtMultiCtrl.AppendText('Inject On' + "\n")
-                serial_cmd('param set ti 1', self.ser)
-	        self.btnTestInject.SetBackgroundColour(RED)
-	        self.toggle = True
-	    except:
-                logging.info('Connect first') 
+            logging.info('Inject ON') 
+	    self.txtMultiCtrl.AppendText('Inject On' + "\n")
+            serial_cmd('param set ti 1', self.mySer)
+	    self.btnTestInject.SetBackgroundColour(RED)
+	    self.toggle = True
 
 	else:
-	    try:
-	        self.txtMultiCtrl.AppendText('Inject Off' + "\n")
-                serial_cmd('param set ti 0', self.ser)
-	        self.btnTestInject.SetBackgroundColour(BROWN)
-	        self.toggle = False
-	    except:
-                logging.info('Connect first') 
+            logging.info('Inject OFF') 
+	    self.txtMultiCtrl.AppendText('Inject Off' + "\n")
+            serial_cmd('param set ti 0', self.mySer)
+	    self.btnTestInject.SetBackgroundColour(WHITE)
+	    self.toggle = False
 
     def onGetIq(self, event):
         logging.info('') 
