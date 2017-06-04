@@ -95,7 +95,7 @@ class MainFrame(wx.Frame):
 	with open(openFileDialog.GetPath()) as f:
           lines = f.readlines()
 
-        # pass information to downloader and prodtest
+        # pass configuration parameters to downloader and prodtest
 	pub.sendMessage('configListener', message=lines, fname=openFileDialog.GetFilename())
 	self.tabDownLoader.print_parameters()
         openFileDialog.Destroy()
