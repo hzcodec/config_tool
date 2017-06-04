@@ -282,11 +282,11 @@ class ProdTestForm(wx.Panel):
 	bmpDown = wx.Bitmap("up2.png", wx.BITMAP_TYPE_ANY)
 	bmpStop = wx.Bitmap("stop.png", wx.BITMAP_TYPE_ANY)
 
-        btnTestRunUp = wx.BitmapButton(self, wx.ID_ANY, bitmap=bmpUp)
-        btnTestRunDown = wx.BitmapButton(self, wx.ID_ANY, bitmap=bmpDown)
+        self.btnTestRunUp = wx.BitmapButton(self, wx.ID_ANY, bitmap=bmpUp)
+        self.btnTestRunDown = wx.BitmapButton(self, wx.ID_ANY, bitmap=bmpDown)
         btnTestStop = wx.BitmapButton(self, wx.ID_ANY, bitmap=bmpStop)
-        self.Bind(wx.EVT_BUTTON, self.onTestRunUp, btnTestRunUp)
-        self.Bind(wx.EVT_BUTTON, self.onTestRunDown, btnTestRunDown)
+        self.Bind(wx.EVT_BUTTON, self.onTestRunUp, self.btnTestRunUp)
+        self.Bind(wx.EVT_BUTTON, self.onTestRunDown, self.btnTestRunDown)
         self.Bind(wx.EVT_BUTTON, self.onTestStop, btnTestStop)
 
         btnQuit = wx.Button(self, wx.ID_ANY, 'Quit')
@@ -303,8 +303,8 @@ class ProdTestForm(wx.Panel):
 	paramSizer1.Add(self.spinCtrlSpeed, 0, wx.TOP, 10)
 
 	paramSizer2 = wx.BoxSizer(wx.HORIZONTAL)
-	paramSizer2.Add(btnTestRunUp, 0, wx.TOP|wx.LEFT, 10)
-	paramSizer2.Add(btnTestRunDown, 0, wx.TOP|wx.LEFT, 10)
+	paramSizer2.Add(self.btnTestRunUp, 0, wx.TOP|wx.LEFT, 10)
+	paramSizer2.Add(self.btnTestRunDown, 0, wx.TOP|wx.LEFT, 10)
 	paramSizer2.Add(btnTestStop, 0, wx.TOP|wx.LEFT, 10)
 	paramSizer2.Add(btnQuitSizer, 0, wx.LEFT, 550)
 
@@ -444,6 +444,8 @@ class ProdTestForm(wx.Panel):
 
     def onTestRunUp(self, event):
         logging.info('') 
+	self.txtMultiCtrl.AppendText('Up command ' + "\n")
+        self.btnTestRunDown.Enable(False)
         speedValue = self.spinCtrlSpeed.GetValue()
         serial_cmd('e', self.mySer)
         time.sleep(1)
@@ -453,6 +455,8 @@ class ProdTestForm(wx.Panel):
 
     def onTestRunDown(self, event):
         logging.info('') 
+	self.txtMultiCtrl.AppendText('Down command ' + "\n")
+        self.btnTestRunUp.Enable(False)
         speedValue = self.spinCtrlSpeed.GetValue()
         serial_cmd('e', self.mySer)
         time.sleep(1)
@@ -463,11 +467,11 @@ class ProdTestForm(wx.Panel):
     def onTestStop(self, event):
         logging.info('') 
 	self.txtMultiCtrl.AppendText('Stop command ' + "\n")
-	serial_cmd('speed 0', self.ser)
+	serial_cmd('speed 0', self.mySer)
         time.sleep(1)
-	serial_cmd('d', self.ser)
+	serial_cmd('d', self.mySer)
         time.sleep(1)
-	serial_cmd('brake 1', self.ser)
+	serial_cmd('brake 1', self.mySer)
 	self.btnTestRunUp.Enable(True)
 	self.btnTestRunDown.Enable(True)
 	self.runningUp = False
