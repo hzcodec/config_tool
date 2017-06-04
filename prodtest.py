@@ -387,11 +387,12 @@ class ProdTestForm(wx.Panel):
             logging.info('No data received') 
 
     def onSaveParam(self, event):
-	print 'Save param'
+        logging.info('') 
+        #serial_cmd('save param', self.mySer)
+	self.txtMultiCtrl.AppendText('Parameter saved')
 
     def onTestRunUp(self, event):
-	print 'Test run Up'
-
+        logging.info('') 
         speedValue = self.spinCtrlSpeed.GetValue()
         serial_cmd('e', self.mySer)
         time.sleep(1)
@@ -400,10 +401,26 @@ class ProdTestForm(wx.Panel):
         serial_cmd('speed -' + str(speedValue), self.mySer)
 
     def onTestRunDown(self, event):
-        pass
+        logging.info('') 
+        speedValue = self.spinCtrlSpeed.GetValue()
+        serial_cmd('e', self.mySer)
+        time.sleep(1)
+        serial_cmd('brake 0', self.mySer)
+        time.sleep(1)
+        serial_cmd('speed ' + str(speedValue), self.mySer)
 
     def onTestStop(self, event):
-	print 'Test stop'
+        logging.info('') 
+	self.txtMultiCtrl.AppendText('Stop command ' + "\n")
+	serial_cmd('speed 0', self.ser)
+        time.sleep(1)
+	serial_cmd('d', self.ser)
+        time.sleep(1)
+	serial_cmd('brake 1', self.ser)
+	self.btnTestRunUp.Enable(True)
+	self.btnTestRunDown.Enable(True)
+	self.runningUp = False
+        self.runningDown = False
 
     def onCombo(self, event):
         print 'Selected port: '
