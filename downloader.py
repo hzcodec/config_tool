@@ -16,7 +16,7 @@ import time
 from wx.lib.pubsub import pub
 from wx.lib.pubsub import setupkwargs
 
-
+RED   = (255, 0 , 0)
 GREY  = (180, 180, 180)
 BLACK = (0, 0, 0)
 TEXT_SERIAL_PORT_BORDER = 10
@@ -79,6 +79,7 @@ class DownLoaderForm(wx.Panel):
         logging.basicConfig(format="%(filename)s: %(funcName)s() - %(message)s", level=logging.INFO)
         logging.info('Length of PARAMETER_NAMES: %d', len(PARAMETER_NAMES)) 
 	self.parameter_names_length = len(PARAMETER_NAMES)
+	self.btnSaveParam.Enable(False)
 
     def get_version(self):
         self.ascenderVersion = serial_read('v', 56, self.mySer)
@@ -118,25 +119,29 @@ class DownLoaderForm(wx.Panel):
 	    Parameters are configured when file is selected via Open.
 	    Save param button is disabled during configuration.
 	"""
-	self.btnSaveParam.Enable(False)
-	parListLength = len(self.configParameters)
-        logging.info('Par list length: %s', parListLength)
-	self.txtFileName.SetLabel(self.configurationFileName)
+	if (self.connected == True):
+	    self.btnSaveParam.Enable(False)
+	    parListLength = len(self.configParameters)
+            logging.info('Par list length: %s', parListLength)
+	    self.txtFileName.SetLabel(self.configurationFileName)
 
-	# get all parameters and its corresponding command
-	for parIndex in range(0, parListLength):
-	    par1 = self.configParameters[parIndex]
-	    par2 = par1.split(',')
-	    par3 = par2[1].strip('\n')
-            local_cmd = 'param set ' + PARAMETER_NAMES[parIndex] + par3
+	    # get all parameters and its corresponding command
+	    for parIndex in range(0, parListLength):
+	        par1 = self.configParameters[parIndex]
+	        par2 = par1.split(',')
+	        par3 = par2[1].strip('\n')
+                local_cmd = 'param set ' + PARAMETER_NAMES[parIndex] + par3
 
-	    print parIndex, local_cmd
-            serial_cmd(local_cmd, self.mySer)
-            time.sleep(0.3)
-	    self.gauge.SetValue(parIndex)
-	    wx.Yield()
+	        print parIndex, local_cmd
+                serial_cmd(local_cmd, self.mySer)
+                time.sleep(0.3)
+	        self.gauge.SetValue(parIndex)
+	        wx.Yield()
 
-	self.btnSaveParam.Enable(True)
+	    self.btnSaveParam.Enable(True)
+	else:
+            self.lblConnect.SetForegroundColour(RED)
+	    self.lblConnect.SetLabel("Port not Connected")
 
     def setup_serial_sizer(self):
         txtSerialPort = wx.StaticText(self, wx.ID_ANY, 'Select serial port')
