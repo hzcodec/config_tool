@@ -16,16 +16,91 @@ import time
 from wx.lib.pubsub import pub
 from wx.lib.pubsub import setupkwargs
 
+# motor.cl.kp: 0.229996
+# motor.cl.ki: 0.030518
+# motor.cl.kt: 1.000000
+# motor.cl.max: 51.000000
+# motor.cl.min: -51.000000
+
+# motor.sl.kp: 15.000000
+# motor.sl.ki: 0.250000
+# motor.sl.kt: 0.125000
+# motor.sl.max: 80.000000
+# motor.sl.min: -80.000000
+
+# trajec.acc: 80.000000
+# trajec.ret: 320.000000
+# throttle.zero: 0.501099
+# throttle.down: 0.328705
+# throttle.up: 0.672745
+
+# throttle.deadband_on: 0.030518
+# throttle.deadband_off: 0.027466
+# throttle.has_switch: 1
+# num_motor_ch: 1
+
+# power_out: 300.000000
+# power_in: 100.000000
+# brake_temp_ok: 60.000000
+# brake_temp_hi: 65.000000
+# brake_max_id: 40.000000
+
+# angle_offset: 0.473084
+# alignment_current: 40.000000
+
+# sin_bias: 0.050049
+# sin_gain: 4.946854
+# cos_bias: 0.051147
+# cos_gain: 4.949844
+
+# brake_test.pos_ratio: 0.399994
+# brake_test.neg_ratio: 0.199997
+# psu_ok: 0
+# led.brightness_hi: 0.300003
+# led.brightness_lo: 0.300003
+
+# idreg.kp: 0.009995
+# idreg.ki: 0.001007
+# idreg.kt: 0.500000
+# power_margin: 0.000000
+# power_factor: 1.000000
+
+# speed_filter: 2147483
+# max_motor_temp: 100.000000
+# idle_timeout: 14400
+# remote_ctrl_timeout: 10
+# soc_lim_run_up: 8
+
+# max_drive_temp: 85.000000
+# dominant_throttle_on: 1
+# rope_stuck_on: 1
+# iq_alpha: 0.005005
+# speed_alpha: 0.050003
+
+# mx: 40.000000
+# mi: -39.999984
+# delay_start: 5000
+# speed_lim: 5.000000
+# undershoot: -0.999985
+# ti: 0
+
 GREY  = (180, 180, 180)
 BLACK = (0, 0, 0)
 TEXT_SERIAL_PORT_BORDER = 10
 
 # current parameters
-PARAMETER_NAMES = ['motor.cl.max', 'motor.cl.min', 'motor.sl.ki', 'motor.sl.max', 'motor.sl.min', \
-                   'throttle.has_switch', 'power_margin', 'power_factor', 'led.brightness_lo', 'brake_temp_ok', \
-		   'brake_temp_hi', 'brake_max_id', 'brake_test.pos_ratio', 'trajec.acc', 'trajec.ret', \
-		   'dominant_throttle_on', 'max_motor_temp', 'num_motor_ch', 'idle_timeout', 'rope_stuck_on', \
-		   'iq_alpha', 'speed_alpha', 'undershoot', 'delay_start']
+PARAMETER_NAMES = ['motor.cl.kp', 'motor.cl.ki', 'motor.cl.kt', 'motor.cl.max', 'motor.cl.min', \
+                   'motor.sl.kp', 'motor.sl.ki', 'motor.sl.kt', 'motor.sl.max', 'motor.sl_min', \
+		   'trajec.acc', 'trajec.ret', 'throttle_zero', 'throttle_down', 'throttle_up' \
+		   'throttle_deadband_on', 'throttle_deadband_off', 'throttle_has_switch', 'num_motor_ch', \
+		   'power_out', 'power_in', 'brake_temp_ok', 'brake_temp_hi', 'brake_max_id', \
+		   'angle_offset', 'alignment_current', \ 
+		   'sin_bias', 'sin_gain', 'cos_bias', 'cos_gain', \
+		   'brake_test.pos_ratio', 'brake_test.net_ratio', 'psu_ok', 'led.brightness_hi', 'led.brightness_lo'\
+		   'idreg.kp', 'idreg.ki', 'idreg.kit', 'power_margin', 'power_factor', \
+		   'speed_filter', 'max_motor_temp', 'idle_timeout', 'remote_ctrl_timeout', 'sock_lim_run_up', \
+		   'max_drive_temp', 'dominant_throttle_on', 'rope_stuck_on', 'iq_alpha', 'speed_alpha', \
+		   'mx', 'mi', 'delay_start', 'speed_lim', 'undershoot', 'ti']
 
 def serial_cmd(cmd, serial):
     # send command to serial port
