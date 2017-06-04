@@ -98,7 +98,7 @@ PARAMETER_NAMES = ['motor.cl.kp', 'motor.cl.ki', 'motor.cl.kt', 'motor.cl.max', 
 		   'sin_bias', 'sin_gain', 'cos_bias', 'cos_gain', \
 		   'brake_test.pos_ratio', 'brake_test.net_ratio', 'psu_ok', 'led.brightness_hi', 'led.brightness_lo'\
 		   'idreg.kp', 'idreg.ki', 'idreg.kt', 'power_margin', 'power_factor', \
-		   'speed_filter', 'max_motor_temp', 'idle_timeout', 'remote_ctrl_timeout', 'sock_lim_run_up', \
+		   'speed_filter', 'max_motor_temp', 'idle_timeout', 'remote_ctrl_timeout', 'soc_lim_run_up', \
 		   'max_drive_temp', 'dominant_throttle_on', 'rope_stuck_on', 'iq_alpha', 'speed_alpha', \
 		   'mx', 'mi', 'delay_start', 'speed_lim', 'undershoot', 'ti']
 
@@ -144,6 +144,8 @@ class DownLoaderForm(wx.Panel):
 	pub.subscribe(self.configListener, 'configListener')
 	pub.subscribe(self.serialListener, 'serialListener')
         logging.basicConfig(format="%(funcName)s() - %(message)s", level=logging.INFO)
+        logging.info('Length of PARAMETER_NAMES: %d', len(PARAMETER_NAMES)) 
+	self.parameter_names_length = len(PARAMETER_NAMES)
 
     def get_version(self):
         self.ascenderVersion = serial_read('v', 56, self.mySer)
@@ -185,7 +187,6 @@ class DownLoaderForm(wx.Panel):
 	"""
 	self.btnSaveParam.Enable(False)
 	parListLength = len(self.configParameters)
-	print parListLength
         logging.info('Par list length: %s', parListLength)
 	self.txtFileName.SetLabel(self.configurationFileName)
 
@@ -284,7 +285,7 @@ class DownLoaderForm(wx.Panel):
         self.txtConfiguration = wx.StaticText(self, -1, "Configuration file:")
         self.txtFileName = wx.StaticText(self, -1, "No config file selected")
 
-        self.gauge = wx.Gauge(self, range = 23, size = (250, 25)) 
+        self.gauge = wx.Gauge(self, range = 56, size = (250, 25)) 
 
 	configSizer = wx.BoxSizer(wx.HORIZONTAL)
         configSizer.Add(self.txtConfiguration, 0, wx.TOP|wx.LEFT, 10)
