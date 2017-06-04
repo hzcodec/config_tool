@@ -94,7 +94,6 @@ class MainFrame(wx.Frame):
 
 	with open(openFileDialog.GetPath()) as f:
           lines = f.readlines()
-	  #print lines
 
         # pass information to downloader and prodtest
 	pub.sendMessage('configListener', message=lines, fname=openFileDialog.GetFilename())

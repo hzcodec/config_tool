@@ -3,7 +3,7 @@
 # File        : downloader.py, part of prod_test_tool.py
 # Reference   : -
 # Description : Remember to set gauge size according to the length of parameter list.
-#               Right now the length is: range = 18
+#               Right now the length is: range = 55
 #               The length is extracted in config_parameters() function.
 #               Also the PARAMETER_NAMES need to be updated.
 #
@@ -76,7 +76,7 @@ class DownLoaderForm(wx.Panel):
 
 	pub.subscribe(self.configListener, 'configListener')
 	pub.subscribe(self.serialListener, 'serialListener')
-        logging.basicConfig(format="%(funcName)s() - %(message)s", level=logging.INFO)
+        logging.basicConfig(format="%(filename)s: %(funcName)s() - %(message)s", level=logging.INFO)
         logging.info('Length of PARAMETER_NAMES: %d', len(PARAMETER_NAMES)) 
 	self.parameter_names_length = len(PARAMETER_NAMES)
 
@@ -131,7 +131,7 @@ class DownLoaderForm(wx.Panel):
             local_cmd = 'param set ' + PARAMETER_NAMES[parIndex] + par3
 
 	    print parIndex, local_cmd
-            #serial_cmd(local_cmd, self.mySer)
+            serial_cmd(local_cmd, self.mySer)
             time.sleep(0.3)
 	    self.gauge.SetValue(parIndex)
 	    wx.Yield()
