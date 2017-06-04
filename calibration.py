@@ -181,4 +181,4 @@ class CalibForm(wx.Panel):
         logging.info('Save configuration after calibration')
 	self.txtAlertUser.SetForegroundColour(GREEN)
 	self.txtAlertUser.SetLabel("Parameter saved after " + self.operation)
-        #serial_cmd('save param', self.mySer)
+        serial_cmd('save param', self.mySer)
