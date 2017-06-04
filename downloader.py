@@ -46,7 +46,7 @@ def serial_cmd(cmd, serial):
 def serial_read(cmd, no, serial):
     # send command to serial port
     serial.write(cmd+'\r');
-    serial.reset_input_buffer()
+    #serial.reset_input_buffer()
     serial.reset_output_buffer()
     serial.flush()
 
@@ -82,12 +82,13 @@ class DownLoaderForm(wx.Panel):
 	self.btnSaveParam.Enable(False)
 
     def get_version(self):
+        time.sleep(0.5)
         self.ascenderVersion = serial_read('v', 56, self.mySer)
 	print self.ascenderVersion
 	aVersion = self.ascenderVersion.split("v")
 	#self.lblAscenderVersion.SetLabel(self.ascenderVersion)
 	self.lblAscenderVersion.SetLabel(aVersion[1])
-        time.sleep(0.5)
+        time.sleep(1)
 
         self.remoteVersion = serial_read('r_v', 56, self.mySer)
 	print self.remoteVersion

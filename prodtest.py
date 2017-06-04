@@ -40,6 +40,23 @@ class ProdTestForm(wx.Panel):
 
 	# define initial values for the parameters
 	self.oldClMax = 51.00
+	self.oldClMin = -51.00
+	self.oldSlKi = 0.030518
+	self.oldThrottleHasSwitch = 1
+	self.oldSlMax = 80.0000
+	self.oldSlMin = -80.0000
+	self.oldPowerMargin = 0.0000
+	self.oldPowerFactor = 1.0000
+	self.oldBrakeTempOk = 60.000
+	self.oldBrakeTempHi = 65.000
+	self.oldBrakeMaxId = 40.000
+	self.oldBrakePosRatio = 0.3999
+	self.oldDominantThrottle = 1
+	self.oldIqAlpha = 0.005
+	self.oldSpeedAlpha = 0.05
+	self.oldUndershoot = -1.0
+	self.oldRopeStuckOn = 1
+	self.oldDelayStart = 5000
 
 	# flag if function is active
 	self.toggle      = False
@@ -315,6 +332,10 @@ class ProdTestForm(wx.Panel):
 
     def onConfigure(self, event):
         logging.info('') 
+
+	# ----------------------------------------------------------------------------------------------------
+        # cl max
+	# ----------------------------------------------------------------------------------------------------
         newClMax = float(self.txtCtrl_cl_max.GetValue())
 
 	if (newClMax == self.oldClMax):
@@ -328,6 +349,36 @@ class ProdTestForm(wx.Panel):
 	    self.txtMultiCtrl.AppendText('cl.max updated to: ' + str(newClMax) + "\n")
 
 	self.oldClMax = newClMax
+
+	# ----------------------------------------------------------------------------------------------------
+        # cl min
+	# ----------------------------------------------------------------------------------------------------
+        newClMin = float(self.txtCtrl_cl_min.GetValue())
+	if (newClMin == self.oldClMin):
+	    pass
+	else:
+            time.sleep(1)
+	    # unicode mess ;-)
+	    local_cmd = 'param set motor.cl.min ' + self.txtCtrl_cl_min.GetValue().encode('ascii', 'ignore')
+            serial_cmd(local_cmd, self.ser)
+	    self.txtMultiCtrl.AppendText('cl.min updated' + "\n")
+
+	self.oldClMin = newClMin
+
+	# ----------------------------------------------------------------------------------------------------
+        # sl.ki
+	# ----------------------------------------------------------------------------------------------------
+        newSlKi = float(self.txtCtrl_sl_ki.GetValue())
+	if (newSlKi == self.oldSlKi):
+	    pass
+	else:
+            time.sleep(1)
+	    # unicode mess ;-)
+	    local_cmd = 'param set motor.sl.ki ' + self.txtCtrl_sl_ki.GetValue().encode('ascii', 'ignore')
+            serial_cmd(local_cmd, self.ser)
+	    self.txtMultiCtrl.AppendText('sl.ki updated' + "\n")
+
+	self.oldSlKi = newSlKi
 
     def lock_text_controls(self):
         self.txtCtrl_cl_max.Disable()
