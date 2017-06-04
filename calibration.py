@@ -44,7 +44,7 @@ class CalibForm(wx.Panel):
 	self.btnSaveParam.Enable(False) # disabel save param button from beginning, enabled after last calibration
 
 	pub.subscribe(self.serialListener, 'serialListener')
-        logging.basicConfig(format="%(funcName)s() - %(message)s", level=logging.INFO)
+        logging.basicConfig(format="%(filename)s: %(funcName)s() - %(message)s", level=logging.INFO)
 
     def serialListener(self, message, fname=None):
         print 'msg:', message
