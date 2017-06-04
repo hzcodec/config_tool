@@ -41,6 +41,9 @@ class ProdTestForm(wx.Panel):
 	# define initial values for the parameters
 	self.oldClMax = 51.00
 
+	# flag if function is active
+	self.toggle      = False
+
 	configParamsSizer = self.setup_config_params()
 	enhancedMeasSizer = self.setup_test_enahanced_measuring()
 	testRun = self.setup_test_run()
@@ -353,7 +356,24 @@ class ProdTestForm(wx.Panel):
         self.txtCtrl_delay_start.Disable()
         
     def onTestInject(self, event):
-	print 'Test Inject'
+        logging.info('') 
+	if (self.toggle == False):
+	    try:
+	        self.txtMultiCtrl.AppendText('Inject On' + "\n")
+                serial_cmd('param set ti 1', self.ser)
+	        self.btnTestInject.SetBackgroundColour(RED)
+	        self.toggle = True
+	    except:
+                logging.info('Connect first') 
+
+	else:
+	    try:
+	        self.txtMultiCtrl.AppendText('Inject Off' + "\n")
+                serial_cmd('param set ti 0', self.ser)
+	        self.btnTestInject.SetBackgroundColour(BROWN)
+	        self.toggle = False
+	    except:
+                logging.info('Connect first') 
 
     def onGetIq(self, event):
         logging.info('') 
