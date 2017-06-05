@@ -103,6 +103,7 @@ class DownLoaderForm(wx.Panel):
     def configListener(self, message, fname=None):
         """
             Handle configuration data read from 'Open'.
+	    All parameters are stored in configParameters.
 	"""
         logging.info('File name: %s', fname)
 	self.configParameters = message

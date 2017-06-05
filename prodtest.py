@@ -43,6 +43,17 @@ class ProdTestForm(wx.Panel):
 	# flag if function is active
 	self.toggle = False
 
+        # initialize variables, need to be done if connection not has been done
+	self.oldClMax        = 0.0
+	self.oldClMin        = 0.0
+	self.oldSlKi         = 0.0
+	self.oldSlMax        = 0.0
+	self.oldSlMin        = 0.0
+	self.oldHasSwitch    = 0
+	self.oldPowerMargin  = 0.0
+	self.oldPowerFactor  = 0.0
+	self.oldBrightnessLo = 0.0
+
 	configParamsSizer = self.setup_config_params()
 	enhancedMeasSizer = self.setup_test_enahanced_measuring()
 	testRun = self.setup_test_run()
@@ -57,7 +68,7 @@ class ProdTestForm(wx.Panel):
 	topSizer.Add(leftTopSizer, 0, wx.ALL, BORDER1)
 
         self.SetSizer(topSizer)
-	self.lock_text_controls()
+	#self.lock_text_controls()
 	pub.subscribe(self.serialListener, 'serialListener')
 	pub.subscribe(self.configListener, 'configListener')
 
@@ -158,32 +169,32 @@ class ProdTestForm(wx.Panel):
     def setup_config_params(self):
 
         self.param_cl_max = wx.StaticText(self, wx.ID_ANY, 'cl.max')
-        self.txtCtrl_cl_max = wx.TextCtrl(self, wx.ID_ANY,'')
+        self.txtCtrl_cl_max = wx.TextCtrl(self, wx.ID_ANY,'0.00')
         param_cl_min = wx.StaticText(self, wx.ID_ANY, 'cl.min')
-        self.txtCtrl_cl_min = wx.TextCtrl(self, wx.ID_ANY,'')
+        self.txtCtrl_cl_min = wx.TextCtrl(self, wx.ID_ANY,'0.00')
         param_sl_ki = wx.StaticText(self, wx.ID_ANY, 'sl.ki')
-        self.txtCtrl_sl_ki = wx.TextCtrl(self, wx.ID_ANY,'')
+        self.txtCtrl_sl_ki = wx.TextCtrl(self, wx.ID_ANY,'0.00')
 
         param_sl_max = wx.StaticText(self, wx.ID_ANY, 'sl.max')
-        self.txtCtrl_sl_max = wx.TextCtrl(self, wx.ID_ANY,'')
+        self.txtCtrl_sl_max = wx.TextCtrl(self, wx.ID_ANY,'0.00')
         param_sl_min = wx.StaticText(self, wx.ID_ANY, 'sl.min')
-        self.txtCtrl_sl_min = wx.TextCtrl(self, wx.ID_ANY,'')
+        self.txtCtrl_sl_min = wx.TextCtrl(self, wx.ID_ANY,'0.00')
         param_has_switch = wx.StaticText(self, wx.ID_ANY, 'has_switch')
-        self.txtCtrl_has_switch = wx.TextCtrl(self, wx.ID_ANY,'')
+        self.txtCtrl_has_switch = wx.TextCtrl(self, wx.ID_ANY,'0')
 
         param_power_margin = wx.StaticText(self, wx.ID_ANY, 'power_margin')
-        self.txtCtrl_power_margin = wx.TextCtrl(self, wx.ID_ANY,'')
+        self.txtCtrl_power_margin = wx.TextCtrl(self, wx.ID_ANY,'0.00')
         param_power_factor = wx.StaticText(self, wx.ID_ANY, 'power_factor')
-        self.txtCtrl_power_factor = wx.TextCtrl(self, wx.ID_ANY,'')
+        self.txtCtrl_power_factor = wx.TextCtrl(self, wx.ID_ANY,'0.00')
         param_brightness_lo = wx.StaticText(self, wx.ID_ANY, 'brightness_lo')
-        self.txtCtrl_brightness_lo = wx.TextCtrl(self, wx.ID_ANY,'')
+        self.txtCtrl_brightness_lo = wx.TextCtrl(self, wx.ID_ANY,'0.00')
 
         param_brake_temp_ok = wx.StaticText(self, wx.ID_ANY, 'brake_temp_ok')
-        self.txtCtrl_brake_temp_ok = wx.TextCtrl(self, wx.ID_ANY,'')
+        self.txtCtrl_brake_temp_ok = wx.TextCtrl(self, wx.ID_ANY,'0.00')
         param_brake_temp_hi = wx.StaticText(self, wx.ID_ANY, 'brake_temp_hi')
-        self.txtCtrl_brake_temp_hi = wx.TextCtrl(self, wx.ID_ANY,'')
+        self.txtCtrl_brake_temp_hi = wx.TextCtrl(self, wx.ID_ANY,'0.00')
         param_brake_max_id = wx.StaticText(self, wx.ID_ANY, 'brake_max_id')
-        self.txtCtrl_brake_max_id = wx.TextCtrl(self, wx.ID_ANY,'')
+        self.txtCtrl_brake_max_id = wx.TextCtrl(self, wx.ID_ANY,'0.00')
 
         param_brake_pos_ratio = wx.StaticText(self, wx.ID_ANY, 'brake_pos_ratio')
         self.txtCtrl_brake_pos_ratio = wx.TextCtrl(self, wx.ID_ANY,'')
@@ -386,54 +397,109 @@ class ProdTestForm(wx.Panel):
         serial_cmd('v', self.mySer)
 
     def onConfigure(self, event):
+        """
+	     unicode mess ;-)
+	"""
         logging.info('') 
 
 	# ----------------------------------------------------------------------------------------------------
         # cl max
 	# ----------------------------------------------------------------------------------------------------
         newClMax = float(self.txtCtrl_cl_max.GetValue())
-
-	if (newClMax == self.oldClMax):
-	    pass
-	else:
-	    print 'New cl.max'
+	if (newClMax != self.oldClMax):
             time.sleep(1)
-	    # unicode mess ;-)
 	    local_cmd = 'param set motor.cl.max ' + self.txtCtrl_cl_max.GetValue().encode('ascii', 'ignore')
-            serial_cmd(local_cmd, self.mySer)
-	    self.txtMultiCtrl.AppendText('cl.max updated to: ' + str(newClMax) + "\n")
-
-	self.oldClMax = newClMax
+            #serial_cmd(local_cmd, self.mySer)
+	    self.txtMultiCtrl.AppendText('cl.max updated' + "\n")
+	    self.oldClMax = newClMax
 
 	# ----------------------------------------------------------------------------------------------------
         # cl min
 	# ----------------------------------------------------------------------------------------------------
         newClMin = float(self.txtCtrl_cl_min.GetValue())
-	if (newClMin == self.oldClMin):
-	    pass
-	else:
+	if (newClMin != self.oldClMin):
             time.sleep(1)
-	    # unicode mess ;-)
 	    local_cmd = 'param set motor.cl.min ' + self.txtCtrl_cl_min.GetValue().encode('ascii', 'ignore')
-            serial_cmd(local_cmd, self.mySer)
+            #serial_cmd(local_cmd, self.mySer)
 	    self.txtMultiCtrl.AppendText('cl.min updated' + "\n")
-
-	self.oldClMin = newClMin
+	    self.oldClMin = newClMin
 
 	# ----------------------------------------------------------------------------------------------------
         # sl.ki
 	# ----------------------------------------------------------------------------------------------------
         newSlKi = float(self.txtCtrl_sl_ki.GetValue())
-	if (newSlKi == self.oldSlKi):
-	    pass
-	else:
+	if (newSlKi != self.oldSlKi):
             time.sleep(1)
-	    # unicode mess ;-)
 	    local_cmd = 'param set motor.sl.ki ' + self.txtCtrl_sl_ki.GetValue().encode('ascii', 'ignore')
-            serial_cmd(local_cmd, self.mySer)
+            #serial_cmd(local_cmd, self.mySer)
 	    self.txtMultiCtrl.AppendText('sl.ki updated' + "\n")
+	    self.oldSlKi = newSlKi
 
-	self.oldSlKi = newSlKi
+	# ----------------------------------------------------------------------------------------------------
+        # sl.max
+	# ----------------------------------------------------------------------------------------------------
+        newSlMax = float(self.txtCtrl_sl_max.GetValue())
+	if (newSlMax != self.oldSlMax):
+            time.sleep(1)
+	    local_cmd = 'param set motor.sl.max ' + self.txtCtrl_sl_ki.GetValue().encode('ascii', 'ignore')
+            #serial_cmd(local_cmd, self.mySer)
+	    self.txtMultiCtrl.AppendText('sl.max updated' + "\n")
+	    self.oldSlMax = newSlMax
+
+	# ----------------------------------------------------------------------------------------------------
+        # sl.min
+	# ----------------------------------------------------------------------------------------------------
+        newSlMin = float(self.txtCtrl_sl_min.GetValue())
+	if (newSlMin != self.oldSlMin):
+            time.sleep(1)
+	    local_cmd = 'param set motor.sl.min ' + self.txtCtrl_sl_ki.GetValue().encode('ascii', 'ignore')
+            #serial_cmd(local_cmd, self.mySer)
+	    self.txtMultiCtrl.AppendText('sl.min updated' + "\n")
+	    self.oldSlMin = newSlMin
+
+	# ----------------------------------------------------------------------------------------------------
+        # has_switch
+	# ----------------------------------------------------------------------------------------------------
+        newHasSwitch = float(self.txtCtrl_has_switch.GetValue())
+	if (newHasSwitch != self.oldHasSwitch):
+            time.sleep(1)
+	    local_cmd = 'param set throttle.has_switch ' + self.txtCtrl_has_switch.GetValue().encode('ascii', 'ignore')
+            #serial_cmd(local_cmd, self.mySer)
+	    self.txtMultiCtrl.AppendText('has_switch updated' + "\n")
+	    self.oldHasSwitch = newHasSwitch
+
+	# ----------------------------------------------------------------------------------------------------
+        # power_margin
+	# ----------------------------------------------------------------------------------------------------
+        newPowerMargin = float(self.txtCtrl_power_margin.GetValue())
+	if (newPowerMargin != self.oldPowerMargin):
+            time.sleep(1)
+	    local_cmd = 'param set power_margin ' + self.txtCtrl_power_margin.GetValue().encode('ascii', 'ignore')
+            #serial_cmd(local_cmd, self.mySer)
+	    self.txtMultiCtrl.AppendText('power_margin updated' + "\n")
+	    self.oldPowerMargin = newPowerMargin
+
+	# ----------------------------------------------------------------------------------------------------
+        # power_factor
+	# ----------------------------------------------------------------------------------------------------
+        newPowerFactor = float(self.txtCtrl_power_factor.GetValue())
+	if (newPowerFactor != self.oldPowerFactor):
+            time.sleep(1)
+	    local_cmd = 'param set power_factor ' + self.txtCtrl_power_factor.GetValue().encode('ascii', 'ignore')
+            #serial_cmd(local_cmd, self.mySer)
+	    self.txtMultiCtrl.AppendText('power_factor updated' + "\n")
+	    self.oldPowerFactor = newPowerFactor
+
+	# ----------------------------------------------------------------------------------------------------
+        # brightness_lo
+	# ----------------------------------------------------------------------------------------------------
+        newBrightnessLo = float(self.txtCtrl_brightness_lo.GetValue())
+	if (newBrightnessLo != self.oldBrightnessLo):
+            time.sleep(1)
+	    local_cmd = 'param set led.brightness_lo ' + self.txtCtrl_brightness_lo.GetValue().encode('ascii', 'ignore')
+            #serial_cmd(local_cmd, self.mySer)
+	    self.txtMultiCtrl.AppendText('brightness_lo updated' + "\n")
+	    self.oldBrightnessLo = newBrightnessLo
 
     def lock_text_controls(self):
         self.txtCtrl_cl_max.Disable()

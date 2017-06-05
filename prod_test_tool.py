@@ -101,6 +101,9 @@ class MainFrame(wx.Frame):
 	saveFileDialog = wx.FileDialog(self, "Save As", "", "", "ACX/TCX config files (*.txt)|*.txt", wx.FD_SAVE | wx.FD_OVERWRITE_PROMPT)
         saveFileDialog.ShowModal()
         saveFileDialog.GetPath()
+
+        print self.tabProdTest.configParameters
+
         saveFileDialog.Destroy()
 
     def onLock(self, event):
