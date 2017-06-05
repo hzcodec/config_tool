@@ -175,7 +175,7 @@ Remote:
 
 class mainApp(wx.App):
    def OnInit(self):
-       self.frame = MainFrame(None, -1, title=HEADLINE, style=wx.DEFAULT_FRAME_STYLE, size=WINDOW_SIZE)
+       self.frame = MainFrame(None, -1, title=HEADLINE, style=wx.SYSTEM_MENU|wx.CAPTION|wx.CLOSE_BOX, size=WINDOW_SIZE)
        self.frame.Show()
        return True
 
