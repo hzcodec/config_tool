@@ -1,7 +1,7 @@
 motor.cl.kp, 0.229996
 motor.cl.ki, 0.030518
 motor.cl.kt, 1.000000
-motor.cl.max, 51.000000
+motor.cl.max, 48.000000
 motor.cl.min, -51.000000
 motor.sl.kp, 15.000000
 motor.sl.ki, 0.250000
@@ -44,8 +44,8 @@ idle_timeout, 14400
 remote_ctrl_timeout, 10
 soc_lim_run_up, 8
 max_drive_temp, 85.000000
-dominant_throttle_on, 1
-rope_stuck_on, 1
+dominant_throttle_on, 0
+rope_stuck_on, 0
 iq_alpha, 0.005005
 speed_alpha, 0.050003
 mx, 40.000000

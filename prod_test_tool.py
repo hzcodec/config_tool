@@ -149,7 +149,7 @@ class MainFrame(wx.Frame):
                 self.tabProdTest.txtCtrl_delay_start.Enable()
 
     def onAbout(self, event):
-        licence = """Requires software/hardware versions -
+        licence = """Requires software/hardware at least versions -
 
 Ascender:
     Unjo 500:01 00153 C
