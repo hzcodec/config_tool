@@ -3,7 +3,6 @@ import logging
 import datetime
 from wx.lib.pubsub import pub
 from wx.lib.pubsub import setupkwargs
-# Add text 'remember to save par after calib'
 
 RED   = (255, 19, 32)
 GREEN = (36, 119, 62)
@@ -15,7 +14,7 @@ def serial_cmd(cmd, serial):
     try:
         serial.write(cmd + '\r');
     except:
-        print 'Not Connected!'
+        logging.info('Not connected')
 
 
 class CalibForm(wx.Panel):
