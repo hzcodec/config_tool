@@ -438,9 +438,9 @@ class ProdTestForm(wx.Panel):
 
     def onTestRunUp(self, event):
         logging.info('') 
-	self.txtMultiCtrl.AppendText('Up command ' + "\n")
-        self.btnTestRunDown.Enable(False)
         speedValue = self.spinCtrlSpeed.GetValue()
+	self.txtMultiCtrl.AppendText('Up command: speed=' + str(speedValue) + "\n")
+        self.btnTestRunDown.Enable(False)
         serial_cmd('e', self.mySer)
         time.sleep(1)
         serial_cmd('brake 0', self.mySer)
@@ -449,9 +449,9 @@ class ProdTestForm(wx.Panel):
 
     def onTestRunDown(self, event):
         logging.info('') 
-	self.txtMultiCtrl.AppendText('Down command ' + "\n")
-        self.btnTestRunUp.Enable(False)
         speedValue = self.spinCtrlSpeed.GetValue()
+	self.txtMultiCtrl.AppendText('Down command: speed=' + str(speedValue) + "\n")
+        self.btnTestRunUp.Enable(False)
         serial_cmd('e', self.mySer)
         time.sleep(1)
         serial_cmd('brake 0', self.mySer)
