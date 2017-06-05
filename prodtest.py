@@ -84,7 +84,7 @@ class ProdTestForm(wx.Panel):
 	topSizer.Add(leftTopSizer, 0, wx.ALL, BORDER1)
 
         self.SetSizer(topSizer)
-	#self.lock_text_controls()
+	self.lock_text_controls()
 	pub.subscribe(self.serialListener, 'serialListener')
 	pub.subscribe(self.configListener, 'configListener')
 
