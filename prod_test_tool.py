@@ -9,7 +9,6 @@
 # Python ver  : 2.7.3 (gcc 4.6.3)
 
 import wx
-#import wx.lib.scrolledpanel as scrolled
 import downloader
 import calibration
 import prodtest

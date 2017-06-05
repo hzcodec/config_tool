@@ -1,5 +1,6 @@
 import wx
 import logging
+import datetime
 from wx.lib.pubsub import pub
 from wx.lib.pubsub import setupkwargs
 # Add text 'remember to save par after calib'
@@ -179,6 +180,8 @@ class CalibForm(wx.Panel):
 
     def onSaveParam(self, event):
         logging.info('Save configuration after calibration')
+	now = datetime.datetime.now().strftime("%Y-%m-%d  %H:%M")
 	self.txtAlertUser.SetForegroundColour(GREEN)
-	self.txtAlertUser.SetLabel("Parameter saved after " + self.operation)
-        serial_cmd('save param', self.mySer)
+	self.txtAlertUser.SetLabel("Parameter saved after " + self.operation + " at  " + str(now))
+        #serial_cmd('save param', self.mySer)
+

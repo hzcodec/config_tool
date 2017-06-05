@@ -87,7 +87,7 @@ class DownLoaderForm(wx.Panel):
 	print self.ascenderVersion
 	aVersion = self.ascenderVersion.split("v")
 	self.lblAscenderVersion.SetLabel(aVersion[1])
-        time.sleep(1)
+        time.sleep(0.5)
 
         self.remoteVersion = serial_read('r_v', 56, self.mySer)
 	print self.remoteVersion
