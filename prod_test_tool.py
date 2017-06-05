@@ -50,7 +50,7 @@ class MainFrame(wx.Frame):
         self.tabProdTest = prodtest.ProdTestForm(nb)
 
         # add the windows to tabs and name them
-        nb.AddPage(self.tabDownLoader, "Downloader")
+        nb.AddPage(self.tabDownLoader, "Common")
         nb.AddPage(tabCalib, "Calibrate")
         nb.AddPage(self.tabProdTest, "Prod Test")
 
