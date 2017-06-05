@@ -291,10 +291,6 @@ class ProdTestForm(wx.Panel):
         self.Bind(wx.EVT_BUTTON, self.onTestRunDown, self.btnTestRunDown)
         self.Bind(wx.EVT_BUTTON, self.onTestStop, btnTestStop)
 
-        btnQuit = wx.Button(self, wx.ID_ANY, 'Quit')
-	btnQuitSizer = wx.BoxSizer(wx.HORIZONTAL)
-	btnQuitSizer.Add(btnQuit, 0, wx.ALL, 10)
-
         speed = wx.StaticText(self, wx.ID_ANY, 'Speed')
 
 	self.spinCtrlSpeed = wx.SpinCtrl(self, value='0')
@@ -308,7 +304,6 @@ class ProdTestForm(wx.Panel):
 	paramSizer2.Add(self.btnTestRunUp, 0, wx.TOP|wx.LEFT, 10)
 	paramSizer2.Add(self.btnTestRunDown, 0, wx.TOP|wx.LEFT, 10)
 	paramSizer2.Add(btnTestStop, 0, wx.TOP|wx.LEFT, 10)
-	paramSizer2.Add(btnQuitSizer, 0, wx.LEFT, 550)
 
 	statBoxTestRun = wx.StaticBox(self, wx.ID_ANY, '  Test Run')
 	statBoxTestRun.SetBackgroundColour(GREY)
