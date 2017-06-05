@@ -76,8 +76,10 @@ class DownLoaderForm(wx.Panel):
 
 	pub.subscribe(self.configListener, 'configListener')
 	pub.subscribe(self.serialListener, 'serialListener')
+
         logging.basicConfig(format="%(filename)s: %(funcName)s() - %(message)s", level=logging.INFO)
         logging.info('Length of PARAMETER_NAMES: %d', len(PARAMETER_NAMES)) 
+
 	self.parameter_names_length = len(PARAMETER_NAMES)
 	self.btnSaveParam.Enable(False)
 
