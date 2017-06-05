@@ -126,6 +126,8 @@ class DownLoaderForm(wx.Panel):
 	    self.btnSaveParam.Enable(False)
 	    parListLength = len(self.configParameters)
             logging.info('Par list length: %s', parListLength)
+	    font = wx.Font(11, wx.DEFAULT, wx.ITALIC, wx.NORMAL)
+	    self.txtFileName.SetFont(font)
 	    self.txtFileName.SetLabel(self.configurationFileName)
 
 	    # get all parameters and its corresponding command
@@ -135,7 +137,7 @@ class DownLoaderForm(wx.Panel):
 	        par3 = par2[1].strip('\n')
                 local_cmd = 'param set ' + PARAMETER_NAMES[parIndex] + par3
 
-	        print parIndex, local_cmd
+	        print '[%d] - %s' % (parIndex, local_cmd)
                 serial_cmd(local_cmd, self.mySer)
                 time.sleep(0.3)
 	        self.gauge.SetValue(parIndex)
@@ -227,11 +229,13 @@ class DownLoaderForm(wx.Panel):
         self.txtFileName = wx.StaticText(self, -1, "No config file selected")
 
         self.gauge = wx.Gauge(self, range = 55, size = (250, 25)) 
+	gaugeSizer = wx.BoxSizer(wx.HORIZONTAL)
+        gaugeSizer.Add(self.gauge, 0, wx.LEFT, 90)
 
 	configSizer = wx.BoxSizer(wx.HORIZONTAL)
         configSizer.Add(self.txtConfiguration, 0, wx.TOP|wx.LEFT, 10)
         configSizer.Add(self.txtFileName, 0, wx.TOP|wx.LEFT, 10)
-        configSizer.Add(self.gauge, 0, wx.TOP|wx.LEFT, 10)
+        configSizer.Add(gaugeSizer, 0, wx.TOP|wx.LEFT, 5)
 
         self.btnSaveParam= wx.Button(self, wx.ID_ANY, 'Save Param')
         self.Bind(wx.EVT_BUTTON, self.onSaveParam, self.btnSaveParam)
