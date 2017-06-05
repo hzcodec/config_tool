@@ -86,7 +86,6 @@ class DownLoaderForm(wx.Panel):
         self.ascenderVersion = serial_read('v', 56, self.mySer)
 	print self.ascenderVersion
 	aVersion = self.ascenderVersion.split("v")
-	#self.lblAscenderVersion.SetLabel(self.ascenderVersion)
 	self.lblAscenderVersion.SetLabel(aVersion[1])
         time.sleep(1)
 
@@ -94,7 +93,6 @@ class DownLoaderForm(wx.Panel):
 	print self.remoteVersion
 	rVersion = self.remoteVersion.split("r_v")
 	self.lblRemoteVersion.SetLabel(rVersion[1])
-	#self.lblRemoteVersion.SetLabel(self.remoteVersion)
  
     def serialListener(self, message, fname=None):
         logging.info('')
@@ -273,7 +271,7 @@ class DownLoaderForm(wx.Panel):
 	print_const()
 
     def onCombo(self, event):
-        print 'Selected port: '
+        logging.info('')
 
     def onSaveParam(self, event):
         # add check if param file has been loaded
