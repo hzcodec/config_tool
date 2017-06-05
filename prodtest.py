@@ -19,7 +19,7 @@ def serial_cmd(cmd, serial):
     try:
         serial.write(cmd + '\r');
     except:
-        print 'Not Connected!'
+        logging.info('Not connected')
 
 def serial_read(cmd, no, serial):
     # send command to serial port

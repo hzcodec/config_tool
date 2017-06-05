@@ -44,7 +44,7 @@ def serial_cmd(cmd, serial):
     try:
         serial.write(cmd + '\r');
     except:
-        print 'Not Connected!'
+        logging.info('Not connected')
 
 
 def serial_read(cmd, no, serial):
@@ -90,13 +90,13 @@ class DownLoaderForm(wx.Panel):
     def get_version(self):
         time.sleep(DELAY2)
         self.ascenderVersion = serial_read('v', 56, self.mySer)
-	print self.ascenderVersion
+	#print self.ascenderVersion
 	aVersion = self.ascenderVersion.split("v")
 	self.lblAscenderVersion.SetLabel(aVersion[1])
         time.sleep(DELAY2)
 
         self.remoteVersion = serial_read('r_v', 56, self.mySer)
-	print self.remoteVersion
+	#print self.remoteVersion
 	rVersion = self.remoteVersion.split("r_v")
 	self.lblRemoteVersion.SetLabel(rVersion[1])
  
