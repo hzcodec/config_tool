@@ -183,5 +183,5 @@ class CalibForm(wx.Panel):
 	now = datetime.datetime.now().strftime("%Y-%m-%d  %H:%M")
 	self.txtAlertUser.SetForegroundColour(GREEN)
 	self.txtAlertUser.SetLabel("Parameter saved after " + self.operation + " at  " + str(now))
-        #serial_cmd('save param', self.mySer)
+        serial_cmd('save param', self.mySer)
 
