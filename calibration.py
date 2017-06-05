@@ -125,17 +125,17 @@ class CalibForm(wx.Panel):
         self.Bind(wx.EVT_BUTTON, self.onSaveParam, self.btnSaveParam)
         statBoxSizer.Add(self.btnSaveParam, 0, wx.ALL, 20)
         statBoxSizer.Add(self.txtAlertUser, 0, wx.ALL, 20)
-        statBoxSizer.Add(txtNull, 0, wx.LEFT, 870) # this is just to get the statBoxSerial larger 
+        statBoxSizer.Add(txtNull, 0, wx.LEFT, 830) # this is just to get the statBoxSerial larger 
 
 	return statBoxSizer
 
     def onAlign(self, event):
-        logging.info('Alignment initiated')
+        logging.info('')
 	self.txtAlignment.SetForegroundColour(GREEN)
 	self.txtAlignment.SetLabel("Alignment initiated")
 	self.btnSaveParam.Enable(True)
 	self.operation = 'alignment'
-        #serial_cmd('align', self.mySer)
+        serial_cmd('align', self.mySer)
 
     def onCalibUp(self, event):
         logging.info('Calibration Up done')
