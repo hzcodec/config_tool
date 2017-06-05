@@ -21,6 +21,10 @@ GREY  = (180, 180, 180)
 BLACK = (0, 0, 0)
 TEXT_SERIAL_PORT_BORDER = 10
 
+# delay time at write command
+DELAY1 = 0.3
+DELAY2 = 0.5
+
 # current parameters
 PARAMETER_NAMES = ['motor.cl.kp', 'motor.cl.ki', 'motor.cl.kt', 'motor.cl.max', 'motor.cl.min', \
                    'motor.sl.kp', 'motor.sl.ki', 'motor.sl.kt', 'motor.sl.max', 'motor.sl_min', \
@@ -84,12 +88,12 @@ class DownLoaderForm(wx.Panel):
 	self.btnSaveParam.Enable(False)
 
     def get_version(self):
-        time.sleep(0.5)
+        time.sleep(DELAY2)
         self.ascenderVersion = serial_read('v', 56, self.mySer)
 	print self.ascenderVersion
 	aVersion = self.ascenderVersion.split("v")
 	self.lblAscenderVersion.SetLabel(aVersion[1])
-        time.sleep(0.5)
+        time.sleep(DELAY2)
 
         self.remoteVersion = serial_read('r_v', 56, self.mySer)
 	print self.remoteVersion
@@ -140,7 +144,7 @@ class DownLoaderForm(wx.Panel):
 
 	        print '[%d] - %s' % (parIndex, local_cmd)
                 serial_cmd(local_cmd, self.mySer)
-                time.sleep(0.3)
+                time.sleep(DELAY1)
 	        self.gauge.SetValue(parIndex)
 	        wx.Yield()
 
