@@ -293,6 +293,8 @@ class ProdTestForm(wx.Panel):
 
         speed = wx.StaticText(self, wx.ID_ANY, 'Speed')
 
+        txtNull  = wx.StaticText(self, wx.ID_ANY, ' ')
+
 	self.spinCtrlSpeed = wx.SpinCtrl(self, value='0')
 	self.spinCtrlSpeed.SetRange(0, 25)
 
@@ -312,13 +314,13 @@ class ProdTestForm(wx.Panel):
 
         statBoxSizer.Add(paramSizer1, 0, wx.ALL, 10)
         statBoxSizer.Add(paramSizer2, 0, wx.ALL, 10)
+        statBoxSizer.Add(txtNull, 0, wx.LEFT, 1000)
 
 	return statBoxSizer
 
     def setup_multi_text_control(self):
-
         headline = '       - ACX/TCX logging - \n'
-	self.txtMultiCtrl = wx.TextCtrl(self, -1, headline, size=(790, 180), style=wx.TE_MULTILINE)
+	self.txtMultiCtrl = wx.TextCtrl(self, -1, headline, size=(790, 230), style=wx.TE_MULTILINE)
         self.txtMultiCtrl.SetInsertionPoint(0)
 
 	return self.txtMultiCtrl
