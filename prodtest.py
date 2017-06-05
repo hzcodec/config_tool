@@ -44,15 +44,30 @@ class ProdTestForm(wx.Panel):
 	self.toggle = False
 
         # initialize variables, need to be done if connection not has been done
-	self.oldClMax        = 0.0
-	self.oldClMin        = 0.0
-	self.oldSlKi         = 0.0
-	self.oldSlMax        = 0.0
-	self.oldSlMin        = 0.0
-	self.oldHasSwitch    = 0
-	self.oldPowerMargin  = 0.0
-	self.oldPowerFactor  = 0.0
-	self.oldBrightnessLo = 0.0
+	self.oldClMax            = 0.0
+	self.oldClMin            = 0.0
+	self.oldSlKi             = 0.0
+	self.oldSlMax            = 0.0
+	self.oldSlMin            = 0.0
+	self.oldHasSwitch        = 0
+	self.oldPowerMargin      = 0.0
+	self.oldPowerFactor      = 0.0
+	self.oldBrightnessLo     = 0.0
+	self.oldBrakeTempOk      = 0.0
+	self.oldBrakeTempHi      = 0.0
+	self.oldBrakeMaxId       = 0.0
+	self.oldBrakePosRatio    = 0.0
+	self.oldTrajecAcc        = 0.0
+	self.oldTrajecRet        = 0.0
+	self.oldDominantThrottle = 0.0
+	self.oldMaxMotorTemp     = 0.0
+	self.oldNumMotorCh       = 0.0
+	self.oldIdleTimeout      = 0.0
+	self.oldRopeStuckOn      = 0
+	self.oldIqAlpha          = 0.00
+	self.oldSpeedAlpha       = 0.00
+	self.oldUndershoot       = 0.00
+	self.oldDelayStart       = 0
 
 	configParamsSizer = self.setup_config_params()
 	enhancedMeasSizer = self.setup_test_enahanced_measuring()
@@ -197,21 +212,21 @@ class ProdTestForm(wx.Panel):
         self.txtCtrl_brake_max_id = wx.TextCtrl(self, wx.ID_ANY,'0.00')
 
         param_brake_pos_ratio = wx.StaticText(self, wx.ID_ANY, 'brake_pos_ratio')
-        self.txtCtrl_brake_pos_ratio = wx.TextCtrl(self, wx.ID_ANY,'')
+        self.txtCtrl_brake_pos_ratio = wx.TextCtrl(self, wx.ID_ANY,'0.00')
         param_trajec_acc = wx.StaticText(self, wx.ID_ANY, 'trajec.acc')
-        self.txtCtrl_trajec_acc = wx.TextCtrl(self, wx.ID_ANY,'')
+        self.txtCtrl_trajec_acc = wx.TextCtrl(self, wx.ID_ANY,'0.00')
         param_trajec_ret = wx.StaticText(self, wx.ID_ANY, 'trajec.ret')
-        self.txtCtrl_trajec_ret = wx.TextCtrl(self, wx.ID_ANY,'')
+        self.txtCtrl_trajec_ret = wx.TextCtrl(self, wx.ID_ANY,'0.00')
 
         param_dominant_throttle_on = wx.StaticText(self, wx.ID_ANY, 'dominant_throttle_on')
-        self.txtCtrl_dominant_throttle_on = wx.TextCtrl(self, wx.ID_ANY,'')
+        self.txtCtrl_dominant_throttle_on = wx.TextCtrl(self, wx.ID_ANY,'0')
         param_max_motor_temp = wx.StaticText(self, wx.ID_ANY, 'max_motor_temp')
-        self.txtCtrl_max_motor_temp = wx.TextCtrl(self, wx.ID_ANY,'')
+        self.txtCtrl_max_motor_temp = wx.TextCtrl(self, wx.ID_ANY,'0.00')
         param_num_motor_ch = wx.StaticText(self, wx.ID_ANY, 'num_motor_ch')
-        self.txtCtrl_num_motor_ch = wx.TextCtrl(self, wx.ID_ANY,'')
+        self.txtCtrl_num_motor_ch = wx.TextCtrl(self, wx.ID_ANY,'0')
 
         param_idle_timeout = wx.StaticText(self, wx.ID_ANY, 'idle_timeout')
-        self.txtCtrl_idle_timeout = wx.TextCtrl(self, wx.ID_ANY,'')
+        self.txtCtrl_idle_timeout = wx.TextCtrl(self, wx.ID_ANY,'0')
 
         btnConfigure = wx.Button(self, wx.ID_ANY, ' Configure   ')
         self.Bind(wx.EVT_BUTTON, self.onConfigure, btnConfigure)
@@ -295,15 +310,15 @@ class ProdTestForm(wx.Panel):
     def setup_test_enahanced_measuring(self):
 
         param_rope_stuck_on = wx.StaticText(self, wx.ID_ANY, 'rope_stuck_on')
-        self.txtCtrl_rope_stuck_on = wx.TextCtrl(self, wx.ID_ANY,'')
+        self.txtCtrl_rope_stuck_on = wx.TextCtrl(self, wx.ID_ANY,'0')
         param_iq_alpha = wx.StaticText(self, wx.ID_ANY, 'iq_alpha')
-        self.txtCtrl_iq_alpha = wx.TextCtrl(self, wx.ID_ANY,'')
+        self.txtCtrl_iq_alpha = wx.TextCtrl(self, wx.ID_ANY,'0.00')
         param_speed_alpha = wx.StaticText(self, wx.ID_ANY, 'speed_alpha')
-        self.txtCtrl_speed_alpha = wx.TextCtrl(self, wx.ID_ANY,'')
+        self.txtCtrl_speed_alpha = wx.TextCtrl(self, wx.ID_ANY,'0.00')
         param_undershoot = wx.StaticText(self, wx.ID_ANY, 'undershoot')
-        self.txtCtrl_undershoot = wx.TextCtrl(self, wx.ID_ANY,'')
+        self.txtCtrl_undershoot = wx.TextCtrl(self, wx.ID_ANY,'0.00')
         param_delay_start = wx.StaticText(self, wx.ID_ANY, 'delay_start')
-        self.txtCtrl_delay_start = wx.TextCtrl(self, wx.ID_ANY,'')
+        self.txtCtrl_delay_start = wx.TextCtrl(self, wx.ID_ANY,'0')
 
         btnConfigure = wx.Button(self, wx.ID_ANY, ' Configure   ')
         self.Bind(wx.EVT_BUTTON, self.onConfigure, btnConfigure)
@@ -500,6 +515,190 @@ class ProdTestForm(wx.Panel):
             #serial_cmd(local_cmd, self.mySer)
 	    self.txtMultiCtrl.AppendText('brightness_lo updated' + "\n")
 	    self.oldBrightnessLo = newBrightnessLo
+
+	# ----------------------------------------------------------------------------------------------------
+        # brake_temp_ok
+	# ----------------------------------------------------------------------------------------------------
+        newBrakeTempOk = float(self.txtCtrl_brake_temp_ok.GetValue())
+	if (newBrakeTempOk != self.oldBrakeTempOk):
+            time.sleep(1)
+	    local_cmd = 'param set brake_temp_ok ' + self.txtCtrl_brake_temp_ok.GetValue().encode('ascii', 'ignore')
+            #serial_cmd(local_cmd, self.mySer)
+	    self.txtMultiCtrl.AppendText('brake_temp_ok updated' + "\n")
+	    self.oldBrakeTempOk = newBrakeTempOk
+
+	# ----------------------------------------------------------------------------------------------------
+        # brake_temp_hi
+	# ----------------------------------------------------------------------------------------------------
+        newBrakeTempHi = float(self.txtCtrl_brake_temp_hi.GetValue())
+	if (newBrakeTempHi != self.oldBrakeTempHi):
+            time.sleep(1)
+	    local_cmd = 'param set brake_temp_hi ' + self.txtCtrl_brake_temp_hi.GetValue().encode('ascii', 'ignore')
+            #serial_cmd(local_cmd, self.mySer)
+	    self.txtMultiCtrl.AppendText('brake_temp_hi updated' + "\n")
+	    self.oldBrakeTempHi = newBrakeTempHi
+
+	# ----------------------------------------------------------------------------------------------------
+        # brake_max_id
+	# ----------------------------------------------------------------------------------------------------
+        newBrakeMaxId = float(self.txtCtrl_brake_max_id.GetValue())
+	if (newBrakeMaxId != self.oldBrakeMaxId):
+            time.sleep(1)
+	    # unicode mess ;-)
+	    local_cmd = 'param set brake_max_id ' + self.txtCtrl_brake_max_id.GetValue().encode('ascii', 'ignore')
+            #serial_cmd(local_cmd, self.mySer)
+	    self.txtMultiCtrl.AppendText('brake_max_id updated' + "\n")
+	    self.oldBrakeMaxId = newBrakeMaxId
+
+	# ----------------------------------------------------------------------------------------------------
+        # brake_pos_ratio
+	# ----------------------------------------------------------------------------------------------------
+        newBrakePosRatio = float(self.txtCtrl_brake_pos_ratio.GetValue())
+	if (newBrakePosRatio != self.oldBrakePosRatio):
+            time.sleep(1)
+	    local_cmd = 'param set brake_test.pos_ratio ' + self.txtCtrl_brake_pos_ratio.GetValue().encode('ascii', 'ignore')
+            #serial_cmd(local_cmd, self.mySer)
+	    self.txtMultiCtrl.AppendText('brake_pos_ratio updated' + "\n")
+	    self.oldBrakePosRatio = newBrakePosRatio
+
+	# ----------------------------------------------------------------------------------------------------
+        # trajec.acc
+	# ----------------------------------------------------------------------------------------------------
+        newTrajecAcc = float(self.txtCtrl_trajec_acc.GetValue())
+	if (newTrajecAcc != self.oldTrajecAcc):
+            time.sleep(1)
+	    local_cmd = 'param set brake_test.pos_ratio ' + self.txtCtrl_trajec_acc.GetValue().encode('ascii', 'ignore')
+            #serial_cmd(local_cmd, self.mySer)
+	    self.txtMultiCtrl.AppendText('trajec.acc updated' + "\n")
+	    self.oldTrajecAcc = newTrajecAcc
+
+	# ----------------------------------------------------------------------------------------------------
+        # trajec.ret
+	# ----------------------------------------------------------------------------------------------------
+        newTrajecRet = float(self.txtCtrl_trajec_ret.GetValue())
+	if (newTrajecRet != self.oldTrajecRet):
+            time.sleep(1)
+	    local_cmd = 'param set brake_test.pos_ratio ' + self.txtCtrl_trajec_ret.GetValue().encode('ascii', 'ignore')
+            #serial_cmd(local_cmd, self.mySer)
+	    self.txtMultiCtrl.AppendText('trajec.ret updated' + "\n")
+	    self.oldTrajecRet = newTrajecRet
+
+	# ----------------------------------------------------------------------------------------------------
+	# Dominant throttle
+	# ----------------------------------------------------------------------------------------------------
+        newDominantThrottle = int(self.txtCtrl_dominant_throttle_on.GetValue())
+	if (newDominantThrottle > 1 or newDominantThrottle < 0):
+	    self.txtCtrl_dominant_throttle_on.SetForegroundColour((RED))
+
+	else:
+	    if (newDominantThrottle != self.oldDominantThrottle):
+	        self.txtCtrl_dominant_throttle_on.SetForegroundColour((BLACK))
+                time.sleep(1)
+	        local_cmd = 'param set dominant_throttle_on ' + self.txtCtrl_dominant_throttle_on.GetValue().encode('ascii', 'ignore')
+                #serial_cmd(local_cmd, self.mySer)
+	        self.txtMultiCtrl.AppendText('dominant_throttle_on updated' + "\n")
+	        self.oldDominantThrottle = newDominantThrottle
+
+	# ----------------------------------------------------------------------------------------------------
+        # max_motor_temp
+	# ----------------------------------------------------------------------------------------------------
+        newMaxMotorTemp = float(self.txtCtrl_max_motor_temp.GetValue())
+	if (newMaxMotorTemp != self.oldMaxMotorTemp):
+            time.sleep(1)
+	    local_cmd = 'param set max_motor_temp ' + self.txtCtrl_max_motor_temp.GetValue().encode('ascii', 'ignore')
+            #serial_cmd(local_cmd, self.mySer)
+	    self.txtMultiCtrl.AppendText('max_motor_temp updated' + "\n")
+	    self.oldMaxMotorTemp = newMaxMotorTemp
+
+	# ----------------------------------------------------------------------------------------------------
+        # num_motor_ch
+	# ----------------------------------------------------------------------------------------------------
+        newNumMotorCh = float(self.txtCtrl_num_motor_ch.GetValue())
+	if (newNumMotorCh != self.oldNumMotorCh):
+            time.sleep(1)
+	    local_cmd = 'param set num_motor_ch ' + self.txtCtrl_num_motor_ch.GetValue().encode('ascii', 'ignore')
+            #serial_cmd(local_cmd, self.mySer)
+	    self.txtMultiCtrl.AppendText('num_motor_ch updated' + "\n")
+	    self.oldNumMotorCh = newNumMotorCh
+
+	# ----------------------------------------------------------------------------------------------------
+        # idle_timeout
+	# ----------------------------------------------------------------------------------------------------
+        newIdleTimeout = float(self.txtCtrl_idle_timeout.GetValue())
+	if (newIdleTimeout != self.oldIdleTimeout):
+            time.sleep(1)
+	    local_cmd = 'param set idle_timeout ' + self.txtCtrl_idle_timeout.GetValue().encode('ascii', 'ignore')
+            #serial_cmd(local_cmd, self.mySer)
+	    self.txtMultiCtrl.AppendText('idle_timeout updated' + "\n")
+	    self.oldIdleTimeout = newIdleTimeout
+
+	# ----------------------------------------------------------------------------------------------------
+	# rope_stuck_no
+	# ----------------------------------------------------------------------------------------------------
+        newRopeStuckOn = int(self.txtCtrl_rope_stuck_on.GetValue())
+	if (newRopeStuckOn > 1 or newRopeStuckOn < 0):
+            self.txtCtrl_rope_stuck_on.SetForegroundColour((RED))
+
+        else:
+	    if (newRopeStuckOn != self.oldRopeStuckOn):
+                self.txtCtrl_rope_stuck_on.SetForegroundColour((BLACK))
+                time.sleep(1)
+	        local_cmd = 'param set rope_stuck_on ' + self.txtCtrl_rope_stuck_on.GetValue().encode('ascii', 'ignore')
+                #serial_cmd(local_cmd, self.mySer)
+	        self.txtMultiCtrl.AppendText('rope_stuck_on updated' + "\n")
+	        self.oldRopeStuckOn = newRopeStuckOn
+
+	# ----------------------------------------------------------------------------------------------------
+	# iq alpha
+	# ----------------------------------------------------------------------------------------------------
+        newIqAlpha = float(self.txtCtrl_iq_alpha.GetValue())
+	if (newIqAlpha != self.oldIqAlpha):
+            time.sleep(1)
+	    # unicode mess ;-)
+	    local_cmd = 'param set iq_alpha ' + self.txtCtrl_iq_alpha.GetValue().encode('ascii', 'ignore')
+            #serial_cmd(local_cmd, self.mySer)
+	    self.txtMultiCtrl.AppendText('iq_alpha updated' + "\n")
+	    self.oldIqAlpha = newIqAlpha
+
+	# ----------------------------------------------------------------------------------------------------
+	# speed alpha
+	# ----------------------------------------------------------------------------------------------------
+        newSpeedAlpha = float(self.txtCtrl_speed_alpha.GetValue())
+	if (newSpeedAlpha != self.oldSpeedAlpha):
+            time.sleep(1)
+	    # unicode mess ;-)
+	    local_cmd = 'param set speed_alpha ' + self.txtCtrl_speed_alpha.GetValue().encode('ascii', 'ignore')
+            #serial_cmd(local_cmd, self.mySer)
+	    self.txtMultiCtrl.AppendText('speed_alpha updated' + "\n")
+	    self.oldSpeedAlpha = newSpeedAlpha
+
+	# ----------------------------------------------------------------------------------------------------
+	# undershoot
+	# ----------------------------------------------------------------------------------------------------
+        newUndershoot = float(self.txtCtrl_undershoot.GetValue())
+	if (newUndershoot != self.oldUndershoot):
+            time.sleep(1)
+	    local_cmd = 'param set undershoot ' + self.txtCtrl_undershoot.GetValue().encode('ascii', 'ignore')
+            #serial_cmd(local_cmd, self.mySer)
+	    self.txtMultiCtrl.AppendText('undershoot updated' + "\n")
+	    self.oldUndershoot = newUndershoot
+
+	# ----------------------------------------------------------------------------------------------------
+	# delay_start
+	# ----------------------------------------------------------------------------------------------------
+        newDelayStart = int(self.txtCtrl_delay_start.GetValue())
+	if (newDelayStart > 80000 or newDelayStart < 0):
+            self.txtCtrl_delay_start.SetForegroundColour((RED))
+
+        else:
+	    if (newDelayStart != self.oldDelayStart):
+                self.txtCtrl_delay_start.SetForegroundColour((BLACK))
+                time.sleep(1)
+	        # unicode mess ;-)
+	        local_cmd = 'param set delay_start ' + self.txtCtrl_delay_start.GetValue().encode('ascii', 'ignore')
+                #serial_cmd(local_cmd, self.mySer)
+	        self.txtMultiCtrl.AppendText('delay_start updated' + "\n")
+	        self.oldDelayStart = newDelayStart
 
     def lock_text_controls(self):
         self.txtCtrl_cl_max.Disable()
