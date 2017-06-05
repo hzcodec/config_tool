@@ -40,26 +40,6 @@ class ProdTestForm(wx.Panel):
 	# Add a panel so it looks the correct on all platforms
         #self.panel = wx.Panel(self, wx.ID_ANY)
 
-	# define initial values for the parameters
-	self.oldClMax = 51.00
-	self.oldClMin = -51.00
-	self.oldSlKi = 0.030518
-	self.oldThrottleHasSwitch = 1
-	self.oldSlMax = 80.0000
-	self.oldSlMin = -80.0000
-	self.oldPowerMargin = 0.0000
-	self.oldPowerFactor = 1.0000
-	self.oldBrakeTempOk = 60.000
-	self.oldBrakeTempHi = 65.000
-	self.oldBrakeMaxId = 40.000
-	self.oldBrakePosRatio = 0.3999
-	self.oldDominantThrottle = 1
-	self.oldIqAlpha = 0.005
-	self.oldSpeedAlpha = 0.05
-	self.oldUndershoot = -1.0
-	self.oldRopeStuckOn = 1
-	self.oldDelayStart = 5000
-
 	# flag if function is active
 	self.toggle = False
 
@@ -104,53 +84,76 @@ class ProdTestForm(wx.Panel):
 	    # update text control fields in --Set parameters-- box
 	    if (splitPar[0] == 'motor.cl.max'):
 	        self.txtCtrl_cl_max.SetValue(splitPar[1])
+	        self.oldClMax = float(splitPar[1])
 	    if (splitPar[0] == 'motor.cl.min'):
 	        self.txtCtrl_cl_min.SetValue(splitPar[1])
+	        self.oldClMin = float(splitPar[1])
 	    if (splitPar[0] == 'motor.sl.ki'):
 	        self.txtCtrl_sl_ki.SetValue(splitPar[1])
+	        self.oldSlKi = float(splitPar[1])
 	    if (splitPar[0] == 'motor.sl.max'):
 	        self.txtCtrl_sl_max.SetValue(splitPar[1])
+	        self.oldSlMax = float(splitPar[1])
 	    if (splitPar[0] == 'motor.sl.min'):
 	        self.txtCtrl_sl_min.SetValue(splitPar[1])
+	        self.oldSlMin = float(splitPar[1])
 	    if (splitPar[0] == 'throttle.has_switch'):
 	        self.txtCtrl_has_switch.SetValue(splitPar[1])
+	        self.oldThrottleHasSwitch = float(splitPar[1])
 	    if (splitPar[0] == 'power_margin'):
 	        self.txtCtrl_power_margin.SetValue(splitPar[1])
+	        self.oldPowerMargin = float(splitPar[1])
 	    if (splitPar[0] == 'power_factor'):
 	        self.txtCtrl_power_factor.SetValue(splitPar[1])
+	        self.oldPowerFactor = float(splitPar[1])
 	    if (splitPar[0] == 'led.brightness_lo'):
 	        self.txtCtrl_brightness_lo.SetValue(splitPar[1])
+	        self.oldBrightness_lo = float(splitPar[1])
 	    if (splitPar[0] == 'brake_temp_ok'):
 	        self.txtCtrl_brake_temp_ok.SetValue(splitPar[1])
+	        self.oldBrakeTempOk = float(splitPar[1])
 	    if (splitPar[0] == 'brake_temp_hi'):
 	        self.txtCtrl_brake_temp_hi.SetValue(splitPar[1])
+	        self.oldBrakeTempHi = float(splitPar[1])
 	    if (splitPar[0] == 'brake_max_id'):
 	        self.txtCtrl_brake_max_id.SetValue(splitPar[1])
+	        self.oldBrakeMaxId = float(splitPar[1])
 	    if (splitPar[0] == 'brake_test.pos_ratio'):
 	        self.txtCtrl_brake_pos_ratio.SetValue(splitPar[1])
+	        self.oldBrakePosRatio = float(splitPar[1])
 	    if (splitPar[0] == 'trajec.acc'):
 	        self.txtCtrl_trajec_acc.SetValue(splitPar[1])
+	        self.oldTrajecAcc = float(splitPar[1])
 	    if (splitPar[0] == 'trajec.ret'):
 	        self.txtCtrl_trajec_ret.SetValue(splitPar[1])
+	        self.oldTrajecRet = float(splitPar[1])
 	    if (splitPar[0] == 'dominant_throttle_on'):
 	        self.txtCtrl_dominant_throttle_on.SetValue(splitPar[1])
+	        self.oldDominantThrottle = float(splitPar[1])
 	    if (splitPar[0] == 'max_motor_temp'):
 	        self.txtCtrl_max_motor_temp.SetValue(splitPar[1])
+	        self.oldMaxMotorTemp = float(splitPar[1])
 	    if (splitPar[0] == 'num_motor_ch'):
 	        self.txtCtrl_num_motor_ch.SetValue(splitPar[1])
+	        self.oldNumMotorCh = float(splitPar[1])
 	    if (splitPar[0] == 'idle_timeout'):
 	        self.txtCtrl_idle_timeout.SetValue(splitPar[1])
-
+	        self.oldIdleTimeout = float(splitPar[1])
 	    if (splitPar[0] == 'rope_stuck_on'):
 	        self.txtCtrl_rope_stuck_on.SetValue(splitPar[1])
+	        self.oldRopeStuckOn = float(splitPar[1])
 	    if (splitPar[0] == 'iq_alpha'):
 	        self.txtCtrl_iq_alpha.SetValue(splitPar[1])
+	        self.oldIqAlpha = float(splitPar[1])
 	    if (splitPar[0] == 'speed_alpha'):
 	        self.txtCtrl_speed_alpha.SetValue(splitPar[1])
+	        self.oldSpeedAlpha = float(splitPar[1])
 	    if (splitPar[0] == 'undershoot'):
 	        self.txtCtrl_undershoot.SetValue(splitPar[1])
+	        self.oldUndershoot = float(splitPar[1])
 	    if (splitPar[0] == 'delay_start'):
 	        self.txtCtrl_delay_start.SetValue(splitPar[1])
+	        self.oldDelayStart = float(splitPar[1])
 
     def setup_config_params(self):
 
