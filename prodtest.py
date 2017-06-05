@@ -94,12 +94,12 @@ class ProdTestForm(wx.Panel):
 	self.extract_parameters(self.configParameters)
 
     def extract_parameters(self, par):
-	print par
-        logging.info('length: %s', len(par))
+	#print par
+        #logging.info('length: %s', len(par))
         for i in range(0, len(par)):
 	    stripPar = par[i].strip('\n')
 	    splitPar = stripPar.split(',')
-	    print splitPar[0], splitPar[1]
+	    #print splitPar[0], splitPar[1]
 
 	    # update text control fields in --Set parameters-- box
 	    if (splitPar[0] == 'motor.cl.max'):
@@ -140,6 +140,17 @@ class ProdTestForm(wx.Panel):
 	        self.txtCtrl_num_motor_ch.SetValue(splitPar[1])
 	    if (splitPar[0] == 'idle_timeout'):
 	        self.txtCtrl_idle_timeout.SetValue(splitPar[1])
+
+	    if (splitPar[0] == 'rope_stuck_on'):
+	        self.txtCtrl_rope_stuck_on.SetValue(splitPar[1])
+	    if (splitPar[0] == 'iq_alpha'):
+	        self.txtCtrl_iq_alpha.SetValue(splitPar[1])
+	    if (splitPar[0] == 'speed_alpha'):
+	        self.txtCtrl_speed_alpha.SetValue(splitPar[1])
+	    if (splitPar[0] == 'undershoot'):
+	        self.txtCtrl_undershoot.SetValue(splitPar[1])
+	    if (splitPar[0] == 'delay_start'):
+	        self.txtCtrl_delay_start.SetValue(splitPar[1])
 
     def setup_config_params(self):
 
@@ -270,15 +281,15 @@ class ProdTestForm(wx.Panel):
     def setup_test_enahanced_measuring(self):
 
         param_rope_stuck_on = wx.StaticText(self, wx.ID_ANY, 'rope_stuck_on')
-        self.txtCtrl_rope_stuck_on = wx.TextCtrl(self, wx.ID_ANY,'1')
+        self.txtCtrl_rope_stuck_on = wx.TextCtrl(self, wx.ID_ANY,'')
         param_iq_alpha = wx.StaticText(self, wx.ID_ANY, 'iq_alpha')
-        self.txtCtrl_iq_alpha = wx.TextCtrl(self, wx.ID_ANY,'0.005')
+        self.txtCtrl_iq_alpha = wx.TextCtrl(self, wx.ID_ANY,'')
         param_speed_alpha = wx.StaticText(self, wx.ID_ANY, 'speed_alpha')
-        self.txtCtrl_speed_alpha = wx.TextCtrl(self, wx.ID_ANY,'0.05')
+        self.txtCtrl_speed_alpha = wx.TextCtrl(self, wx.ID_ANY,'')
         param_undershoot = wx.StaticText(self, wx.ID_ANY, 'undershoot')
-        self.txtCtrl_undershoot = wx.TextCtrl(self, wx.ID_ANY,'-1.0')
+        self.txtCtrl_undershoot = wx.TextCtrl(self, wx.ID_ANY,'')
         param_delay_start = wx.StaticText(self, wx.ID_ANY, 'delay_start')
-        self.txtCtrl_delay_start = wx.TextCtrl(self, wx.ID_ANY,'5000')
+        self.txtCtrl_delay_start = wx.TextCtrl(self, wx.ID_ANY,'')
 
         btnConfigure = wx.Button(self, wx.ID_ANY, ' Configure   ')
         self.Bind(wx.EVT_BUTTON, self.onConfigure, btnConfigure)
