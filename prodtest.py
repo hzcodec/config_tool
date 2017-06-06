@@ -127,7 +127,7 @@ class ProdTestForm(wx.Panel):
 	        self.oldSlMin = float(splitPar[1])
 	    if (splitPar[0] == 'throttle.has_switch'):
 	        self.txtCtrl_has_switch.SetValue(splitPar[1])
-	        self.oldThrottleHasSwitch = float(splitPar[1])
+	        self.oldHasSwitch = float(splitPar[1])
 	    if (splitPar[0] == 'power_margin'):
 	        self.txtCtrl_power_margin.SetValue(splitPar[1])
 	        self.oldPowerMargin = float(splitPar[1])
@@ -136,7 +136,7 @@ class ProdTestForm(wx.Panel):
 	        self.oldPowerFactor = float(splitPar[1])
 	    if (splitPar[0] == 'led.brightness_lo'):
 	        self.txtCtrl_brightness_lo.SetValue(splitPar[1])
-	        self.oldBrightness_lo = float(splitPar[1])
+	        self.oldBrightnessLo = float(splitPar[1])
 	    if (splitPar[0] == 'brake_temp_ok'):
 	        self.txtCtrl_brake_temp_ok.SetValue(splitPar[1])
 	        self.oldBrakeTempOk = float(splitPar[1])
@@ -482,7 +482,7 @@ class ProdTestForm(wx.Panel):
 	# ----------------------------------------------------------------------------------------------------
         # has_switch
 	# ----------------------------------------------------------------------------------------------------
-        newHasSwitch = float(self.txtCtrl_has_switch.GetValue())
+        newHasSwitch = int(self.txtCtrl_has_switch.GetValue())
 	if (newHasSwitch != self.oldHasSwitch):
             time.sleep(WAIT_DELAY)
 	    local_cmd = 'param set throttle.has_switch ' + self.txtCtrl_has_switch.GetValue().encode('ascii', 'ignore')
@@ -516,6 +516,7 @@ class ProdTestForm(wx.Panel):
         # brightness_lo
 	# ----------------------------------------------------------------------------------------------------
         newBrightnessLo = float(self.txtCtrl_brightness_lo.GetValue())
+	print 'bright', newBrightnessLo, self.oldBrightnessLo
 	if (newBrightnessLo != self.oldBrightnessLo):
             time.sleep(WAIT_DELAY)
 	    local_cmd = 'param set led.brightness_lo ' + self.txtCtrl_brightness_lo.GetValue().encode('ascii', 'ignore')
