@@ -149,6 +149,7 @@ class MainFrame(wx.Frame):
                 self.tabProdTest.txtCtrl_iq_alpha.Enable()
                 self.tabProdTest.txtCtrl_speed_alpha.Enable()
                 self.tabProdTest.txtCtrl_undershoot.Enable()
+                self.tabProdTest.txtCtrl_speed_lim.Enable()
                 self.tabProdTest.txtCtrl_delay_start.Enable()
 
     def onAbout(self, event):
