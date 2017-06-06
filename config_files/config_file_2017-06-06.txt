@@ -44,7 +44,7 @@ idle_timeout, 14400
 remote_ctrl_timeout, 10
 soc_lim_run_up, 8
 max_drive_temp, 85.000000
-dominant_throttle_on, 1
+dominant_throttle_on, 0
 rope_stuck_on, 1
 iq_alpha, 0.005005
 speed_alpha, 0.050003
