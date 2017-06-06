@@ -68,6 +68,7 @@ class ProdTestForm(wx.Panel):
 	self.oldIqAlpha          = 0.00
 	self.oldSpeedAlpha       = 0.00
 	self.oldUndershoot       = 0.00
+	self.oldSpeedLim         = 0.00
 	self.oldDelayStart       = 0
 
 	configParamsSizer = self.setup_config_params()
@@ -318,6 +319,8 @@ class ProdTestForm(wx.Panel):
         self.txtCtrl_speed_alpha = wx.TextCtrl(self, wx.ID_ANY,'0.00')
         param_undershoot = wx.StaticText(self, wx.ID_ANY, 'undershoot')
         self.txtCtrl_undershoot = wx.TextCtrl(self, wx.ID_ANY,'0.00')
+        param_speed_lim = wx.StaticText(self, wx.ID_ANY, 'speed_lim')
+        self.txtCtrl_speed_lim = wx.TextCtrl(self, wx.ID_ANY,'0.00')
         param_delay_start = wx.StaticText(self, wx.ID_ANY, 'delay_start')
         self.txtCtrl_delay_start = wx.TextCtrl(self, wx.ID_ANY,'0')
 
@@ -335,6 +338,7 @@ class ProdTestForm(wx.Panel):
 	paramSizer1.Add(param_iq_alpha, 0, wx.LEFT, 14)
 	paramSizer1.Add(param_speed_alpha, 0, wx.LEFT, 44)
 	paramSizer1.Add(param_undershoot, 0, wx.LEFT, 24)
+	paramSizer1.Add(param_speed_lim, 0, wx.LEFT, 24)
 	paramSizer1.Add(param_delay_start, 0, wx.LEFT, 24)
 
 	paramSizer2 = wx.BoxSizer(wx.HORIZONTAL)
@@ -342,6 +346,7 @@ class ProdTestForm(wx.Panel):
 	paramSizer2.Add(self.txtCtrl_iq_alpha, 0, wx.LEFT, 15)
 	paramSizer2.Add(self.txtCtrl_speed_alpha, 0, wx.LEFT, 15)
 	paramSizer2.Add(self.txtCtrl_undershoot, 0, wx.LEFT, 15)
+	paramSizer2.Add(self.txtCtrl_speed_lim, 0, wx.LEFT, 15)
 	paramSizer2.Add(self.txtCtrl_delay_start, 0, wx.LEFT, 15)
 
 	paramSizer3 = wx.BoxSizer(wx.HORIZONTAL)
@@ -686,6 +691,17 @@ class ProdTestForm(wx.Panel):
 	    self.oldUndershoot = newUndershoot
 
 	# ----------------------------------------------------------------------------------------------------
+	# speed_lim
+	# ----------------------------------------------------------------------------------------------------
+        newSpeedLim = float(self.txtCtrl_speed_lim.GetValue())
+	if (newSpeedLim != self.oldSpeedLim):
+            time.sleep(WAIT_DELAY)
+	    local_cmd = 'param set speed_lim ' + self.txtCtrl_speed_lim.GetValue().encode('ascii', 'ignore')
+            serial_cmd(local_cmd, self.mySer)
+	    self.txtMultiCtrl.AppendText('speed_lim updated' + "\n")
+	    self.oldSpeedLim = newSpeedLim
+
+	# ----------------------------------------------------------------------------------------------------
 	# delay_start
 	# ----------------------------------------------------------------------------------------------------
         newDelayStart = int(self.txtCtrl_delay_start.GetValue())
@@ -726,6 +742,7 @@ class ProdTestForm(wx.Panel):
         self.txtCtrl_iq_alpha.Disable()
         self.txtCtrl_speed_alpha.Disable()
         self.txtCtrl_undershoot.Disable()
+        self.txtCtrl_speed_lim.Disable()
         self.txtCtrl_delay_start.Disable()
         
     def onTestInject(self, event):
