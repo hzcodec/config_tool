@@ -426,7 +426,7 @@ class ProdTestForm(wx.Panel):
 	if (newClMax != self.oldClMax):
             time.sleep(WAIT_DELAY)
 	    local_cmd = 'param set motor.cl.max ' + self.txtCtrl_cl_max.GetValue().encode('ascii', 'ignore')
-            #serial_cmd(local_cmd, self.mySer)
+            serial_cmd(local_cmd, self.mySer)
 	    self.txtMultiCtrl.AppendText('cl.max updated' + "\n")
 	    self.oldClMax = newClMax
 
@@ -437,7 +437,7 @@ class ProdTestForm(wx.Panel):
 	if (newClMin != self.oldClMin):
             time.sleep(WAIT_DELAY)
 	    local_cmd = 'param set motor.cl.min ' + self.txtCtrl_cl_min.GetValue().encode('ascii', 'ignore')
-            #serial_cmd(local_cmd, self.mySer)
+            serial_cmd(local_cmd, self.mySer)
 	    self.txtMultiCtrl.AppendText('cl.min updated' + "\n")
 	    self.oldClMin = newClMin
 
@@ -448,7 +448,7 @@ class ProdTestForm(wx.Panel):
 	if (newSlKi != self.oldSlKi):
             time.sleep(WAIT_DELAY)
 	    local_cmd = 'param set motor.sl.ki ' + self.txtCtrl_sl_ki.GetValue().encode('ascii', 'ignore')
-            #serial_cmd(local_cmd, self.mySer)
+            serial_cmd(local_cmd, self.mySer)
 	    self.txtMultiCtrl.AppendText('sl.ki updated' + "\n")
 	    self.oldSlKi = newSlKi
 
@@ -459,7 +459,7 @@ class ProdTestForm(wx.Panel):
 	if (newSlMax != self.oldSlMax):
             time.sleep(WAIT_DELAY)
 	    local_cmd = 'param set motor.sl.max ' + self.txtCtrl_sl_ki.GetValue().encode('ascii', 'ignore')
-            #serial_cmd(local_cmd, self.mySer)
+            serial_cmd(local_cmd, self.mySer)
 	    self.txtMultiCtrl.AppendText('sl.max updated' + "\n")
 	    self.oldSlMax = newSlMax
 
@@ -470,7 +470,7 @@ class ProdTestForm(wx.Panel):
 	if (newSlMin != self.oldSlMin):
             time.sleep(WAIT_DELAY)
 	    local_cmd = 'param set motor.sl.min ' + self.txtCtrl_sl_ki.GetValue().encode('ascii', 'ignore')
-            #serial_cmd(local_cmd, self.mySer)
+            serial_cmd(local_cmd, self.mySer)
 	    self.txtMultiCtrl.AppendText('sl.min updated' + "\n")
 	    self.oldSlMin = newSlMin
 
@@ -481,7 +481,7 @@ class ProdTestForm(wx.Panel):
 	if (newHasSwitch != self.oldHasSwitch):
             time.sleep(WAIT_DELAY)
 	    local_cmd = 'param set throttle.has_switch ' + self.txtCtrl_has_switch.GetValue().encode('ascii', 'ignore')
-            #serial_cmd(local_cmd, self.mySer)
+            serial_cmd(local_cmd, self.mySer)
 	    self.txtMultiCtrl.AppendText('has_switch updated' + "\n")
 	    self.oldHasSwitch = newHasSwitch
 
@@ -492,7 +492,7 @@ class ProdTestForm(wx.Panel):
 	if (newPowerMargin != self.oldPowerMargin):
             time.sleep(WAIT_DELAY)
 	    local_cmd = 'param set power_margin ' + self.txtCtrl_power_margin.GetValue().encode('ascii', 'ignore')
-            #serial_cmd(local_cmd, self.mySer)
+            serial_cmd(local_cmd, self.mySer)
 	    self.txtMultiCtrl.AppendText('power_margin updated' + "\n")
 	    self.oldPowerMargin = newPowerMargin
 
@@ -503,7 +503,7 @@ class ProdTestForm(wx.Panel):
 	if (newPowerFactor != self.oldPowerFactor):
             time.sleep(WAIT_DELAY)
 	    local_cmd = 'param set power_factor ' + self.txtCtrl_power_factor.GetValue().encode('ascii', 'ignore')
-            #serial_cmd(local_cmd, self.mySer)
+            serial_cmd(local_cmd, self.mySer)
 	    self.txtMultiCtrl.AppendText('power_factor updated' + "\n")
 	    self.oldPowerFactor = newPowerFactor
 
@@ -514,7 +514,7 @@ class ProdTestForm(wx.Panel):
 	if (newBrightnessLo != self.oldBrightnessLo):
             time.sleep(WAIT_DELAY)
 	    local_cmd = 'param set led.brightness_lo ' + self.txtCtrl_brightness_lo.GetValue().encode('ascii', 'ignore')
-            #serial_cmd(local_cmd, self.mySer)
+            serial_cmd(local_cmd, self.mySer)
 	    self.txtMultiCtrl.AppendText('brightness_lo updated' + "\n")
 	    self.oldBrightnessLo = newBrightnessLo
 
@@ -525,7 +525,7 @@ class ProdTestForm(wx.Panel):
 	if (newBrakeTempOk != self.oldBrakeTempOk):
             time.sleep(WAIT_DELAY)
 	    local_cmd = 'param set brake_temp_ok ' + self.txtCtrl_brake_temp_ok.GetValue().encode('ascii', 'ignore')
-            #serial_cmd(local_cmd, self.mySer)
+            serial_cmd(local_cmd, self.mySer)
 	    self.txtMultiCtrl.AppendText('brake_temp_ok updated' + "\n")
 	    self.oldBrakeTempOk = newBrakeTempOk
 
@@ -536,7 +536,7 @@ class ProdTestForm(wx.Panel):
 	if (newBrakeTempHi != self.oldBrakeTempHi):
             time.sleep(WAIT_DELAY)
 	    local_cmd = 'param set brake_temp_hi ' + self.txtCtrl_brake_temp_hi.GetValue().encode('ascii', 'ignore')
-            #serial_cmd(local_cmd, self.mySer)
+            serial_cmd(local_cmd, self.mySer)
 	    self.txtMultiCtrl.AppendText('brake_temp_hi updated' + "\n")
 	    self.oldBrakeTempHi = newBrakeTempHi
 
@@ -548,7 +548,7 @@ class ProdTestForm(wx.Panel):
             time.sleep(WAIT_DELAY)
 	    # unicode mess ;-)
 	    local_cmd = 'param set brake_max_id ' + self.txtCtrl_brake_max_id.GetValue().encode('ascii', 'ignore')
-            #serial_cmd(local_cmd, self.mySer)
+            serial_cmd(local_cmd, self.mySer)
 	    self.txtMultiCtrl.AppendText('brake_max_id updated' + "\n")
 	    self.oldBrakeMaxId = newBrakeMaxId
 
@@ -559,7 +559,7 @@ class ProdTestForm(wx.Panel):
 	if (newBrakePosRatio != self.oldBrakePosRatio):
             time.sleep(WAIT_DELAY)
 	    local_cmd = 'param set brake_test.pos_ratio ' + self.txtCtrl_brake_pos_ratio.GetValue().encode('ascii', 'ignore')
-            #serial_cmd(local_cmd, self.mySer)
+            serial_cmd(local_cmd, self.mySer)
 	    self.txtMultiCtrl.AppendText('brake_pos_ratio updated' + "\n")
 	    self.oldBrakePosRatio = newBrakePosRatio
 
@@ -570,7 +570,7 @@ class ProdTestForm(wx.Panel):
 	if (newTrajecAcc != self.oldTrajecAcc):
             time.sleep(WAIT_DELAY)
 	    local_cmd = 'param set brake_test.pos_ratio ' + self.txtCtrl_trajec_acc.GetValue().encode('ascii', 'ignore')
-            #serial_cmd(local_cmd, self.mySer)
+            serial_cmd(local_cmd, self.mySer)
 	    self.txtMultiCtrl.AppendText('trajec.acc updated' + "\n")
 	    self.oldTrajecAcc = newTrajecAcc
 
@@ -581,7 +581,7 @@ class ProdTestForm(wx.Panel):
 	if (newTrajecRet != self.oldTrajecRet):
             time.sleep(WAIT_DELAY)
 	    local_cmd = 'param set brake_test.pos_ratio ' + self.txtCtrl_trajec_ret.GetValue().encode('ascii', 'ignore')
-            #serial_cmd(local_cmd, self.mySer)
+            serial_cmd(local_cmd, self.mySer)
 	    self.txtMultiCtrl.AppendText('trajec.ret updated' + "\n")
 	    self.oldTrajecRet = newTrajecRet
 
@@ -597,7 +597,7 @@ class ProdTestForm(wx.Panel):
 	        self.txtCtrl_dominant_throttle_on.SetForegroundColour((BLACK))
                 time.sleep(WAIT_DELAY)
 	        local_cmd = 'param set dominant_throttle_on ' + self.txtCtrl_dominant_throttle_on.GetValue().encode('ascii', 'ignore')
-                #serial_cmd(local_cmd, self.mySer)
+                serial_cmd(local_cmd, self.mySer)
 	        self.txtMultiCtrl.AppendText('dominant_throttle_on updated' + "\n")
 	        self.oldDominantThrottle = newDominantThrottle
 
@@ -608,7 +608,7 @@ class ProdTestForm(wx.Panel):
 	if (newMaxMotorTemp != self.oldMaxMotorTemp):
             time.sleep(WAIT_DELAY)
 	    local_cmd = 'param set max_motor_temp ' + self.txtCtrl_max_motor_temp.GetValue().encode('ascii', 'ignore')
-            #serial_cmd(local_cmd, self.mySer)
+            serial_cmd(local_cmd, self.mySer)
 	    self.txtMultiCtrl.AppendText('max_motor_temp updated' + "\n")
 	    self.oldMaxMotorTemp = newMaxMotorTemp
 
@@ -619,7 +619,7 @@ class ProdTestForm(wx.Panel):
 	if (newNumMotorCh != self.oldNumMotorCh):
             time.sleep(WAIT_DELAY)
 	    local_cmd = 'param set num_motor_ch ' + self.txtCtrl_num_motor_ch.GetValue().encode('ascii', 'ignore')
-            #serial_cmd(local_cmd, self.mySer)
+            serial_cmd(local_cmd, self.mySer)
 	    self.txtMultiCtrl.AppendText('num_motor_ch updated' + "\n")
 	    self.oldNumMotorCh = newNumMotorCh
 
@@ -630,7 +630,7 @@ class ProdTestForm(wx.Panel):
 	if (newIdleTimeout != self.oldIdleTimeout):
             time.sleep(WAIT_DELAY)
 	    local_cmd = 'param set idle_timeout ' + self.txtCtrl_idle_timeout.GetValue().encode('ascii', 'ignore')
-            #serial_cmd(local_cmd, self.mySer)
+            serial_cmd(local_cmd, self.mySer)
 	    self.txtMultiCtrl.AppendText('idle_timeout updated' + "\n")
 	    self.oldIdleTimeout = newIdleTimeout
 
@@ -646,7 +646,7 @@ class ProdTestForm(wx.Panel):
                 self.txtCtrl_rope_stuck_on.SetForegroundColour((BLACK))
                 time.sleep(WAIT_DELAY)
 	        local_cmd = 'param set rope_stuck_on ' + self.txtCtrl_rope_stuck_on.GetValue().encode('ascii', 'ignore')
-                #serial_cmd(local_cmd, self.mySer)
+                serial_cmd(local_cmd, self.mySer)
 	        self.txtMultiCtrl.AppendText('rope_stuck_on updated' + "\n")
 	        self.oldRopeStuckOn = newRopeStuckOn
 
@@ -658,7 +658,7 @@ class ProdTestForm(wx.Panel):
             time.sleep(WAIT_DELAY)
 	    # unicode mess ;-)
 	    local_cmd = 'param set iq_alpha ' + self.txtCtrl_iq_alpha.GetValue().encode('ascii', 'ignore')
-            #serial_cmd(local_cmd, self.mySer)
+            serial_cmd(local_cmd, self.mySer)
 	    self.txtMultiCtrl.AppendText('iq_alpha updated' + "\n")
 	    self.oldIqAlpha = newIqAlpha
 
@@ -670,7 +670,7 @@ class ProdTestForm(wx.Panel):
             time.sleep(WAIT_DELAY)
 	    # unicode mess ;-)
 	    local_cmd = 'param set speed_alpha ' + self.txtCtrl_speed_alpha.GetValue().encode('ascii', 'ignore')
-            #serial_cmd(local_cmd, self.mySer)
+            serial_cmd(local_cmd, self.mySer)
 	    self.txtMultiCtrl.AppendText('speed_alpha updated' + "\n")
 	    self.oldSpeedAlpha = newSpeedAlpha
 
@@ -681,7 +681,7 @@ class ProdTestForm(wx.Panel):
 	if (newUndershoot != self.oldUndershoot):
             time.sleep(WAIT_DELAY)
 	    local_cmd = 'param set undershoot ' + self.txtCtrl_undershoot.GetValue().encode('ascii', 'ignore')
-            #serial_cmd(local_cmd, self.mySer)
+            serial_cmd(local_cmd, self.mySer)
 	    self.txtMultiCtrl.AppendText('undershoot updated' + "\n")
 	    self.oldUndershoot = newUndershoot
 
@@ -698,7 +698,7 @@ class ProdTestForm(wx.Panel):
                 time.sleep(WAIT_DELAY)
 	        # unicode mess ;-)
 	        local_cmd = 'param set delay_start ' + self.txtCtrl_delay_start.GetValue().encode('ascii', 'ignore')
-                #serial_cmd(local_cmd, self.mySer)
+                serial_cmd(local_cmd, self.mySer)
 	        self.txtMultiCtrl.AppendText('delay_start updated' + "\n")
 	        self.oldDelayStart = newDelayStart
 

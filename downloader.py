@@ -124,7 +124,8 @@ class DownLoaderForm(wx.Panel):
     def config_parameters(self):
         """
             Configure parameters via serial IF.
-	    Parameters are configured when file is selected via Open.
+	    Parameters are configured with 'param set' command when
+	    is selected via Open.
 	    Save param button is disabled during configuration.
 	"""
 	if (self.connected == True):
