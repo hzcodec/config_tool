@@ -27,13 +27,13 @@ DELAY2 = 0.5
 
 # current parameters
 PARAMETER_NAMES = ['motor.cl.kp', 'motor.cl.ki', 'motor.cl.kt', 'motor.cl.max', 'motor.cl.min', \
-                   'motor.sl.kp', 'motor.sl.ki', 'motor.sl.kt', 'motor.sl.max', 'motor.sl_min', \
+                   'motor.sl.kp', 'motor.sl.ki', 'motor.sl.kt', 'motor.sl.max', 'motor.sl.min', \
 		   'trajec.acc', 'trajec.ret', 'throttle.zero', 'throttle.down', 'throttle.up', \
 		   'throttle.deadband_on', 'throttle.deadband_off', 'throttle.has_switch', 'num_motor_ch', \
 		   'power_out', 'power_in', 'brake_temp_ok', 'brake_temp_hi', 'brake_max_id', \
 		   'angle_offset', 'alignment_current', \
 		   'sin_bias', 'sin_gain', 'cos_bias', 'cos_gain', \
-		   'brake_test.pos_ratio', 'brake_test.net_ratio', 'psu_ok', 'led.brightness_hi', 'led.brightness_lo', \
+		   'brake_test.pos_ratio', 'brake_test.neg_ratio', 'psu_ok', 'led.brightness_hi', 'led.brightness_lo', \
 		   'idreg.kp', 'idreg.ki', 'idreg.kt', 'power_margin', 'power_factor', \
 		   'speed_filter', 'max_motor_temp', 'idle_timeout', 'remote_ctrl_timeout', 'soc_lim_run_up', \
 		   'max_drive_temp', 'dominant_throttle_on', 'rope_stuck_on', 'iq_alpha', 'speed_alpha', \
@@ -90,13 +90,13 @@ class DownLoaderForm(wx.Panel):
     def get_version(self):
         time.sleep(DELAY2)
         self.ascenderVersion = serial_read('v', 56, self.mySer)
-	#print self.ascenderVersion
+	print self.ascenderVersion
 	aVersion = self.ascenderVersion.split("v")
 	self.lblAscenderVersion.SetLabel(aVersion[1])
         time.sleep(DELAY2)
 
         self.remoteVersion = serial_read('r_v', 56, self.mySer)
-	#print self.remoteVersion
+	print self.remoteVersion
 	rVersion = self.remoteVersion.split("r_v")
 	self.lblRemoteVersion.SetLabel(rVersion[1])
  
