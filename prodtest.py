@@ -516,7 +516,6 @@ class ProdTestForm(wx.Panel):
         # brightness_lo
 	# ----------------------------------------------------------------------------------------------------
         newBrightnessLo = float(self.txtCtrl_brightness_lo.GetValue())
-	print 'bright', newBrightnessLo, self.oldBrightnessLo
 	if (newBrightnessLo != self.oldBrightnessLo):
             time.sleep(WAIT_DELAY)
 	    local_cmd = 'param set led.brightness_lo ' + self.txtCtrl_brightness_lo.GetValue().encode('ascii', 'ignore')
