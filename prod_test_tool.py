@@ -75,7 +75,7 @@ class MainFrame(wx.Frame):
 	fileMenu.Enable(wx.ID_SAVE, False)
 
 	menuBar.Append(fileMenu, "&File")
-	menuBar.Append(unlockMenu, "&Unlock")
+	menuBar.Append(unlockMenu, "&Enable Params")
 	menuBar.Append(aboutMenu, "&About")
 	self.SetMenuBar(menuBar)
 	self.Bind(wx.EVT_MENU, self.onOpen, id=wx.ID_OPEN)
