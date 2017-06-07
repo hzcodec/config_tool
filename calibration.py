@@ -1,6 +1,7 @@
 import wx
 import logging
 import datetime
+import threading
 from wx.lib.pubsub import pub
 from wx.lib.pubsub import setupkwargs
 
@@ -15,6 +16,29 @@ def serial_cmd(cmd, serial):
         serial.write(cmd + '\r');
     except:
         logging.info('Not connected')
+
+
+class PollAlignment(threading.Thread):
+
+    def __init__(self, serial):
+        threading.Thread.__init__(self)
+	self.ser = serial
+        self.start()    # start the thread
+ 
+    def run(self):
+        time.sleep(1)
+	line = []
+
+        while True:
+            for c in self.ser.read():
+                line.append(c)
+                if (c == '\n'):
+		    s = [''.join(line[:])]
+		    t = s[0]
+                    print t[:-2]
+                    line = []
+                    wx.CallAfter(Publisher.sendMessage, "topic_aligned", "Aligned done")
+                    break
 
 
 class CalibForm(wx.Panel):
@@ -59,10 +83,10 @@ class CalibForm(wx.Panel):
         self.txtAlignment = wx.StaticText(self, wx.ID_ANY, 'Alignment not performed')
         txtNull = wx.StaticText(self, wx.ID_ANY, ' ')
 
-        btnAlign = wx.Button(self, wx.ID_ANY, 'Align')
-        self.Bind(wx.EVT_BUTTON, self.onAlign, btnAlign)
+        self.btnAlign = wx.Button(self, wx.ID_ANY, 'Align')
+        self.Bind(wx.EVT_BUTTON, self.onAlign, self.btnAlign)
 
-        statBoxSizer.Add(btnAlign, 0, wx.ALL, 20)
+        statBoxSizer.Add(self.btnAlign, 0, wx.ALL, 20)
         statBoxSizer.Add(self.txtAlignment, 0, wx.TOP|wx.LEFT|wx.RIGHT, 25)
         statBoxSizer.Add(txtNull, 0, wx.LEFT, 650) # this is just to get the statBoxSerial larger 
 
@@ -110,6 +134,8 @@ class CalibForm(wx.Panel):
         statBoxSizer.Add(self.btnCalibRestart, 0, wx.TOP|wx.LEFT, 20)
         statBoxSizer.Add(txtNull, 0, wx.LEFT, 1000) # this is just to get the statBoxSerial larger 
 
+	#Publisher.subscribe(self.aligned_finished, "topic_aligned")
+
 	return statBoxSizer
 
     def setup_save_param_sizer(self):
@@ -131,6 +157,10 @@ class CalibForm(wx.Panel):
 
     def onAlign(self, event):
         logging.info('')
+
+	# poll answer from Ascender when alignment is done
+	#PollAlignment(self.ser)
+
 	self.txtAlignment.SetForegroundColour(GREEN)
 	self.txtAlignment.SetLabel("Alignment initiated")
 	self.btnSaveParam.Enable(True)
@@ -144,7 +174,7 @@ class CalibForm(wx.Panel):
 	self.btnCalibLeft.Enable(True)
 	self.txtThrottleMaxUp.SetForegroundColour(GREEN)
 	self.txtThrottleMaxUp.SetLabel("Up Calibration finished")
-        #serial_cmd('throttle cal 1', self.mySer)
+        serial_cmd('throttle cal 1', self.mySer)
 
     def onCalibLeft(self, event):
         logging.info('Calibration Down done')
@@ -152,7 +182,7 @@ class CalibForm(wx.Panel):
 	self.btnCalibNeutral.Enable(True)
 	self.txtThrottleMaxDown.SetForegroundColour(GREEN)
 	self.txtThrottleMaxDown.SetLabel("Down Calibration finished")
-        #serial_cmd('throttle cal -1', self.mySer)
+        serial_cmd('throttle cal -1', self.mySer)
 
     def onCalibNeutral(self, event):
         logging.info('Calibration Neutral done')
@@ -162,7 +192,7 @@ class CalibForm(wx.Panel):
 	self.txtAlertUser.SetForegroundColour(RED)
 	self.txtAlertUser.SetLabel("Remember to save calibration result")
 	self.operation = 'calibration'
-        #serial_cmd('throttle cal 0', self.mySer)
+        serial_cmd('throttle cal 0', self.mySer)
 	self.btnSaveParam.Enable(True)
 
     def onCalibRestart(self, event):
@@ -183,4 +213,18 @@ class CalibForm(wx.Panel):
 	self.txtAlertUser.SetForegroundColour(GREEN)
 	self.txtAlertUser.SetLabel("Parameter saved after " + self.operation + " at  " + str(now))
         serial_cmd('save param', self.mySer)
+
+    def aligned_finished(self, msg):
+
+        t = msg.data
+
+	if isinstance(t, int):
+	    print 't:', t
+	else:
+	    print 'else', t
+	    self.btnAlign.Enable(True)
+	    self.txtAlignment.SetForegroundColour(GREEN)
+	    self.txtAlignment.SetLabel("Alignment finished.")
+	    self.btnCalibRight.Enable(True)
+	    self.btnCalibRestart.Enable(True)
 
