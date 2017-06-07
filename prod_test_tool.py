@@ -67,9 +67,12 @@ class MainFrame(wx.Frame):
 	fileMenu.Append(wx.ID_OPEN, "Open", "Open")
 	fileMenu.Append(wx.ID_SAVE, "Save", "Save")
 	fileMenu.Append(wx.ID_EXIT, "Exit", "Close")
-	unlockMenu.Append(101, "Lock", "Lock")
-	unlockMenu.Append(102, "UnLock", "UnLock")
+	unlockMenu.Append(101, "&Lock\tCTRL+L", "Lock")
+	unlockMenu.Append(102, "&UnLock\tCTRL+U", "UnLock")
 	aboutMenu.Append(103, "About", "Open")
+
+	# disable 'Save' menu
+	fileMenu.Enable(wx.ID_SAVE, False)
 
 	menuBar.Append(fileMenu, "&File")
 	menuBar.Append(unlockMenu, "&Unlock")
@@ -124,7 +127,7 @@ class MainFrame(wx.Frame):
         if result == wx.ID_OK:
             passwd = dialog.GetValue()
 
-            if (passwd == 'admin'):
+            if (passwd == 'Woodpecker'):
 
                 self.tabProdTest.txtCtrl_cl_max.Enable()
                 self.tabProdTest.txtCtrl_cl_min.Enable()
