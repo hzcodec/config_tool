@@ -2,6 +2,7 @@ import wx
 import logging
 import datetime
 import threading
+import time
 from wx.lib.pubsub import pub
 from wx.lib.pubsub import setupkwargs
 
@@ -37,7 +38,7 @@ class PollAlignment(threading.Thread):
 		    t = s[0]
                     print t[:-2]
                     line = []
-                    wx.CallAfter(Publisher.sendMessage, "topic_aligned", "Aligned done")
+                    wx.CallAfter(pub.sendMessage, "topic_aligned", "Aligned done")
                     break
 
 
@@ -134,7 +135,7 @@ class CalibForm(wx.Panel):
         statBoxSizer.Add(self.btnCalibRestart, 0, wx.TOP|wx.LEFT, 20)
         statBoxSizer.Add(txtNull, 0, wx.LEFT, 1000) # this is just to get the statBoxSerial larger 
 
-	#Publisher.subscribe(self.aligned_finished, "topic_aligned")
+	pub.subscribe(self.aligned_finished, "topic_aligned")
 
 	return statBoxSizer
 
@@ -159,7 +160,7 @@ class CalibForm(wx.Panel):
         logging.info('')
 
 	# poll answer from Ascender when alignment is done
-	#PollAlignment(self.ser)
+	#PollAlignment(self.mySer)
 
 	self.txtAlignment.SetForegroundColour(GREEN)
 	self.txtAlignment.SetLabel("Alignment initiated")

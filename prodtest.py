@@ -372,9 +372,13 @@ class ProdTestForm(wx.Panel):
 	bmpDown = wx.Bitmap("up2.png", wx.BITMAP_TYPE_ANY)
 	bmpStop = wx.Bitmap("stop.png", wx.BITMAP_TYPE_ANY)
 
-        self.btnTestRunUp = wx.BitmapButton(self, wx.ID_ANY, bitmap=bmpUp)
-        self.btnTestRunDown = wx.BitmapButton(self, wx.ID_ANY, bitmap=bmpDown)
-        btnTestStop = wx.BitmapButton(self, wx.ID_ANY, bitmap=bmpStop)
+	# bitmap temp removed since I could not bundle the .png files with pyinstaller
+        #self.btnTestRunUp = wx.BitmapButton(self, wx.ID_ANY, bitmap=bmpUp)
+        #self.btnTestRunDown = wx.BitmapButton(self, wx.ID_ANY, bitmap=bmpDown)
+        #btnTestStop = wx.BitmapButton(self, wx.ID_ANY, bitmap=bmpStop)
+        self.btnTestRunUp = wx.Button(self, wx.ID_ANY, 'Up')
+        self.btnTestRunDown = wx.Button(self, wx.ID_ANY, 'Down')
+        btnTestStop = wx.Button(self, wx.ID_ANY, 'Stop')
         self.Bind(wx.EVT_BUTTON, self.onTestRunUp, self.btnTestRunUp)
         self.Bind(wx.EVT_BUTTON, self.onTestRunDown, self.btnTestRunDown)
         self.Bind(wx.EVT_BUTTON, self.onTestStop, btnTestStop)
@@ -391,9 +395,13 @@ class ProdTestForm(wx.Panel):
 	paramSizer1.Add(self.spinCtrlSpeed, 0, wx.TOP, 10)
 
 	paramSizer2 = wx.BoxSizer(wx.HORIZONTAL)
-	paramSizer2.Add(self.btnTestRunUp, 0, wx.TOP|wx.LEFT, 10)
-	paramSizer2.Add(self.btnTestRunDown, 0, wx.TOP|wx.LEFT, 10)
-	paramSizer2.Add(btnTestStop, 0, wx.TOP|wx.LEFT, 10)
+	# these three was used with bitmap buttons 
+	#paramSizer2.Add(self.btnTestRunUp, 0, wx.TOP|wx.LEFT, 10)
+	#paramSizer2.Add(self.btnTestRunDown, 0, wx.TOP|wx.LEFT, 10)
+	#paramSizer2.Add(btnTestStop, 0, wx.TOP|wx.LEFT, 10)
+	paramSizer2.Add(self.btnTestRunUp, 0, wx.TOP|wx.LEFT, 25)
+	paramSizer2.Add(self.btnTestRunDown, 0, wx.TOP|wx.LEFT, 25)
+	paramSizer2.Add(btnTestStop, 0, wx.TOP|wx.LEFT, 25)
 
 	statBoxTestRun = wx.StaticBox(self, wx.ID_ANY, '  Test Run')
 	statBoxTestRun.SetBackgroundColour(GREY)
