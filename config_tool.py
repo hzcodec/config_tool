@@ -22,6 +22,7 @@ import glob
 import sys
 import datetime
 import threading
+import logging
 #from wx.lib.pubsub import setuparg1
 from wx.lib.pubsub import setupkwargs
 from wx.lib.pubsub import pub as Publisher
@@ -93,11 +94,14 @@ def serial_cmd(cmd, serial):
 class PollAlignment(threading.Thread):
 
     def __init__(self, serial):
+
         threading.Thread.__init__(self)
 	self.ser = serial
         self.start()    # start the thread
+        logging.basicConfig(format="%(filename)s: %(funcName)s() - %(message)s", level=logging.INFO)
  
     def run(self):
+        logging.info('')
         time.sleep(1)
 	line = []
 
@@ -109,7 +113,8 @@ class PollAlignment(threading.Thread):
 		    t = s[0]
                     print t[:-2]
                     line = []
-                    wx.CallAfter(Publisher.sendMessage, "topic_aligned", "Aligned done")
+                    #wx.CallAfter(Publisher.sendMessage, "topic_aligned", "Aligned done")
+                    wx.CallAfter(Publisher.sendMessage, "topic_aligned")
                     break
 
 
@@ -168,6 +173,7 @@ class MyForm(wx.Frame):
 	self.lblCalibNormal = wx.StaticText(self.panel, label='Set throttle handle in neutral position', pos=CALIB_MSG3)
 
 	self.printPortName()
+        logging.basicConfig(format="%(filename)s: %(funcName)s() - %(message)s", level=logging.INFO)
 
     def defineButtons(self):
         self.btnClose = wx.Button(self.panel, label="Close",  pos=btnClosePos, size=(110, 30))
@@ -263,6 +269,7 @@ class MyForm(wx.Frame):
 
 
     def onAlign(self, event):
+        logging.info('')
 	PollAlignment(self.ser)
         ver = serial_cmd('align', self.ser)
 	print ver
@@ -309,19 +316,24 @@ class MyForm(wx.Frame):
 	#self.label.SetLabel("selected "+ self.combo.GetValue() +" from Combobox") 
         #print('Connected to: ' + self.ser.portstr)
 
-    def aligned_finished(self, msg):
+    def aligned_finished(self):
+	self.btnAlign.Enable(True)
+	self.lblAlign.SetForegroundColour(GREEN)
+	self.lblAlign.SetLabel("Alignment finished.")
+	self.btnCalibRight.Enable(True)
+	self.btnCalibRestart.Enable(True)
 
-        t = msg.data
+        #t = msg.data
 
-	if isinstance(t, int):
-	    print 't:', t
-	else:
-	    print 'else', t
-	    self.btnAlign.Enable(True)
-	    self.lblAlign.SetForegroundColour(GREEN)
-	    self.lblAlign.SetLabel("Alignment finished.")
-	    self.btnCalibRight.Enable(True)
-	    self.btnCalibRestart.Enable(True)
+	#if isinstance(t, int):
+	#    print 't:', t
+	#else:
+	#    print 'else', t
+	#    self.btnAlign.Enable(True)
+	#    self.lblAlign.SetForegroundColour(GREEN)
+	#    self.lblAlign.SetLabel("Alignment finished.")
+	#    self.btnCalibRight.Enable(True)
+	#    self.btnCalibRestart.Enable(True)
 
 
 if __name__ == "__main__":

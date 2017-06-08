@@ -38,7 +38,8 @@ class PollAlignment(threading.Thread):
 		    t = s[0]
                     print t[:-2]
                     line = []
-                    wx.CallAfter(pub.sendMessage, "topic_aligned", "Aligned done")
+                    wx.CallAfter(pub.sendMessage, topic="topic_aligned", msg="Alignment done")
+                    #wx.CallAfter(pub.sendMessage, "topic_aligned")
                     break
 
 
@@ -160,9 +161,9 @@ class CalibForm(wx.Panel):
         logging.info('')
 
 	# poll answer from Ascender when alignment is done
-	#PollAlignment(self.mySer)
+	PollAlignment(self.mySer)
 
-	self.txtAlignment.SetForegroundColour(GREEN)
+	self.txtAlignment.SetForegroundColour(RED)
 	self.txtAlignment.SetLabel("Alignment initiated")
 	self.btnSaveParam.Enable(True)
 	self.operation = 'alignment'
@@ -216,6 +217,11 @@ class CalibForm(wx.Panel):
         serial_cmd('save param', self.mySer)
 
     def aligned_finished(self, msg):
+	#self.btnAlign.Enable(True)
+	#self.txtAlignment.SetForegroundColour(GREEN)
+	#self.txtAlignment.SetLabel("Alignment finished.")
+	#self.btnCalibRight.Enable(True)
+	#self.btnCalibRestart.Enable(True)
 
         t = msg.data
 
