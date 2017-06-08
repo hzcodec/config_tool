@@ -156,16 +156,7 @@ class MainFrame(wx.Frame):
                 self.tabProdTest.txtCtrl_delay_start.Enable()
 
     def onAbout(self, event):
-        licence = """Requires software/hardware at least versions -
-
-Ascender:
-    Unjo 500:01 00153 C
-    220:02 00150 A
-    220:02 00111 PC5
-
-Remote:
-    Unjo 500:01 00155 PB2
-    220:02 00121 PD1
+        licence = """
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, 
 EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES 
@@ -175,7 +166,19 @@ DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
 ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR 
 OTHER DEALINGS IN THIS SOFTWARE.
          """
-        description = """Version 1.00"""
+        description = """Version 1.00
+
+Requires software/hardware at least versions -
+Ascender:
+    Unjo 500:01 00153 C
+    220:02 00150 A
+    220:02 00111 PC5
+
+Remote:
+    Unjo 500:01 00155 PB2
+    220:02 00121 PD1
+    """
+
         info = wx.AboutDialogInfo()
         info.SetName("Production Test Tool for ActSafe's ACX/TCX")
         info.SetDescription(description)
