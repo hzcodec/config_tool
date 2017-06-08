@@ -368,9 +368,9 @@ class ProdTestForm(wx.Panel):
 
     def setup_test_run(self):
 
-	bmpUp = wx.Bitmap("up.png", wx.BITMAP_TYPE_ANY)
-	bmpDown = wx.Bitmap("up2.png", wx.BITMAP_TYPE_ANY)
-	bmpStop = wx.Bitmap("stop.png", wx.BITMAP_TYPE_ANY)
+	#bmpUp = wx.Bitmap("up.png", wx.BITMAP_TYPE_ANY)
+	#bmpDown = wx.Bitmap("up2.png", wx.BITMAP_TYPE_ANY)
+	#bmpStop = wx.Bitmap("stop.png", wx.BITMAP_TYPE_ANY)
 
 	# bitmap temp removed since I could not bundle the .png files with pyinstaller
         #self.btnTestRunUp = wx.BitmapButton(self, wx.ID_ANY, bitmap=bmpUp)
