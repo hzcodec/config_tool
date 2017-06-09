@@ -33,13 +33,17 @@ class PollAlignment(threading.Thread):
         while True:
             for c in self.ser.read():
                 line.append(c)
-                if (c == '\n'):
-		    s = [''.join(line[:])]
-		    t = s[0]
-                    print t[:-2]
-                    line = []
-                    wx.CallAfter(pub.sendMessage, topic="topic_aligned", msg="Alignment done")
+		print 'c:', c
+                if (c == 'A'):
+		    print 'Now we got Aligned'
+		    #s = [''.join(line[:])]
+		    #t = s[0]
+		    #print 's,t:', s, t
+                    #print t[:-2]
+                    #line = []
+                    wx.CallAfter(pub.sendMessage, topic="topic_aligned", msg="Alignment done", fname=99)
                     #wx.CallAfter(pub.sendMessage, "topic_aligned")
+                    #pub.sendMessage('topic_aligned', msg="Alignment done", fname=99)
                     break
 
 
@@ -161,7 +165,7 @@ class CalibForm(wx.Panel):
         logging.info('')
 
 	# poll answer from Ascender when alignment is done
-	#PollAlignment(self.mySer)
+	PollAlignment(self.mySer)
 
 	self.txtAlignment.SetForegroundColour(RED)
 	self.txtAlignment.SetLabel("Alignment initiated")
@@ -216,22 +220,25 @@ class CalibForm(wx.Panel):
 	self.txtAlertUser.SetLabel("Parameter saved after " + self.operation + " at  " + str(now))
         serial_cmd('save param', self.mySer)
 
-    def aligned_finished(self, msg):
-	#self.btnAlign.Enable(True)
-	#self.txtAlignment.SetForegroundColour(GREEN)
-	#self.txtAlignment.SetLabel("Alignment finished.")
-	#self.btnCalibRight.Enable(True)
-	#self.btnCalibRestart.Enable(True)
+    def aligned_finished(self, msg, fname=None):
+        logging.info('')
+	self.btnAlign.Enable(True)
+	self.txtAlignment.SetForegroundColour(GREEN)
+	self.txtAlignment.SetLabel("Alignment finished.")
+	self.btnCalibRight.Enable(True)
+	self.btnCalibRestart.Enable(True)
 
-        t = msg.data
+	#t = 21
+        ##t = msg.data
+	#print msg
 
-	if isinstance(t, int):
-	    print 't:', t
-	else:
-	    print 'else', t
-	    self.btnAlign.Enable(True)
-	    self.txtAlignment.SetForegroundColour(GREEN)
-	    self.txtAlignment.SetLabel("Alignment finished.")
-	    self.btnCalibRight.Enable(True)
-	    self.btnCalibRestart.Enable(True)
+	#if isinstance(t, int):
+	#    print 't:', t
+	#else:
+	#    print 'else', t
+	#    self.btnAlign.Enable(True)
+	#    self.txtAlignment.SetForegroundColour(GREEN)
+	#    self.txtAlignment.SetLabel("Alignment finished.")
+	#    self.btnCalibRight.Enable(True)
+	#    self.btnCalibRestart.Enable(True)
 
