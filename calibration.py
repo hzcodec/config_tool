@@ -161,7 +161,7 @@ class CalibForm(wx.Panel):
         logging.info('')
 
 	# poll answer from Ascender when alignment is done
-	PollAlignment(self.mySer)
+	#PollAlignment(self.mySer)
 
 	self.txtAlignment.SetForegroundColour(RED)
 	self.txtAlignment.SetLabel("Alignment initiated")
