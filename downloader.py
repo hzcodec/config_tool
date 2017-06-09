@@ -13,6 +13,8 @@ import wx
 import serial
 import logging
 import time
+import platform
+import glob
 from wx.lib.pubsub import pub
 from wx.lib.pubsub import setupkwargs
 
@@ -38,6 +40,32 @@ PARAMETER_NAMES = ['motor.cl.kp', 'motor.cl.ki', 'motor.cl.kt', 'motor.cl.max', 
 		   'speed_filter', 'max_motor_temp', 'idle_timeout', 'remote_ctrl_timeout', 'soc_lim_run_up', \
 		   'max_drive_temp', 'dominant_throttle_on', 'rope_stuck_on', 'iq_alpha', 'speed_alpha', \
 		   'mx', 'mi', 'delay_start', 'speed_lim', 'undershoot', 'ti']
+
+
+def list_serial_ports():
+    """"
+      list current connected port names 
+    """
+    system_name = platform.system()
+    print system_name
+
+    if system_name == "Windows":
+        # Scan for available ports.
+        available = []
+
+        for i in range(256):
+            try:
+                s = serial.Serial(i)
+                available.append(i)
+                s.close()
+            except serial.SerialException:
+                pass
+        return available
+
+    else:
+        # Assume Linux
+        return glob.glob('/dev/ttyA*') + glob.glob('/dev/ttyUSB*')
+
 
 def serial_cmd(cmd, serial):
     # send command to serial port
@@ -168,8 +196,14 @@ class DownLoaderForm(wx.Panel):
 	txtSerPortSizer = wx.BoxSizer(wx.HORIZONTAL)
 	txtSerPortSizer.Add(txtSerialPort, 0, wx.TOP, TEXT_SERIAL_PORT_BORDER)
 
-        portNames = ['ACM0', 'ACM1', 'USB0']
-        self.comboBox = wx.ComboBox(self, choices=portNames)
+	# get current port names like ACM0 from /dev/ttyACM0
+	strippedPortNames = []
+        portNames = list_serial_ports()
+	for i in portNames:
+	    tmpPortNames = i[8:]
+	    strippedPortNames.append(tmpPortNames)
+
+        self.comboBox = wx.ComboBox(self, choices=strippedPortNames)
         self.comboBox.SetSelection(0) # preselect ACM0
         self.comboBox.Bind(wx.EVT_COMBOBOX, self.onCombo)
 
