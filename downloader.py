@@ -44,7 +44,7 @@ PARAMETER_NAMES = ['motor.cl.kp', 'motor.cl.ki', 'motor.cl.kt', 'motor.cl.max', 
 
 def list_serial_ports():
     """"
-      list current connected port names 
+      scan current connected port names 
     """
     system_name = platform.system()
     print system_name
