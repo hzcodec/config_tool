@@ -90,14 +90,23 @@ class DownLoaderForm(wx.Panel):
     def get_version(self):
         time.sleep(DELAY2)
         self.ascenderVersion = serial_read('v', 56, self.mySer)
-	print self.ascenderVersion
 	aVersion = self.ascenderVersion.split("v")
-	self.lblAscenderVersion.SetLabel(aVersion[1])
+
+	if (aVersion[1][2:6] == 'Unjo'):
+            self.lblAscenderVersion.SetForegroundColour(BLACK)
+	    self.lblAscenderVersion.SetLabel(aVersion[1])
+	else:
+            self.lblAscenderVersion.SetForegroundColour(RED)
+	    self.lblAscenderVersion.SetLabel('\nIs Ascender paired with remote controller?')
+
+	print aVersion[1]
+
         time.sleep(DELAY2)
 
         self.remoteVersion = serial_read('r_v', 56, self.mySer)
 	print self.remoteVersion
 	rVersion = self.remoteVersion.split("r_v")
+        self.lblRemoteVersion.SetForegroundColour(BLACK)
 	self.lblRemoteVersion.SetLabel(rVersion[1])
  
     def serialListener(self, message, fname=None):
