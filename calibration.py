@@ -22,9 +22,14 @@ def serial_cmd(cmd, serial):
 class PollAlignment(threading.Thread):
 
     def __init__(self, serial):
-        threading.Thread.__init__(self)
+        t = threading.Thread.__init__(self)
 	self.ser = serial
+	#threadid = threading.get_ident()
+	#print threadid
+
+	#t.setDaemon(True)
         self.start()    # start the thread
+        #t.start()    # start the thread
  
     def run(self):
         time.sleep(1)
@@ -34,6 +39,7 @@ class PollAlignment(threading.Thread):
             for c in self.ser.read():
                 line.append(c)
 		print 'c:', c
+
                 if (c == 'A'):
 		    print 'Now we got Aligned'
 		    #s = [''.join(line[:])]
@@ -42,8 +48,8 @@ class PollAlignment(threading.Thread):
                     #print t[:-2]
                     #line = []
                     wx.CallAfter(pub.sendMessage, topic="TOPIC_ALIGNED", msg="Alignment done", fname=99)
-                    #wx.CallAfter(pub.sendMessage, "TOPIC_ALIGNED")
                     #pub.sendMessage('TOPIC_ALIGNED', msg="Alignment done", fname=99)
+		    #thread.exit()
                     break
 
 
