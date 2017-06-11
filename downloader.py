@@ -125,7 +125,7 @@ class DownLoaderForm(wx.Panel):
 	    self.lblAscenderVersion.SetLabel(aVersion[1])
 	else:
             self.lblAscenderVersion.SetForegroundColour(RED)
-	    self.lblAscenderVersion.SetLabel('\nIs Ascender paired with remote controller?')
+	    self.lblAscenderVersion.SetLabel('\nIs Ascender connected to remote controller?')
 
 	print aVersion[1]
 
