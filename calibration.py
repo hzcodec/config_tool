@@ -22,18 +22,17 @@ def serial_cmd(cmd, serial):
 class PollAlignment(threading.Thread):
 
     def __init__(self, serial):
-        t = threading.Thread.__init__(self)
+        self.t = threading.Thread.__init__(target=self.run)
 	self.ser = serial
+	#self.t.setDaemon(True)
 	#threadid = threading.get_ident()
-	#print threadid
-
-	#t.setDaemon(True)
         self.start()    # start the thread
-        #t.start()    # start the thread
  
     def run(self):
         time.sleep(1)
 	line = []
+	if (self.isAlive()):
+	    print 'OK'
 
         while True:
             for c in self.ser.read():
