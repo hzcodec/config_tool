@@ -22,9 +22,9 @@ def serial_cmd(cmd, serial):
 class PollAlignment(threading.Thread):
 
     def __init__(self, serial):
-        self.t = threading.Thread.__init__(self)
+        th = threading.Thread.__init__(self)
 	self.ser = serial
-	#self.t.setDaemon(True)
+	self.setDaemon(True)
         self.start()    # start the thread
  
     def run(self):
@@ -41,7 +41,6 @@ class PollAlignment(threading.Thread):
                 if (c == 'A'):
 		    print 'Now we got Aligned'
                     wx.CallAfter(pub.sendMessage, "TOPIC_ALIGNED", msg="Done")
-		    #thread.exit()
                     break
 
 
@@ -161,27 +160,26 @@ class CalibForm(wx.Panel):
     def onAlign(self, event):
         logging.info('')
 	time.sleep(1)
-	PollAlignment(self.mySer)
 
-	self.txtAlignment.SetForegroundColour(RED)
-	self.txtAlignment.SetLabel("Alignment initiated")
-	self.btnSaveParam.Enable(True)
-	self.operation = 'alignment'
-        serial_cmd('align', self.mySer)
+	#self.txtAlignment.SetForegroundColour(RED)
+	#self.txtAlignment.SetLabel("Alignment initiated")
+	#self.btnSaveParam.Enable(True)
+	#self.operation = 'alignment'
+        #serial_cmd('align', self.mySer)
 
 	# poll answer from Ascender when alignment is done
-	#try:
-	#    PollAlignment(self.mySer)
+	try:
+	    PollAlignment(self.mySer)
 
-	#    self.txtAlignment.SetForegroundColour(RED)
-	#    self.txtAlignment.SetLabel("Alignment initiated")
-	#    self.btnSaveParam.Enable(True)
-	#    self.operation = 'alignment'
-        #    serial_cmd('align', self.mySer)
+	    self.txtAlignment.SetForegroundColour(RED)
+	    self.txtAlignment.SetLabel("Alignment initiated")
+	    self.btnSaveParam.Enable(True)
+	    self.operation = 'alignment'
+            serial_cmd('align', self.mySer)
 
-	#except:
-	#    self.txtAlignment.SetForegroundColour(RED)
-	#    self.txtAlignment.SetLabel("Serial port not connected. Connect port under Common tab.")
+	except:
+	    self.txtAlignment.SetForegroundColour(RED)
+	    self.txtAlignment.SetLabel("Serial port not connected. Connect port under Common tab.")
 
     def onCalibUp(self, event):
         logging.info('Calibration Up done')
