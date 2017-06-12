@@ -193,7 +193,7 @@ class CalibForm(wx.Panel):
 	self.btnCalibLeft.Enable(True)
 	self.txtThrottleMaxUp.SetForegroundColour(GREEN)
 	self.txtThrottleMaxUp.SetLabel("Up Calibration finished")
-        #serial_cmd('throttle cal 1', self.mySer)
+        serial_cmd('throttle cal 1', self.mySer)
 
     def onCalibLeft(self, event):
         logging.info('Calibration Down done')
@@ -201,7 +201,7 @@ class CalibForm(wx.Panel):
 	self.btnCalibNeutral.Enable(True)
 	self.txtThrottleMaxDown.SetForegroundColour(GREEN)
 	self.txtThrottleMaxDown.SetLabel("Down Calibration finished")
-        #serial_cmd('throttle cal -1', self.mySer)
+        serial_cmd('throttle cal -1', self.mySer)
 
     def onCalibNeutral(self, event):
         logging.info('Calibration Neutral done')
@@ -211,7 +211,7 @@ class CalibForm(wx.Panel):
 	self.txtAlertUser.SetForegroundColour(RED)
 	self.txtAlertUser.SetLabel("Remember to save calibration result")
 	self.operation = 'calibration'
-        #serial_cmd('throttle cal 0', self.mySer)
+        serial_cmd('throttle cal 0', self.mySer)
 	self.btnSaveParam.Enable(True)
 
     def onCalibRestart(self, event):
