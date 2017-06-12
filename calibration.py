@@ -11,6 +11,8 @@ GREEN = (36, 119, 62)
 GREY  = (180, 180, 180)
 BLACK = (0, 0, 0)
 
+BORDER1 = 10
+
 def serial_cmd(cmd, serial):
     # send command to serial port
     try:
@@ -53,18 +55,21 @@ class CalibForm(wx.Panel):
 
 	nullSizer = wx.BoxSizer(wx.VERTICAL)
         txtNull = wx.StaticText(self, wx.ID_ANY, ' ')
-	nullSizer.Add(txtNull, 0, wx.TOP, 10)
+	nullSizer.Add(txtNull, 0, wx.TOP, BORDER1)
 
 	nullSizer2 = wx.BoxSizer(wx.VERTICAL)
         txtNull2 = wx.StaticText(self, wx.ID_ANY, ' ')
-	nullSizer2.Add(txtNull2, 0, wx.TOP, 10)
+	nullSizer2.Add(txtNull2, 0, wx.TOP, BORDER1)
+
+        multiTextControl = self.setup_multi_text_control()
 
         topSizer = wx.BoxSizer(wx.VERTICAL)
-	topSizer.Add(alignSizer, 0, wx.TOP|wx.LEFT, 10)
-	topSizer.Add(nullSizer, 0, wx.TOP|wx.LEFT, 10)
-	topSizer.Add(calibSizer, 0, wx.TOP|wx.LEFT, 10)
-	topSizer.Add(nullSizer2, 0, wx.TOP|wx.LEFT, 10)
-	topSizer.Add(saveParamSizer, 0, wx.TOP|wx.LEFT, 10)
+	topSizer.Add(alignSizer, 0, wx.TOP|wx.LEFT, BORDER1)
+	topSizer.Add(nullSizer, 0, wx.TOP|wx.LEFT, BORDER1)
+	topSizer.Add(calibSizer, 0, wx.TOP|wx.LEFT, BORDER1)
+	topSizer.Add(nullSizer2, 0, wx.TOP|wx.LEFT, BORDER1)
+	topSizer.Add(saveParamSizer, 0, wx.TOP|wx.LEFT, BORDER1)
+        topSizer.Add(multiTextControl, 0, wx.ALL|wx.EXPAND, 15)
         self.SetSizer(topSizer)
 
 	self.btnSaveParam.Enable(False) # disabel save param button from beginning, enabled after last calibration
@@ -152,9 +157,16 @@ class CalibForm(wx.Panel):
         self.Bind(wx.EVT_BUTTON, self.onSaveParam, self.btnSaveParam)
         statBoxSizer.Add(self.btnSaveParam, 0, wx.ALL, 20)
         statBoxSizer.Add(self.txtAlertUser, 0, wx.ALL, 20)
-        statBoxSizer.Add(txtNull, 0, wx.LEFT, 830) # this is just to get the statBoxSerial larger 
+        statBoxSizer.Add(txtNull, 0, wx.LEFT, 815) # this is just to get the statBoxSerial larger 
 
 	return statBoxSizer
+
+    def setup_multi_text_control(self):
+        headline = '       - - \n'
+	self.txtMultiCtrl = wx.TextCtrl(self, -1, headline, size=(715, 240), style=wx.TE_MULTILINE)
+        self.txtMultiCtrl.SetInsertionPoint(0)
+
+	return self.txtMultiCtrl
 
     def onAlign(self, event):
         logging.info('')
@@ -181,7 +193,7 @@ class CalibForm(wx.Panel):
 	self.btnCalibLeft.Enable(True)
 	self.txtThrottleMaxUp.SetForegroundColour(GREEN)
 	self.txtThrottleMaxUp.SetLabel("Up Calibration finished")
-        serial_cmd('throttle cal 1', self.mySer)
+        #serial_cmd('throttle cal 1', self.mySer)
 
     def onCalibLeft(self, event):
         logging.info('Calibration Down done')
@@ -189,7 +201,7 @@ class CalibForm(wx.Panel):
 	self.btnCalibNeutral.Enable(True)
 	self.txtThrottleMaxDown.SetForegroundColour(GREEN)
 	self.txtThrottleMaxDown.SetLabel("Down Calibration finished")
-        serial_cmd('throttle cal -1', self.mySer)
+        #serial_cmd('throttle cal -1', self.mySer)
 
     def onCalibNeutral(self, event):
         logging.info('Calibration Neutral done')
@@ -199,7 +211,7 @@ class CalibForm(wx.Panel):
 	self.txtAlertUser.SetForegroundColour(RED)
 	self.txtAlertUser.SetLabel("Remember to save calibration result")
 	self.operation = 'calibration'
-        serial_cmd('throttle cal 0', self.mySer)
+        #serial_cmd('throttle cal 0', self.mySer)
 	self.btnSaveParam.Enable(True)
 
     def onCalibRestart(self, event):
@@ -217,9 +229,8 @@ class CalibForm(wx.Panel):
     def onSaveParam(self, event):
         logging.info('Save configuration after calibration')
 	now = datetime.datetime.now().strftime("%Y-%m-%d  %H:%M")
-	self.txtAlertUser.SetForegroundColour(GREEN)
-	self.txtAlertUser.SetLabel("Parameter saved after " + self.operation + " at  " + str(now))
-        serial_cmd('save param', self.mySer)
+	self.txtAlertUser.SetLabel(' ')
+	self.txtMultiCtrl.AppendText("Parameter saved after " + self.operation + " at  " + str(now) + '\n')
 
     def aligned_finished(self, msg):
         logging.info('')
