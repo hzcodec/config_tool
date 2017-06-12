@@ -22,32 +22,25 @@ def serial_cmd(cmd, serial):
 class PollAlignment(threading.Thread):
 
     def __init__(self, serial):
-        self.t = threading.Thread.__init__(target=self.run)
+        self.t = threading.Thread.__init__(self)
 	self.ser = serial
 	#self.t.setDaemon(True)
-	#threadid = threading.get_ident()
         self.start()    # start the thread
  
     def run(self):
         time.sleep(1)
 	line = []
-	if (self.isAlive()):
-	    print 'OK'
+	#if (self.isAlive()):
+	#    print 'OK'
 
         while True:
-            for c in self.ser.read():
+            for c in self.ser.read(20):
                 line.append(c)
 		print 'c:', c
 
                 if (c == 'A'):
 		    print 'Now we got Aligned'
-		    #s = [''.join(line[:])]
-		    #t = s[0]
-		    #print 's,t:', s, t
-                    #print t[:-2]
-                    #line = []
-                    wx.CallAfter(pub.sendMessage, topic="TOPIC_ALIGNED", msg="Alignment done", fname=99)
-                    #pub.sendMessage('TOPIC_ALIGNED', msg="Alignment done", fname=99)
+                    wx.CallAfter(pub.sendMessage, "TOPIC_ALIGNED", msg="Done")
 		    #thread.exit()
                     break
 
@@ -79,6 +72,7 @@ class CalibForm(wx.Panel):
 	self.btnSaveParam.Enable(False) # disabel save param button from beginning, enabled after last calibration
 
 	pub.subscribe(self.serialListener, 'serialListener')
+	pub.subscribe(self.aligned_finished, "TOPIC_ALIGNED")
         logging.basicConfig(format="%(filename)s: %(funcName)s() - %(message)s", level=logging.INFO)
 
     def serialListener(self, message, fname=None):
@@ -145,8 +139,6 @@ class CalibForm(wx.Panel):
         statBoxSizer.Add(self.btnCalibRestart, 0, wx.TOP|wx.LEFT, 20)
         statBoxSizer.Add(txtNull, 0, wx.LEFT, 1000) # this is just to get the statBoxSerial larger 
 
-	pub.subscribe(self.aligned_finished, "TOPIC_ALIGNED")
-
 	return statBoxSizer
 
     def setup_save_param_sizer(self):
@@ -168,19 +160,28 @@ class CalibForm(wx.Panel):
 
     def onAlign(self, event):
         logging.info('')
+	time.sleep(1)
+	PollAlignment(self.mySer)
+
+	self.txtAlignment.SetForegroundColour(RED)
+	self.txtAlignment.SetLabel("Alignment initiated")
+	self.btnSaveParam.Enable(True)
+	self.operation = 'alignment'
+        serial_cmd('align', self.mySer)
 
 	# poll answer from Ascender when alignment is done
-	try:
-	    PollAlignment(self.mySer)
+	#try:
+	#    PollAlignment(self.mySer)
 
-	    self.txtAlignment.SetForegroundColour(RED)
-	    self.txtAlignment.SetLabel("Alignment initiated")
-	    self.btnSaveParam.Enable(True)
-	    self.operation = 'alignment'
-            serial_cmd('align', self.mySer)
-	except:
-	    self.txtAlignment.SetForegroundColour(RED)
-	    self.txtAlignment.SetLabel("Serial port not connected. Connect port under Common tab.")
+	#    self.txtAlignment.SetForegroundColour(RED)
+	#    self.txtAlignment.SetLabel("Alignment initiated")
+	#    self.btnSaveParam.Enable(True)
+	#    self.operation = 'alignment'
+        #    serial_cmd('align', self.mySer)
+
+	#except:
+	#    self.txtAlignment.SetForegroundColour(RED)
+	#    self.txtAlignment.SetLabel("Serial port not connected. Connect port under Common tab.")
 
     def onCalibUp(self, event):
         logging.info('Calibration Up done')
@@ -229,25 +230,11 @@ class CalibForm(wx.Panel):
 	self.txtAlertUser.SetLabel("Parameter saved after " + self.operation + " at  " + str(now))
         serial_cmd('save param', self.mySer)
 
-    def aligned_finished(self, msg, fname=None):
+    def aligned_finished(self, msg):
         logging.info('')
 	self.btnAlign.Enable(True)
 	self.txtAlignment.SetForegroundColour(GREEN)
 	self.txtAlignment.SetLabel("Alignment finished.")
 	self.btnCalibRight.Enable(True)
 	self.btnCalibRestart.Enable(True)
-
-	#t = 21
-        ##t = msg.data
-	#print msg
-
-	#if isinstance(t, int):
-	#    print 't:', t
-	#else:
-	#    print 'else', t
-	#    self.btnAlign.Enable(True)
-	#    self.txtAlignment.SetForegroundColour(GREEN)
-	#    self.txtAlignment.SetLabel("Alignment finished.")
-	#    self.btnCalibRight.Enable(True)
-	#    self.btnCalibRestart.Enable(True)
 
