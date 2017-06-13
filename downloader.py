@@ -151,6 +151,8 @@ class DownLoaderForm(wx.Panel):
         logging.info('File name: %s, length: %d', fname, fileLength)
 	self.configParameters = message
 	self.configurationFileName = fname
+
+	# resize gauge according to configuration file length
 	self.gauge.SetRange(fileLength-1)
 
     def print_parameters(self):
@@ -319,10 +321,6 @@ class DownLoaderForm(wx.Panel):
 
 	pub.sendMessage('serialListener', message=self.ser)
 	self.get_version()
-
-    #def onDownload(self, event):
-    #    logging.info('')
-    #	 print_const()
 
     def onCombo(self, event):
         logging.info('')
