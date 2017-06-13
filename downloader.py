@@ -131,7 +131,7 @@ class DownLoaderForm(wx.Panel):
 
         time.sleep(DELAY2)
 
-        self.remoteVersion = serial_read('r_v', 56, self.mySer)
+        self.remoteVersion = serial_read('r_v', 70, self.mySer)
 	print self.remoteVersion
 	rVersion = self.remoteVersion.split("r_v")
         self.lblRemoteVersion.SetForegroundColour(BLACK)
@@ -286,7 +286,7 @@ class DownLoaderForm(wx.Panel):
         configSizer.Add(self.txtFileName, 0, wx.TOP|wx.LEFT, 10)
         configSizer.Add(gaugeSizer, 0, wx.TOP|wx.LEFT, 5)
 
-        self.btnSaveParam= wx.Button(self, wx.ID_ANY, 'Save Param')
+        self.btnSaveParam= wx.Button(self, wx.ID_ANY, 'Param Save')
         self.Bind(wx.EVT_BUTTON, self.onSaveParam, self.btnSaveParam)
 
         statBoxSizer.Add(configSizer, 0, wx.ALL, 15)
@@ -327,5 +327,5 @@ class DownLoaderForm(wx.Panel):
     def onSaveParam(self, event):
         # add check if param file has been loaded
         logging.info('')
-        serial_cmd('save param', self.mySer)
+        serial_cmd('param save', self.mySer)
 

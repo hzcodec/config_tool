@@ -111,8 +111,8 @@ class CalibForm(wx.Panel):
         self.txtThrottleNeutral = wx.StaticText(self, wx.ID_ANY, 'Set throttle handle in neutal position')
         txtNull = wx.StaticText(self, wx.ID_ANY, ' ')
 
-        self.btnCalibRight = wx.Button(self, wx.ID_ANY, 'Calib Right')
-        self.btnCalibLeft = wx.Button(self, wx.ID_ANY, 'Calib Left')
+        self.btnCalibRight = wx.Button(self, wx.ID_ANY, 'Calib Up')
+        self.btnCalibLeft = wx.Button(self, wx.ID_ANY, 'Calib Down')
         self.btnCalibNeutral = wx.Button(self, wx.ID_ANY, 'Calib Neutral')
         self.btnCalibRestart = wx.Button(self, wx.ID_ANY, 'Calib Restart')
 
@@ -153,7 +153,7 @@ class CalibForm(wx.Panel):
 
         self.txtAlertUser = wx.StaticText(self, wx.ID_ANY, '...')
 
-        self.btnSaveParam = wx.Button(self, wx.ID_ANY, 'Save Param')
+        self.btnSaveParam = wx.Button(self, wx.ID_ANY, 'Param Save')
         self.Bind(wx.EVT_BUTTON, self.onSaveParam, self.btnSaveParam)
         statBoxSizer.Add(self.btnSaveParam, 0, wx.ALL, 20)
         statBoxSizer.Add(self.txtAlertUser, 0, wx.ALL, 20)
@@ -230,6 +230,7 @@ class CalibForm(wx.Panel):
         logging.info('Save configuration after calibration')
 	now = datetime.datetime.now().strftime("%Y-%m-%d  %H:%M")
 	self.txtAlertUser.SetLabel(' ')
+        serial_cmd('param save', self.mySer)
 	self.txtMultiCtrl.AppendText("Parameter saved after " + self.operation + " at  " + str(now) + '\n')
 
     def aligned_finished(self, msg):
