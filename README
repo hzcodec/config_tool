@@ -1,0 +1,9 @@
+How to generate an .exe file.
+
+  > pyinstaller -F prod_test_tool.py
+
+
+Under /dist a binary is stored.
+
+To run this:
+  > ./prod_test_tool
