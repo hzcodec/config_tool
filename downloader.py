@@ -117,7 +117,7 @@ class DownLoaderForm(wx.Panel):
 
     def get_version(self):
         time.sleep(DELAY2)
-        self.ascenderVersion = serial_read('v', 56, self.mySer)
+        self.ascenderVersion = serial_read('v', 60, self.mySer)
 	aVersion = self.ascenderVersion.split("v")
 
 	if (aVersion[1][2:6] == 'Unjo'):
