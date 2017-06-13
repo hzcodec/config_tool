@@ -8,6 +8,9 @@ BORDER1 = 5
 TEXT_SERIAL_PORT_BORDER = 10
 WAIT_DELAY = 1
 
+# max/min motor speed
+MOTOR_SPEED = 80
+
 RED   = (255, 0, 0)
 WHITE   = (255, 255, 255)
 GREY  = (180, 180, 180)
@@ -232,7 +235,7 @@ class ProdTestForm(wx.Panel):
 
         btnConfigure = wx.Button(self, wx.ID_ANY, ' Configure   ')
         self.Bind(wx.EVT_BUTTON, self.onConfigure, btnConfigure)
-        btnSaveParam = wx.Button(self, wx.ID_ANY, ' Save Param')
+        btnSaveParam = wx.Button(self, wx.ID_ANY, ' Param Save')
         self.Bind(wx.EVT_BUTTON, self.onSaveParam, btnSaveParam)
 	btnSizer = wx.BoxSizer(wx.HORIZONTAL)
         btnSizer.Add(btnConfigure, 0, wx.LEFT, 10)
@@ -330,7 +333,7 @@ class ProdTestForm(wx.Panel):
         self.Bind(wx.EVT_BUTTON, self.onTestInject, self.btnTestInject)
         btnGetIq = wx.Button(self, wx.ID_ANY, '    Get iq          ')
         self.Bind(wx.EVT_BUTTON, self.onGetIq, btnGetIq)
-        btnSaveParam = wx.Button(self, wx.ID_ANY, ' Save Param')
+        btnSaveParam = wx.Button(self, wx.ID_ANY, ' Param Save')
         self.Bind(wx.EVT_BUTTON, self.onSaveParam, btnSaveParam)
 
 	paramSizer1 = wx.BoxSizer(wx.HORIZONTAL)
@@ -388,7 +391,7 @@ class ProdTestForm(wx.Panel):
         txtNull  = wx.StaticText(self, wx.ID_ANY, ' ')
 
 	self.spinCtrlSpeed = wx.SpinCtrl(self, value='0')
-	self.spinCtrlSpeed.SetRange(0, 25)
+	self.spinCtrlSpeed.SetRange(0, MOTOR_SPEED)
 
 	paramSizer1 = wx.BoxSizer(wx.VERTICAL)
 	paramSizer1.Add(speed, 0, wx.LEFT, 30)
@@ -781,7 +784,7 @@ class ProdTestForm(wx.Panel):
 
     def onSaveParam(self, event):
         logging.info('') 
-        serial_cmd('save param', self.mySer)
+        serial_cmd('param save', self.mySer)
 	self.txtMultiCtrl.AppendText('Parameter saved')
 
     def onTestRunUp(self, event):
