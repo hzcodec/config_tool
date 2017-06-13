@@ -146,9 +146,12 @@ class DownLoaderForm(wx.Panel):
             Handle configuration data read from 'Open'.
 	    All parameters are stored in configParameters.
 	"""
-        logging.info('File name: %s', fname)
+	fileLength = sum(1 for line in message)
+
+        logging.info('File name: %s, length: %d', fname, fileLength)
 	self.configParameters = message
 	self.configurationFileName = fname
+	self.gauge.SetRange(fileLength-1)
 
     def print_parameters(self):
         """
@@ -317,9 +320,9 @@ class DownLoaderForm(wx.Panel):
 	pub.sendMessage('serialListener', message=self.ser)
 	self.get_version()
 
-    def onDownload(self, event):
-        logging.info('')
-	print_const()
+    #def onDownload(self, event):
+    #    logging.info('')
+    #	 print_const()
 
     def onCombo(self, event):
         logging.info('')
