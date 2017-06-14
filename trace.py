@@ -152,7 +152,7 @@ class TraceTestForm(wx.Panel):
 	return statBoxSizer
 
     def draw_figure(self):
-        data = [0, 1, 2, 3]
+        data = [4, 1, 2.4, 5.1]
 	self.ax.plot(data)
 	self.canvas.draw()
 
@@ -197,4 +197,5 @@ class TraceTestForm(wx.Panel):
         self.motorTempValue.SetLabel('45.03')
         self.driveAValue.SetLabel('38.75')
         self.driveBValue.SetLabel('34.74')
+	self.draw_figure()
 
