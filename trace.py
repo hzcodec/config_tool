@@ -17,6 +17,19 @@ def serial_cmd(cmd, serial):
     except:
         logging.info('Not connected')
 
+
+def serial_read(cmd, no, serial):
+    # send command to serial port
+    serial.write(cmd+'\r');
+    serial.reset_input_buffer()
+    serial.reset_output_buffer()
+    serial.flush()
+
+    # read data from serial port
+    c = serial.read(no)
+    return c
+
+
 class TraceTestForm(wx.Panel):
 
     def __init__(self, parent):
@@ -24,11 +37,13 @@ class TraceTestForm(wx.Panel):
 
         self.mySer = None
 
-	alignSizer = self.setup_trace_sizer()
+	traceSizer = self.setup_trace_sizer()
+	statusSizer = self.setup_status_sizer()
 	nullSizer2 = wx.BoxSizer(wx.VERTICAL)
 
         topSizer = wx.BoxSizer(wx.VERTICAL)
-	topSizer.Add(alignSizer, 0, wx.TOP|wx.LEFT|wx.RIGHT, BORDER1)
+	topSizer.Add(traceSizer, 0, wx.TOP|wx.LEFT|wx.RIGHT, BORDER1)
+	topSizer.Add(statusSizer, 0, wx.TOP|wx.LEFT|wx.RIGHT, BORDER1)
 	#topSizer.Add(nullSizer2, 0, wx.TOP|wx.LEFT, BORDER1)
         self.SetSizer(topSizer)
 
@@ -53,14 +68,37 @@ class TraceTestForm(wx.Panel):
         self.btnDump = wx.Button(self, wx.ID_ANY, 'Dump')
         self.Bind(wx.EVT_BUTTON, self.onDump, self.btnDump)
 
-        self.btnStatus = wx.Button(self, wx.ID_ANY, 'Status')
-        self.Bind(wx.EVT_BUTTON, self.onStatus, self.btnStatus)
-
         statBoxSizer.Add(self.btnTrace, 0, wx.ALL, 20)
         statBoxSizer.Add(self.btnStop, 0, wx.ALL, 20)
         statBoxSizer.Add(self.btnDump, 0, wx.ALL, 20)
-        statBoxSizer.Add(self.btnStatus, 0, wx.ALL, 20)
         statBoxSizer.Add(txtNull, 0, wx.LEFT, 650) # this is just to get the statBoxSerial larger 
+
+	return statBoxSizer
+
+    def setup_status_sizer(self):
+	statBoxSerial = wx.StaticBox(self, wx.ID_ANY, '  Status')
+	statBoxSerial.SetBackgroundColour(GREY)
+	statBoxSerial.SetForegroundColour(BLACK)
+        statBoxSizer = wx.StaticBoxSizer(statBoxSerial, wx.HORIZONTAL)
+
+        self.vBatHeadline = wx.StaticText(self, -1, "Vbat:")
+        self.motorTempHeadline = wx.StaticText(self, -1, "Motor temp:")
+        self.driveAHeadline = wx.StaticText(self, -1, "Drive A temp:")
+        self.driveBHeadline = wx.StaticText(self, -1, "Drive B temp:")
+	statusSizer = wx.BoxSizer(wx.VERTICAL)
+	statusSizer.Add(self.vBatHeadline, 0, wx.ALL, 10)
+	statusSizer.Add(self.motorTempHeadline, 0, wx.ALL, 10)
+	statusSizer.Add(self.driveAHeadline, 0, wx.ALL, 10)
+	statusSizer.Add(self.driveBHeadline, 0, wx.ALL, 10)
+
+        txtNull = wx.StaticText(self, wx.ID_ANY, ' ')
+
+        self.btnStatus = wx.Button(self, wx.ID_ANY, 'Status')
+        self.Bind(wx.EVT_BUTTON, self.onStatus, self.btnStatus)
+
+        statBoxSizer.Add(self.btnStatus, 0, wx.ALL, 20)
+        statBoxSizer.Add(statusSizer, 0, wx.ALL, 20)
+        statBoxSizer.Add(txtNull, 0, wx.LEFT, 880) # this is just to get the statBoxSerial larger 
 
 	return statBoxSizer
 
@@ -99,5 +137,6 @@ class TraceTestForm(wx.Panel):
 
     def onStatus(self, event):
         logging.info('')
-        serial_cmd('status', self.mySer)
+	rv = serial_read('status', 64, self.mySer)
+	print rv
 
