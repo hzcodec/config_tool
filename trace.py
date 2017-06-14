@@ -152,7 +152,9 @@ class TraceTestForm(wx.Panel):
 	return statBoxSizer
 
     def draw_figure(self):
-        data = [4, 1, 2.4, 5.1]
+        data = [4, 1, 2.4, 5.1, 3.2, 0.8, 4.1, 4.0]
+	self.ax.xaxis.grid()
+	self.ax.yaxis.grid()
 	self.ax.plot(data)
 	self.canvas.draw()
 
