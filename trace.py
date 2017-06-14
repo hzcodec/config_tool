@@ -8,6 +8,7 @@ from wx.lib.pubsub import pub
 from wx.lib.pubsub import setupkwargs
 
 BORDER1 = 10
+BORDER2 = 5
 
 GREY  = (180, 180, 180)
 BLACK = (0, 0, 0)
@@ -88,20 +89,20 @@ class TraceTestForm(wx.Panel):
         self.driveAHeadline = wx.StaticText(self, -1, "Drive A temp:")
         self.driveBHeadline = wx.StaticText(self, -1, "Drive B temp:")
 	statusSizer = wx.BoxSizer(wx.VERTICAL)
-	statusSizer.Add(self.vBatHeadline, 0, wx.ALL, 10)
-	statusSizer.Add(self.motorTempHeadline, 0, wx.ALL, 10)
-	statusSizer.Add(self.driveAHeadline, 0, wx.ALL, 10)
-	statusSizer.Add(self.driveBHeadline, 0, wx.ALL, 10)
+	statusSizer.Add(self.vBatHeadline, 0, wx.ALL, BORDER2)
+	statusSizer.Add(self.motorTempHeadline, 0, wx.ALL, BORDER2)
+	statusSizer.Add(self.driveAHeadline, 0, wx.ALL, BORDER2)
+	statusSizer.Add(self.driveBHeadline, 0, wx.ALL, BORDER2)
 
         self.vBatValue = wx.StaticText(self, -1, '0')
         self.motorTempValue = wx.StaticText(self, -1, '0')
         self.driveAValue = wx.StaticText(self, -1, '0')
         self.driveBValue = wx.StaticText(self, -1, '0')
 	valueSizer = wx.BoxSizer(wx.VERTICAL)
-	valueSizer.Add(self.vBatValue, 0, wx.ALL, 10)
-	valueSizer.Add(self.motorTempValue, 0, wx.ALL, 10)
-	valueSizer.Add(self.driveAValue, 0, wx.ALL, 10)
-	valueSizer.Add(self.driveBValue, 0, wx.ALL, 10)
+	valueSizer.Add(self.vBatValue, 0, wx.ALL, BORDER2)
+	valueSizer.Add(self.motorTempValue, 0, wx.ALL, BORDER2)
+	valueSizer.Add(self.driveAValue, 0, wx.ALL, BORDER2)
+	valueSizer.Add(self.driveBValue, 0, wx.ALL, BORDER2)
 
         stringData = '°C'
 	unicodeData = unicode(stringData, 'utf-8')
@@ -111,10 +112,10 @@ class TraceTestForm(wx.Panel):
         self.driveAUnit = wx.StaticText(self, -1, unicodeData)
         self.driveBUnit = wx.StaticText(self, -1, unicodeData)
 	unitSizer = wx.BoxSizer(wx.VERTICAL)
-	unitSizer.Add(self.vBatUnit, 0, wx.ALL, 10)
-	unitSizer.Add(self.motorTempUnit, 0, wx.ALL, 10)
-	unitSizer.Add(self.driveAUnit, 0, wx.ALL, 10)
-	unitSizer.Add(self.driveBUnit, 0, wx.ALL, 10)
+	unitSizer.Add(self.vBatUnit, 0, wx.ALL, BORDER2)
+	unitSizer.Add(self.motorTempUnit, 0, wx.ALL, BORDER2)
+	unitSizer.Add(self.driveAUnit, 0, wx.ALL, BORDER2)
+	unitSizer.Add(self.driveBUnit, 0, wx.ALL, BORDER2)
 
         txtNull = wx.StaticText(self, wx.ID_ANY, ' ')
 
@@ -164,6 +165,10 @@ class TraceTestForm(wx.Panel):
 
     def onStatus(self, event):
         logging.info('')
-	rv = serial_read('status', 64, self.mySer)
-	print rv
+	#rv = serial_read('status', 64, self.mySer)
+	#print rv
+        self.vBatValue.SetLabel('55.34')
+        self.motorTempValue.SetLabel('45.03')
+        self.driveAValue.SetLabel('38.75')
+        self.driveBValue.SetLabel('34.74')
 
