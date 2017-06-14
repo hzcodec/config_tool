@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import wx
 import serial
 import time
@@ -91,6 +93,29 @@ class TraceTestForm(wx.Panel):
 	statusSizer.Add(self.driveAHeadline, 0, wx.ALL, 10)
 	statusSizer.Add(self.driveBHeadline, 0, wx.ALL, 10)
 
+        self.vBatValue = wx.StaticText(self, -1, '0')
+        self.motorTempValue = wx.StaticText(self, -1, '0')
+        self.driveAValue = wx.StaticText(self, -1, '0')
+        self.driveBValue = wx.StaticText(self, -1, '0')
+	valueSizer = wx.BoxSizer(wx.VERTICAL)
+	valueSizer.Add(self.vBatValue, 0, wx.ALL, 10)
+	valueSizer.Add(self.motorTempValue, 0, wx.ALL, 10)
+	valueSizer.Add(self.driveAValue, 0, wx.ALL, 10)
+	valueSizer.Add(self.driveBValue, 0, wx.ALL, 10)
+
+        stringData = '°C'
+	unicodeData = unicode(stringData, 'utf-8')
+
+        self.vBatUnit = wx.StaticText(self, -1, 'V')
+        self.motorTempUnit = wx.StaticText(self, -1, unicodeData)
+        self.driveAUnit = wx.StaticText(self, -1, unicodeData)
+        self.driveBUnit = wx.StaticText(self, -1, unicodeData)
+	unitSizer = wx.BoxSizer(wx.VERTICAL)
+	unitSizer.Add(self.vBatUnit, 0, wx.ALL, 10)
+	unitSizer.Add(self.motorTempUnit, 0, wx.ALL, 10)
+	unitSizer.Add(self.driveAUnit, 0, wx.ALL, 10)
+	unitSizer.Add(self.driveBUnit, 0, wx.ALL, 10)
+
         txtNull = wx.StaticText(self, wx.ID_ANY, ' ')
 
         self.btnStatus = wx.Button(self, wx.ID_ANY, 'Status')
@@ -98,6 +123,8 @@ class TraceTestForm(wx.Panel):
 
         statBoxSizer.Add(self.btnStatus, 0, wx.ALL, 20)
         statBoxSizer.Add(statusSizer, 0, wx.ALL, 20)
+        statBoxSizer.Add(valueSizer, 0, wx.ALL, 20)
+        statBoxSizer.Add(unitSizer, 0, wx.ALL, 20)
         statBoxSizer.Add(txtNull, 0, wx.LEFT, 880) # this is just to get the statBoxSerial larger 
 
 	return statBoxSizer
