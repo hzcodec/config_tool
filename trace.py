@@ -7,6 +7,10 @@ import logging
 from wx.lib.pubsub import pub
 from wx.lib.pubsub import setupkwargs
 
+# Import matplotlib for wxPython
+from matplotlib.figure import Figure
+from matplotlib.backends.backend_wxagg import FigureCanvasWxAgg as FigCanvas
+
 BORDER1 = 10
 BORDER2 = 5
 
@@ -42,12 +46,13 @@ class TraceTestForm(wx.Panel):
 
 	traceSizer = self.setup_trace_sizer()
 	statusSizer = self.setup_status_sizer()
+	plotSizer = self.setup_plot_sizer()
 	nullSizer2 = wx.BoxSizer(wx.VERTICAL)
 
         topSizer = wx.BoxSizer(wx.VERTICAL)
 	topSizer.Add(traceSizer, 0, wx.TOP|wx.LEFT|wx.RIGHT, BORDER1)
 	topSizer.Add(statusSizer, 0, wx.TOP|wx.LEFT|wx.RIGHT, BORDER1)
-	#topSizer.Add(nullSizer2, 0, wx.TOP|wx.LEFT, BORDER1)
+	topSizer.Add(plotSizer, 0, wx.TOP|wx.LEFT|wx.RIGHT, BORDER1)
         self.SetSizer(topSizer)
 
 	pub.subscribe(self.serialListener, 'serialListener')
@@ -129,6 +134,27 @@ class TraceTestForm(wx.Panel):
         statBoxSizer.Add(txtNull, 0, wx.LEFT, 880) # this is just to get the statBoxSerial larger 
 
 	return statBoxSizer
+
+    def setup_plot_sizer(self):
+	statBoxSerial = wx.StaticBox(self, wx.ID_ANY, '  Plot result')
+	statBoxSerial.SetBackgroundColour(GREY)
+	statBoxSerial.SetForegroundColour(BLACK)
+        statBoxSizer = wx.StaticBoxSizer(statBoxSerial, wx.HORIZONTAL)
+
+	self.figure = Figure(figsize=(5.0, 4.0), dpi=100)
+	self.canvas = FigCanvas(self, -1, self.figure)
+	self.ax = self.figure.add_subplot(111)
+
+        statBoxSizer.Add(self.canvas, 0, wx.ALL, 20)
+
+	self.Layout()
+
+	return statBoxSizer
+
+    def draw_figure(self):
+        data = [0, 1, 2, 3]
+	self.ax.plot(data)
+	self.canvas.draw()
 
     def serialListener(self, message, fname=None):
         print 'msg:', message
