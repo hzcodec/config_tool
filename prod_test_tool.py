@@ -12,7 +12,7 @@ import wx
 import downloader
 import calibration
 import prodtest
-#import trace
+import trace
 from wx.lib.pubsub import pub
 from wx.lib.pubsub import setupkwargs
 
@@ -46,13 +46,13 @@ class MainFrame(wx.Frame):
         self.tabDownLoader = downloader.DownLoaderForm(nb)
         tabCalib = calibration.CalibForm(nb)
         self.tabProdTest = prodtest.ProdTestForm(nb)
-        #tabTrace = trace.TraceTestForm(nb)
+        tabTrace = trace.TraceTestForm(nb)
 
         # add the windows to tabs and name them
         nb.AddPage(self.tabDownLoader, "Common")
         nb.AddPage(tabCalib, "Calibrate")
         nb.AddPage(self.tabProdTest, "Prod Test")
-        #nb.AddPage(tabTrace, "Trace Test")
+        nb.AddPage(tabTrace, "Trace Test")
 
         self.setup_menu()
 
