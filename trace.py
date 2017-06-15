@@ -190,7 +190,7 @@ class TraceTestForm(wx.Panel):
             serial_cmd('speed 10', self.mySer)
 
 	except:
-	    print 'No connection'
+	    print 'Data could not be read. Check current connection to serial port.'
 
     def onStop(self, event):
         logging.info('')
@@ -232,7 +232,7 @@ class TraceTestForm(wx.Panel):
 	        self.driveTempBOk.SetLabel("Drive B temp to high")
 
 	except:
-	    print 'No connection'
+	    print 'Data could not be read. Check current connection to serial port.'
 
     def paint(self):
         dc = wx.PaintDC(self)
