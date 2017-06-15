@@ -8,8 +8,8 @@ from wx.lib.pubsub import pub
 from wx.lib.pubsub import setupkwargs
 
 # Import matplotlib for wxPython
-from matplotlib.figure import Figure
-from matplotlib.backends.backend_wxagg import FigureCanvasWxAgg as FigCanvas
+#from matplotlib.figure import Figure
+#from matplotlib.backends.backend_wxagg import FigureCanvasWxAgg as FigCanvas
 
 BORDER1 = 10
 BORDER2 = 5
@@ -46,13 +46,13 @@ class TraceTestForm(wx.Panel):
 
 	traceSizer = self.setup_trace_sizer()
 	statusSizer = self.setup_status_sizer()
-	plotSizer = self.setup_plot_sizer()
+	#plotSizer = self.setup_plot_sizer()
 	nullSizer2 = wx.BoxSizer(wx.VERTICAL)
 
         topSizer = wx.BoxSizer(wx.VERTICAL)
 	topSizer.Add(traceSizer, 0, wx.TOP|wx.LEFT|wx.RIGHT, BORDER1)
 	topSizer.Add(statusSizer, 0, wx.TOP|wx.LEFT|wx.RIGHT, BORDER1)
-	topSizer.Add(plotSizer, 0, wx.TOP|wx.LEFT|wx.RIGHT, BORDER1)
+	#topSizer.Add(plotSizer, 0, wx.TOP|wx.LEFT|wx.RIGHT, BORDER1)
         self.SetSizer(topSizer)
 
 	pub.subscribe(self.serialListener, 'serialListener')
@@ -193,11 +193,12 @@ class TraceTestForm(wx.Panel):
 
     def onStatus(self, event):
         logging.info('')
-	#rv = serial_read('status', 64, self.mySer)
-	#print rv
-        self.vBatValue.SetLabel('55.34')
-        self.motorTempValue.SetLabel('45.03')
-        self.driveAValue.SetLabel('38.75')
-        self.driveBValue.SetLabel('34.74')
-	self.draw_figure()
+	rv = serial_read('status', 79, self.mySer)
+	print rv
+	print '---'
+        self.vBatValue.SetLabel(rv[12:18])
+        self.motorTempValue.SetLabel(rv[35:40])
+        self.driveAValue.SetLabel(rv[53:58])
+        self.driveBValue.SetLabel(rv[71:76])
+	#self.draw_figure()
 
