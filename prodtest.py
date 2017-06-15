@@ -775,7 +775,7 @@ class ProdTestForm(wx.Panel):
     def onSaveParam(self, event):
         logging.info('') 
         serial_cmd('param save', self.mySer)
-	self.txtMultiCtrl.AppendText('Parameter saved')
+	self.txtMultiCtrl.AppendText('Parameter saved\n')
 
     def onTestRunUp(self, event):
         logging.info('') 
