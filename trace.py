@@ -7,9 +7,7 @@ import logging
 from wx.lib.pubsub import pub
 from wx.lib.pubsub import setupkwargs
 
-# Import matplotlib for wxPython
-#from matplotlib.figure import Figure
-#from matplotlib.backends.backend_wxagg import FigureCanvasWxAgg as FigCanvas
+RED   = (255, 19, 32)
 
 BORDER1 = 10
 BORDER2 = 5
@@ -216,11 +214,25 @@ class TraceTestForm(wx.Panel):
         self.driveAValue.SetLabel(rv[53:58])
         self.driveBValue.SetLabel(rv[71:76])
 
-	maxMotorTemp = self.get_values()
+	maxMotorTemp, maxDriveTemp = self.get_values()
 	currentMotorTemp = float(rv[35:40])
-	print currentMotorTemp
-	if (currentMotorTemp > maxMotorTemp):
-	    print 'Motor Temp alarm'
+	currentDriveTempA = float(rv[53:58])
+	currentDriveTempB = float(rv[71:76])
+
+	#if (currentMotorTemp > maxMotorTemp):
+	if (currentMotorTemp > 14.56):
+	    self.tempOk.SetForegroundColour(RED)
+	    self.tempOk.SetLabel("Motor temp to high")
+
+	#if (currentDriveTempA > maxDriveTemp):
+	if (currentDriveTempA > 8.5):
+	    self.driveTempAOk.SetForegroundColour(RED)
+	    self.driveTempAOk.SetLabel("Drive A temp to high")
+
+	#if (currentDriveTempB > maxDriveTemp):
+	if (currentDriveTempB > 8.5):
+	    self.driveTempBOk.SetForegroundColour(RED)
+	    self.driveTempBOk.SetLabel("Drive B temp to high")
 
     def paint(self):
         dc = wx.PaintDC(self)
@@ -250,8 +262,12 @@ class TraceTestForm(wx.Panel):
         logging.info('')
 
         rv = filter(lambda element: 'max_motor_temp' in element, self.configParameters)
-        print rv
         b = rv[0].split(',')
         maxMotorTemp =  float(b[1])
-	return maxMotorTemp 
+
+        rv = filter(lambda element: 'max_drive_temp' in element, self.configParameters)
+        b = rv[0].split(',')
+        maxDriveTemp =  float(b[1])
+
+	return maxMotorTemp, maxDriveTemp
 
