@@ -94,12 +94,14 @@ class ProdTestForm(wx.Panel):
 
         logging.basicConfig(format="%(filename)s: %(funcName)s() - %(message)s", level=logging.INFO)
 
+	# Hz, is this OK?
+	self.configParameters = 0
+
     def serialListener(self, message, fname=None):
         #print 'msg:', message
 	self.mySer = message
 
     def configListener(self, message, fname=None):
-        #print 'msg:', message
 	self.configParameters = message
 	#print self.configParameters
 	self.extract_parameters(self.configParameters)

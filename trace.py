@@ -43,7 +43,7 @@ class TraceTestForm(wx.Panel):
         wx.Panel.__init__(self, parent)
 	
         self.mySer = None
-        self.Bind(wx.EVT_PAINT, self.OnPaint)
+        #self.Bind(wx.EVT_PAINT, self.OnPaint)
 
 	traceSizer = self.setup_trace_sizer()
 	statusSizer = self.setup_status_sizer()
@@ -53,16 +53,12 @@ class TraceTestForm(wx.Panel):
 	topSizer.Add(traceSizer, 0, wx.TOP|wx.LEFT|wx.RIGHT, BORDER1)
 	topSizer.Add(statusSizer, 0, wx.TOP|wx.LEFT|wx.RIGHT, BORDER1)
 	#topSizer.Add(plotSizer, 0, wx.TOP|wx.LEFT|wx.RIGHT, BORDER1)
-	#topSizer.Add(linech, 0, wx.TOP|wx.LEFT|wx.RIGHT, BORDER1)
         self.SetSizer(topSizer)
 
 	pub.subscribe(self.serialListener, 'serialListener')
+	pub.subscribe(self.configListener, 'configListener')
 
         logging.basicConfig(format="%(filename)s: %(funcName)s() - %(message)s", level=logging.INFO)
-
-    def OnPaint(self, evt):
-        dc = wx.PaintDC(self)
-        dc.DrawRectangle(10, 300, 400, 380)
 
     def setup_trace_sizer(self):
 	statBoxSerial = wx.StaticBox(self, wx.ID_ANY, '  Trace test')
@@ -87,6 +83,10 @@ class TraceTestForm(wx.Panel):
         statBoxSizer.Add(txtNull, 0, wx.LEFT, 650) # this is just to get the statBoxSerial larger 
 
 	return statBoxSizer
+
+    def configListener(self, message, fname=None):
+        logging.info('Loaded parameters %s', message)
+	self.configParameters = message
 
     def setup_status_sizer(self):
 	statBoxSerial = wx.StaticBox(self, wx.ID_ANY, '  Status')
@@ -127,6 +127,16 @@ class TraceTestForm(wx.Panel):
 	unitSizer.Add(self.driveAUnit, 0, wx.ALL, BORDER2)
 	unitSizer.Add(self.driveBUnit, 0, wx.ALL, BORDER2)
 
+        self.vBatOk = wx.StaticText(self, -1, 'Vbat OK')
+        self.tempOk = wx.StaticText(self, -1, 'Max motor temp OK')
+        self.driveTempAOk = wx.StaticText(self, -1, 'Drive A temp OK')
+        self.driveTempBOk = wx.StaticText(self, -1, 'Drive B temp OK')
+	tempSizer = wx.BoxSizer(wx.VERTICAL)
+	tempSizer.Add(self.vBatOk, 0, wx.ALL, BORDER2)
+	tempSizer.Add(self.tempOk, 0, wx.ALL, BORDER2)
+	tempSizer.Add(self.driveTempAOk, 0, wx.ALL, BORDER2)
+	tempSizer.Add(self.driveTempBOk, 0, wx.ALL, BORDER2)
+
         txtNull = wx.StaticText(self, wx.ID_ANY, ' ')
 
         self.btnStatus = wx.Button(self, wx.ID_ANY, 'Status')
@@ -136,6 +146,7 @@ class TraceTestForm(wx.Panel):
         statBoxSizer.Add(statusSizer, 0, wx.ALL, 20)
         statBoxSizer.Add(valueSizer, 0, wx.ALL, 20)
         statBoxSizer.Add(unitSizer, 0, wx.ALL, 20)
+        statBoxSizer.Add(tempSizer, 0, wx.ALL, 20)
         statBoxSizer.Add(txtNull, 0, wx.LEFT, 880) # this is just to get the statBoxSerial larger 
 
 	return statBoxSizer
@@ -163,19 +174,25 @@ class TraceTestForm(wx.Panel):
     def onTrace(self, event):
         logging.info('')
 
-	# setup trace conditions
-        serial_cmd('trace prescaler 10', self.mySer)
-	time.sleep(1)
-        serial_cmd('trace trig iq > 5.0000 10', self.mySer)
-	time.sleep(1)
-        serial_cmd('trace selall iq', self.mySer)
-	time.sleep(1)
+	try:
+	    # setup trace conditions
+            serial_cmd('trace prescaler 10', self.mySer)
+	    time.sleep(0.5)
+            serial_cmd('trace trig iq > 5.0000 10', self.mySer)
+	    time.sleep(0.5)
+            serial_cmd('trace selall iq', self.mySer)
+	    time.sleep(0.5)
+            serial_cmd('trace reset', self.mySer)
+	    time.sleep(0.5)
 
-        serial_cmd('e', self.mySer)
-	time.sleep(1)
-        serial_cmd('brake 0', self.mySer)
-	time.sleep(1)
-        serial_cmd('speed 10', self.mySer)
+            serial_cmd('e', self.mySer)
+	    time.sleep(1)
+            serial_cmd('brake 0', self.mySer)
+	    time.sleep(1)
+            serial_cmd('speed 10', self.mySer)
+
+	except:
+	    print 'No connection'
 
     def onStop(self, event):
         logging.info('')
@@ -192,26 +209,49 @@ class TraceTestForm(wx.Panel):
     def onStatus(self, event):
         logging.info('')
 	rv = serial_read('status', 79, self.mySer)
-	print rv
+	#print rv
 	print '---'
         self.vBatValue.SetLabel(rv[12:18])
         self.motorTempValue.SetLabel(rv[35:40])
         self.driveAValue.SetLabel(rv[53:58])
         self.driveBValue.SetLabel(rv[71:76])
 
-    def DrawAxis(self, dc):
-        #dc.SetPen(wx.Pen('#0AB1FF'))
-        self.dc.SetPen(wx.Pen('#000000'))
-        font = dc.GetFont()
-        font.SetPointSize(8)
-        self.dc.SetFont(font)
-        self.dc.DrawLine(1, 1, 300, 1)
-        self.dc.DrawLine(1, 1, 1, 201)
+	maxMotorTemp = self.get_values()
+	currentMotorTemp = float(rv[35:40])
+	print currentMotorTemp
+	if (currentMotorTemp > maxMotorTemp):
+	    print 'Motor Temp alarm'
 
-        for i in range(20, 220, 20):
-            self.dc.DrawText(str(i), -30, i+5)
-            self.dc.DrawLine(2, i, -5, i)
+    def paint(self):
+        dc = wx.PaintDC(self)
+	self.x1 = 10
+	self.y1 = 300
+	self.width = 400
+	self.hight = 380
+        dc.DrawRectangle(self.x1, self.y1, self.width, self.hight)
+	self.draw_axis(dc)
 
-        for i in range(100, 300, 100):
-            self.dc.DrawLine(i, 2, i, -5)
+    def draw_axis(self, dc):
+        dc.SetPen(wx.Pen('#FF0000'))
+	mid = self.y1 + (self.hight / 2)
+        dc.DrawLine(self.x1+20, mid, self.width-10, mid)
+
+        #for i in range(20, 220, 20):
+        #    dc.DrawText(str(i), -30, i+5)
+        #    dc.DrawLine(2, i, -5, i)
+
+        #for i in range(100, 300, 100):
+        #    dc.DrawLine(i, 2, i, -5)
+
+    def get_values(self):
+        """
+	    Get current configuration parameters for max motor temp.
+	"""
+        logging.info('')
+
+        rv = filter(lambda element: 'max_motor_temp' in element, self.configParameters)
+        print rv
+        b = rv[0].split(',')
+        maxMotorTemp =  float(b[1])
+	return maxMotorTemp 
 
