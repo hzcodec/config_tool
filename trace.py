@@ -41,23 +41,28 @@ class TraceTestForm(wx.Panel):
 
     def __init__(self, parent):
         wx.Panel.__init__(self, parent)
-
+	
         self.mySer = None
+        self.Bind(wx.EVT_PAINT, self.OnPaint)
 
 	traceSizer = self.setup_trace_sizer()
 	statusSizer = self.setup_status_sizer()
-	#plotSizer = self.setup_plot_sizer()
 	nullSizer2 = wx.BoxSizer(wx.VERTICAL)
 
         topSizer = wx.BoxSizer(wx.VERTICAL)
 	topSizer.Add(traceSizer, 0, wx.TOP|wx.LEFT|wx.RIGHT, BORDER1)
 	topSizer.Add(statusSizer, 0, wx.TOP|wx.LEFT|wx.RIGHT, BORDER1)
 	#topSizer.Add(plotSizer, 0, wx.TOP|wx.LEFT|wx.RIGHT, BORDER1)
+	#topSizer.Add(linech, 0, wx.TOP|wx.LEFT|wx.RIGHT, BORDER1)
         self.SetSizer(topSizer)
 
 	pub.subscribe(self.serialListener, 'serialListener')
 
         logging.basicConfig(format="%(filename)s: %(funcName)s() - %(message)s", level=logging.INFO)
+
+    def OnPaint(self, evt):
+        dc = wx.PaintDC(self)
+        dc.DrawRectangle(10, 300, 400, 380)
 
     def setup_trace_sizer(self):
 	statBoxSerial = wx.StaticBox(self, wx.ID_ANY, '  Trace test')
@@ -151,13 +156,6 @@ class TraceTestForm(wx.Panel):
 
 	return statBoxSizer
 
-    def draw_figure(self):
-        data = [4, 1, 2.4, 5.1, 3.2, 0.8, 4.1, 4.0]
-	self.ax.xaxis.grid()
-	self.ax.yaxis.grid()
-	self.ax.plot(data)
-	self.canvas.draw()
-
     def serialListener(self, message, fname=None):
         print 'msg:', message
 	self.mySer = message
@@ -200,5 +198,20 @@ class TraceTestForm(wx.Panel):
         self.motorTempValue.SetLabel(rv[35:40])
         self.driveAValue.SetLabel(rv[53:58])
         self.driveBValue.SetLabel(rv[71:76])
-	#self.draw_figure()
+
+    def DrawAxis(self, dc):
+        #dc.SetPen(wx.Pen('#0AB1FF'))
+        self.dc.SetPen(wx.Pen('#000000'))
+        font = dc.GetFont()
+        font.SetPointSize(8)
+        self.dc.SetFont(font)
+        self.dc.DrawLine(1, 1, 300, 1)
+        self.dc.DrawLine(1, 1, 1, 201)
+
+        for i in range(20, 220, 20):
+            self.dc.DrawText(str(i), -30, i+5)
+            self.dc.DrawLine(2, i, -5, i)
+
+        for i in range(100, 300, 100):
+            self.dc.DrawLine(i, 2, i, -5)
 
