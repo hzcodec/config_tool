@@ -125,7 +125,7 @@ class TraceTestForm(wx.Panel):
 	unitSizer.Add(self.driveAUnit, 0, wx.ALL, BORDER2)
 	unitSizer.Add(self.driveBUnit, 0, wx.ALL, BORDER2)
 
-        self.vBatOk = wx.StaticText(self, -1, 'Vbat OK')
+        self.vBatOk = wx.StaticText(self, -1, ' ')
         self.tempOk = wx.StaticText(self, -1, 'Max motor temp OK')
         self.driveTempAOk = wx.StaticText(self, -1, 'Drive A temp OK')
         self.driveTempBOk = wx.StaticText(self, -1, 'Drive B temp OK')
@@ -206,30 +206,33 @@ class TraceTestForm(wx.Panel):
 
     def onStatus(self, event):
         logging.info('')
-	rv = serial_read('status', 79, self.mySer)
-	#print rv
-	print '---'
-        self.vBatValue.SetLabel(rv[12:18])
-        self.motorTempValue.SetLabel(rv[35:40])
-        self.driveAValue.SetLabel(rv[53:58])
-        self.driveBValue.SetLabel(rv[71:76])
 
-	maxMotorTemp, maxDriveTemp = self.get_values()
-	currentMotorTemp = float(rv[35:40])
-	currentDriveTempA = float(rv[53:58])
-	currentDriveTempB = float(rv[71:76])
+	try:
+	    rv = serial_read('status', 79, self.mySer)
+            self.vBatValue.SetLabel(rv[12:18])
+            self.motorTempValue.SetLabel(rv[35:40])
+            self.driveAValue.SetLabel(rv[53:58])
+            self.driveBValue.SetLabel(rv[71:76])
 
-	if (currentMotorTemp > maxMotorTemp):
-	    self.tempOk.SetForegroundColour(RED)
-	    self.tempOk.SetLabel("Motor temp to high")
+	    maxMotorTemp, maxDriveTemp = self.get_values()
+	    currentMotorTemp = float(rv[35:40])
+	    currentDriveTempA = float(rv[53:58])
+	    currentDriveTempB = float(rv[71:76])
 
-	if (currentDriveTempA > maxDriveTemp):
-	    self.driveTempAOk.SetForegroundColour(RED)
-	    self.driveTempAOk.SetLabel("Drive A temp to high")
+	    if (currentMotorTemp > maxMotorTemp):
+	        self.tempOk.SetForegroundColour(RED)
+	        self.tempOk.SetLabel("Motor temp to high")
 
-	if (currentDriveTempB > maxDriveTemp):
-	    self.driveTempBOk.SetForegroundColour(RED)
-	    self.driveTempBOk.SetLabel("Drive B temp to high")
+	    if (currentDriveTempA > maxDriveTemp):
+	        self.driveTempAOk.SetForegroundColour(RED)
+	        self.driveTempAOk.SetLabel("Drive A temp to high")
+
+	    if (currentDriveTempB > maxDriveTemp):
+	        self.driveTempBOk.SetForegroundColour(RED)
+	        self.driveTempBOk.SetLabel("Drive B temp to high")
+
+	except:
+	    print 'No connection'
 
     def paint(self):
         dc = wx.PaintDC(self)
@@ -254,7 +257,7 @@ class TraceTestForm(wx.Panel):
 
     def get_values(self):
         """
-	    Get current configuration parameters for max motor temp.
+	    Get current configuration parameters for max motor and max drive temp.
 	"""
         logging.info('')
 

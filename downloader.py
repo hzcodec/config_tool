@@ -120,22 +120,26 @@ class DownLoaderForm(wx.Panel):
         self.ascenderVersion = serial_read('v', 60, self.mySer)
 	aVersion = self.ascenderVersion.split("v")
 
-	if (aVersion[1][2:6] == 'Unjo'):
-            self.lblAscenderVersion.SetForegroundColour(BLACK)
-	    self.lblAscenderVersion.SetLabel(aVersion[1])
-	else:
-            self.lblAscenderVersion.SetForegroundColour(RED)
-	    self.lblAscenderVersion.SetLabel('\nIs remote controller connected to Ascender?')
+	try:
+	    if (aVersion[1][2:6] == 'Unjo'):
+                self.lblAscenderVersion.SetForegroundColour(BLACK)
+	        self.lblAscenderVersion.SetLabel(aVersion[1])
+	    else:
+                self.lblAscenderVersion.SetForegroundColour(RED)
+	        self.lblAscenderVersion.SetLabel('\nIs remote controller connected to Ascender?')
 
-	print aVersion[1]
+	    print aVersion[1]
 
-        time.sleep(DELAY2)
+            time.sleep(DELAY2)
 
-        self.remoteVersion = serial_read('r_v', 70, self.mySer)
-	print self.remoteVersion
-	rVersion = self.remoteVersion.split("r_v")
-        self.lblRemoteVersion.SetForegroundColour(BLACK)
-	self.lblRemoteVersion.SetLabel(rVersion[1])
+            self.remoteVersion = serial_read('r_v', 70, self.mySer)
+	    print self.remoteVersion
+	    rVersion = self.remoteVersion.split("r_v")
+            self.lblRemoteVersion.SetForegroundColour(BLACK)
+	    self.lblRemoteVersion.SetLabel(rVersion[1])
+
+	except (IndexError):
+	    print 'Error. No information read from serial port.'
  
     def serialListener(self, message, fname=None):
         logging.info('')
