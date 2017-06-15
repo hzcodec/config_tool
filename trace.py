@@ -219,18 +219,15 @@ class TraceTestForm(wx.Panel):
 	currentDriveTempA = float(rv[53:58])
 	currentDriveTempB = float(rv[71:76])
 
-	#if (currentMotorTemp > maxMotorTemp):
-	if (currentMotorTemp > 14.56):
+	if (currentMotorTemp > maxMotorTemp):
 	    self.tempOk.SetForegroundColour(RED)
 	    self.tempOk.SetLabel("Motor temp to high")
 
-	#if (currentDriveTempA > maxDriveTemp):
-	if (currentDriveTempA > 8.5):
+	if (currentDriveTempA > maxDriveTemp):
 	    self.driveTempAOk.SetForegroundColour(RED)
 	    self.driveTempAOk.SetLabel("Drive A temp to high")
 
-	#if (currentDriveTempB > maxDriveTemp):
-	if (currentDriveTempB > 8.5):
+	if (currentDriveTempB > maxDriveTemp):
 	    self.driveTempBOk.SetForegroundColour(RED)
 	    self.driveTempBOk.SetLabel("Drive B temp to high")
 
