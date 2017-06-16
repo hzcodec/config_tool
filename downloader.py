@@ -86,7 +86,6 @@ def serial_read(cmd, no, serial):
     c = serial.read(no)
     return c
 
-
 class DownLoaderForm(wx.Panel):
 
     def __init__(self, parent):

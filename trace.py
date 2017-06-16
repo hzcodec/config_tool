@@ -4,6 +4,7 @@ import wx
 import serial
 import time
 import logging
+import threading
 from wx.lib.pubsub import pub
 from wx.lib.pubsub import setupkwargs
 
@@ -27,12 +28,50 @@ def serial_read(cmd, no, serial):
     # send command to serial port
     serial.write(cmd+'\r');
     serial.reset_input_buffer()
-    serial.reset_output_buffer()
-    serial.flush()
+    #serial.reset_output_buffer()
+    serial.flushInput()
 
     # read data from serial port
     c = serial.read(no)
     return c
+
+
+class GetTraceData(threading.Thread):
+
+    def __init__(self, serial):
+        th = threading.Thread.__init__(self)
+	self.ser = serial
+	self.setDaemon(True)
+        self.start()    # start the thread
+ 
+    def run(self):
+        serial_cmd('trace prescaler 10', self.ser)
+        time.sleep(0.5)
+        serial_cmd('trace trig iq > 5.0000 10', self.ser)
+        time.sleep(0.5)
+        serial_cmd('trace selall iq speed set_speed', self.ser)
+        time.sleep(0.5)
+        serial_cmd('trace reset', self.ser)
+        time.sleep(0.5)
+        
+        # enable drive stage, release brake and start motor at speed 20
+        serial_cmd('e', self.ser)
+        time.sleep(1)
+        serial_cmd('brake 0', self.ser)
+        time.sleep(1)
+        serial_cmd('speed 10', self.ser)
+        time.sleep(2)
+        
+        # stop motor, set brake and disable drive stage
+        serial_cmd('speed 0', self.ser)
+        time.sleep(1)
+        serial_cmd('brake 1', self.ser)
+        time.sleep(1)
+        serial_cmd('d', self.ser)
+        
+        time.sleep(1)
+        rv = serial_read('trace dump', 16000, self.ser)
+        print rv
 
 
 class TraceTestForm(wx.Panel):
@@ -50,7 +89,6 @@ class TraceTestForm(wx.Panel):
         topSizer = wx.BoxSizer(wx.VERTICAL)
 	topSizer.Add(traceSizer, 0, wx.TOP|wx.LEFT|wx.RIGHT, BORDER1)
 	topSizer.Add(statusSizer, 0, wx.TOP|wx.LEFT|wx.RIGHT, BORDER1)
-	#topSizer.Add(plotSizer, 0, wx.TOP|wx.LEFT|wx.RIGHT, BORDER1)
         self.SetSizer(topSizer)
 
 	pub.subscribe(self.serialListener, 'serialListener')
@@ -171,30 +209,31 @@ class TraceTestForm(wx.Panel):
 
     def onTrace(self, event):
 
-	try:
-            logging.info('OK')
-	    # setup trace conditions
-            serial_cmd('trace prescaler 10', self.mySer)
-	    time.sleep(0.5)
-            serial_cmd('trace trig iq > 5.0000 10', self.mySer)
-	    time.sleep(0.5)
-            serial_cmd('trace selall iq speed set_speed', self.mySer)
-	    time.sleep(0.5)
-            serial_cmd('trace reset', self.mySer)
-	    time.sleep(0.5)
+	GetTraceData(self.mySer)
+	#try:
+        #    logging.info('OK')
+	#    # setup trace conditions
+        #    serial_cmd('trace prescaler 10', self.mySer)
+	#    time.sleep(0.5)
+        #    serial_cmd('trace trig iq > 5.0000 10', self.mySer)
+	#    time.sleep(0.5)
+        #    serial_cmd('trace selall iq speed set_speed', self.mySer)
+	#    time.sleep(0.5)
+        #    serial_cmd('trace reset', self.mySer)
+	#    time.sleep(0.5)
 
-	    # enable drive stage, release brake and start motor at speed 20
-            serial_cmd('e', self.mySer)
-	    time.sleep(1)
-            serial_cmd('brake 0', self.mySer)
-	    time.sleep(1)
-            serial_cmd('speed 10', self.mySer)
-	    time.sleep(2)
-	    
-	    self.stop_motor()
+	#    # enable drive stage, release brake and start motor at speed 20
+        #    serial_cmd('e', self.mySer)
+	#    time.sleep(1)
+        #    serial_cmd('brake 0', self.mySer)
+	#    time.sleep(1)
+        #    serial_cmd('speed 10', self.mySer)
+	#    time.sleep(2)
+	#    
+	#    self.stop_motor()
 
-	except:
-	    print 'Data could not be read. Check current connection to serial port.'
+	#except:
+	#    print 'Data could not be read. Check current connection to serial port.'
 
     def onStop(self, event):
         self.stop_motor()
@@ -211,7 +250,9 @@ class TraceTestForm(wx.Panel):
 
     def onDump(self, event):
         logging.info('')
-        serial_cmd('trace dump', self.mySer)
+	#rv = serial_read('trace dump', 1600, self.mySer)
+	#print rv
+	serial_cmd('trace dump', self.mySer)
 
     def onStatus(self, event):
         logging.info('')
