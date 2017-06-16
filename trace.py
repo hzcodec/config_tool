@@ -231,8 +231,8 @@ class TraceTestForm(wx.Panel):
 	        self.driveTempBOk.SetForegroundColour(RED)
 	        self.driveTempBOk.SetLabel("Drive B temp to high")
 
-	except:
-	    print 'Data could not be read. Check current connection to serial port.'
+	except AttributeError:
+	    print 'No config file has been read. Comparison not possible'
 
     def paint(self):
         dc = wx.PaintDC(self)
