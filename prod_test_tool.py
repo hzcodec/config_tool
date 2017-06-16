@@ -52,7 +52,7 @@ class MainFrame(wx.Frame):
         nb.AddPage(self.tabDownLoader, "Common")
         nb.AddPage(tabCalib, "Calibrate")
         nb.AddPage(self.tabProdTest, "Prod Test")
-        nb.AddPage(tabTrace, "Trace Test")
+        nb.AddPage(tabTrace, "Performance Test")
 
         self.setup_menu()
 

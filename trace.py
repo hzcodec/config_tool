@@ -170,30 +170,39 @@ class TraceTestForm(wx.Panel):
 	self.mySer = message
 
     def onTrace(self, event):
-        logging.info('')
 
 	try:
+            logging.info('OK')
 	    # setup trace conditions
             serial_cmd('trace prescaler 10', self.mySer)
 	    time.sleep(0.5)
             serial_cmd('trace trig iq > 5.0000 10', self.mySer)
 	    time.sleep(0.5)
-            serial_cmd('trace selall iq', self.mySer)
+            serial_cmd('trace selall iq speed set_speed', self.mySer)
 	    time.sleep(0.5)
             serial_cmd('trace reset', self.mySer)
 	    time.sleep(0.5)
 
+	    # enable drive stage, release brake and start motor at speed 20
             serial_cmd('e', self.mySer)
 	    time.sleep(1)
             serial_cmd('brake 0', self.mySer)
 	    time.sleep(1)
             serial_cmd('speed 10', self.mySer)
+	    time.sleep(2)
+	    
+	    self.stop_motor()
 
 	except:
 	    print 'Data could not be read. Check current connection to serial port.'
 
     def onStop(self, event):
+        self.stop_motor()
+
+    def stop_motor(self):
         logging.info('')
+
+	# stop motor, set brake and disable drive stage
         serial_cmd('speed 0', self.mySer)
 	time.sleep(1)
         serial_cmd('brake 1', self.mySer)
