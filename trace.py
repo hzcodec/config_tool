@@ -16,6 +16,11 @@ BORDER2 = 5
 GREY  = (180, 180, 180)
 BLACK = (0, 0, 0)
 
+IQ_START = 12
+SPEED_START = 13
+SET_SPEED_START = 14
+END_DATA = 200
+
 def serial_cmd(cmd, serial):
     # send command to serial port
     try:
@@ -48,7 +53,7 @@ class GetTraceData(threading.Thread):
     def run(self):
         serial_cmd('trace prescaler 10', self.ser)
         time.sleep(0.5)
-        serial_cmd('trace trig iq > 5.0000 10', self.ser)
+        serial_cmd('trace trig set_speed > 5.0000 10', self.ser)
         time.sleep(0.5)
         serial_cmd('trace selall iq speed set_speed', self.ser)
         time.sleep(0.5)
@@ -73,17 +78,13 @@ class GetTraceData(threading.Thread):
         time.sleep(1)
         rv = serial_read('trace dump', 9000, self.ser)
 	print rv
+	time.sleep(1)
 	self.analyze_data(rv)
 
     def analyze_data(self, trace_data):
         logging.info('')
-	b = trace_data.split(' ')
-	#print b
+	splitTraceData = trace_data.split(' ')
 
-	IQ_START = 12
-	SPEED_START = 13
-	SET_SPEED_START = 14
-	END_DATA = 200
         print 20*'-'
 	idx = 0
 	result = 'OK'
@@ -91,26 +92,28 @@ class GetTraceData(threading.Thread):
 	# extract iq data
 	for i in range(IQ_START, END_DATA, 4):
 	    # get rid of \r\n
-	    extracted_iq = b[i].replace("\r\n","")
-	    print ('[%d] - %s') % (idx, extracted_iq)
-	    self.fd.write(extracted_iq+'\n')
+	    extractedIq = splitTraceData[i].replace("\r\n","")
+	    print ('[%d] - %s') % (idx, extractedIq)
+	    self.fd.write(extractedIq+'\n')
 	    idx += 1
 
         print 20*'-'
 	idx = 0
 
 	# extracted speed data
+	listSpeed = []
 	for i in range(SPEED_START, END_DATA, 4):
 	    # get rid of \r\n
-	    extracted_speed = b[i].replace("\r\n","")
-	    print ('[%d] - %s') % (idx, extracted_speed)
-	    self.fd.write(extracted_speed+'\n')
+	    extractedSpeed = splitTraceData[i].replace("\r\n","")
+	    print ('[%d] - %s') % (idx, extractedSpeed)
+	    self.fd.write(extractedSpeed + '\n')
+	    listSpeed.append(extractedSpeed)
 	    idx += 1
 
-	ff = b[30].replace("\r\n","")
-	print '---->', ff, float(ff)
-	if (float(ff) < 8.0):
-	    print 'NOK'
+	# get threshold value, cast it to float and check
+	ff = listSpeed[30]
+	gg = float(ff)
+	if (gg < 8.0):
 	    result = 'NOK'
 
         print 20*'-'
@@ -118,9 +121,9 @@ class GetTraceData(threading.Thread):
 	# extracted set_speed data
 	for i in range(SET_SPEED_START, END_DATA, 4):
 	    # get rid of \r\n
-	    extracted_set_speed = b[i].replace("\r\n","")
-	    print ('[%d] - %s') % (idx, extracted_set_speed)
-	    self.fd.write(extracted_set_speed+'\n')
+	    extractedSetSpeed = splitTraceData[i].replace("\r\n","")
+	    print ('[%d] - %s') % (idx, extractedSetSpeed)
+	    self.fd.write(extractedSetSpeed+'\n')
 	    idx += 1
 
 	self.fd.close()
