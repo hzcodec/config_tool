@@ -170,11 +170,7 @@ class TraceTestForm(wx.Panel):
         self.btnTrace = wx.Button(self, wx.ID_ANY, 'Trace')
         self.Bind(wx.EVT_BUTTON, self.onTrace, self.btnTrace)
 
-        self.btnStop = wx.Button(self, wx.ID_ANY, 'Stop')
-        self.Bind(wx.EVT_BUTTON, self.onStop, self.btnStop)
-
         statBoxSizer.Add(self.btnTrace, 0, wx.ALL, 20)
-        statBoxSizer.Add(self.btnStop, 0, wx.ALL, 20)
         statBoxSizer.Add(self.txtTraceResult, 0, wx.ALL, 20)
         statBoxSizer.Add(self.txtResult, 0, wx.ALL, 20)
         statBoxSizer.Add(txtNull, 0, wx.LEFT, 750) # this is just to get the statBoxSerial larger 
@@ -272,19 +268,6 @@ class TraceTestForm(wx.Panel):
 
 	# start thread
 	GetTraceData(self.mySer)
-
-    def onStop(self, event):
-        self.stop_motor()
-
-    def stop_motor(self):
-        logging.info('')
-
-	# stop motor, set brake and disable drive stage
-        serial_cmd('speed 0', self.mySer)
-	time.sleep(1)
-        serial_cmd('brake 1', self.mySer)
-	time.sleep(1)
-        serial_cmd('d', self.mySer)
 
     def onStatus(self, event):
         logging.info('')
