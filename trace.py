@@ -21,6 +21,9 @@ SPEED_START = 13
 SET_SPEED_START = 14
 END_DATA = 200
 
+# speed threshold value
+THRESHOLD_VALUE = 8.0
+
 def serial_cmd(cmd, serial):
     # send command to serial port
     try:
@@ -113,7 +116,7 @@ class GetTraceData(threading.Thread):
 	# get threshold value, cast it to float and check
 	ff = listSpeed[30]
 	gg = float(ff)
-	if (gg < 8.0):
+	if (gg < THRESHOLD_VALUE):
 	    result = 'NOK'
 
         print 20*'-'
