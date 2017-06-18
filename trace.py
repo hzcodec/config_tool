@@ -28,7 +28,6 @@ def serial_read(cmd, no, serial):
     # send command to serial port
     serial.write(cmd+'\r');
     serial.reset_input_buffer()
-    #serial.flushInput()
 
     # read data from serial port
     c = serial.read(no)
@@ -40,6 +39,7 @@ class GetTraceData(threading.Thread):
     def __init__(self, serial):
         th = threading.Thread.__init__(self)
 	self.ser = serial
+	self.fd = open("trace_data.txt", "w")
 	self.setDaemon(True)
         self.start()    # start the thread
  
@@ -52,7 +52,7 @@ class GetTraceData(threading.Thread):
         time.sleep(0.5)
         serial_cmd('trace reset', self.ser)
         time.sleep(0.5)
-        
+         
         # enable drive stage, release brake and start motor at speed 20
         serial_cmd('e', self.ser)
         time.sleep(1)
@@ -76,33 +76,49 @@ class GetTraceData(threading.Thread):
     def analyze_data(self, trace_data):
         logging.info('')
 	b = trace_data.split(' ')
-	print b
+	#print b
 
 	IQ_START = 12
 	SPEED_START = 13
 	SET_SPEED_START = 14
 	END_DATA = 200
         print 20*'-'
+	idx = 0
+	result = 'OK'
 
 	# extract iq data
 	for i in range(IQ_START, END_DATA, 4):
 	    # get rid of \r\n
 	    extracted_iq = b[i].replace("\r\n","")
-	    print extracted_iq
+	    print ('[%d] - %s') % (idx, extracted_iq)
+	    self.fd.write(extracted_iq+'\n')
+	    idx += 1
 
         print 20*'-'
+	idx = 0
 	# extracted speed data
 	for i in range(SPEED_START, END_DATA, 4):
 	    # get rid of \r\n
 	    extracted_speed = b[i].replace("\r\n","")
-	    print extracted_speed
+	    print ('[%d] - %s') % (idx, extracted_speed)
+	    self.fd.write(extracted_speed+'\n')
+	    idx += 1
+	if (float(b[30].replace("\r\n","") < 8.0)):
+	    print float(b[30].replace("\r\n",""))
+	    result = 'NOK'
 
         print 20*'-'
+	idx = 0
 	# extracted set_speed data
 	for i in range(SET_SPEED_START, END_DATA, 4):
 	    # get rid of \r\n
 	    extracted_set_speed = b[i].replace("\r\n","")
-	    print extracted_set_speed
+	    print ('[%d] - %s') % (idx, extracted_set_speed)
+	    self.fd.write(extracted_set_speed+'\n')
+	    idx += 1
+
+	self.fd.close()
+        wx.CallAfter(pub.sendMessage, "dataListener", msg=result)
 
 
 class TraceTestForm(wx.Panel):
@@ -124,8 +140,10 @@ class TraceTestForm(wx.Panel):
 
 	pub.subscribe(self.serialListener, 'serialListener')
 	pub.subscribe(self.configListener, 'configListener')
+	pub.subscribe(self.dataListener, 'dataListener')
 
         logging.basicConfig(format="%(filename)s: %(funcName)s() - %(message)s", level=logging.INFO)
+	self.paint()
 
     def setup_trace_sizer(self):
 	statBoxSerial = wx.StaticBox(self, wx.ID_ANY, '  Trace test')
@@ -134,6 +152,8 @@ class TraceTestForm(wx.Panel):
         statBoxSizer = wx.StaticBoxSizer(statBoxSerial, wx.HORIZONTAL)
 
         txtNull = wx.StaticText(self, wx.ID_ANY, ' ')
+        self.txtTraceResult = wx.StaticText(self, wx.ID_ANY, 'Trace result:')
+        self.txtResult = wx.StaticText(self, wx.ID_ANY, '-')
 
         self.btnTrace = wx.Button(self, wx.ID_ANY, 'Trace')
         self.Bind(wx.EVT_BUTTON, self.onTrace, self.btnTrace)
@@ -143,6 +163,8 @@ class TraceTestForm(wx.Panel):
 
         statBoxSizer.Add(self.btnTrace, 0, wx.ALL, 20)
         statBoxSizer.Add(self.btnStop, 0, wx.ALL, 20)
+        statBoxSizer.Add(self.txtTraceResult, 0, wx.ALL, 20)
+        statBoxSizer.Add(self.txtResult, 0, wx.ALL, 20)
         statBoxSizer.Add(txtNull, 0, wx.LEFT, 750) # this is just to get the statBoxSerial larger 
 
 	return statBoxSizer
@@ -318,4 +340,10 @@ class TraceTestForm(wx.Panel):
         maxDriveTemp =  float(b[1])
 
 	return maxMotorTemp, maxDriveTemp
+
+    def dataListener(self, msg):
+        if (msg == 'OK'):
+            self.txtResult.SetLabel("Performance OK")
+	else:
+            self.txtResult.SetLabel("Performance Not OK")
 
