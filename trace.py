@@ -105,8 +105,11 @@ class GetTraceData(threading.Thread):
 	    print ('[%d] - %s') % (idx, extracted_speed)
 	    self.fd.write(extracted_speed+'\n')
 	    idx += 1
-	if (float(b[30].replace("\r\n","") < 8.0)):
-	    print float(b[30].replace("\r\n",""))
+
+	ff = b[30].replace("\r\n","")
+	print '---->', ff, float(ff)
+	if (float(ff) < 18.0):
+	    print 'NOK'
 	    result = 'NOK'
 
         print 20*'-'
