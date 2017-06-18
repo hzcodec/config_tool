@@ -104,6 +104,7 @@ class GetTraceData(threading.Thread):
 	    extracted_set_speed = b[i].replace("\r\n","")
 	    print extracted_set_speed
 
+
 class TraceTestForm(wx.Panel):
 
     def __init__(self, parent):
