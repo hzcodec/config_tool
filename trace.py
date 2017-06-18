@@ -20,6 +20,7 @@ def serial_cmd(cmd, serial):
     # send command to serial port
     try:
         serial.write(cmd + '\r');
+        serial.reset_output_buffer()
     except:
         logging.info('Not connected')
 
@@ -108,7 +109,7 @@ class GetTraceData(threading.Thread):
 
 	ff = b[30].replace("\r\n","")
 	print '---->', ff, float(ff)
-	if (float(ff) < 18.0):
+	if (float(ff) < 8.0):
 	    print 'NOK'
 	    result = 'NOK'
 
