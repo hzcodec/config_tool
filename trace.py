@@ -26,8 +26,9 @@ def serial_cmd(cmd, serial):
 
 def serial_read(cmd, no, serial):
     # send command to serial port
-    serial.write(cmd+'\r');
     serial.reset_input_buffer()
+    serial.reset_output_buffer()
+    serial.write(cmd+'\r');
 
     # read data from serial port
     c = serial.read(no)
@@ -96,6 +97,7 @@ class GetTraceData(threading.Thread):
 
         print 20*'-'
 	idx = 0
+
 	# extracted speed data
 	for i in range(SPEED_START, END_DATA, 4):
 	    # get rid of \r\n
@@ -279,6 +281,10 @@ class TraceTestForm(wx.Panel):
 
 	try:
 	    rv = serial_read('status', 79, self.mySer)
+	    time.sleep(0.2)
+	    rv = serial_read('status', 79, self.mySer)
+	    print 'Status return', rv
+
             self.vBatValue.SetLabel(rv[12:18])
             self.motorTempValue.SetLabel(rv[35:40])
             self.driveAValue.SetLabel(rv[53:58])
