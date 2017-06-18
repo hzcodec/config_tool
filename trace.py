@@ -68,7 +68,7 @@ class GetTraceData(threading.Thread):
         time.sleep(1)
         serial_cmd('brake 0', self.ser)
         time.sleep(1)
-        serial_cmd('speed 10', self.ser)
+        serial_cmd('speed 20', self.ser)
         time.sleep(2)
         
         # stop motor, set brake and disable drive stage
@@ -155,7 +155,6 @@ class TraceTestForm(wx.Panel):
 	pub.subscribe(self.dataListener, 'dataListener')
 
         logging.basicConfig(format="%(filename)s: %(funcName)s() - %(message)s", level=logging.INFO)
-	self.paint()
 
     def setup_trace_sizer(self):
 	statBoxSerial = wx.StaticBox(self, wx.ID_ANY, '  Trace test')
