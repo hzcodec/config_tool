@@ -28,8 +28,7 @@ def serial_read(cmd, no, serial):
     # send command to serial port
     serial.write(cmd+'\r');
     serial.reset_input_buffer()
-    #serial.reset_output_buffer()
-    serial.flushInput()
+    #serial.flushInput()
 
     # read data from serial port
     c = serial.read(no)
@@ -70,9 +69,39 @@ class GetTraceData(threading.Thread):
         serial_cmd('d', self.ser)
         
         time.sleep(1)
-        rv = serial_read('trace dump', 16000, self.ser)
-        print rv
+        rv = serial_read('trace dump', 9000, self.ser)
+	print rv
+	self.analyze_data(rv)
 
+    def analyze_data(self, trace_data):
+        logging.info('')
+	b = trace_data.split(' ')
+	print b
+
+	IQ_START = 12
+	SPEED_START = 13
+	SET_SPEED_START = 14
+	END_DATA = 200
+        print 20*'-'
+	# extract iq data
+	for i in range(IQ_START, END_DATA, 4):
+	    # get rid of \r\n
+	    extracted_iq = b[i].replace("\r\n","")
+	    print extracted_iq
+
+        print 20*'-'
+	# extracted speed data
+	for i in range(SPEED_START, END_DATA, 4):
+	    # get rid of \r\n
+	    extracted_speed = b[i].replace("\r\n","")
+	    print extracted_speed
+
+        print 20*'-'
+	# extracted set_speed data
+	for i in range(SET_SPEED_START, END_DATA, 4):
+	    # get rid of \r\n
+	    extracted_set_speed = b[i].replace("\r\n","")
+	    print extracted_set_speed
 
 class TraceTestForm(wx.Panel):
 
@@ -250,9 +279,9 @@ class TraceTestForm(wx.Panel):
 
     def onDump(self, event):
         logging.info('')
-	#rv = serial_read('trace dump', 1600, self.mySer)
-	#print rv
-	serial_cmd('trace dump', self.mySer)
+	rv = serial_read('trace dump', 1600, self.mySer)
+	print rv
+	#serial_cmd('trace dump', self.mySer)
 
     def onStatus(self, event):
         logging.info('')
