@@ -83,6 +83,7 @@ class GetTraceData(threading.Thread):
 	SET_SPEED_START = 14
 	END_DATA = 200
         print 20*'-'
+
 	# extract iq data
 	for i in range(IQ_START, END_DATA, 4):
 	    # get rid of \r\n
@@ -139,13 +140,9 @@ class TraceTestForm(wx.Panel):
         self.btnStop = wx.Button(self, wx.ID_ANY, 'Stop')
         self.Bind(wx.EVT_BUTTON, self.onStop, self.btnStop)
 
-        self.btnDump = wx.Button(self, wx.ID_ANY, 'Dump')
-        self.Bind(wx.EVT_BUTTON, self.onDump, self.btnDump)
-
         statBoxSizer.Add(self.btnTrace, 0, wx.ALL, 20)
         statBoxSizer.Add(self.btnStop, 0, wx.ALL, 20)
-        statBoxSizer.Add(self.btnDump, 0, wx.ALL, 20)
-        statBoxSizer.Add(txtNull, 0, wx.LEFT, 650) # this is just to get the statBoxSerial larger 
+        statBoxSizer.Add(txtNull, 0, wx.LEFT, 750) # this is just to get the statBoxSerial larger 
 
 	return statBoxSizer
 
@@ -238,31 +235,8 @@ class TraceTestForm(wx.Panel):
 
     def onTrace(self, event):
 
+	# start thread
 	GetTraceData(self.mySer)
-	#try:
-        #    logging.info('OK')
-	#    # setup trace conditions
-        #    serial_cmd('trace prescaler 10', self.mySer)
-	#    time.sleep(0.5)
-        #    serial_cmd('trace trig iq > 5.0000 10', self.mySer)
-	#    time.sleep(0.5)
-        #    serial_cmd('trace selall iq speed set_speed', self.mySer)
-	#    time.sleep(0.5)
-        #    serial_cmd('trace reset', self.mySer)
-	#    time.sleep(0.5)
-
-	#    # enable drive stage, release brake and start motor at speed 20
-        #    serial_cmd('e', self.mySer)
-	#    time.sleep(1)
-        #    serial_cmd('brake 0', self.mySer)
-	#    time.sleep(1)
-        #    serial_cmd('speed 10', self.mySer)
-	#    time.sleep(2)
-	#    
-	#    self.stop_motor()
-
-	#except:
-	#    print 'Data could not be read. Check current connection to serial port.'
 
     def onStop(self, event):
         self.stop_motor()
@@ -276,12 +250,6 @@ class TraceTestForm(wx.Panel):
         serial_cmd('brake 1', self.mySer)
 	time.sleep(1)
         serial_cmd('d', self.mySer)
-
-    def onDump(self, event):
-        logging.info('')
-	rv = serial_read('trace dump', 1600, self.mySer)
-	print rv
-	#serial_cmd('trace dump', self.mySer)
 
     def onStatus(self, event):
         logging.info('')
