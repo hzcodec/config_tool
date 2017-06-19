@@ -25,6 +25,12 @@ END_DATA = 200
 
 # speed threshold value
 THRESHOLD_VALUE = 8.0
+TARGET_SPEED1 = 19.9
+TARGET_SPEED2 = -19.9
+
+# time delay until speed is reached its target speed
+TIME_DELAY1 = 80
+
 
 def serial_cmd(cmd, serial):
     # send command to serial port
@@ -72,7 +78,12 @@ class GetTraceData(threading.Thread):
     def __init__(self, serial):
         th = threading.Thread.__init__(self)
 	self.ser = serial
-	self.fd = open("trace_data.txt", "w")
+	self.fdIqData1 = open("iq_data1.txt", "w")
+	self.fdSpeedData1 = open("speed_data1.txt", "w")
+	self.fdSetSpeedData1 = open("set_speed_data1.txt", "w")
+	self.fdIqData2 = open("iq_data2.txt", "w")
+	self.fdSpeedData2 = open("speed_data2.txt", "w")
+	self.fdSetSpeedData2 = open("set_speed_data2.txt", "w")
 	self.setDaemon(True)
         self.start()    # start the thread
  
@@ -140,7 +151,9 @@ class GetTraceData(threading.Thread):
         logging.info('')
 
 	idx = 0
-	result = 'OK' # flag indicating if threshold is met or not
+	result = 'NOK'                # flag indicating if threshold is met or not
+	targetForSpeed1Reached = 0    # target reached indicator, at least 20 before we consider a valid state
+	targetForSpeed2Reached = 0
 
 	listTraceData1 = []
 
@@ -151,25 +164,25 @@ class GetTraceData(threading.Thread):
 	    #print ('[%d] - %s') % (i, listTraceData1[idx])
 	    idx += 1
 
-	self.fd.write('iq-data1\n')
 	for i in range(0, len(listTraceData1)):
-	    #print ('[%d] - %s') % (i, listTraceData1[i][0])
-	    self.fd.write(listTraceData1[i][0]+'\n')
+	    #print ('[%d] -> %s') % (i, listTraceData1[i][0])
+	    self.fdIqData1.write(listTraceData1[i][0]+'\n')
+        self.fdIqData1.close()	
 
-	self.fd.write('speed-data1\n')
 	for i in range(0, len(listTraceData1)):
-	    self.fd.write(listTraceData1[i][1]+'\n')
-	    #print ('[%d] - %s') % (i, listTraceData1[i][1])
+	    self.fdSpeedData1.write(listTraceData1[i][1]+'\n')
 
-	# check if speed is to low after a certain time
-	if (float(listTraceData1[30][1]) < 8.0):
-	    result =  'NOK'
+	    if (float(listTraceData1[i][1]) > TARGET_SPEED1):
+		targetForSpeed1Reached += 1
+	    #print ('[%d] -> %s') % (i, listTraceData1[i][1])
 
-	self.fd.write('set_speed-data1\n')
+        # close file for speed
+        self.fdSpeedData1.close()	
+
 	for i in range(0, len(listTraceData1)):
-	    self.fd.write(listTraceData1[i][2]+'\n')
-	    #print ('[%d] - %s') % (i, listTraceData1[i][2])
-
+	    self.fdSetSpeedData1.write(listTraceData1[i][2]+'\n')
+	    #print ('[%d] -> %s') % (i, listTraceData1[i][2])
+        self.fdSetSpeedData1.close()	
 
 	listTraceData2 = []
 	idx = 0
@@ -181,27 +194,31 @@ class GetTraceData(threading.Thread):
 	    #print ('[%d] - %s') % (i, listTraceData2[idx])
 	    idx += 1
 
-	self.fd.write('iq-data2\n')
 	for i in range(0, len(listTraceData2)):
 	    #print ('[%d] - %s') % (i, listTraceData2[i][0])
-	    self.fd.write(listTraceData2[i][0]+'\n')
+	    self.fdIqData2.write(listTraceData2[i][0]+'\n')
+        self.fdIqData2.close()	
 
-	self.fd.write('speed-data2\n')
 	for i in range(0, len(listTraceData2)):
-	    self.fd.write(listTraceData2[i][1]+'\n')
+	    self.fdSpeedData2.write(listTraceData2[i][1]+'\n')
+
+	    if (float(listTraceData2[i][1]) > TARGET_SPEED2):
+		targetForSpeed2Reached += 1
 	    #print ('[%d] - %s') % (i, listTraceData2[i][1])
 
-	# check if speed is to low after a certain time
-	if (float(listTraceData2[30][1]) > -8.0):
-	    result =  'NOK'
+        # close file for speed
+        self.fdSpeedData2.close()	
 
-	self.fd.write('set_speed-data2\n')
 	for i in range(0, len(listTraceData2)):
-	    self.fd.write(listTraceData2[i][2]+'\n')
+	    self.fdSetSpeedData2.write(listTraceData2[i][2]+'\n')
 	    #print ('[%d] - %s') % (i, listTraceData2[i][2])
+        self.fdSetSpeedData2.close()	
 
-	self.fd.close()
-        wx.CallAfter(pub.sendMessage, "dataListener", msg=result)
+	# at least a number of hits, this is to filter out a glitch
+	if (targetForSpeed1Reached > 20 and targetForSpeed2Reached > 20):
+	    result = 'OK'
+
+        wx.CallAfter(pub.sendMessage, "dataListener", msg=listTraceData1, msg2=listTraceData2)
 
 
 class TraceTestForm(wx.Panel):
@@ -417,9 +434,36 @@ class TraceTestForm(wx.Panel):
 
 	return maxMotorTemp, maxDriveTemp
 
-    def dataListener(self, msg):
-        if (msg == 'OK'):
-            self.txtResult.SetLabel("Performance test OK")
-	else:
-            self.txtResult.SetLabel("Performance test Not OK")
+    def dataListener(self, msg, msg2):
 
+        rv = self.find_idx(msg)
+        rv2 = self.find_idx2(msg2)
+	print 'rv:', rv
+	print 'rv2:', rv2
+        
+        if (rv > TIME_DELAY1 or rv2 > TIME_DELAY1):
+            self.txtResult.SetLabel("Performance test Not OK")
+	else:
+            self.txtResult.SetLabel("Performance test OK")
+
+    def find_idx(self, msg):
+        """
+	    Find first time target speed is reached.
+        """
+        for idx in range(0, len(msg)):
+            #print idx, msg[idx][1]
+            if (float(msg[idx][1]) > TARGET_SPEED1):
+                return idx
+    
+        return 0
+
+    def find_idx2(self, msg):
+        """
+	    Find first time target speed is reached.
+        """
+        for idx in range(0, len(msg)):
+            print idx, msg[idx][1]
+            if (float(msg[idx][1]) < TARGET_SPEED2):
+                return idx
+    
+        return 0
