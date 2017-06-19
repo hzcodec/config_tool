@@ -144,17 +144,13 @@ class GetTraceData(threading.Thread):
 	idx = 0
 	result = 'OK' # flag indicating if threshold is met or not
 
-	print '......'
-	print traceData2
-	print '======'
-
 	listTraceData1 = []
 
 	# split trace data
 	for i in range(TRACE_DATA_START, len(traceData1)):
 	    splitTraceData = traceData1[i].split(' ')
 	    listTraceData1.append(splitTraceData)
-	    print ('[%d] - %s') % (i, listTraceData1[idx])
+	    #print ('[%d] - %s') % (i, listTraceData1[idx])
 	    idx += 1
 
 	self.fd.write('iq-data1\n')
@@ -197,9 +193,9 @@ class GetTraceData(threading.Thread):
 	    self.fd.write(listTraceData2[i][1]+'\n')
 	    #print ('[%d] - %s') % (i, listTraceData2[i][1])
 
-	## check if speed is to low after a certain time
-	#if (float(listTraceData2[30][1]) > -8.0):
-	#    result =  'NOK'
+	# check if speed is to low after a certain time
+	if (float(listTraceData2[30][1]) > -8.0):
+	    result =  'NOK'
 
 	self.fd.write('set_speed-data2\n')
 	for i in range(0, len(listTraceData2)):
