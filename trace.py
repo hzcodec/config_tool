@@ -210,6 +210,7 @@ class TraceTestForm(wx.Panel):
         wx.Panel.__init__(self, parent)
 	
         self.mySer = None
+	self.applicationIsConnected = False
         #self.Bind(wx.EVT_PAINT, self.OnPaint)
 
 	traceSizer = self.setup_trace_sizer()
@@ -332,12 +333,18 @@ class TraceTestForm(wx.Panel):
 
     def serialListener(self, message, fname=None):
         print 'msg:', message
+	self.applicationIsConnected = True
 	self.mySer = message
 
     def onTrace(self, event):
 
-	# start thread
-	GetTraceData(self.mySer)
+	if (self.applicationIsConnected == True):
+	    # start thread
+            self.txtResult.SetLabel("Performance test initiated")
+	    GetTraceData(self.mySer)
+
+	else:
+            self.txtResult.SetLabel("No connection to serial port")
 
     def onStatus(self, event):
         logging.info('')
@@ -412,7 +419,7 @@ class TraceTestForm(wx.Panel):
 
     def dataListener(self, msg):
         if (msg == 'OK'):
-            self.txtResult.SetLabel("Performance OK")
+            self.txtResult.SetLabel("Performance test OK")
 	else:
-            self.txtResult.SetLabel("Performance Not OK")
+            self.txtResult.SetLabel("Performance test Not OK")
 
