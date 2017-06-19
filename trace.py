@@ -139,7 +139,7 @@ class GetTraceData(threading.Thread):
 	self.analyze_data(rv, rv2)
 
     def analyze_data(self, traceData1, traceData2):
-        logging.info(40*'-')
+        logging.info('')
 
 	idx = 0
 	result = 'OK' # flag indicating if threshold is met or not
@@ -180,7 +180,7 @@ class GetTraceData(threading.Thread):
 	for i in range(TRACE_DATA_START, len(traceData2)):
 	    splitTraceData = traceData2[i].split(' ')
 	    listTraceData2.append(splitTraceData)
-	    print ('[%d] - %s') % (i, listTraceData2[idx])
+	    #print ('[%d] - %s') % (i, listTraceData2[idx])
 	    idx += 1
 
 	self.fd.write('iq-data2\n')
