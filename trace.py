@@ -79,6 +79,7 @@ class GetTraceData(threading.Thread):
     def run(self):
         """
 	    Run motor up for 2 seconds at speed 20. Then run notor down for 2 seconds at speed -20.
+	    Get trace dump after each run.
         """
         serial_cmd('trace prescaler 10', self.ser)
         time.sleep(0.5)
