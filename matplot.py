@@ -56,26 +56,18 @@ def read_indata2():
     return content, n
 
 
-###################################################################
 def main():
 
     data1, numberOfLines1 = read_indata()
     data2, numberOfLines2 = read_indata2()
     
     t = range(numberOfLines1)
-    #res = [x*SAMPLE_TIME/1000.0 for x in t]
-   
-    ## make space for the curve
-    #plt.ylim(float(min(data2))*EXPAND_WINDOW, float(max(data1))*EXPAND_WINDOW)
     
     # set window title
     plt.gcf().canvas.set_window_title('Performance test')
     
-    plt.plot(t, data1, color="blue", linewidth=1, marker='.', linestyle='-')
-    plt.plot(t, data2, color="red", linewidth=1, marker='.', linestyle='-')
-    
-    #legends
-    plt.legend(loc='upper left', frameon=False)
+    plt.plot(t, data1, color="blue", linewidth=1, linestyle='-')
+    plt.plot(t, data2, color="red", linewidth=1, linestyle='-')
     
     plt.xlabel('[s]')
     
