@@ -7,6 +7,8 @@ import logging
 import threading
 from wx.lib.pubsub import pub
 from wx.lib.pubsub import setupkwargs
+import select
+import sys
 
 RED   = (255, 19, 32)
 
@@ -16,7 +18,7 @@ BORDER2 = 5
 GREY  = (180, 180, 180)
 BLACK = (0, 0, 0)
 
-IQ_START = 12
+TRACE_DATA_START = 4
 SPEED_START = 13
 SET_SPEED_START = 14
 END_DATA = 200
@@ -33,7 +35,28 @@ def serial_cmd(cmd, serial):
         logging.info('Not connected')
 
 
-def serial_read(cmd, no, serial):
+def serial_read(cmd, serial):
+    # send command to serial port
+    serial.reset_input_buffer()
+    serial.reset_output_buffer()
+    serial.write(cmd+'\r');
+
+    cnt = 0
+    tracedData = []
+
+    while True:
+        line = serial.readline()
+	cnt += 1
+        #print cnt, line,
+	tracedData.append(line)
+
+	if (cnt > 240):
+	    break
+
+    return tracedData
+
+
+def serial_read2(cmd, no, serial):
     # send command to serial port
     serial.reset_input_buffer()
     serial.reset_output_buffer()
@@ -79,55 +102,46 @@ class GetTraceData(threading.Thread):
         serial_cmd('d', self.ser)
         
         time.sleep(1)
-        rv = serial_read('trace dump', 9000, self.ser)
-	print rv
+        rv = serial_read('trace dump', self.ser)
+	print 60*'-'
 	time.sleep(1)
 	self.analyze_data(rv)
 
-    def analyze_data(self, trace_data):
-        logging.info('')
-	splitTraceData = trace_data.split(' ')
+    def analyze_data(self, traceData):
+        logging.info(40*'-')
 
-        print 20*'-'
+	print traceData
+
 	idx = 0
-	result = 'OK'
+	result = 'OK' # flag indicating if threshold is met or not
 
-	# extract iq data
-	for i in range(IQ_START, END_DATA, 4):
-	    # get rid of \r\n
-	    extractedIq = splitTraceData[i].replace("\r\n","")
-	    print ('[%d] - %s') % (idx, extractedIq)
-	    self.fd.write(extractedIq+'\n')
+	listTraceData = []
+
+	# split trace data
+	for i in range(TRACE_DATA_START, len(traceData)):
+	    splitTraceData = traceData[i].split(' ')
+	    listTraceData.append(splitTraceData)
+	    #print ('[%d] - %s') % (i, listTraceData[idx])
 	    idx += 1
 
-        print 20*'-'
-	idx = 0
+	self.fd.write('iq-data\n')
+	for i in range(0, len(listTraceData)):
+	    #print ('[%d] - %s') % (i, listTraceData[i][0])
+	    self.fd.write(listTraceData[i][0]+'\n')
 
-	# extracted speed data
-	listSpeed = []
-	for i in range(SPEED_START, END_DATA, 4):
-	    # get rid of \r\n
-	    extractedSpeed = splitTraceData[i].replace("\r\n","")
-	    print ('[%d] - %s') % (idx, extractedSpeed)
-	    self.fd.write(extractedSpeed + '\n')
-	    listSpeed.append(extractedSpeed)
-	    idx += 1
+	self.fd.write('speed-data\n')
+	for i in range(0, len(listTraceData)):
+	    self.fd.write(listTraceData[i][1]+'\n')
+	    #print ('[%d] - %s') % (i, listTraceData[i][1])
 
-	# get threshold value, cast it to float and check
-	ff = listSpeed[30]
-	gg = float(ff)
-	if (gg < THRESHOLD_VALUE):
-	    result = 'NOK'
+	# check if speed is to low after a certain time
+	if (float(listTraceData[30][1]) < 8.0):
+	    result =  'NOK'
 
-        print 20*'-'
-	idx = 0
-	# extracted set_speed data
-	for i in range(SET_SPEED_START, END_DATA, 4):
-	    # get rid of \r\n
-	    extractedSetSpeed = splitTraceData[i].replace("\r\n","")
-	    print ('[%d] - %s') % (idx, extractedSetSpeed)
-	    self.fd.write(extractedSetSpeed+'\n')
-	    idx += 1
+	self.fd.write('set_speed-data\n')
+	for i in range(0, len(listTraceData)):
+	    self.fd.write(listTraceData[i][2]+'\n')
+	    #print ('[%d] - %s') % (i, listTraceData[i][2])
 
 	self.fd.close()
         wx.CallAfter(pub.sendMessage, "dataListener", msg=result)
@@ -272,9 +286,9 @@ class TraceTestForm(wx.Panel):
         logging.info('')
 
 	try:
-	    rv = serial_read('status', 79, self.mySer)
+	    rv = serial_read2('status', 79, self.mySer)
 	    time.sleep(0.2)
-	    rv = serial_read('status', 79, self.mySer)
+	    rv = serial_read2('status', 79, self.mySer)
 	    print 'Status return', rv
 
             self.vBatValue.SetLabel(rv[12:18])
