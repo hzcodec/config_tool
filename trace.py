@@ -90,19 +90,11 @@ class GetTraceData(threading.Thread):
         time.sleep(0.5)
          
         # enable drive stage, release brake and start motor at speed 20
-        serial_cmd('e', self.ser)
-        time.sleep(1)
-        serial_cmd('brake 0', self.ser)
-        time.sleep(1)
+	self.enable_motor()
         serial_cmd('speed 20', self.ser)
         time.sleep(2)
         
-        # stop motor, set brake and disable drive stage
-        serial_cmd('speed 0', self.ser)
-        time.sleep(1)
-        serial_cmd('brake 1', self.ser)
-        time.sleep(1)
-        serial_cmd('d', self.ser)
+	self.stop_motor()
         
 	# get trace dump values
         time.sleep(1)
@@ -117,19 +109,11 @@ class GetTraceData(threading.Thread):
         time.sleep(0.5)
 
         # enable drive stage, release brake and start motor at speed -20
-        serial_cmd('e', self.ser)
-        time.sleep(1)
-        serial_cmd('brake 0', self.ser)
-        time.sleep(1)
+	self.enable_motor()
         serial_cmd('speed -20', self.ser)
         time.sleep(2)
 
-        # stop motor, set brake and disable drive stage
-        serial_cmd('speed 0', self.ser)
-        time.sleep(1)
-        serial_cmd('brake 1', self.ser)
-        time.sleep(1)
-        serial_cmd('d', self.ser)
+        self.stop_motor()
 
 	# get trace dump values
         logging.info('Get trace dump 2')
@@ -137,6 +121,19 @@ class GetTraceData(threading.Thread):
 	time.sleep(1)
 
 	self.analyze_data(rv, rv2)
+
+    def enable_motor(self):
+        serial_cmd('e', self.ser)
+        time.sleep(1)
+        serial_cmd('brake 0', self.ser)
+        time.sleep(1)
+
+    def stop_motor(self):
+        serial_cmd('speed 0', self.ser)
+        time.sleep(1)
+        serial_cmd('brake 1', self.ser)
+        time.sleep(1)
+        serial_cmd('d', self.ser)
 
     def analyze_data(self, traceData1, traceData2):
         logging.info('')
