@@ -77,6 +77,9 @@ class GetTraceData(threading.Thread):
         self.start()    # start the thread
  
     def run(self):
+        """
+	    Run motor up for 2 seconds at speed 20. Then run notor down for 2 seconds at speed -20.
+        """
         serial_cmd('trace prescaler 10', self.ser)
         time.sleep(0.5)
         serial_cmd('trace trig set_speed > 5.0000 10', self.ser)
@@ -101,47 +104,107 @@ class GetTraceData(threading.Thread):
         time.sleep(1)
         serial_cmd('d', self.ser)
         
+	# get trace dump values
         time.sleep(1)
+        logging.info('Get trace dump 1')
         rv = serial_read('trace dump', self.ser)
-	print 60*'-'
 	time.sleep(1)
-	self.analyze_data(rv)
 
-    def analyze_data(self, traceData):
+	# reset dump area and set new trigger
+        serial_cmd('trace reset', self.ser)
+        time.sleep(0.5)
+        serial_cmd('trace trig set_speed < -5.0000 10', self.ser)
+        time.sleep(0.5)
+
+        # enable drive stage, release brake and start motor at speed -20
+        serial_cmd('e', self.ser)
+        time.sleep(1)
+        serial_cmd('brake 0', self.ser)
+        time.sleep(1)
+        serial_cmd('speed -20', self.ser)
+        time.sleep(2)
+
+        # stop motor, set brake and disable drive stage
+        serial_cmd('speed 0', self.ser)
+        time.sleep(1)
+        serial_cmd('brake 1', self.ser)
+        time.sleep(1)
+        serial_cmd('d', self.ser)
+
+	# get trace dump values
+        logging.info('Get trace dump 2')
+        rv2 = serial_read('trace dump', self.ser)
+	time.sleep(1)
+
+	self.analyze_data(rv, rv2)
+
+    def analyze_data(self, traceData1, traceData2):
         logging.info(40*'-')
-
-	print traceData
 
 	idx = 0
 	result = 'OK' # flag indicating if threshold is met or not
 
-	listTraceData = []
+	print '......'
+	print traceData2
+	print '======'
+
+	listTraceData1 = []
 
 	# split trace data
-	for i in range(TRACE_DATA_START, len(traceData)):
-	    splitTraceData = traceData[i].split(' ')
-	    listTraceData.append(splitTraceData)
-	    #print ('[%d] - %s') % (i, listTraceData[idx])
+	for i in range(TRACE_DATA_START, len(traceData1)):
+	    splitTraceData = traceData1[i].split(' ')
+	    listTraceData1.append(splitTraceData)
+	    print ('[%d] - %s') % (i, listTraceData1[idx])
 	    idx += 1
 
-	self.fd.write('iq-data\n')
-	for i in range(0, len(listTraceData)):
-	    #print ('[%d] - %s') % (i, listTraceData[i][0])
-	    self.fd.write(listTraceData[i][0]+'\n')
+	self.fd.write('iq-data1\n')
+	for i in range(0, len(listTraceData1)):
+	    #print ('[%d] - %s') % (i, listTraceData1[i][0])
+	    self.fd.write(listTraceData1[i][0]+'\n')
 
-	self.fd.write('speed-data\n')
-	for i in range(0, len(listTraceData)):
-	    self.fd.write(listTraceData[i][1]+'\n')
-	    #print ('[%d] - %s') % (i, listTraceData[i][1])
+	self.fd.write('speed-data1\n')
+	for i in range(0, len(listTraceData1)):
+	    self.fd.write(listTraceData1[i][1]+'\n')
+	    #print ('[%d] - %s') % (i, listTraceData1[i][1])
 
 	# check if speed is to low after a certain time
-	if (float(listTraceData[30][1]) < 8.0):
+	if (float(listTraceData1[30][1]) < 8.0):
 	    result =  'NOK'
 
-	self.fd.write('set_speed-data\n')
-	for i in range(0, len(listTraceData)):
-	    self.fd.write(listTraceData[i][2]+'\n')
-	    #print ('[%d] - %s') % (i, listTraceData[i][2])
+	self.fd.write('set_speed-data1\n')
+	for i in range(0, len(listTraceData1)):
+	    self.fd.write(listTraceData1[i][2]+'\n')
+	    #print ('[%d] - %s') % (i, listTraceData1[i][2])
+
+
+	listTraceData2 = []
+	idx = 0
+
+	# split trace data
+	for i in range(TRACE_DATA_START, len(traceData2)):
+	    splitTraceData = traceData2[i].split(' ')
+	    listTraceData2.append(splitTraceData)
+	    print ('[%d] - %s') % (i, listTraceData2[idx])
+	    idx += 1
+
+	self.fd.write('iq-data2\n')
+	for i in range(0, len(listTraceData2)):
+	    #print ('[%d] - %s') % (i, listTraceData2[i][0])
+	    self.fd.write(listTraceData2[i][0]+'\n')
+
+	self.fd.write('speed-data2\n')
+	for i in range(0, len(listTraceData2)):
+	    self.fd.write(listTraceData2[i][1]+'\n')
+	    #print ('[%d] - %s') % (i, listTraceData2[i][1])
+
+	## check if speed is to low after a certain time
+	#if (float(listTraceData2[30][1]) > -8.0):
+	#    result =  'NOK'
+
+	self.fd.write('set_speed-data2\n')
+	for i in range(0, len(listTraceData2)):
+	    self.fd.write(listTraceData2[i][2]+'\n')
+	    #print ('[%d] - %s') % (i, listTraceData2[i][2])
 
 	self.fd.close()
         wx.CallAfter(pub.sendMessage, "dataListener", msg=result)
