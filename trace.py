@@ -9,6 +9,7 @@ from wx.lib.pubsub import pub
 from wx.lib.pubsub import setupkwargs
 import select
 import sys
+import os
 
 RED   = (255, 19, 32)
 
@@ -445,6 +446,9 @@ class TraceTestForm(wx.Panel):
             self.txtResult.SetLabel("Performance test Not OK")
 	else:
             self.txtResult.SetLabel("Performance test OK")
+
+	# should probably be start as deamon in a thread
+	os.system('./matplot.py')
 
     def find_idx(self, msg):
         """
