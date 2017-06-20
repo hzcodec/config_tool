@@ -458,7 +458,7 @@ class TraceTestForm(wx.Panel):
 	else:
             self.txtResult.SetLabel("Performance test OK")
 
-        plot_result()
+        self.plot_result()
 
     def plot_result(self):
         MatPlot()
