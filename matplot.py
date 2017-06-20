@@ -69,7 +69,7 @@ def main():
     plt.plot(t, data1, color="blue", linewidth=1, linestyle='-')
     plt.plot(t, data2, color="red", linewidth=1, linestyle='-')
     
-    plt.xlabel('[s]')
+    plt.xlabel('[samples]')
     
     plt.grid(True)
     plt.show()
