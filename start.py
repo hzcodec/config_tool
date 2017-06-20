@@ -4,7 +4,7 @@ import sys
 import subprocess
 import threading
 
-class PollAlignment(threading.Thread):
+class MatPlot(threading.Thread):
 
     def __init__(self):
         th = threading.Thread.__init__(self)
@@ -17,7 +17,7 @@ class PollAlignment(threading.Thread):
 
 def main():
 
-    PollAlignment()
+    MatPlot()
     time.sleep(0.5)
 
     # get pid

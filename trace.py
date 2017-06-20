@@ -74,6 +74,17 @@ def serial_read2(cmd, no, serial):
     return c
 
 
+class MatPlot(threading.Thread):
+
+    def __init__(self):
+        th = threading.Thread.__init__(self)
+	self.setDaemon(True)
+        self.start()    # start the thread
+ 
+    def run(self):
+        os.system('./matplot.py&')
+
+
 class GetTraceData(threading.Thread):
 
     def __init__(self, serial):
@@ -447,8 +458,15 @@ class TraceTestForm(wx.Panel):
 	else:
             self.txtResult.SetLabel("Performance test OK")
 
-	# should probably be start as deamon in a thread
-	os.system('./matplot.py')
+        plot_result()
+
+    def plot_result(self):
+        MatPlot()
+        time.sleep(0.5)
+
+        # get pid for matplot
+        out = os.popen('pgrep -f matplot.py').readlines()
+        out2 = out[0].rstrip('\n')
 
     def find_idx(self, msg):
         """
