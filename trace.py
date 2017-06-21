@@ -78,11 +78,17 @@ class MatPlot(threading.Thread):
 
     def __init__(self):
         th = threading.Thread.__init__(self)
+
+	# get current path where the application is
+	self.dir_path = os.getcwd()
+	print self.dir_path
+
 	self.setDaemon(True)
         self.start()    # start the thread
  
     def run(self):
-        os.system('/home/heinz.samuelsson/Desktop/matplot.py&')
+	# put matplot.py app at the same pos where prod_test_tool is
+        os.system(self.dir_path + '/Desktop/matplot.py&')
 
 
 class GetTraceData(threading.Thread):
