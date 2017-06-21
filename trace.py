@@ -82,7 +82,7 @@ class MatPlot(threading.Thread):
         self.start()    # start the thread
  
     def run(self):
-        os.system('./matplot.py&')
+        os.system('/home/heinz.samuelsson/Desktop/matplot.py&')
 
 
 class GetTraceData(threading.Thread):
