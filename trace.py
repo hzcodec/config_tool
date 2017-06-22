@@ -80,14 +80,14 @@ class MatPlot(threading.Thread):
         th = threading.Thread.__init__(self)
 
 	# get current path where the application is
-	self.dir_path = os.getcwd()
+	self.dirPath = os.getcwd()
 
 	self.setDaemon(True)
         self.start()    # start the thread
  
     def run(self):
 	# put matplot.py app at the same pos where prod_test_tool is
-        os.system(self.dir_path + '/Desktop/matplot.py&')
+        os.system(self.dirPath + '/Desktop/matplot.py&')
 
 
 class GetTraceData(threading.Thread):
@@ -95,14 +95,37 @@ class GetTraceData(threading.Thread):
     def __init__(self, serial):
         th = threading.Thread.__init__(self)
 	self.ser = serial
-	dir_path = os.getcwd()
-	print 'dir_path for logdata:', dir_path
-	self.fdIqData1 = open("iq_data1.txt", "w")
-	self.fdSpeedData1 = open(dir_path+'/Desktop/speed_data1.txt', 'w')
-	self.fdSetSpeedData1 = open(dir_path+'/Desktop/set_speed_data1.txt', 'w')
-	self.fdIqData2 = open(dir_path+'/Desktop/iq_data2.txt', 'w')
-	self.fdSpeedData2 = open(dir_path+'/Desktop/speed_data2.txt', 'w')
-	self.fdSetSpeedData2 = open(dir_path+'/Desktop/set_speed_data2.txt', 'w')
+
+
+	# find current path for application
+	dirPath = os.getcwd()
+        filePath = dirPath + '/Desktop/logdata'
+	print 'filePath for logdata:', filePath
+
+	# create log directory
+	try:
+	    os.stat(filePath)
+	except:
+	    os.mkdir(filePath)
+
+	logging.info('Open iq1 data file')
+	self.fdIqData1 = open(filePath + '/iq_data1.txt', 'w')
+
+	logging.info('Open speedData1 data file')
+	self.fdSpeedData1    = open(filePath + '/speed_data1.txt', 'w')
+
+	logging.info('Open SetspeedData1 data file')
+	self.fdSetSpeedData1 = open(filePath + '/set_speed_data1.txt', 'w')
+
+	logging.info('Open iq2 data file')
+	self.fdIqData2 = open(filePath + '/iq_data2.txt', 'w')
+
+	logging.info('Open speedData2 data file')
+	self.fdSpeedData2    = open(filePath + '/speed_data2.txt', 'w')
+
+	logging.info('Open setSpeedData2 data file')
+	self.fdSetSpeedData2 = open(filePath + '/set_speed_data2.txt', 'w')
+
 	self.setDaemon(True)
         self.start()    # start the thread
  
@@ -184,7 +207,7 @@ class GetTraceData(threading.Thread):
 	    idx += 1
 
 	for i in range(0, len(listTraceData1)):
-	    #print ('[%d] -> %s') % (i, listTraceData1[i][0])
+	    #print ('iq1 - [%d] -> %s') % (i, listTraceData1[i][0])
 	    self.fdIqData1.write(listTraceData1[i][0]+'\n')
         self.fdIqData1.close()	
 
@@ -214,8 +237,8 @@ class GetTraceData(threading.Thread):
 	    idx += 1
 
 	for i in range(0, len(listTraceData2)):
-	    #print ('[%d] - %s') % (i, listTraceData2[i][0])
 	    self.fdIqData2.write(listTraceData2[i][0]+'\n')
+	    #print ('iq2 - [%d] - %s') % (i, listTraceData2[i][0])
         self.fdIqData2.close()	
 
 	for i in range(0, len(listTraceData2)):
@@ -368,7 +391,7 @@ class TraceTestForm(wx.Panel):
 	return statBoxSizer
 
     def serialListener(self, message, fname=None):
-        print 'msg:', message
+        #print 'msg:', message
 	self.applicationIsConnected = True
 	self.mySer = message
 
@@ -457,8 +480,8 @@ class TraceTestForm(wx.Panel):
 
         rv = self.find_idx(msg)
         rv2 = self.find_idx2(msg2)
-	print 'rv:', rv
-	print 'rv2:', rv2
+	#print 'rv:', rv
+	#print 'rv2:', rv2
         
         if (rv > TIME_DELAY1 or rv2 > TIME_DELAY1):
             self.txtResult.SetLabel("Performance test Not OK")
@@ -491,7 +514,8 @@ class TraceTestForm(wx.Panel):
 	    Find first time target speed is reached.
         """
         for idx in range(0, len(msg)):
-            print idx, msg[idx][1]
+            #print idx, msg[idx][1]
+
             if (float(msg[idx][1]) < TARGET_SPEED2):
                 return idx
     
