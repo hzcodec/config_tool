@@ -1,24 +1,15 @@
 #!/usr/bin/env python
+
+# Auther      : Heinz Samuelsson
+# Date        : 2017-06-02
+# File        : matplot.py
+# Reference   : -
+# Description : Used in production test tool for ActSafe
+#
+# Python ver  : 2.7.3 (gcc 4.6.3)
+
 import sys
 import matplotlib.pyplot as plt
-
-class bcolors:
-    HEADER = '\033[95m'
-    BLUE = '\033[94m'
-    GREEN = '\033[92m'
-    YELLOW = '\033[93m'
-    RED = '\033[91m'
-    ENDC = '\033[0m'
-    BOLD = '\033[1m'
-    UNDERLINE = '\033[4m'
-
-
-SAMPLE_TIME = 83.0    # sample time in us
-MAX_LEVEL = 30.0      # max level when trigger is reached
-EXPAND_WINDOW = 1.1   # expand matplot window
-X_POS = 0.2           # x-position of alpha print out
-Y_POS = 0.6           # y-position of alpha print out
-SPACE = 11
 
 t = []
 
@@ -35,8 +26,6 @@ def read_indata():
 
     # number of lines
     n = sum(1 for line in open('speed_data1.txt'))
-
-    #print bcolors.GREEN + '  Max input value: ', str(max(result)) + bcolors.ENDC
 
     return content, n
 
