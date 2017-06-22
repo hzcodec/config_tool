@@ -510,7 +510,7 @@ class TraceTestForm(wx.Panel):
         logging.info('Reached delay for speed1=%.1f ms' % timeFactor)
         logging.info('Reached delay for speed2=%.1f ms' % timeFactor2)
         
-        if (rv > TIME_DELAY1 or rv2 > TIME_DELAY1):
+        if (rv > timeDelay or rv2 > timeDelay):
             self.txtResult.SetLabel("Performance test Not OK")
 	else:
             self.txtResult.SetLabel("Performance test OK")
