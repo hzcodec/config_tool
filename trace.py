@@ -307,7 +307,7 @@ class TraceTestForm(wx.Panel):
         self.btnTrace = wx.Button(self, wx.ID_ANY, 'Trace')
         self.Bind(wx.EVT_BUTTON, self.onTrace, self.btnTrace)
 
-        timeDelay = wx.StaticText(self, wx.ID_ANY, 'Delay')
+        timeDelay = wx.StaticText(self, wx.ID_ANY, 'Delay [ms]')
         self.txtCtrl_time_delay = wx.TextCtrl(self, wx.ID_ANY,'50')
         boxTimeDelSizer1 = wx.BoxSizer(wx.VERTICAL)
 	boxTimeDelSizer1.Add(timeDelay, 0, wx.TOP, 5)
@@ -315,7 +315,7 @@ class TraceTestForm(wx.Panel):
 	boxTimeDelSizer2.Add(self.txtCtrl_time_delay, 0, wx.TOP, 5)
 
         boxTimeDelSizer = wx.BoxSizer(wx.VERTICAL)
-	boxTimeDelSizer.Add(boxTimeDelSizer1, 0, wx.LEFT, 40)
+	boxTimeDelSizer.Add(boxTimeDelSizer1, 0, wx.LEFT, 30)
 	boxTimeDelSizer.Add(boxTimeDelSizer2, 0, wx.LEFT, 20)
 
         statBoxSizer.Add(self.btnTrace, 0, wx.ALL, 20)
