@@ -81,7 +81,6 @@ class MatPlot(threading.Thread):
 
 	# get current path where the application is
 	self.dir_path = os.getcwd()
-	print self.dir_path
 
 	self.setDaemon(True)
         self.start()    # start the thread
@@ -96,12 +95,14 @@ class GetTraceData(threading.Thread):
     def __init__(self, serial):
         th = threading.Thread.__init__(self)
 	self.ser = serial
+	dir_path = os.getcwd()
+	print 'dir_path for logdata:', dir_path
 	self.fdIqData1 = open("iq_data1.txt", "w")
-	self.fdSpeedData1 = open("speed_data1.txt", "w")
-	self.fdSetSpeedData1 = open("set_speed_data1.txt", "w")
-	self.fdIqData2 = open("iq_data2.txt", "w")
-	self.fdSpeedData2 = open("speed_data2.txt", "w")
-	self.fdSetSpeedData2 = open("set_speed_data2.txt", "w")
+	self.fdSpeedData1 = open(dir_path+'/Desktop/speed_data1.txt', 'w')
+	self.fdSetSpeedData1 = open(dir_path+'/Desktop/set_speed_data1.txt', 'w')
+	self.fdIqData2 = open(dir_path+'/Desktop/iq_data2.txt', 'w')
+	self.fdSpeedData2 = open(dir_path+'/Desktop/speed_data2.txt', 'w')
+	self.fdSetSpeedData2 = open(dir_path+'/Desktop/set_speed_data2.txt', 'w')
 	self.setDaemon(True)
         self.start()    # start the thread
  
