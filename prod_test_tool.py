@@ -175,11 +175,11 @@ Requires software/hardware at least versions -
 Ascender:
     Unjo 500:01 00153 C
     220:02 00150 A
-    220:02 00111 PC5
+    220:02 00111 C
 
 Remote:
     Unjo 500:01 00155 PB2
-    220:02 00121 PD1
+    220:02 00121 D
     """
 
         info = wx.AboutDialogInfo()

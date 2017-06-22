@@ -38,7 +38,7 @@ class PollAlignment(threading.Thread):
         while True:
             for c in self.ser.read(20):
                 line.append(c)
-		print 'c:', c
+		#print 'c:', c
 
                 if (c == 'A'):
                     wx.CallAfter(pub.sendMessage, "TOPIC_ALIGNED", msg="Done")
@@ -169,7 +169,7 @@ class CalibForm(wx.Panel):
 	return self.txtMultiCtrl
 
     def onAlign(self, event):
-        logging.info('')
+        logging.info('Alignment started')
 	time.sleep(1)
 
 	# poll answer from Ascender when alignment is done
