@@ -296,13 +296,31 @@ class TraceTestForm(wx.Panel):
         txtNull = wx.StaticText(self, wx.ID_ANY, ' ')
         self.txtTraceResult = wx.StaticText(self, wx.ID_ANY, 'Trace result:')
         self.txtResult = wx.StaticText(self, wx.ID_ANY, '-')
+	boxTraceRes1 = wx.BoxSizer(wx.HORIZONTAL)
+	boxTraceRes1.Add(self.txtTraceResult, 0, wx.TOP|wx.LEFT, 5)
+	boxTraceRes2 = wx.BoxSizer(wx.HORIZONTAL)
+	boxTraceRes2.Add(self.txtResult, 0, wx.TOP|wx.LEFT, 5)
+	boxTraceRes = wx.BoxSizer(wx.HORIZONTAL)
+	boxTraceRes.Add(boxTraceRes1, 0, wx.LEFT, 5)
+	boxTraceRes.Add(boxTraceRes2, 0, wx.LEFT, 20)
 
         self.btnTrace = wx.Button(self, wx.ID_ANY, 'Trace')
         self.Bind(wx.EVT_BUTTON, self.onTrace, self.btnTrace)
 
+        timeDelay = wx.StaticText(self, wx.ID_ANY, 'Delay')
+        self.txtCtrl_time_delay = wx.TextCtrl(self, wx.ID_ANY,'50')
+        boxTimeDelSizer1 = wx.BoxSizer(wx.VERTICAL)
+	boxTimeDelSizer1.Add(timeDelay, 0, wx.TOP, 5)
+        boxTimeDelSizer2 = wx.BoxSizer(wx.VERTICAL)
+	boxTimeDelSizer2.Add(self.txtCtrl_time_delay, 0, wx.TOP, 5)
+
+        boxTimeDelSizer = wx.BoxSizer(wx.VERTICAL)
+	boxTimeDelSizer.Add(boxTimeDelSizer1, 0, wx.LEFT, 40)
+	boxTimeDelSizer.Add(boxTimeDelSizer2, 0, wx.LEFT, 20)
+
         statBoxSizer.Add(self.btnTrace, 0, wx.ALL, 20)
-        statBoxSizer.Add(self.txtTraceResult, 0, wx.ALL, 20)
-        statBoxSizer.Add(self.txtResult, 0, wx.ALL, 20)
+        statBoxSizer.Add(boxTraceRes, 0, wx.ALL, 20)
+        statBoxSizer.Add(boxTimeDelSizer, 0, wx.LEFT, 180)
         statBoxSizer.Add(txtNull, 0, wx.LEFT, 750) # this is just to get the statBoxSerial larger 
 
 	return statBoxSizer
@@ -398,6 +416,7 @@ class TraceTestForm(wx.Panel):
     def onTrace(self, event):
 
 	if (self.applicationIsConnected == True):
+
 	    # start thread
             self.txtResult.SetLabel("Performance test initiated")
 	    GetTraceData(self.mySer)
@@ -480,8 +499,16 @@ class TraceTestForm(wx.Panel):
 
         rv = self.find_idx(msg)
         rv2 = self.find_idx2(msg2)
-	#print 'rv:', rv
-	#print 'rv2:', rv2
+
+	timeFactor  = 1/12.0*10.0*rv  # ms * rv
+	timeFactor2 = 1/12.0*10.0*rv2 # ms * rv2
+
+	delay = int(self.txtCtrl_time_delay.GetValue())
+	print 'Max delay:', delay
+	timeDelay = int(delay*12.0/10.0)
+
+        logging.info('Reached delay for speed1=%.1f ms' % timeFactor)
+        logging.info('Reached delay for speed2=%.1f ms' % timeFactor2)
         
         if (rv > TIME_DELAY1 or rv2 > TIME_DELAY1):
             self.txtResult.SetLabel("Performance test Not OK")
