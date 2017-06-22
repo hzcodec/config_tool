@@ -294,27 +294,29 @@ class TraceTestForm(wx.Panel):
         statBoxSizer = wx.StaticBoxSizer(statBoxSerial, wx.HORIZONTAL)
 
         txtNull = wx.StaticText(self, wx.ID_ANY, ' ')
-        self.txtTraceResult = wx.StaticText(self, wx.ID_ANY, 'Trace result:')
-        self.txtResult = wx.StaticText(self, wx.ID_ANY, '-')
-	boxTraceRes1 = wx.BoxSizer(wx.HORIZONTAL)
-	boxTraceRes1.Add(self.txtTraceResult, 0, wx.TOP|wx.LEFT, 5)
-	boxTraceRes2 = wx.BoxSizer(wx.HORIZONTAL)
-	boxTraceRes2.Add(self.txtResult, 0, wx.TOP|wx.LEFT, 5)
-	boxTraceRes = wx.BoxSizer(wx.HORIZONTAL)
-	boxTraceRes.Add(boxTraceRes1, 0, wx.LEFT, 5)
-	boxTraceRes.Add(boxTraceRes2, 0, wx.LEFT, 20)
 
         self.btnTrace = wx.Button(self, wx.ID_ANY, 'Trace')
         self.Bind(wx.EVT_BUTTON, self.onTrace, self.btnTrace)
 
+        self.staticTxtTraceResult = wx.StaticText(self, wx.ID_ANY, 'Trace result:')
+        self.staticTxtResult = wx.StaticText(self, wx.ID_ANY, '-')
+
+	boxTraceRes1 = wx.BoxSizer(wx.HORIZONTAL)
+	boxTraceRes1.Add(self.staticTxtTraceResult, 0, wx.TOP|wx.LEFT, 5)
+	boxTraceRes2 = wx.BoxSizer(wx.HORIZONTAL)
+	boxTraceRes2.Add(self.staticTxtResult, 0, wx.TOP|wx.LEFT, 5)
+	boxTraceRes = wx.BoxSizer(wx.HORIZONTAL)
+	boxTraceRes.Add(boxTraceRes1, 0, wx.LEFT, 5)
+	boxTraceRes.Add(boxTraceRes2, 0, wx.LEFT, 20)
+
         timeDelay = wx.StaticText(self, wx.ID_ANY, 'Delay [ms]')
         self.txtCtrl_time_delay = wx.TextCtrl(self, wx.ID_ANY,'50')
         boxTimeDelSizer1 = wx.BoxSizer(wx.VERTICAL)
-	boxTimeDelSizer1.Add(timeDelay, 0, wx.TOP, 5)
+	boxTimeDelSizer1.Add(timeDelay, 0, wx.TOP, 25)
         boxTimeDelSizer2 = wx.BoxSizer(wx.VERTICAL)
-	boxTimeDelSizer2.Add(self.txtCtrl_time_delay, 0, wx.TOP, 5)
+	boxTimeDelSizer2.Add(self.txtCtrl_time_delay, 0, wx.TOP, 20)
 
-        boxTimeDelSizer = wx.BoxSizer(wx.VERTICAL)
+        boxTimeDelSizer = wx.BoxSizer(wx.HORIZONTAL)
 	boxTimeDelSizer.Add(boxTimeDelSizer1, 0, wx.LEFT, 30)
 	boxTimeDelSizer.Add(boxTimeDelSizer2, 0, wx.LEFT, 20)
 
