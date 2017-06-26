@@ -81,6 +81,7 @@ class MatPlot(threading.Thread):
 
 	# get current path where the application is
 	self.dirPath = os.getcwd()
+	print 'dirPath in Matplot:', self.dirPath
 
 	self.setDaemon(True)
         self.start()    # start the thread
@@ -88,6 +89,7 @@ class MatPlot(threading.Thread):
     def run(self):
 	# put matplot.py app at the same pos where prod_test_tool is
         os.system(self.dirPath + '/Desktop/matplot.py&')
+        #os.system(self.dirPath + '/matplot.py&')
 
 
 class GetTraceData(threading.Thread):
@@ -99,13 +101,17 @@ class GetTraceData(threading.Thread):
 
 	# find current path for application
 	dirPath = os.getcwd()
+	print 'dirPath:', dirPath
         filePath = dirPath + '/Desktop/logdata'
+        #filePath = dirPath + '/logdata'
 	print 'filePath for logdata:', filePath
 
 	# create log directory
 	try:
 	    os.stat(filePath)
+	    print 'Logfile dir exists'
 	except:
+	    print 'Logfile dir created'
 	    os.mkdir(filePath)
 
 	logging.info('Open iq1 data file')
@@ -420,11 +426,14 @@ class TraceTestForm(wx.Panel):
 	if (self.applicationIsConnected == True):
 
 	    # start thread
-            self.txtResult.SetLabel("Performance test initiated")
+            self.staticTxtResult.SetLabel("Performance test initiated")
+            print "Performance test initiated"
 	    GetTraceData(self.mySer)
 
 	else:
-            self.txtResult.SetLabel("No connection to serial port")
+            self.staticTxtResult.SetLabel("No connection to serial port")
+            print "No connection to serial port"
+	    pass
 
     def onStatus(self, event):
         logging.info('')
@@ -501,9 +510,12 @@ class TraceTestForm(wx.Panel):
 
         rv = self.find_idx(msg)
         rv2 = self.find_idx2(msg2)
+	print 'rv:', rv
+	print 'rv2:', rv2
 
 	timeFactor  = 1/12.0*10.0*rv  # ms * rv
 	timeFactor2 = 1/12.0*10.0*rv2 # ms * rv2
+	print 'timeFactor:', timeFactor
 
 	delay = int(self.txtCtrl_time_delay.GetValue())
 	print 'Max delay:', delay
@@ -513,9 +525,11 @@ class TraceTestForm(wx.Panel):
         logging.info('Reached delay for speed2=%.1f ms' % timeFactor2)
         
         if (rv > timeDelay or rv2 > timeDelay):
-            self.txtResult.SetLabel("Performance test Not OK")
+            self.staticTxtResult.SetLabel("Performance test Not OK")
+            print "Performance test Not OK"
 	else:
-            self.txtResult.SetLabel("Performance test OK")
+            self.staticTxtResult.SetLabel("Performance test OK")
+            print "Performance test OK"
 
         self.plot_result()
 

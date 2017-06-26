@@ -72,7 +72,7 @@ class MainFrame(wx.Frame):
 	fileMenu.Append(wx.ID_EXIT, "Exit", "Close")
 	unlockMenu.Append(101, "&Lock\tCTRL+L", "Lock")
 	unlockMenu.Append(102, "&UnLock\tCTRL+U", "UnLock")
-	aboutMenu.Append(103, "About", "Open")
+	aboutMenu.Append(103, "&About\tCTRL+A", "Open")
 
 	# disable 'Save' menu
 	fileMenu.Enable(wx.ID_SAVE, False)
@@ -169,7 +169,7 @@ DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
 ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR 
 OTHER DEALINGS IN THIS SOFTWARE.
          """
-        description = """Version 1.12.
+        description = """Version 1.14.
 
 Requires software/hardware at least versions -
 Ascender:

@@ -16,7 +16,7 @@ t = []
 # read in data file
 def read_indata():
 
-    with open('speed_data1.txt') as f:
+    with open('logdata/speed_data1.txt') as f:
         content = f.readlines()
 
     content = [x.strip() for x in content]
@@ -25,13 +25,13 @@ def read_indata():
     result = map(float, content)
 
     # number of lines
-    n = sum(1 for line in open('speed_data1.txt'))
+    n = sum(1 for line in open('logdata/speed_data1.txt'))
 
     return content, n
 
 def read_indata2():
 
-    with open('speed_data2.txt') as f:
+    with open('logdata/speed_data2.txt') as f:
         content = f.readlines()
 
     content = [x.strip() for x in content]
@@ -40,7 +40,7 @@ def read_indata2():
     result = map(float, content)
 
     # number of lines
-    n = sum(1 for line in open('speed_data2.txt'))
+    n = sum(1 for line in open('logdata/speed_data2.txt'))
 
     return content, n
 
