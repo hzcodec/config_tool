@@ -13,6 +13,7 @@ For production test at ActSafe:
 
 Create a shortcut to the application with (see 1/UMAN-600:00 331):
     gnome-desktop-item-edit --create_new
+    (/kihnu/markn/600/00/300-350/331 ACT upgrade/Dokument)
 
 A directory, logdata, is created on Desktop. Log data is stored.
 
