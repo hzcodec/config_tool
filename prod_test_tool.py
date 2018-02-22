@@ -135,6 +135,7 @@ class MainFrame(wx.Frame):
                 self.tabProdTest.txtCtrl_cl_max.Enable()
                 self.tabProdTest.txtCtrl_cl_min.Enable()
                 self.tabProdTest.txtCtrl_sl_ki.Enable()
+                self.tabProdTest.txtCtrl_sl_kp.Enable()
                 self.tabProdTest.txtCtrl_sl_max.Enable()
                 self.tabProdTest.txtCtrl_sl_min.Enable()
                 self.tabProdTest.txtCtrl_has_switch.Enable()
@@ -169,7 +170,7 @@ DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
 ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR 
 OTHER DEALINGS IN THIS SOFTWARE.
          """
-        description = """Version 1.14.
+        description = """Version 1.16.
 
 Requires software/hardware at least versions -
 Ascender:

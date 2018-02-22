@@ -51,6 +51,7 @@ class ProdTestForm(wx.Panel):
 	self.oldClMax            = 0.0
 	self.oldClMin            = 0.0
 	self.oldSlKi             = 0.0
+	self.oldSlKp             = 0.0
 	self.oldSlMax            = 0.0
 	self.oldSlMin            = 0.0
 	self.oldHasSwitch        = 0
@@ -124,6 +125,9 @@ class ProdTestForm(wx.Panel):
 	    if (splitPar[0] == 'motor.sl.ki'):
 	        self.txtCtrl_sl_ki.SetValue(splitPar[1])
 	        self.oldSlKi = float(splitPar[1])
+	    if (splitPar[0] == 'motor.sl.kp'):
+	        self.txtCtrl_sl_kp.SetValue(splitPar[1])
+	        self.oldSlKp = float(splitPar[1])
 	    if (splitPar[0] == 'motor.sl.max'):
 	        self.txtCtrl_sl_max.SetValue(splitPar[1])
 	        self.oldSlMax = float(splitPar[1])
@@ -234,6 +238,8 @@ class ProdTestForm(wx.Panel):
 
         param_idle_timeout = wx.StaticText(self, wx.ID_ANY, 'idle_timeout')
         self.txtCtrl_idle_timeout = wx.TextCtrl(self, wx.ID_ANY,'0')
+        param_sl_kp = wx.StaticText(self, wx.ID_ANY, 'sl.kp')
+        self.txtCtrl_sl_kp = wx.TextCtrl(self, wx.ID_ANY,'0')
 
         btnConfigure = wx.Button(self, wx.ID_ANY, ' Configure   ')
         self.Bind(wx.EVT_BUTTON, self.onConfigure, btnConfigure)
@@ -294,6 +300,8 @@ class ProdTestForm(wx.Panel):
 	paramSizer7 = wx.BoxSizer(wx.VERTICAL)
 	paramSizer7.Add(param_idle_timeout, 0, wx.TOP, 10)
 	paramSizer7.Add(self.txtCtrl_idle_timeout, 0, wx.TOP, 10)
+	paramSizer7.Add(param_sl_kp, 0, wx.TOP, 10)
+	paramSizer7.Add(self.txtCtrl_sl_kp, 0, wx.TOP, 10)
 
 	paramTopSizer = wx.BoxSizer(wx.HORIZONTAL)
 	paramTopSizer.Add(paramSizer1, 0, wx.ALL, 10)
@@ -304,7 +312,7 @@ class ProdTestForm(wx.Panel):
 	paramTopSizer.Add(paramSizer6, 0, wx.ALL, 10)
 	paramTopSizer.Add(paramSizer7, 0, wx.ALL, 10)
 
-	statBoxConfigParams = wx.StaticBox(self, wx.ID_ANY, '  Set paramters')
+	statBoxConfigParams = wx.StaticBox(self, wx.ID_ANY, '  Set parameters')
 	statBoxConfigParams.SetBackgroundColour(GREY)
 	statBoxConfigParams.SetForegroundColour(BLACK)
         statBoxSizer = wx.StaticBoxSizer(statBoxConfigParams, wx.VERTICAL)
@@ -455,8 +463,19 @@ class ProdTestForm(wx.Panel):
             time.sleep(WAIT_DELAY)
 	    local_cmd = 'param set motor.sl.ki ' + self.txtCtrl_sl_ki.GetValue().encode('ascii', 'ignore')
             serial_cmd(local_cmd, self.mySer)
-	    self.txtMultiCtrl.AppendText('sl.ki updated' + "\n")
+	    self.txtMultiCtrl.AppendText('sl.ki updated: ' + str(newSlKi) + "\n")
 	    self.oldSlKi = newSlKi
+
+	# ----------------------------------------------------------------------------------------------------
+        # sl.kp
+	# ----------------------------------------------------------------------------------------------------
+        newSlKp = float(self.txtCtrl_sl_kp.GetValue())
+	if (newSlKp != self.oldSlKp):
+            time.sleep(WAIT_DELAY)
+	    local_cmd = 'param set motor.sl.kp ' + self.txtCtrl_sl_kp.GetValue().encode('ascii', 'ignore')
+            serial_cmd(local_cmd, self.mySer)
+	    self.txtMultiCtrl.AppendText('sl.kp updated: ' + str(newSlKp) + "\n")
+	    self.oldSlKp = newSlKp
 
 	# ----------------------------------------------------------------------------------------------------
         # sl.max
@@ -653,7 +672,7 @@ class ProdTestForm(wx.Panel):
                 time.sleep(WAIT_DELAY)
 	        local_cmd = 'param set rope_stuck_on ' + self.txtCtrl_rope_stuck_on.GetValue().encode('ascii', 'ignore')
                 serial_cmd(local_cmd, self.mySer)
-	        self.txtMultiCtrl.AppendText('rope_stuck_on updated' + "\n")
+	        self.txtMultiCtrl.AppendText('rope_stuck_on updated: ' + str(newRopeStuckOn) + "\n")
 	        self.oldRopeStuckOn = newRopeStuckOn
 
 	# ----------------------------------------------------------------------------------------------------
@@ -665,7 +684,7 @@ class ProdTestForm(wx.Panel):
 	    # unicode mess ;-)
 	    local_cmd = 'param set iq_alpha ' + self.txtCtrl_iq_alpha.GetValue().encode('ascii', 'ignore')
             serial_cmd(local_cmd, self.mySer)
-	    self.txtMultiCtrl.AppendText('iq_alpha updated' + "\n")
+	    self.txtMultiCtrl.AppendText('iq_alpha updated: ' + str(newIqAlpha) + "\n")
 	    self.oldIqAlpha = newIqAlpha
 
 	# ----------------------------------------------------------------------------------------------------
@@ -677,7 +696,7 @@ class ProdTestForm(wx.Panel):
 	    # unicode mess ;-)
 	    local_cmd = 'param set speed_alpha ' + self.txtCtrl_speed_alpha.GetValue().encode('ascii', 'ignore')
             serial_cmd(local_cmd, self.mySer)
-	    self.txtMultiCtrl.AppendText('speed_alpha updated' + "\n")
+	    self.txtMultiCtrl.AppendText('speed_alpha updated: ' + str(newSpeedAlpha) + "\n")
 	    self.oldSpeedAlpha = newSpeedAlpha
 
 	# ----------------------------------------------------------------------------------------------------
@@ -688,7 +707,7 @@ class ProdTestForm(wx.Panel):
             time.sleep(WAIT_DELAY)
 	    local_cmd = 'param set undershoot ' + self.txtCtrl_undershoot.GetValue().encode('ascii', 'ignore')
             serial_cmd(local_cmd, self.mySer)
-	    self.txtMultiCtrl.AppendText('undershoot updated' + "\n")
+	    self.txtMultiCtrl.AppendText('undershoot updated: ' + str(newUndershoot) + "\n")
 	    self.oldUndershoot = newUndershoot
 
 	# ----------------------------------------------------------------------------------------------------
@@ -745,6 +764,7 @@ class ProdTestForm(wx.Panel):
         self.txtCtrl_undershoot.Disable()
         self.txtCtrl_speed_lim.Disable()
         self.txtCtrl_delay_start.Disable()
+        self.txtCtrl_sl_kp.Disable()
         
     def onTestInject(self, event):
 	if (self.toggle == False):
