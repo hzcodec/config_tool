@@ -5,6 +5,7 @@
 # File        : matplot.py
 # Reference   : -
 # Description : Used in production test tool for ActSafe
+#               fre  9 mar 2018 12:19:52 CET - Updated headline
 #
 # Python ver  : 2.7.3 (gcc 4.6.3)
 
@@ -53,7 +54,7 @@ def main():
     t = range(numberOfLines1)
     
     # set window title
-    plt.gcf().canvas.set_window_title('Performance test')
+    plt.gcf().canvas.set_window_title('Performance test (acceleration)')
     
     plt.plot(t, data1, color="blue", linewidth=1, linestyle='-')
     plt.plot(t, data2, color="red", linewidth=1, linestyle='-')

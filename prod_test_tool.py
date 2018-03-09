@@ -5,6 +5,10 @@
 # File        : prod_test_tool.py
 # Reference   : -
 # Description : Production test tool for ActSafe.
+#               
+#               v1.17 -  
+#                      matplot.py
+#                          Added 'acceleration' to header in window
 #
 # Python ver  : 2.7.3 (gcc 4.6.3)
 
@@ -170,7 +174,7 @@ DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
 ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR 
 OTHER DEALINGS IN THIS SOFTWARE.
          """
-        description = """Version 1.16.
+        description = """Version 1.17.
 
 Requires software/hardware at least versions -
 Ascender:
