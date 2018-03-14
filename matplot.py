@@ -6,10 +6,13 @@
 # Reference   : -
 # Description : Used in production test tool for ActSafe
 #               fre  9 mar 2018 12:19:52 CET - Updated headline
+#               ons 14 mar 2018 10:44:18 CET - Updated path to find speed_data<n>.txt.
+#                                              Added y-label.
 #
 # Python ver  : 2.7.3 (gcc 4.6.3)
 
 import sys
+import os
 import matplotlib.pyplot as plt
 
 t = []
@@ -17,7 +20,9 @@ t = []
 # read in data file
 def read_indata():
 
-    with open('logdata/speed_data1.txt') as f:
+    dirPath = os.getcwd()
+
+    with open('Desktop/logdata/speed_data1.txt') as f:
         content = f.readlines()
 
     content = [x.strip() for x in content]
@@ -26,13 +31,13 @@ def read_indata():
     result = map(float, content)
 
     # number of lines
-    n = sum(1 for line in open('logdata/speed_data1.txt'))
+    n = sum(1 for line in open('Desktop/logdata/speed_data1.txt'))
 
     return content, n
 
 def read_indata2():
 
-    with open('logdata/speed_data2.txt') as f:
+    with open('Desktop/logdata/speed_data2.txt') as f:
         content = f.readlines()
 
     content = [x.strip() for x in content]
@@ -41,12 +46,14 @@ def read_indata2():
     result = map(float, content)
 
     # number of lines
-    n = sum(1 for line in open('logdata/speed_data2.txt'))
+    n = sum(1 for line in open('Desktop/logdata/speed_data2.txt'))
 
     return content, n
 
 
 def main():
+
+    print 'matplot.py: Ver 1.0'
 
     data1, numberOfLines1 = read_indata()
     data2, numberOfLines2 = read_indata2()
@@ -60,6 +67,7 @@ def main():
     plt.plot(t, data2, color="red", linewidth=1, linestyle='-')
     
     plt.xlabel('[samples]')
+    plt.ylabel('[speed]')
     
     plt.grid(True)
     plt.show()

@@ -79,17 +79,14 @@ class MatPlot(threading.Thread):
     def __init__(self):
         th = threading.Thread.__init__(self)
 
-	# get current path where the application is
-	self.dirPath = os.getcwd()
-	print 'dirPath in Matplot:', self.dirPath
-
 	self.setDaemon(True)
         self.start()    # start the thread
  
     def run(self):
-	# put matplot.py app at the same pos where prod_test_tool is
+	logging.info('Launching matplot')
+	self.dirPath = os.getcwd()
+	print 'dirPath in Matplot:', self.dirPath + '/Desktop'
         os.system(self.dirPath + '/Desktop/matplot.py&')
-        #os.system(self.dirPath + '/matplot.py&')
 
 
 class GetTraceData(threading.Thread):
@@ -98,12 +95,9 @@ class GetTraceData(threading.Thread):
         th = threading.Thread.__init__(self)
 	self.ser = serial
 
-
 	# find current path for application
 	dirPath = os.getcwd()
-	print 'dirPath:', dirPath
         filePath = dirPath + '/Desktop/logdata'
-        #filePath = dirPath + '/logdata'
 	print 'filePath for logdata:', filePath
 
 	# create log directory
@@ -118,7 +112,7 @@ class GetTraceData(threading.Thread):
 	self.fdIqData1 = open(filePath + '/iq_data1.txt', 'w')
 
 	logging.info('Open speedData1 data file')
-	self.fdSpeedData1    = open(filePath + '/speed_data1.txt', 'w')
+	self.fdSpeedData1 = open(filePath + '/speed_data1.txt', 'w')
 
 	logging.info('Open SetspeedData1 data file')
 	self.fdSetSpeedData1 = open(filePath + '/set_speed_data1.txt', 'w')
@@ -316,7 +310,7 @@ class TraceTestForm(wx.Panel):
 	boxTraceRes.Add(boxTraceRes2, 0, wx.LEFT, 20)
 
         timeDelay = wx.StaticText(self, wx.ID_ANY, 'Delay [ms]')
-        self.txtCtrl_time_delay = wx.TextCtrl(self, wx.ID_ANY,'50')
+        self.txtCtrl_time_delay = wx.TextCtrl(self, wx.ID_ANY,'150')
         boxTimeDelSizer1 = wx.BoxSizer(wx.VERTICAL)
 	boxTimeDelSizer1.Add(timeDelay, 0, wx.TOP, 25)
         boxTimeDelSizer2 = wx.BoxSizer(wx.VERTICAL)
@@ -538,8 +532,8 @@ class TraceTestForm(wx.Panel):
         time.sleep(0.5)
 
         # get pid for matplot
-        out = os.popen('pgrep -f matplot.py').readlines()
-        out2 = out[0].rstrip('\n')
+#        out = os.popen('pgrep -f matplot.py').readlines()
+#        out2 = out[0].rstrip('\n')
 
     def find_idx(self, msg):
         """

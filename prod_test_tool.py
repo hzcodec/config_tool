@@ -9,6 +9,13 @@
 #               v1.17 -  
 #                      matplot.py
 #                          Added 'acceleration' to header in window
+#                          Fixed path to speed_data<n>.txt
+#               v1.18
+#                      trace.py
+#                          Fixed paths to speed_data<n>.txt
+#                          Increased time_delay to 150
+#                      prod_test_tool.py
+#                          Removed "Requires software/hardware"
 #
 # Python ver  : 2.7.3 (gcc 4.6.3)
 
@@ -174,17 +181,8 @@ DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
 ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR 
 OTHER DEALINGS IN THIS SOFTWARE.
          """
-        description = """Version 1.17.
+        description = """Version 1.18.
 
-Requires software/hardware at least versions -
-Ascender:
-    Unjo 500:01 00153 C
-    220:02 00150 A
-    220:02 00111 C
-
-Remote:
-    Unjo 500:01 00155 PB2
-    220:02 00121 D
     """
 
         info = wx.AboutDialogInfo()

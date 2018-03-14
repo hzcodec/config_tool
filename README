@@ -17,3 +17,11 @@ Create a shortcut to the application with (see 1/UMAN-600:00 331):
 
 A directory, logdata, is created on Desktop. Log data is stored.
 
+
+copy prod_test_tool from /dist to /Desktop
+copy matplot.py to /Desktop
+
+Push tag to remote:
+    git push origin <tag_name>
+    git push
+
