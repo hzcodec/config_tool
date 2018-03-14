@@ -79,7 +79,7 @@ class CalibForm(wx.Panel):
         logging.basicConfig(format="%(filename)s: %(funcName)s() - %(message)s", level=logging.INFO)
 
     def serialListener(self, message, fname=None):
-        print 'msg:', message
+        #print 'msg:', message
 	self.mySer = message
 
     def setup_alignment_sizer(self):

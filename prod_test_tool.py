@@ -16,6 +16,13 @@
 #                          Increased time_delay to 150
 #                      prod_test_tool.py
 #                          Removed "Requires software/hardware"
+#               v1.19
+#                      trace.py
+#                          Code cleanup
+#                      downloader.py
+#                          Code cleanup
+#                      calibration.py
+#                          Code cleanup
 #
 # Python ver  : 2.7.3 (gcc 4.6.3)
 
@@ -181,7 +188,7 @@ DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
 ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR 
 OTHER DEALINGS IN THIS SOFTWARE.
          """
-        description = """Version 1.18.
+        description = """Version 1.19.
 
     """
 

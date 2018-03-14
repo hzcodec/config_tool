@@ -116,7 +116,7 @@ class DownLoaderForm(wx.Panel):
 
     def get_version(self):
         time.sleep(DELAY2)
-	print '--> Serial port:', self.mySer
+	#print '--> Serial port:', self.mySer
         self.ascenderVersion = serial_read('v', 60, self.mySer)
 	aVersion = self.ascenderVersion.split("v")
 

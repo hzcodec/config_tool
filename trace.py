@@ -394,21 +394,21 @@ class TraceTestForm(wx.Panel):
 
 	return statBoxSizer
 
-    def setup_plot_sizer(self):
-	statBoxSerial = wx.StaticBox(self, wx.ID_ANY, '  Plot result')
-	statBoxSerial.SetBackgroundColour(GREY)
-	statBoxSerial.SetForegroundColour(BLACK)
-        statBoxSizer = wx.StaticBoxSizer(statBoxSerial, wx.HORIZONTAL)
-
-	self.figure = Figure(figsize=(5.0, 4.0), dpi=100)
-	self.canvas = FigCanvas(self, -1, self.figure)
-	self.ax = self.figure.add_subplot(111)
-
-        statBoxSizer.Add(self.canvas, 0, wx.ALL, 20)
-
-	self.Layout()
-
-	return statBoxSizer
+#    def setup_plot_sizer(self):
+#	statBoxSerial = wx.StaticBox(self, wx.ID_ANY, '  Plot result')
+#	statBoxSerial.SetBackgroundColour(GREY)
+#	statBoxSerial.SetForegroundColour(BLACK)
+#        statBoxSizer = wx.StaticBoxSizer(statBoxSerial, wx.HORIZONTAL)
+#
+#	self.figure = Figure(figsize=(5.0, 4.0), dpi=100)
+#	self.canvas = FigCanvas(self, -1, self.figure)
+#	self.ax = self.figure.add_subplot(111)
+#
+#        statBoxSizer.Add(self.canvas, 0, wx.ALL, 20)
+#
+#	self.Layout()
+#
+#	return statBoxSizer
 
     def serialListener(self, message, fname=None):
         #print 'msg:', message
@@ -463,26 +463,26 @@ class TraceTestForm(wx.Panel):
 	except AttributeError:
 	    print 'No config file has been read. Comparison not possible'
 
-    def paint(self):
-        dc = wx.PaintDC(self)
-	self.x1 = 10
-	self.y1 = 300
-	self.width = 400
-	self.hight = 380
-        dc.DrawRectangle(self.x1, self.y1, self.width, self.hight)
-	self.draw_axis(dc)
-
-    def draw_axis(self, dc):
-        dc.SetPen(wx.Pen('#FF0000'))
-	mid = self.y1 + (self.hight / 2)
-        dc.DrawLine(self.x1+20, mid, self.width-10, mid)
-
-        #for i in range(20, 220, 20):
-        #    dc.DrawText(str(i), -30, i+5)
-        #    dc.DrawLine(2, i, -5, i)
-
-        #for i in range(100, 300, 100):
-        #    dc.DrawLine(i, 2, i, -5)
+#    def paint(self):
+#        dc = wx.PaintDC(self)
+#	self.x1 = 10
+#	self.y1 = 300
+#	self.width = 400
+#	self.hight = 380
+#        dc.DrawRectangle(self.x1, self.y1, self.width, self.hight)
+#	self.draw_axis(dc)
+#
+#    def draw_axis(self, dc):
+#        dc.SetPen(wx.Pen('#FF0000'))
+#	mid = self.y1 + (self.hight / 2)
+#        dc.DrawLine(self.x1+20, mid, self.width-10, mid)
+#
+#        #for i in range(20, 220, 20):
+#        #    dc.DrawText(str(i), -30, i+5)
+#        #    dc.DrawLine(2, i, -5, i)
+#
+#        #for i in range(100, 300, 100):
+#        #    dc.DrawLine(i, 2, i, -5)
 
     def get_values(self):
         """
@@ -504,8 +504,8 @@ class TraceTestForm(wx.Panel):
 
         rv = self.find_idx(msg)
         rv2 = self.find_idx2(msg2)
-	print 'rv:', rv
-	print 'rv2:', rv2
+	#print 'rv:', rv
+	#print 'rv2:', rv2
 
 	timeFactor  = 1/12.0*10.0*rv  # ms * rv
 	timeFactor2 = 1/12.0*10.0*rv2 # ms * rv2
