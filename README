@@ -21,7 +21,77 @@ A directory, logdata, is created on Desktop. Log data is stored.
 copy prod_test_tool from /dist to /Desktop
 copy matplot.py to /Desktop
 
+====================================================================================
+
 Push tag to remote:
     git push origin <tag_name>
     git push
+
+====================================================================================
+
+Run result:
+
+downloader.py: list_serial_ports() - Serial ports scanned
+downloader.py: __init__() - Length of PARAMETER_NAMES: 56
+downloader.py: onConnect() - Downloder connected to: ACM0
+downloader.py: serialListener() - 
+
+Unjo 500:01 00153 C
+220:02 00150 A
+220:02 00111 C
+
+r_v
+Unjo 500:01 00155 G
+220:02 00121 E
+244 bytes in bootinfo
+
+calibration.py: onAlign() - Alignment started
+calibration.py: aligned_finished() - 
+prodtest.py: onTestRunUp() - 
+prodtest.py: onTestStop() - 
+trace.py: onStatus() - 
+Exception in thread Thread-1:
+Traceback (most recent call last):
+  File "threading.py", line 801, in __bootstrap_inner
+  File "calibration.py", line 39, in run
+  File "serial/serialposix.py", line 490, in read
+SerialException: device reports readiness to read but returned no data (device disconnected or multiple access on port?)
+
+Status return status
+V = 57.22 Volt
+MotorA T = 33.75
+DriveA T = 38.58
+DriveB T = 25.54
+T
+trace.py: get_values() - 
+No config file has been read. Comparison not possible
+Performance test initiated
+filePath for logdata: /home/heinz.samuelsson/Desktop/logdata
+Logfile dir exists
+trace.py: __init__() - Open iq1 data file
+trace.py: __init__() - Open speedData1 data file
+trace.py: __init__() - Open SetspeedData1 data file
+trace.py: __init__() - Open iq2 data file
+trace.py: __init__() - Open speedData2 data file
+trace.py: __init__() - Open setSpeedData2 data file
+trace.py: run() - Get trace dump 1
+trace.py: run() - Get trace dump 2
+trace.py: analyze_data() - 
+timeFactor: 155.833333333
+Max delay: 150
+trace.py: dataListener() - Reached delay for speed1=155.8 ms
+trace.py: dataListener() - Reached delay for speed2=157.5 ms
+Performance test Not OK
+trace.py: run() - Launching matplot
+dirPath in Matplot: /home/heinz.samuelsson/Desktop
+matplot.py: Ver 1.0
+
+
+====================================================================================
+
+import downloader
+import calibration
+import prodtest
+import trace
+
 

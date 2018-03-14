@@ -47,7 +47,6 @@ def list_serial_ports():
       scan current connected port names 
     """
     system_name = platform.system()
-    print system_name
 
     if system_name == "Windows":
         # Scan for available ports.
@@ -64,6 +63,7 @@ def list_serial_ports():
 
     else:
         # Assume Linux
+	print 'downloader.py: list_serial_ports() - Serial ports scanned'
         return glob.glob('/dev/ttyA*') + glob.glob('/dev/ttyUSB*')
 
 

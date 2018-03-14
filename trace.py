@@ -394,22 +394,6 @@ class TraceTestForm(wx.Panel):
 
 	return statBoxSizer
 
-#    def setup_plot_sizer(self):
-#	statBoxSerial = wx.StaticBox(self, wx.ID_ANY, '  Plot result')
-#	statBoxSerial.SetBackgroundColour(GREY)
-#	statBoxSerial.SetForegroundColour(BLACK)
-#        statBoxSizer = wx.StaticBoxSizer(statBoxSerial, wx.HORIZONTAL)
-#
-#	self.figure = Figure(figsize=(5.0, 4.0), dpi=100)
-#	self.canvas = FigCanvas(self, -1, self.figure)
-#	self.ax = self.figure.add_subplot(111)
-#
-#        statBoxSizer.Add(self.canvas, 0, wx.ALL, 20)
-#
-#	self.Layout()
-#
-#	return statBoxSizer
-
     def serialListener(self, message, fname=None):
         #print 'msg:', message
 	self.applicationIsConnected = True
