@@ -291,39 +291,45 @@ class TraceTestForm(wx.Panel):
 	statBoxSerial = wx.StaticBox(self, wx.ID_ANY, '  Trace test')
 	statBoxSerial.SetBackgroundColour(GREY)
 	statBoxSerial.SetForegroundColour(BLACK)
-        statBoxSizer = wx.StaticBoxSizer(statBoxSerial, wx.HORIZONTAL)
+        statBoxSizer = wx.StaticBoxSizer(statBoxSerial, wx.VERTICAL)
 
         txtNull = wx.StaticText(self, wx.ID_ANY, ' ')
 
         self.btnTrace = wx.Button(self, wx.ID_ANY, 'Trace')
         self.Bind(wx.EVT_BUTTON, self.onTrace, self.btnTrace)
 
-        self.staticTxtTraceResult = wx.StaticText(self, wx.ID_ANY, 'Trace result:')
-        self.staticTxtResult = wx.StaticText(self, wx.ID_ANY, '-')
+        staticTxtTraceResult = wx.StaticText(self, wx.ID_ANY, 'Trace result:')
+        self.staticTxtResult = wx.StaticText(self, wx.ID_ANY, '---')
 
-	boxTraceRes1 = wx.BoxSizer(wx.HORIZONTAL)
-	boxTraceRes1.Add(self.staticTxtTraceResult, 0, wx.TOP|wx.LEFT, 5)
-	boxTraceRes2 = wx.BoxSizer(wx.HORIZONTAL)
-	boxTraceRes2.Add(self.staticTxtResult, 0, wx.TOP|wx.LEFT, 5)
-	boxTraceRes = wx.BoxSizer(wx.HORIZONTAL)
-	boxTraceRes.Add(boxTraceRes1, 0, wx.LEFT, 5)
-	boxTraceRes.Add(boxTraceRes2, 0, wx.LEFT, 20)
-
-        timeDelay = wx.StaticText(self, wx.ID_ANY, 'Delay [ms]')
+        timeDelay = wx.StaticText(self, wx.ID_ANY, '               Delay [ms]')
         self.txtCtrl_time_delay = wx.TextCtrl(self, wx.ID_ANY,'150')
         boxTimeDelSizer1 = wx.BoxSizer(wx.VERTICAL)
-	boxTimeDelSizer1.Add(timeDelay, 0, wx.TOP, 25)
-        boxTimeDelSizer2 = wx.BoxSizer(wx.VERTICAL)
-	boxTimeDelSizer2.Add(self.txtCtrl_time_delay, 0, wx.TOP, 20)
 
-        boxTimeDelSizer = wx.BoxSizer(wx.HORIZONTAL)
-	boxTimeDelSizer.Add(boxTimeDelSizer1, 0, wx.LEFT, 30)
-	boxTimeDelSizer.Add(boxTimeDelSizer2, 0, wx.LEFT, 20)
+        self.staticTxtFinalResult1 = wx.StaticText(self, wx.ID_ANY, 'Reached delay (+) :')
+        self.staticTxtFinalResult2 = wx.StaticText(self, wx.ID_ANY, 'Reached delay (-) :')
+        self.staticTxtReachedPos = wx.StaticText(self, wx.ID_ANY, '---')
+        self.staticTxtReachedNeg = wx.StaticText(self, wx.ID_ANY, '---')
 
-        statBoxSizer.Add(self.btnTrace, 0, wx.ALL, 20)
-        statBoxSizer.Add(boxTraceRes, 0, wx.ALL, 20)
-        statBoxSizer.Add(boxTimeDelSizer, 0, wx.LEFT, 180)
-        statBoxSizer.Add(txtNull, 0, wx.LEFT, 750) # this is just to get the statBoxSerial larger 
+	box1 = wx.BoxSizer(wx.HORIZONTAL)
+	box2 = wx.BoxSizer(wx.HORIZONTAL)
+	box3 = wx.BoxSizer(wx.HORIZONTAL)
+	box4 = wx.BoxSizer(wx.HORIZONTAL)
+
+	box1.Add(self.btnTrace, 0, wx.TOP, 20)
+	box1.Add(timeDelay, 0, wx.TOP|wx.LEFT, 25)
+	box1.Add(self.txtCtrl_time_delay, 0, wx.TOP|wx.LEFT, 21)
+	box2.Add(staticTxtTraceResult, 0, wx.TOP|wx.LEFT, 15)
+	box2.Add(self.staticTxtResult, 0, wx.TOP|wx.LEFT, 15)
+	box3.Add(self.staticTxtFinalResult1, 0, wx.TOP|wx.LEFT, 15)
+	box3.Add(self.staticTxtReachedPos, 0, wx.TOP|wx.LEFT, 15)
+	box4.Add(self.staticTxtFinalResult2, 0, wx.TOP|wx.LEFT, 15)
+	box4.Add(self.staticTxtReachedNeg, 0, wx.TOP|wx.LEFT, 15)
+
+        statBoxSizer.Add(box1, 0, wx.LEFT, 20)
+        statBoxSizer.Add(box2, 0, wx.LEFT, 10)
+        statBoxSizer.Add(box3, 0, wx.LEFT, 10)
+        statBoxSizer.Add(box4, 0, wx.LEFT, 10)
+        statBoxSizer.Add(txtNull, 0, wx.LEFT, 1050) # this is just to get the statBoxSerial larger 
 
 	return statBoxSizer
 
