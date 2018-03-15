@@ -453,27 +453,6 @@ class TraceTestForm(wx.Panel):
 	except AttributeError:
 	    print 'No config file has been read. Comparison not possible'
 
-#    def paint(self):
-#        dc = wx.PaintDC(self)
-#	self.x1 = 10
-#	self.y1 = 300
-#	self.width = 400
-#	self.hight = 380
-#        dc.DrawRectangle(self.x1, self.y1, self.width, self.hight)
-#	self.draw_axis(dc)
-#
-#    def draw_axis(self, dc):
-#        dc.SetPen(wx.Pen('#FF0000'))
-#	mid = self.y1 + (self.hight / 2)
-#        dc.DrawLine(self.x1+20, mid, self.width-10, mid)
-#
-#        #for i in range(20, 220, 20):
-#        #    dc.DrawText(str(i), -30, i+5)
-#        #    dc.DrawLine(2, i, -5, i)
-#
-#        #for i in range(100, 300, 100):
-#        #    dc.DrawLine(i, 2, i, -5)
-
     def get_values(self):
         """
 	    Get current configuration parameters for max motor and max drive temp.
@@ -494,19 +473,23 @@ class TraceTestForm(wx.Panel):
 
         rv = self.find_idx(msg)
         rv2 = self.find_idx2(msg2)
-	#print 'rv:', rv
-	#print 'rv2:', rv2
 
 	timeFactor  = 1/12.0*10.0*rv  # ms * rv
 	timeFactor2 = 1/12.0*10.0*rv2 # ms * rv2
-	print 'timeFactor:', timeFactor
+	#print 'timeFactor:', timeFactor
 
 	delay = int(self.txtCtrl_time_delay.GetValue())
-	print 'Max delay:', delay
+	#print 'Max delay:', delay
 	timeDelay = int(delay*12.0/10.0)
 
         logging.info('Reached delay for speed1=%.1f ms' % timeFactor)
         logging.info('Reached delay for speed2=%.1f ms' % timeFactor2)
+
+	# print out result
+	unicodeData = unicode(str(timeFactor), 'utf-8')
+        self.staticTxtReachedPos.SetLabel(unicodeData)
+	unicodeData = unicode(str(timeFactor2), 'utf-8')
+        self.staticTxtReachedNeg.SetLabel(unicodeData)
         
         if (rv > timeDelay or rv2 > timeDelay):
             self.staticTxtResult.SetLabel("Performance test Not OK")
@@ -520,10 +503,6 @@ class TraceTestForm(wx.Panel):
     def plot_result(self):
         MatPlot()
         time.sleep(0.5)
-
-        # get pid for matplot
-#        out = os.popen('pgrep -f matplot.py').readlines()
-#        out2 = out[0].rstrip('\n')
 
     def find_idx(self, msg):
         """
