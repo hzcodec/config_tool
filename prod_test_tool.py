@@ -23,6 +23,11 @@
 #                          Code cleanup
 #                      calibration.py
 #                          Code cleanup
+#               v1.20
+#                      downloader.py
+#                          Code cleanup
+#                      trace.py
+#                          Code cleanup
 #
 # Python ver  : 2.7.3 (gcc 4.6.3)
 
@@ -188,7 +193,7 @@ DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
 ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR 
 OTHER DEALINGS IN THIS SOFTWARE.
          """
-        description = """Version 1.19.
+        description = """Version 1.21.
 
     """
 
