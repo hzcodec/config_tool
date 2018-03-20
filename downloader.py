@@ -124,8 +124,10 @@ class DownLoaderForm(wx.Panel):
         self.scannedPortNames = glob.glob('/dev/ttyA*') + glob.glob('/dev/ttyUSB*')
         if (self.scannedPortNames):
             print 'Scanned port names:', self.scannedPortNames[0]
+	    self.lblConnect.SetLabel("Connected to " + self.scannedPortNames[0])
         else:
             print 'No connection'
+	    self.lblConnect.SetLabel("No Connection")
 
     def get_version(self):
         time.sleep(DELAY2)
@@ -319,7 +321,7 @@ class DownLoaderForm(wx.Panel):
 
     def onConnect(self, event):
         #logging.info('Downloder connected to: %s', self.comboBox.GetValue())
-	self.lblConnect.SetLabel("Connected to " + self.scannedPortNames[0])
+	#self.lblConnect.SetLabel("Connected to " + self.scannedPortNames[0])
 
 	try:
 	    self.connected = True
