@@ -27,6 +27,8 @@ TEXT_SERIAL_PORT_BORDER = 10
 DELAY1 = 0.3
 DELAY2 = 0.5
 
+SAMPLE_TIME = 2000 # 2 seconds
+
 # current parameters
 PARAMETER_NAMES = ['motor.cl.kp', 'motor.cl.ki', 'motor.cl.kt', 'motor.cl.max', 'motor.cl.min', \
                    'motor.sl.kp', 'motor.sl.ki', 'motor.sl.kt', 'motor.sl.max', 'motor.sl.min', \
@@ -113,6 +115,17 @@ class DownLoaderForm(wx.Panel):
 
 	self.parameter_names_length = len(PARAMETER_NAMES)
 	self.btnSaveParam.Enable(False)
+
+        self.timer = wx.Timer(self)
+        self.Bind(wx.EVT_TIMER, self.update, self.timer)
+        self.timer.Start(SAMPLE_TIME)
+
+    def update(self, event):
+        self.scannedPortNames = glob.glob('/dev/ttyA*') + glob.glob('/dev/ttyUSB*')
+        if (self.scannedPortNames):
+            print 'Scanned port names:', self.scannedPortNames[0]
+        else:
+            print 'No connection'
 
     def get_version(self):
         time.sleep(DELAY2)
@@ -305,19 +318,20 @@ class DownLoaderForm(wx.Panel):
 	return statBoxSizer
 
     def onConnect(self, event):
-        logging.info('Downloder connected to: %s', self.comboBox.GetValue())
+        #logging.info('Downloder connected to: %s', self.comboBox.GetValue())
+	self.lblConnect.SetLabel("Connected to " + self.scannedPortNames[0])
 
 	try:
 	    self.connected = True
-            self.ser = serial.Serial(port = '/dev/tty'+self.comboBox.GetValue(),
-                                     baudrate = 9600,
-                                     parity = serial.PARITY_NONE,
-                                     stopbits = serial.STOPBITS_ONE,
-                                     bytesize = serial.EIGHTBITS,
-                                     timeout = 1)
+            #self.ser = serial.Serial(port = '/dev/tty'+self.comboBox.GetValue(),
+            #                         baudrate = 9600,
+            #                         parity = serial.PARITY_NONE,
+            #                         stopbits = serial.STOPBITS_ONE,
+            #                         bytesize = serial.EIGHTBITS,
+            #                         timeout = 1)
 
             self.lblConnect.SetForegroundColour(wx.Colour(11, 102 , 66))
-	    self.lblConnect.SetLabel("Connected to " + self.comboBox.GetValue())
+#	    self.lblConnect.SetLabel("Connected to " + self.comboBox.GetValue())
 
 	except:
             self.lblConnect.SetForegroundColour(wx.Colour(255,0,0))
