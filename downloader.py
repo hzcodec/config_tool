@@ -18,6 +18,8 @@ import glob
 from wx.lib.pubsub import pub
 from wx.lib.pubsub import setupkwargs
 
+REMOTE_VERSION_LENGTH = 30
+
 RED   = (255, 0 , 0)
 GREY  = (180, 180, 180)
 BLACK = (0, 0, 0)
@@ -41,6 +43,14 @@ PARAMETER_NAMES = ['motor.cl.kp', 'motor.cl.ki', 'motor.cl.kt', 'motor.cl.max', 
 		   'max_drive_temp', 'dominant_throttle_on', 'rope_stuck_on', 'iq_alpha', 'speed_alpha', \
 		   'mx', 'mi', 'delay_start', 'speed_lim', 'undershoot', 'ti']
 
+# setup logging function
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
+formatter = logging.Formatter('%(levelname)s : %(funcName)s() - %(message)s')
+stream_handler = logging.StreamHandler()
+stream_handler.setFormatter(formatter)
+logger.addHandler(stream_handler)
+
 
 def list_serial_ports():
     """"
@@ -63,7 +73,7 @@ def list_serial_ports():
 
     else:
         # Assume Linux
-	print 'downloader.py: list_serial_ports() - Serial ports scanned'
+	logger.info('Serial port scanned')
         return glob.glob('/dev/ttyA*') + glob.glob('/dev/ttyUSB*')
 
 
@@ -72,7 +82,7 @@ def serial_cmd(cmd, serial):
     try:
         serial.write(cmd + '\r');
     except:
-        logging.info('Not connected')
+        logger.info('Not connected')
 
 
 def serial_read(cmd, no, serial):
@@ -84,7 +94,10 @@ def serial_read(cmd, no, serial):
 
     # read data from serial port
     c = serial.read(no)
-    return c
+    if (len(c) == 0):
+        return 'NO CONN'
+    else:
+        return c
 
 class DownLoaderForm(wx.Panel):
 
@@ -108,15 +121,13 @@ class DownLoaderForm(wx.Panel):
 	pub.subscribe(self.configListener, 'configListener')
 	pub.subscribe(self.serialListener, 'serialListener')
 
-        logging.basicConfig(format="%(filename)s: %(funcName)s() - %(message)s", level=logging.INFO)
-        logging.info('Length of PARAMETER_NAMES: %d', len(PARAMETER_NAMES)) 
+	logger.info('Length of PARAMETER_NAMES: {}'.format(len(PARAMETER_NAMES)))
 
 	self.parameter_names_length = len(PARAMETER_NAMES)
 	self.btnSaveParam.Enable(False)
 
     def get_version(self):
         time.sleep(DELAY2)
-	#print '--> Serial port:', self.mySer
         self.ascenderVersion = serial_read('v', 60, self.mySer)
 	aVersion = self.ascenderVersion.split("v")
 
@@ -128,15 +139,22 @@ class DownLoaderForm(wx.Panel):
                 self.lblAscenderVersion.SetForegroundColour(RED)
 	        self.lblAscenderVersion.SetLabel('\nIs remote controller connected to Ascender?')
 
-	    print aVersion[1]
+	    logger.info('ACX/TCX: {}'.format(aVersion[1]))
 
             time.sleep(DELAY2)
 
             self.remoteVersion = serial_read('r_v', 70, self.mySer)
-	    print self.remoteVersion
-	    rVersion = self.remoteVersion.split("r_v")
-            self.lblRemoteVersion.SetForegroundColour(BLACK)
-	    self.lblRemoteVersion.SetLabel(rVersion[1])
+	    remoteVersionLength = len(self.remoteVersion)
+
+            if (remoteVersionLength > REMOTE_VERSION_LENGTH):
+	        rVersion = self.remoteVersion.split("r_v")
+                self.lblRemoteVersion.SetForegroundColour(BLACK)
+	        self.lblRemoteVersion.SetLabel(rVersion[1])
+	        logger.info('Remote: {}'.format(rVersion[1]))
+	    else:
+	        rVersion = self.remoteVersion.split("r_v")
+                self.lblRemoteVersion.SetForegroundColour(RED)
+	        self.lblRemoteVersion.SetLabel("\nNo remote controller connected")
 
 	except (IndexError):
 	    print 'Error. No information read from serial port.'

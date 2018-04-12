@@ -24,13 +24,14 @@ SPEED_START = 13
 SET_SPEED_START = 14
 END_DATA = 200
 
+
 # speed threshold value
 THRESHOLD_VALUE = 8.0
 TARGET_SPEED1 = 19.9
 TARGET_SPEED2 = -19.9
 
 # time delay until speed is reached its target speed
-TIME_DELAY1 = 80
+TIME_DELAY = '170'
 
 
 def serial_cmd(cmd, serial):
@@ -302,7 +303,7 @@ class TraceTestForm(wx.Panel):
         self.staticTxtResult = wx.StaticText(self, wx.ID_ANY, '---')
 
         timeDelay = wx.StaticText(self, wx.ID_ANY, '               Delay [ms]')
-        self.txtCtrl_time_delay = wx.TextCtrl(self, wx.ID_ANY,'150')
+        self.txtCtrl_time_delay = wx.TextCtrl(self, wx.ID_ANY, TIME_DELAY)
         boxTimeDelSizer1 = wx.BoxSizer(wx.VERTICAL)
 
         self.staticTxtFinalResult1 = wx.StaticText(self, wx.ID_ANY, 'Reached delay (+) :')
@@ -485,10 +486,13 @@ class TraceTestForm(wx.Panel):
         logging.info('Reached delay for speed1=%.1f ms' % timeFactor)
         logging.info('Reached delay for speed2=%.1f ms' % timeFactor2)
 
+	roundedTimeFactor = round(timeFactor, 1)
+	roundedTimeFactor2 = round(timeFactor2, 1)
+
 	# print out result
-	unicodeData = unicode(str(timeFactor), 'utf-8')
+	unicodeData = unicode(str(roundedTimeFactor), 'utf-8')
         self.staticTxtReachedPos.SetLabel(unicodeData)
-	unicodeData = unicode(str(timeFactor2), 'utf-8')
+	unicodeData = unicode(str(roundedTimeFactor2), 'utf-8')
         self.staticTxtReachedNeg.SetLabel(unicodeData)
         
         if (rv > timeDelay or rv2 > timeDelay):

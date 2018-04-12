@@ -6,29 +6,6 @@
 # Reference   : -
 # Description : Production test tool for ActSafe.
 #               
-#               v1.17 -  
-#                      matplot.py
-#                          Added 'acceleration' to header in window
-#                          Fixed path to speed_data<n>.txt
-#               v1.18
-#                      trace.py
-#                          Fixed paths to speed_data<n>.txt
-#                          Increased time_delay to 150
-#                      prod_test_tool.py
-#                          Removed "Requires software/hardware"
-#               v1.19
-#                      trace.py
-#                          Code cleanup
-#                      downloader.py
-#                          Code cleanup
-#                      calibration.py
-#                          Code cleanup
-#               v1.20
-#                      downloader.py
-#                          Code cleanup
-#                      trace.py
-#                          Code cleanup
-#
 # Python ver  : 2.7.3 (gcc 4.6.3)
 
 import wx
@@ -36,6 +13,8 @@ import downloader
 import calibration
 import prodtest
 import trace
+import logview
+import logging
 from wx.lib.pubsub import pub
 from wx.lib.pubsub import setupkwargs
 
@@ -46,6 +25,14 @@ HEADLINE = 70*' '+'Production Test Tool, ACX/TCX'
 # color codes
 GREY  = (180, 180, 180)
 BLACK = (0, 0, 0)
+
+# setup logging function
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
+formatter = logging.Formatter('%(levelname)s : %(funcName)s() - %(message)s')
+stream_handler = logging.StreamHandler()
+stream_handler.setFormatter(formatter)
+logger.addHandler(stream_handler)
 
 
 def print_const():
@@ -70,12 +57,14 @@ class MainFrame(wx.Frame):
         tabCalib = calibration.CalibForm(nb)
         self.tabProdTest = prodtest.ProdTestForm(nb)
         tabTrace = trace.TraceTestForm(nb)
+        tabLogView = logview.LogViewForm(nb)
 
         # add the windows to tabs and name them
         nb.AddPage(self.tabDownLoader, "Common")
         nb.AddPage(tabCalib, "Calibrate")
         nb.AddPage(self.tabProdTest, "Prod Test")
         nb.AddPage(tabTrace, "Performance Test")
+        nb.AddPage(tabLogView, "Log")
 
         self.setup_menu()
 
@@ -131,7 +120,7 @@ class MainFrame(wx.Frame):
         saveFileDialog.ShowModal()
         saveFileDialog.GetPath()
 
-        print self.tabProdTest.configParameters
+        print '--->', self.tabProdTest.configParameters
 
         saveFileDialog.Destroy()
 
@@ -193,7 +182,7 @@ DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
 ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR 
 OTHER DEALINGS IN THIS SOFTWARE.
          """
-        description = """Version PA1.
+        description = """Version PA2.
 
     """
 
