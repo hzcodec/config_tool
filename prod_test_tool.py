@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#i!/usr/bin/python
 
 # Auther      : Heinz Samuelsson
 # Date        : 2017-06-02
@@ -57,14 +57,14 @@ class MainFrame(wx.Frame):
         tabCalib = calibration.CalibForm(nb)
         self.tabProdTest = prodtest.ProdTestForm(nb)
         tabTrace = trace.TraceTestForm(nb)
-        tabLogView = logview.LogViewForm(nb)
+        #tabLogView = logview.LogViewForm(nb)
 
         # add the windows to tabs and name them
         nb.AddPage(self.tabDownLoader, "Common")
         nb.AddPage(tabCalib, "Calibrate")
         nb.AddPage(self.tabProdTest, "Prod Test")
         nb.AddPage(tabTrace, "Performance Test")
-        nb.AddPage(tabLogView, "Log")
+        #nb.AddPage(tabLogView, "Log")
 
         self.setup_menu()
 
